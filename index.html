@@ -198,6 +198,7 @@
     input[type=range].range-input::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); pointer-events: all; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
     input[type=range].range-input::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); pointer-events: all; cursor: pointer; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
     .age-range-vals { display: flex; justify-content: space-between; font-family: 'Bebas Neue', sans-serif; font-size: 28px; line-height: 1; margin-bottom: 6px; color: var(--text); }
+    .slider-bubble { position: absolute; top: -28px; transform: translateX(-50%); font-family: 'Bebas Neue', sans-serif; font-size: 20px; line-height: 1; color: var(--text); white-space: nowrap; pointer-events: none; z-index: 3; }
     /* Location city rows */
     .location-city-row { display: flex; align-items: center; background: #1a1a1a; border: 1px solid var(--dim); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 8px; }
 
@@ -855,7 +856,7 @@
     <div id="badge-3" class="applying-badge"></div>
     <div class="screen-content">
       <div class="screen-label">Step <span id="live-step-num"></span> of <span class="step-total"></span></div>
-      <div class="screen-headline">WHAT YOU<br><span class="accent">WANT</span></div>
+      <div class="screen-headline">WHAT YOU <span class="accent">WANT</span></div>
 
       <div id="cities-single-section" style="">
         <!-- SEEKING -->
@@ -885,17 +886,27 @@
         <!-- AGE RANGE SLIDER -->
         <div class="field-group" style="margin-bottom:20px;">
           <label class="field-label">Age Range</label>
-          <div class="age-range-vals">
-            <span id="age_min_label">28</span>
-            <span id="age_max_label">38</span>
-          </div>
-          <div class="range-slider-wrap">
+          <div class="range-slider-wrap" style="margin-top:32px;">
             <div class="range-track"></div>
             <div class="range-fill" id="range-fill"></div>
-            <input type="range" id="age_min" class="range-input" min="18" max="99" step="1" value="28" oninput="onAgeRangeInput(this,'min')">
-            <input type="range" id="age_max" class="range-input" min="18" max="99" step="1" value="38" oninput="onAgeRangeInput(this,'max')">
+            <span id="age_min_label" class="slider-bubble">28</span>
+            <span id="age_max_label" class="slider-bubble">38</span>
+            <input type="range" id="age_min" class="range-input" min="21" max="80" step="1" value="28" oninput="onAgeRangeInput(this,'min')">
+            <input type="range" id="age_max" class="range-input" min="21" max="80" step="1" value="38" oninput="onAgeRangeInput(this,'max')">
           </div>
           <div class="field-error" id="err-age_range"></div>
+        </div>
+        <!-- HEIGHT PREFERENCE SLIDER -->
+        <div class="field-group" style="margin-bottom:20px;">
+          <label class="field-label">Partner Height <span class="optional-tag">optional</span></label>
+          <div class="range-slider-wrap" style="margin-top:32px;">
+            <div class="range-track"></div>
+            <div class="range-fill" id="height-range-fill"></div>
+            <span id="height_min_label" class="slider-bubble">5'0"</span>
+            <span id="height_max_label" class="slider-bubble">6'6"</span>
+            <input type="range" id="height_min_in" class="range-input" min="58" max="84" step="1" value="60" oninput="onHeightRangeInput(this,'min')">
+            <input type="range" id="height_max_in" class="range-input" min="58" max="84" step="1" value="78" oninput="onHeightRangeInput(this,'max')">
+          </div>
         </div>
       </div>
       <div id="cities-couple-section" style="display:none;">
@@ -971,54 +982,27 @@
       <div class="screen-label">Step <span id="kids-step-num"></span> of <span class="step-total"></span></div>
       <div class="screen-headline">INTENTIONS &amp; <span class="accent">FAMILY</span></div>
 
+      <!-- LOOKING FOR: always shown for singles, multi-select -->
       <div class="field-group" id="looking-for-group" style="margin-bottom:14px;">
         <label class="field-label">Looking for</label>
-        <select class="field-input" id="looking_for_select" onchange="setLookingForSelect(this.value)">
-          <option value="">— Select —</option>
-          <option value="casual">Casual</option>
-          <option value="dating">Dating</option>
-          <option value="relationship">Relationship</option>
-          <option value="marriage">Marriage</option>
-          <option value="life_partner">Life partner</option>
-        </select>
+        <div id="looking-for-collapsed" style="display:none;" onclick="expandLookingFor()" role="button" tabindex="0">
+          <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid var(--dim);border-radius:var(--radius);padding:14px 16px;cursor:pointer;">
+            <span id="looking-for-summary-text" style="font-family:'Space Mono',monospace;font-size:13px;color:var(--text);"></span>
+            <span style="font-size:10px;color:var(--accent);font-family:'Space Mono',monospace;letter-spacing:0.1em;flex-shrink:0;margin-left:12px;">EDIT</span>
+          </div>
+        </div>
+        <div class="choice-grid" id="looking_for" role="group" aria-label="Looking for">
+          <button type="button" class="toggle-btn" id="btn-looking-casual" aria-pressed="false" onclick="toggleLookingFor('casual')">Casual</button>
+          <button type="button" class="toggle-btn" id="btn-looking-dating" aria-pressed="false" onclick="toggleLookingFor('dating')">Dating</button>
+          <button type="button" class="toggle-btn" id="btn-looking-relationship" aria-pressed="false" onclick="toggleLookingFor('relationship')">Relationship</button>
+          <button type="button" class="toggle-btn" id="btn-looking-marriage" aria-pressed="false" onclick="toggleLookingFor('marriage')">Marriage</button>
+          <button type="button" class="toggle-btn" id="btn-looking-life_partner" aria-pressed="false" onclick="toggleLookingFor('life_partner')">Life partner</button>
+        </div>
         <div class="field-error" id="err-looking_for">Please make a selection</div>
       </div>
 
-      <div class="kids-pair">
-        <div class="field-group">
-          <label class="field-label">Do you have kids?</label>
-          <select class="field-input" id="has_children_select" onchange="setHasChildren(this.value)">
-            <option value="">— Select —</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-          <div class="field-error" id="err-has_children">Please make a selection</div>
-        </div>
-        <div class="field-group">
-          <label class="field-label" id="wants-children-label">Do you want kids?</label>
-          <select class="field-input" id="wants_children_select" onchange="setWantsChildren(this.value)">
-            <option value="">— Select —</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-            <option value="open_either_way">Open to either</option>
-            <option value="not_sure">Unsure</option>
-          </select>
-          <div class="field-error" id="err-wants_children">Please make a selection</div>
-        </div>
-      </div>
-
-      <div class="field-group" id="fertility-group" style="display:none;margin-bottom:14px;">
-        <label class="field-label">Have you invested in fertility preservation?</label>
-        <select class="field-input" id="fertility_select" onchange="setFertility(this.value)">
-          <option value="">— Select —</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-          <option value="considering">Considering</option>
-        </select>
-        <div class="field-error" id="err-fertility">Please make a selection</div>
-      </div>
-
-      <div class="field-group" id="relationship-timeline-group" style="display:none;margin-bottom:0;">
+      <!-- RELATIONSHIP TIMELINE: drips in after looking_for (conditional) -->
+      <div class="field-group" id="relationship-timeline-group" style="display:none;margin-bottom:14px;">
         <label class="field-label">Ideally, when would you like to be in a relationship?</label>
         <select class="field-input" id="relationship_timeline" onchange="setRelationshipTimeline(this.value)">
           <option value="">— Select —</option>
@@ -1029,6 +1013,42 @@
           <option value="no_timeline">No timeline</option>
         </select>
         <div class="field-error" id="err-relationship_timeline">Please make a selection</div>
+      </div>
+
+      <!-- HAS KIDS: drips in after looking_for (+ timeline if needed) -->
+      <div class="field-group" id="has-children-group" style="display:none;margin-bottom:14px;">
+        <label class="field-label">Do you have kids?</label>
+        <select class="field-input" id="has_children_select" onchange="setHasChildren(this.value)">
+          <option value="">— Select —</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        <div class="field-error" id="err-has_children">Please make a selection</div>
+      </div>
+
+      <!-- WANTS KIDS: drips in after has_children answered -->
+      <div class="field-group" id="wants-children-group" style="display:none;margin-bottom:14px;">
+        <label class="field-label" id="wants-children-label">Do you want kids?</label>
+        <select class="field-input" id="wants_children_select" onchange="setWantsChildren(this.value)">
+          <option value="">— Select —</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+          <option value="open_either_way">Open to either</option>
+          <option value="not_sure">Unsure</option>
+        </select>
+        <div class="field-error" id="err-wants_children">Please make a selection</div>
+      </div>
+
+      <!-- FERTILITY: drips in after wants_children = 'yes' -->
+      <div class="field-group" id="fertility-group" style="display:none;margin-bottom:0;">
+        <label class="field-label">Have you invested in fertility preservation?</label>
+        <select class="field-input" id="fertility_select" onchange="setFertility(this.value)">
+          <option value="">— Select —</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+          <option value="considering">Considering</option>
+        </select>
+        <div class="field-error" id="err-fertility">Please make a selection</div>
       </div>
     </div>
     <div class="bottom-action">
@@ -1051,11 +1071,11 @@
       </div>
       <label class="checkbox-group" id="sms-consent-label" style="opacity:0.5;">
         <input type="checkbox" id="sms_consent" disabled>
-        <span class="checkbox-label">Text me when the study goes live and important updates. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. Consent will be collected prior to enrolling you in the study. See our <a href="privacy/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">Privacy Policy</a>.</span>
+        <span class="checkbox-label">Text me when the study goes live and important updates. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. We will ask you for additional consents prior to enrolling you in any research study. See our <a href="privacy/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">Privacy Policy</a>.</span>
       </label>
     </div>
     <div class="bottom-action">
-      <button class="btn btn-primary" onclick="goNext(6)">NEXT</button>
+      <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">SUBMIT APPLICATION</button>
       <button class="btn-ghost" onclick="goBack(6)">← BACK</button>
     </div>
   </div>
@@ -1092,7 +1112,7 @@
     </div>
     <div class="bottom-action">
       <p class="legal-consent-text">By applying, you agree to our <a href="terms/" target="_blank" rel="noopener">Terms</a> and <a href="privacy/" target="_blank" rel="noopener">Privacy Policy</a>.</p>
-      <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">SUBMIT APPLICATION</button>
+      <button class="btn btn-primary" onclick="goNext(7)">NEXT</button>
       <button class="btn-ghost" onclick="goBack(7)">← BACK</button>
     </div>
   </div>
@@ -1213,6 +1233,8 @@ const state = {
   ageMin: null,
   ageMax: null,
   genderSeeking: null,
+  heightPrefMinCm: null,
+  heightPrefMaxCm: null,
   // Gender defaults (5'9"/5'3", 1996-01-01) look identical to a real choice,
   // so "user touched" is tracked separately from the current value.
   heightTouched: false,
@@ -1223,7 +1245,7 @@ let partnerCity = null;
 // ============================================================
 // PATHS
 // ============================================================
-function getPath() { return state.status === 'partnered' ? [1,3,4,5,6,7] : [1,5,3,6,7]; }
+function getPath() { return state.status === 'partnered' ? [1,3,4,5,7,6] : [1,5,3,7,6]; }
 function getStepNum(screenId) { return getPath().indexOf(screenId) + 1; }
 function totalSteps() { return getPath().length; }
 
@@ -1537,24 +1559,27 @@ function showScreen(id, direction) {
     try { window.turnstile.execute('#cf-turnstile-widget'); } catch(e) {}
   }
 
-  // Hide "looking for" and relationship timeline on screen 5 for couples
-  if (id === 5) {
-    const lfGroup = document.getElementById('looking-for-group');
-    if (lfGroup) lfGroup.style.display = (state.status === 'partnered') ? 'none' : 'block';
-    syncTimelineQuestion();
-  }
+  if (id === 1) { _buildHeightSelect(); }
+  if (id === 5) { syncFamilyDrip(); }
 
   // Adjust screen 3 for singles vs couples
   if (id === 3) {
     const hl = document.querySelector('#screen-3 .screen-headline');
     if (hl) hl.innerHTML = state.status === 'partnered'
       ? 'WHERE YOU &amp; YOUR<br><span class="accent">PARTNER LIVE</span>'
-      : 'WHAT YOU<br><span class="accent">WANT</span>';
+      : 'WHAT YOU <span class="accent">WANT</span>';
     const s = document.getElementById('cities-single-section');
     const c = document.getElementById('cities-couple-section');
     if (s) s.style.display = state.status === 'partnered' ? 'none' : '';
     if (c) c.style.display = state.status === 'partnered' ? '' : 'none';
-    if (state.status !== 'partnered') { renderPrimaryCity(); setDefaultAges(); }
+    if (state.status !== 'partnered') {
+      // Default SEEKING to opposite gender (once only)
+      if (!state.genderSeeking) {
+        const opp = state.gender === 'man' ? 'women' : state.gender === 'woman' ? 'men' : null;
+        if (opp) setGenderSeeking(opp);
+      }
+      renderPrimaryCity(); setDefaultAges(); initHeightSlider();
+    }
   }
 }
 
@@ -1654,6 +1679,8 @@ async function saveLead() {
     age_min: state.ageMin || null,
     age_max: state.ageMax || null,
     gender_seeking: state.genderSeeking || null,
+    height_min_cm: state.heightPrefMinCm || null,
+    height_max_cm: state.heightPrefMaxCm || null,
     lives_with_partner: state.livesWithPartner || null,
     partner_city: (state.status === 'partnered' && (state.livesWithPartner === 'no' || state.livesWithPartner === 'part_time')) ? (partnerCity || null) : null,
     relationship_stage: get('relationship_stage'),
@@ -1726,62 +1753,127 @@ function onBirthdateInput() {
 
 function setHasChildren(val) {
   state.hasChildren = val === 'yes' ? true : (val === 'no' ? false : null);
-  document.getElementById('wants-children-label').textContent =
-    state.hasChildren === true ? 'Do you want more kids?' : 'Do you want kids?';
   hideError('has_children');
+  syncFamilyDrip();
 }
 function setWantsChildren(val) {
   state.wantsChildren = val || null;
   hideError('wants_children');
-  var show = (val === 'yes');
-  document.getElementById('fertility-group').style.display = show ? 'block' : 'none';
-  if (!show) {
-    state.fertilityPreservation = null;
-    document.getElementById('fertility_select').value = '';
-    hideError('fertility');
-  }
+  syncFamilyDrip();
 }
 function setFertility(val) { state.fertilityPreservation = val || null; hideError('fertility'); }
 
 const LOOKING_FOR_OPTIONS = ['casual', 'dating', 'relationship', 'marriage', 'life_partner'];
 const TIMELINE_TRIGGERS = ['relationship', 'marriage', 'life_partner'];
 
-function setLookingForSelect(val) {
-  state.lookingFor = val ? [val] : [];
-  if (state.lookingFor.length) hideError('looking_for');
-  syncTimelineQuestion();
-}
+let _lfCollapseTimer = null;
+const LF_LABELS = { casual: 'Casual', dating: 'Dating', relationship: 'Relationship', marriage: 'Marriage', life_partner: 'Life partner' };
 
 function toggleLookingFor(val) {
   if (!Array.isArray(state.lookingFor)) state.lookingFor = [];
   const i = state.lookingFor.indexOf(val);
   if (i === -1) state.lookingFor.push(val);
   else state.lookingFor.splice(i, 1);
+  const btn = document.getElementById('btn-looking-' + val);
+  if (btn) { btn.classList.toggle('selected', state.lookingFor.includes(val)); btn.setAttribute('aria-pressed', state.lookingFor.includes(val) ? 'true' : 'false'); }
   if (state.lookingFor.length) hideError('looking_for');
-  syncTimelineQuestion();
+  syncFamilyDrip();
+  // Debounce collapse: collapse 500ms after last selection
+  clearTimeout(_lfCollapseTimer);
+  if (state.lookingFor.length > 0) _lfCollapseTimer = setTimeout(collapseLookingFor, 500);
+}
+
+function collapseLookingFor() {
+  const selected = Array.isArray(state.lookingFor) ? state.lookingFor : [];
+  if (selected.length === 0) return;
+  const summaryText = document.getElementById('looking-for-summary-text');
+  if (summaryText) summaryText.textContent = selected.map(v => LF_LABELS[v] || v).join(', ');
+  const grid = document.getElementById('looking_for');
+  const collapsed = document.getElementById('looking-for-collapsed');
+  if (grid) grid.style.display = 'none';
+  if (collapsed) collapsed.style.display = '';
+}
+
+function expandLookingFor() {
+  clearTimeout(_lfCollapseTimer);
+  const grid = document.getElementById('looking_for');
+  const collapsed = document.getElementById('looking-for-collapsed');
+  if (grid) grid.style.display = '';
+  if (collapsed) collapsed.style.display = 'none';
 }
 
 function lookingForNeedsTimeline() {
   if (state.status === 'partnered') return false;
   const selected = Array.isArray(state.lookingFor) ? state.lookingFor : [];
-  return TIMELINE_TRIGGERS.some(v => selected.includes(v));
-}
-
-function syncTimelineQuestion() {
-  const group = document.getElementById('relationship-timeline-group');
-  const show = lookingForNeedsTimeline();
-  if (group) group.style.display = show ? 'block' : 'none';
-  if (!show) {
-    state.relationshipTimeline = null;
-    const sel = document.getElementById('relationship_timeline');
-    if (sel) sel.value = '';
-    hideError('relationship_timeline');
-  }
+  return selected.length > 0; // timeline for every intent
 }
 
 function setRelationshipTimeline(val) {
   state.relationshipTimeline = val || null;
   hideError('relationship_timeline');
+  syncFamilyDrip();
+}
+
+function syncFamilyDrip() {
+  const partnered = state.status === 'partnered';
+  const hasLF = partnered || (Array.isArray(state.lookingFor) && state.lookingFor.length > 0);
+  const needsTL = lookingForNeedsTimeline();
+  const hasTL = !needsTL || !!state.relationshipTimeline;
+  const hasKidsDone = state.hasChildren !== null && state.hasChildren !== undefined;
+  // looking-for: hidden for couples
+  const lfGroup = document.getElementById('looking-for-group');
+  if (lfGroup) lfGroup.style.display = partnered ? 'none' : 'block';
+  // timeline: singles only, after looking_for filled, conditional
+  const tlGroup = document.getElementById('relationship-timeline-group');
+  if (tlGroup) tlGroup.style.display = (!partnered && hasLF && needsTL) ? 'block' : 'none';
+  // Update timeline label and options based on looking_for selection
+  const _lf = Array.isArray(state.lookingFor) ? state.lookingFor : [];
+  const _hasMarriage = _lf.includes('marriage');
+  const _casualOnly = _lf.length === 1 && _lf[0] === 'casual';
+  const tlLabel = document.querySelector('#relationship-timeline-group .field-label');
+  const _datingOnly = _lf.length === 1 && _lf[0] === 'dating';
+  if (tlLabel) tlLabel.textContent = _hasMarriage ? 'Ideally, when would you like to be married?' : _datingOnly ? 'Ideally, when would you like to be dating someone?' : 'Ideally, when would you like to be in a relationship?';
+  const tlSel = document.getElementById('relationship_timeline');
+  if (tlSel) {
+    // "Don't Want Relationship" — casual only
+    const existingDwr = tlSel.querySelector('option[value="dont_want_relationship"]');
+    if (_casualOnly && !existingDwr) {
+      const opt = document.createElement('option'); opt.value = 'dont_want_relationship'; opt.textContent = "Don't Want Relationship"; tlSel.appendChild(opt);
+    } else if (!_casualOnly && existingDwr) {
+      existingDwr.remove();
+      if (state.relationshipTimeline === 'dont_want_relationship') { state.relationshipTimeline = null; tlSel.value = ''; }
+    }
+    // Marriage-specific longer-horizon options
+    const MARRIAGE_OPTS = [{v:'1_2_years',t:'1–2 years'},{v:'3_5_years',t:'3–5 years'},{v:'5_plus_years',t:'5+ years'},{v:'10_plus_years',t:'10+ years'}];
+    if (_hasMarriage) {
+      MARRIAGE_OPTS.forEach(({v,t}) => { if (!tlSel.querySelector(`option[value="${v}"]`)) { const o=document.createElement('option'); o.value=v; o.textContent=t; tlSel.appendChild(o); } });
+    } else {
+      MARRIAGE_OPTS.forEach(({v}) => { const o=tlSel.querySelector(`option[value="${v}"]`); if(o){o.remove(); if(state.relationshipTimeline===v){state.relationshipTimeline=null;tlSel.value='';}} });
+    }
+  }
+  // Update collapsed summary if already collapsed
+  const _lfCollapsed = document.getElementById('looking-for-collapsed');
+  if (_lfCollapsed && _lfCollapsed.style.display !== 'none') {
+    const _st = document.getElementById('looking-for-summary-text');
+    if (_st) _st.textContent = _lf.map(v => LF_LABELS[v] || v).join(', ');
+  }
+  // Auto-collapse when returning to screen with prior selections
+  if (hasLF && !partnered) {
+    const _grid = document.getElementById('looking_for'), _col = document.getElementById('looking-for-collapsed');
+    if (_grid && _col && _grid.style.display !== 'none' && _col.style.display === 'none' && !_lfCollapseTimer) { collapseLookingFor(); }
+  }
+  if (!needsTL) { state.relationshipTimeline = null; const tl = document.getElementById('relationship_timeline'); if (tl) tl.value = ''; hideError('relationship_timeline'); }
+  // has kids: unlocks after LF + TL prereqs met
+  const hcGroup = document.getElementById('has-children-group');
+  if (hcGroup) hcGroup.style.display = (hasLF && hasTL) ? 'block' : 'none';
+  // wants kids: unlocks after has_children answered
+  const wcGroup = document.getElementById('wants-children-group');
+  if (wcGroup) wcGroup.style.display = (hasLF && hasTL && hasKidsDone) ? 'block' : 'none';
+  if (hasKidsDone) { const lbl = document.getElementById('wants-children-label'); if (lbl) lbl.textContent = state.hasChildren === true ? 'Do you want more kids?' : 'Do you want kids?'; }
+  // fertility: unlocks after wants_children = 'yes'
+  const fertGroup = document.getElementById('fertility-group');
+  if (fertGroup) fertGroup.style.display = (state.wantsChildren === 'yes') ? 'block' : 'none';
+  if (state.wantsChildren !== 'yes') { state.fertilityPreservation = null; const fs = document.getElementById('fertility_select'); if (fs) fs.value = ''; hideError('fertility'); }
 }
 
 function lookingForPayload() {
@@ -1867,19 +1959,22 @@ function validateScreen(screenId) {
     if (!pe || !isValidEmail(pe)) { showError('partner_email', 'Valid email required'); ok = false; } else hideError('partner_email');
   }
   if (screenId === 5) {
-    if (state.hasChildren === null || state.hasChildren === undefined) { showError('has_children', 'Please make a selection'); ok = false; } else hideError('has_children');
-    if (!state.wantsChildren) { showError('wants_children', 'Please make a selection'); ok = false; } else hideError('wants_children');
-    if (state.wantsChildren === 'yes') {
-      if (!state.fertilityPreservation) { showError('fertility', 'Please make a selection'); ok = false; } else hideError('fertility');
-    } else hideError('fertility');
     if (state.status !== 'partnered') {
       if (!Array.isArray(state.lookingFor) || state.lookingFor.length === 0) { showError('looking_for', 'Please make a selection'); ok = false; } else hideError('looking_for');
-      if (lookingForNeedsTimeline()) {
+      if (lookingForNeedsTimeline() && Array.isArray(state.lookingFor) && state.lookingFor.length > 0) {
         if (!state.relationshipTimeline) { showError('relationship_timeline', 'Please make a selection'); ok = false; } else hideError('relationship_timeline');
       } else hideError('relationship_timeline');
-    } else {
-      hideError('looking_for');
-      hideError('relationship_timeline');
+    } else { hideError('looking_for'); hideError('relationship_timeline'); }
+    const hcVisible = document.getElementById('has-children-group')?.style.display !== 'none';
+    if (hcVisible) {
+      if (state.hasChildren === null || state.hasChildren === undefined) { showError('has_children', 'Please make a selection'); ok = false; } else hideError('has_children');
+    }
+    const wcVisible = document.getElementById('wants-children-group')?.style.display !== 'none';
+    if (wcVisible) {
+      if (!state.wantsChildren) { showError('wants_children', 'Please make a selection'); ok = false; } else hideError('wants_children');
+      if (state.wantsChildren === 'yes') {
+        if (!state.fertilityPreservation) { showError('fertility', 'Please make a selection'); ok = false; } else hideError('fertility');
+      } else hideError('fertility');
     }
   }
   if (screenId === 6) {
@@ -1973,6 +2068,8 @@ async function doSubmit() {
     age_min: state.ageMin || null,
     age_max: state.ageMax || null,
     gender_seeking: state.genderSeeking || null,
+    height_min_cm: state.heightPrefMinCm || null,
+    height_max_cm: state.heightPrefMaxCm || null,
     lives_with_partner: state.status === 'partnered' ? state.livesWithPartner : null,
     partner_city: (state.status === 'partnered' && (state.livesWithPartner === 'no' || state.livesWithPartner === 'part_time')) ? (partnerCity || null) : null,
     status: state.status,
@@ -2355,12 +2452,12 @@ function onAddCityInput() {
   const q = inp?.value.trim() || '';
   const dd = document.getElementById('add-city-dropdown');
   if (!dd) return;
-  if (!q) { dd.innerHTML = ''; dd.style.display = 'none'; return; }
+  if (!q) { dd.innerHTML = ''; dd.classList.remove('open'); return; }
   const list = _getCityList();
   const filtered = list.filter(c => c.toLowerCase().includes(q.toLowerCase()) && !additionalCities.includes(c) && c !== state.zipCity).slice(0, 8);
   if (q && !list.some(c => c.toLowerCase() === q.toLowerCase()) && !additionalCities.some(c => c.toLowerCase() === q.toLowerCase())) filtered.push(q);
   dd.innerHTML = filtered.map(c => `<div class="multiselect-option" onmousedown="event.preventDefault();addAdditionalCity(${JSON.stringify(c)})">${c}</div>`).join('');
-  dd.style.display = filtered.length ? '' : 'none';
+  if (filtered.length) dd.classList.add('open'); else dd.classList.remove('open');
 }
 
 function addAdditionalCity(city) {
@@ -2370,7 +2467,7 @@ function addAdditionalCity(city) {
   const inp = document.getElementById('add_city_search_input');
   if (inp) inp.value = '';
   const dd = document.getElementById('add-city-dropdown');
-  if (dd) { dd.innerHTML = ''; dd.style.display = 'none'; }
+  if (dd) { dd.innerHTML = ''; dd.classList.remove('open'); }
 }
 
 function removeAdditionalCity(city) {
@@ -2393,18 +2490,93 @@ function onAgeRangeInput(el, which) {
   if (which === 'max' && maxVal < minVal + 1) { maxVal = minVal + 1; maxEl.value = maxVal; }
   state.ageMin = minVal; state.ageMax = maxVal;
   const minL = document.getElementById('age_min_label'); if (minL) minL.textContent = minVal;
-  const maxL = document.getElementById('age_max_label'); if (maxL) maxL.textContent = maxVal;
+  const maxL = document.getElementById('age_max_label'); if (maxL) maxL.textContent = maxVal >= 80 ? '80+' : maxVal;
   _updateRangeFill();
+  _updateSliderLabel(minL, document.getElementById('age_min'));
+  _updateSliderLabel(maxL, document.getElementById('age_max'));
 }
 
+function _updateSliderLabel(labelEl, inputEl) {
+  if (!labelEl || !inputEl) return;
+  const w = inputEl.offsetWidth; if (!w) return;
+  const min = parseFloat(inputEl.min), max = parseFloat(inputEl.max), val = parseFloat(inputEl.value), thumbW = 26;
+  labelEl.style.left = ((val - min) / (max - min) * (w - thumbW) + thumbW / 2) + 'px';
+}
+function _updateAgeLabels() {
+  _updateSliderLabel(document.getElementById('age_min_label'), document.getElementById('age_min'));
+  _updateSliderLabel(document.getElementById('age_max_label'), document.getElementById('age_max'));
+}
+function _updateHeightLabels() {
+  _updateSliderLabel(document.getElementById('height_min_label'), document.getElementById('height_min_in'));
+  _updateSliderLabel(document.getElementById('height_max_label'), document.getElementById('height_max_in'));
+}
 function _updateRangeFill() {
   const minEl = document.getElementById('age_min'), maxEl = document.getElementById('age_max'), fill = document.getElementById('range-fill');
   if (!minEl || !maxEl || !fill) return;
-  const range = 99 - 18;
-  const leftPct = ((parseInt(minEl.value) - 18) / range) * 100;
-  const rightPct = ((parseInt(maxEl.value) - 18) / range) * 100;
+  const range = 80 - 21;
+  const leftPct = ((parseInt(minEl.value) - 21) / range) * 100;
+  const rightPct = ((parseInt(maxEl.value) - 21) / range) * 100;
   fill.style.left = leftPct + '%';
   fill.style.width = (rightPct - leftPct) + '%';
+  _updateAgeLabels();
+}
+
+function _fmtHeight(inches) { return Math.floor(inches / 12) + "'" + (inches % 12) + '"'; }
+
+function onHeightRangeInput(el, which) {
+  const minEl = document.getElementById('height_min_in'), maxEl = document.getElementById('height_max_in');
+  let minVal = parseInt(minEl.value), maxVal = parseInt(maxEl.value);
+  if (which === 'min' && minVal > maxVal - 1) { minVal = maxVal - 1; minEl.value = minVal; }
+  if (which === 'max' && maxVal < minVal + 1) { maxVal = minVal + 1; maxEl.value = maxVal; }
+  state.heightPrefMinCm = Math.round(minVal * 2.54);
+  state.heightPrefMaxCm = Math.round(maxVal * 2.54);
+  const minL = document.getElementById('height_min_label'); if (minL) minL.textContent = _fmtHeight(minVal);
+  const maxL = document.getElementById('height_max_label'); if (maxL) maxL.textContent = _fmtHeight(maxVal);
+  _updateHeightFill();
+  _updateSliderLabel(minL, document.getElementById('height_min_in'));
+  _updateSliderLabel(maxL, document.getElementById('height_max_in'));
+}
+
+function _updateHeightFill() {
+  const minEl = document.getElementById('height_min_in'), maxEl = document.getElementById('height_max_in'), fill = document.getElementById('height-range-fill');
+  if (!minEl || !maxEl || !fill) return;
+  const range = 84 - 58;
+  const leftPct = ((parseInt(minEl.value) - 58) / range) * 100;
+  const rightPct = ((parseInt(maxEl.value) - 58) / range) * 100;
+  fill.style.left = leftPct + '%';
+  fill.style.width = (rightPct - leftPct) + '%';
+  _updateHeightLabels();
+}
+
+function initHeightSlider() {
+  if (!state.heightPrefMinCm) {
+    // Read height from DOM as primary (most reliable); fall back to state then gender default
+    const _hEl = document.getElementById('height_ftin');
+    const domHeightCm = (_hEl && _hEl.value) ? parseInt(_hEl.value) : null;
+    const userHeightCm = domHeightCm || state.heightCm || (state.gender === 'man' ? 175 : 160);
+    const userHeightIn = Math.round(userHeightCm / 2.54);
+    const seeking = state.genderSeeking;
+    let minIn, maxIn;
+    if (seeking === 'men') {
+      // Seeking men: her height - 3" to max
+      minIn = Math.max(58, userHeightIn - 3); maxIn = 84;
+    } else if (seeking === 'women') {
+      // Seeking women: min to his height + 3"
+      minIn = 58; maxIn = Math.min(84, userHeightIn + 3);
+    } else {
+      minIn = 60; maxIn = 78; // fallback
+    }
+    state.heightPrefMinCm = Math.round(minIn * 2.54);
+    state.heightPrefMaxCm = Math.round(maxIn * 2.54);
+    const minEl = document.getElementById('height_min_in'), maxEl = document.getElementById('height_max_in');
+    if (minEl) minEl.value = minIn;
+    if (maxEl) maxEl.value = maxIn;
+    const minL = document.getElementById('height_min_label'), maxL = document.getElementById('height_max_label');
+    if (minL) minL.textContent = _fmtHeight(minIn);
+    if (maxL) maxL.textContent = _fmtHeight(maxIn);
+  }
+  _updateHeightFill();
+  requestAnimationFrame(_updateHeightLabels);
 }
 
 function setDefaultAges() {
@@ -2412,11 +2584,12 @@ function setDefaultAges() {
   if (!bd) return;
   const userAge = getAge(bd);
   const minEl = document.getElementById('age_min'), maxEl = document.getElementById('age_max');
-  if (!state.ageMin) { state.ageMin = Math.max(18, userAge - 10); if (minEl) minEl.value = state.ageMin; }
-  if (!state.ageMax) { state.ageMax = userAge + 10; if (maxEl) maxEl.value = state.ageMax; }
+  if (!state.ageMin) { state.ageMin = Math.max(21, userAge - 10); if (minEl) minEl.value = state.ageMin; }
+  if (!state.ageMax) { state.ageMax = Math.min(80, userAge + 10); if (maxEl) maxEl.value = state.ageMax; }
   const minL = document.getElementById('age_min_label'); if (minL) minL.textContent = state.ageMin;
-  const maxL = document.getElementById('age_max_label'); if (maxL) maxL.textContent = state.ageMax;
+  const maxL = document.getElementById('age_max_label'); if (maxL) maxL.textContent = state.ageMax >= 80 ? '80+' : state.ageMax;
   _updateRangeFill();
+  requestAnimationFrame(_updateAgeLabels);
 }
 
 function initCityPicker() {
