@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>I Hereby Commit · Northwestern update cards (mockups)_grokbot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0e0e;--text:#f0ece0;--body:#9a978c;--muted:#888;--dim:#333;--lime:#c8f135;--orange:#FF7A2F;--radius:4px;--accent:var(--lime)}
+body.couples{--accent:var(--orange)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace}
+body{min-height:100vh;display:flex;justify-content:center}
+.phone{width:393px;min-height:852px;position:relative;padding:10px 16px 18px;overflow:hidden}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--text)}
+.logo b{color:var(--accent);font-weight:400}
+.flowtoggle{display:flex;gap:4px}
+.flowtoggle button{font-family:'Space Mono',monospace;font-size:10px;padding:5px 8px;border:1px solid var(--dim);background:transparent;color:var(--muted);border-radius:var(--radius);cursor:pointer;text-transform:uppercase}
+.flowtoggle button.on{border-color:var(--accent);color:var(--bg);background:var(--accent)}
+.progress{display:flex;gap:3px;margin:6px 0 8px}
+.progress span{flex:1;height:3px;background:var(--dim);border-radius:2px}
+.progress span.done{background:var(--accent)}
+/* 9:16 story card */
+.card{width:361px;height:642px;position:relative;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid #222;cursor:pointer;user-select:none}
+.card .inner{position:absolute;inset:0;padding:26px 22px 20px;display:flex;flex-direction:column}
+.card.hero .inner{background:var(--accent);color:#0e0e0e}
+.kicker{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero .kicker{color:#0e0e0e;opacity:.75}
+.big{font-family:'Bebas Neue',sans-serif;font-size:112px;line-height:.85;color:var(--accent);letter-spacing:1px}
+.hero .big{color:#0e0e0e}
+.big small{font-size:40px}
+h2.head{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:38px;line-height:.95;letter-spacing:.5px;margin:10px 0 12px;color:var(--text)}
+.hero h2.head{color:#0e0e0e}
+.sub{font-size:12px;line-height:1.55;color:var(--body)}
+.sub b{color:var(--text);font-weight:700}
+.hero .sub{color:#1c1c1c}.hero .sub b{color:#0e0e0e}
+.viz{margin:16px 0 8px;flex:1;display:flex;align-items:center;justify-content:center}
+.foot{margin-top:auto;border-top:1px solid #262626;padding-top:8px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.hero .foot{border-top-color:rgba(0,0,0,.25)}
+.src{font-size:8.5px;line-height:1.35;color:var(--muted);max-width:245px}
+.hero .src{color:#222}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--text);white-space:nowrap}
+.hero .brand{color:#0e0e0e}
+.example{position:absolute;top:8px;right:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777;border:1px solid #333;padding:1px 5px;border-radius:3px;background:rgba(14,14,14,.6)}
+.hero .example{color:#0e0e0e;border-color:rgba(0,0,0,.35);background:transparent}
+.private{position:absolute;top:8px;left:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--bg);background:var(--muted);padding:1px 5px;border-radius:3px}
+/* dots viz */
+.dots{display:grid;grid-template-columns:repeat(14,1fr);gap:5px;width:100%}
+.dots i{display:block;width:100%;aspect-ratio:1;border-radius:50%;background:var(--dim)}
+.dots i.m{background:var(--accent)}
+.dots i.w{background:var(--text)}
+.dots i.x{background:transparent;border:1px solid #444}
+.legend{font-size:9px;color:var(--muted);margin-top:8px;display:flex;gap:12px}
+.legend em{font-style:normal;display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.bar{width:100%}
+.bar .row{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:10px;color:var(--body)}
+.bar .row .lbl{width:92px;text-align:right}
+.bar .track{flex:1;height:14px;background:#1b1b1b;border-radius:2px;position:relative}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:2px}
+.bar .fill.alt{background:#555}
+.bar .val{width:40px;font-weight:700;color:var(--text)}
+.timeline{width:100%;position:relative;height:150px}
+.timeline .line{position:absolute;left:0;right:0;top:70px;height:2px;background:#333}
+.timeline .pt{position:absolute;top:62px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+.timeline .pt.ghost{background:#555}
+.timeline .lab{position:absolute;width:90px;margin-left:-45px;text-align:center;font-size:9px;color:var(--body);line-height:1.3}
+.timeline .lab b{display:block;font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);font-weight:400}
+.sil{display:flex;align-items:flex-end;justify-content:center;gap:26px;height:230px;width:100%}
+.sil div{display:flex;flex-direction:column;align-items:center;font-size:10px;color:var(--body)}
+.sil svg{display:block}
+.map{width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{font-size:10px;border:1px solid var(--accent);color:var(--accent);padding:4px 8px;border-radius:14px}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.quick button{font-family:'Space Mono',monospace;font-size:11px;padding:10px 6px;border:1px solid #444;background:#151515;color:var(--text);border-radius:var(--radius)}
+.cta{display:block;width:100%;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;padding:12px;border:0;border-radius:var(--radius);background:var(--accent);color:#0e0e0e;margin-top:8px;cursor:pointer}
+.cta.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.hero .cta{background:#0e0e0e;color:var(--accent)}
+.lock{font-size:40px;text-align:center}
+/* share row */
+.share{display:flex;gap:6px;margin-top:10px}
+.share button{flex:1;font-family:'Space Mono',monospace;font-size:10px;padding:9px 4px;border:1px solid var(--dim);background:#151515;color:var(--text);border-radius:var(--radius);cursor:pointer}
+.share button.primary{background:var(--accent);color:#0e0e0e;border-color:var(--accent);font-weight:700}
+.share button:disabled{opacity:.35;cursor:not-allowed}
+.navhint{display:flex;justify-content:space-between;font-size:9px;color:#555;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--accent);color:#0e0e0e;font-size:11px;padding:8px 12px;border-radius:var(--radius);opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+.mocknote{font-size:8.5px;color:#555;margin-top:6px;line-height:1.4}
+
+body{display:block;padding:24px}
+.sheet{display:grid;grid-template-columns:repeat(5,361px);gap:22px;justify-content:start}
+.wrap{position:relative}
+.cid{font-size:10px;color:#666;margin:0 0 5px 2px;letter-spacing:1px}
+.cid b{color:var(--accent)}
+.sheethead{margin:0 0 18px;max-width:1900px}
+.sheethead h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;letter-spacing:1px}
+.sheethead h1 b{color:var(--accent);font-weight:400}
+.sheethead p{font-size:11px;color:#8a877c;line-height:1.5;max-width:1500px}
+section{margin-bottom:48px}
+section.couples{--accent:var(--orange)}
+.tier{position:absolute;top:8px;left:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:1px 5px;border-radius:3px;border:1px solid #333;color:#777}
+.tier.c{background:#FFD23F;color:#0e0e0e;border-color:#FFD23F;font-weight:700}
+.rt{color:var(--accent);border-bottom:1px dashed var(--accent)}
+.big.txt{font-size:62px;line-height:.9}
+.big.mid{font-size:92px}
+.big .rtbig{border:2px dashed var(--accent);padding:0 10px;border-radius:6px}
+.steps{width:100%}
+.steps .st{display:flex;justify-content:space-between;align-items:center;border-left:3px solid var(--accent);padding:7px 10px;margin:6px 0;background:#151515;font-size:10px;color:var(--body)}
+.steps .st:nth-child(2){margin-left:14px}.steps .st:nth-child(3){margin-left:28px}.steps .st:nth-child(4){margin-left:42px}
+.steps .st b{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);font-weight:400}
+.vs{display:flex;gap:10px;width:100%}
+.vs div{flex:1;border:1px solid #2a2a2a;border-radius:6px;padding:12px 8px;text-align:center;font-size:10px;color:var(--body)}
+.vs div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:54px;color:var(--text);font-weight:400;line-height:1}
+.vs div:first-child b{color:var(--accent)}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.types span{font-size:9.5px;border:1px solid #333;color:#777;padding:7px 6px;border-radius:4px;text-align:center}
+.types span.on{border-color:var(--accent);background:var(--accent);color:#0e0e0e;font-weight:700}
+.scale{width:100%;font-size:9px;color:var(--body)}
+.scale .row{display:flex;gap:3px;margin:4px 0 12px}
+.scale .row i{flex:1;height:26px;border:1px solid #333;border-radius:3px;font-style:normal;display:flex;align-items:center;justify-content:center;color:#555;font-size:10px}
+.scale .row i.q{border-color:var(--accent);color:var(--accent)}
+.cal{display:flex;gap:10px;width:100%;align-items:center}
+.cal div{flex:1;border:1px solid #333;border-radius:6px;text-align:center;padding:10px 4px;font-size:8.5px;color:var(--body);letter-spacing:1px}
+.cal div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--text);font-weight:400;letter-spacing:0;margin-top:4px}
+.cal em{font-style:normal;font-family:'Bebas Neue',sans-serif;color:var(--accent);font-size:26px}
+.months{display:flex;align-items:flex-end;gap:4px;height:110px;width:100%}
+.months div{flex:1;display:flex;flex-direction:column;align-items:center;font-size:8px;color:#666;gap:4px}
+.months div i{display:block;width:100%;height:70px;border:1px dashed #444;border-radius:2px}
+.months div.on i{background:var(--accent);border:0}
+.months div.on{color:var(--accent)}
+.tbl{width:100%;border-collapse:collapse;font-size:10px}
+.tbl td{border-bottom:1px solid #262626;padding:8px 4px;color:var(--body)}
+.tbl tr:first-child td{font-size:9px;letter-spacing:1px;color:#777}
+.tbl td:nth-child(2){color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:19px}
+.tbl td:nth-child(3){color:#555;font-family:'Bebas Neue',sans-serif;font-size:19px}
+.rulerv{position:relative;width:100%;height:170px}
+.rulerv .ax{position:absolute;left:46%;top:6px;bottom:6px;width:2px;background:#333}
+.rulerv .mk{position:absolute;left:0;right:0;height:0;font-size:9.5px;color:var(--body)}
+.rulerv .mk span{position:absolute;right:56%;transform:translateY(-50%);white-space:nowrap}
+.rulerv .mk i{position:absolute;left:calc(46% - 8px);width:18px;height:2px;background:#666;transform:translateY(-1px)}
+.rulerv .mk.on i{background:var(--accent);height:4px}
+.rulerv .mk.on span{color:var(--text);font-weight:700}
+.rulerv .mk.rtm span{left:52%;right:auto;color:var(--accent)}
+.numline{position:relative;width:100%;height:104px}
+.numline .ln{position:absolute;left:0;right:0;top:44px;height:2px;background:#333}
+.numline .tk{position:absolute;top:52px;font-size:8.5px;color:#666;transform:translateX(-50%)}
+.numline .pt{position:absolute;top:36px;width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);transform:translateX(-50%)}
+.numline .pt.ghost{background:#666}
+.numline .lb{position:absolute;font-size:9px;color:var(--body);transform:translateX(-50%);white-space:nowrap}
+ section{margin-bottom:36px}</style></head><body>
+<div id="all">
+<section class="singles" id="sec-singles"><div class="sheethead"><h1>I HEREBY <b>COMMIT</b> · SINGLES · 2 UPDATED + 7 NEW (NORTHWESTERN DATA)</h1><p>Northwestern speed-dating update (Joel, Eastwick & Finkel 2017 data, reanalyzed read-only from Supabase; Columbia for comparison). Every number is a real computed value with its n in northwestern_findings_grokbot.md. Couples-challenge answers are EXAMPLE placeholders. Associations only; no scores, no rankings, no race. Mockup by grokbot, Sep 28, 2026 PT.</p></div>
+<div class="sheet"><div class="wrap" id="card-S01"><div class="cid"><b>S01</b> · Say vs. Do</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">What people say vs. who they pick</div>
+<div class="big">16.5<small>%</small></div>
+<h2 class="head">OF REAL SPEED DATES ENDED IN A MUTUAL YES</h2>
+<p class="sub">Men said yes <b>47.7%</b> of the time, women <b>36.5%</b>. In a second study we hold, people who called looks a <b>must-have</b> reacted to looks the same as people who didn't. Your checklist has entered the chat.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">men said yes</span><div class="track"><div class="fill" style="width:47.7%"></div></div><span class="val">47.7%</span></div><div class="row"><span class="lbl">women said yes</span><div class="track"><div class="fill alt" style="width:36.5%"></div></div><span class="val">36.5%</span></div><div class="row"><span class="lbl">mutual match</span><div class="track"><div class="fill" style="width:16.5%"></div></div><span class="val">16.5%</span></div></div></div>
+<div class="foot"><div class="src">Columbia speed dating (Fisman &amp; Iyengar 2002–04): 551 people, 8,378 ratings of 4,194 dates (dec, match). Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data): 349 people.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S07"><div class="cid"><b>S07</b> · 182 Questions Later</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Why we don't do match %</div>
+<div class="big">182</div>
+<h2 class="head">SURVEY QUESTIONS COULDN'T PREDICT WHICH TWO PEOPLE WOULD CLICK</h2>
+<p class="sub">350 speed daters took surveys of up to 182 items. We re-ran their data: when one person liked the other more than usual, the other barely felt it back (<b>r = .10</b>, 2,021 dates). You gave us 14 answers. We won't pretend that's enough.</p>
+<div class="viz"><div class="vs"><div><b>182</b>survey items per person</div><div><b>.10</b>how mutual the one-on-one spark was</div></div></div>
+<div class="foot"><div class="src">Joel, Eastwick &amp; Finkel 2017 (Psych Science); data UKDS ReShare 852716, reanalyzed by us (2,021 dates). Finkel et al. 2012.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S21"><div class="cid"><b>S21</b> · One-Sided Fireworks</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Chemistry, measured on both sides</div>
+<div class="big">24<small>%</small></div>
+<h2 class="head">WHEN ONE PERSON FELT FIREWORKS, HOW OFTEN THE OTHER DID TOO</h2>
+<p class="sub">In <b>2,021</b> real speed dates, people gave <b>581</b> chemistry ratings of 7+ out of 9. Only <b>71</b> dates had fireworks on both sides. If you felt it and they didn't: statistically, extremely normal.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">any rating 7+/9</span><div class="track"><div class="fill alt" style="width:14.4%"></div></div><span class="val">14%</span></div><div class="row"><span class="lbl">other felt it too</span><div class="track"><div class="fill" style="width:24.4%"></div></div><span class="val">24%</span></div><div class="row"><span class="lbl">both, of all dates</span><div class="track"><div class="fill alt" style="width:3.5%"></div></div><span class="val">3.5%</span></div></div></div>
+<div class="foot"><div class="src">Northwestern speed-dating studies (Joel, Eastwick &amp; Finkel 2017 data, UKDS 852716): 349 undergrads, 2,021 linked dates. Reanalysis by iherebycommit. Chemistry 1–9, both people rated.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S22"><div class="cid"><b>S22</b> · The Mirror Effect</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Your radar, audited</div>
+<div class="big">50<small>%</small></div>
+<h2 class="head">WHEN YOU WERE REALLY INTO THEM, THE ODDS THEY WERE INTO YOU</h2>
+<p class="sub">On the dates speed daters liked most, the other person was above-average interested <b>50%</b> of the time, the same as any other date (<b>52%</b>). Our "they're into me" radar mostly reads our own feelings. Ask. Don't guess.</p>
+<div class="viz"><div class="vs"><div><b>.43–.52</b>your guess vs YOUR interest</div><div><b>.13–.14</b>your guess vs THEIR interest</div></div></div>
+<div class="foot"><div class="src">Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), reanalyzed, 2,021 dates; Columbia speed dating (Fisman &amp; Iyengar), 4,194 dates.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S23"><div class="cid"><b>S23</b> · Great Chat, No Spark</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Smooth talk vs. chemistry</div>
+<div class="big">77<small>%</small></div>
+<h2 class="head">OF SMOOTH CONVERSATIONS DIDN'T COME WITH STRONG CHEMISTRY</h2>
+<p class="sub">Speed daters rated <b>54%</b> of their conversations smooth (7+ out of 9). Only <b>23%</b> of those also had strong chemistry. A great chat is a great chat. It isn't a verdict.</p>
+<div class="viz"><div style="width:100%"><div class="dots" style="grid-template-columns:repeat(20,1fr);gap:4px"><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i></div><div class="legend"><span><em style="border:1px solid #666"></em>smooth, no strong spark (77%)</span><span><em style="background:var(--accent)"></em>smooth + spark</span></div></div></div>
+<div class="foot"><div class="src">Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), reanalyzed: 4,088 ratings from 2,050 dates. Interaction smoothness and chemistry, 1–9.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S24"><div class="cid"><b>S24</b> · Everyone's Picky</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Self-described vs. actual</div>
+<div class="big">82<small>%</small></div>
+<h2 class="head">OF SPEED DATERS CALLED THEMSELVES "VERY PICKY"</h2>
+<p class="sub">Then they went on the dates. How picky people said they were barely lined up with how interested they actually got (<b>r = −.15</b>; men: −.05). Picky is a feeling, not a filter.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">everyone</span><div class="track"><div class="fill" style="width:82.2%"></div></div><span class="val">82%</span></div><div class="row"><span class="lbl">men</span><div class="track"><div class="fill alt" style="width:85.1%"></div></div><span class="val">85%</span></div><div class="row"><span class="lbl">women</span><div class="track"><div class="fill alt" style="width:79.3%"></div></div><span class="val">79%</span></div></div></div>
+<div class="foot"><div class="src">Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), reanalyzed: 349 people. "I am very picky about my choice of romantic partners" (agree = 5–7 of 7).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S25"><div class="cid"><b>S25</b> · Who Goes First</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The first move, self-reported</div>
+<div class="big mid">47<small style="color:#555"> / </small>25</div>
+<h2 class="head">OF MEN VS. WOMEN SAY THEY USUALLY MAKE THE FIRST MOVE</h2>
+<p class="sub">Among <b>347</b> speed daters, <b>47%</b> of men and <b>25%</b> of women said they usually initiate. Comfort expressing interest: 4.0 vs 3.7 out of 7. Someone has to go first. Could be you.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">men usually initiate</span><div class="track"><div class="fill" style="width:46.8%"></div></div><span class="val">47%</span></div><div class="row"><span class="lbl">women usually initiate</span><div class="track"><div class="fill alt" style="width:24.7%"></div></div><span class="val">25%</span></div><div class="row"><span class="lbl">everyone</span><div class="track"><div class="fill alt" style="width:35.7%"></div></div><span class="val">36%</span></div></div></div>
+<div class="foot"><div class="src">Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), reanalyzed: 347 people. "I usually initiate a dating or romantic relationship…" (agree = 5–7 of 7).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S26"><div class="cid"><b>S26</b> · The 4-Minute Filter</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Ideal partner vs. ideal 4-minute date</div>
+<div class="big mid">7.5→5.1</div>
+<h2 class="head">HOW MUCH EARNING PROSPECTS MATTER: IDEAL PARTNER VS. A 4-MINUTE DATE</h2>
+<p class="sub">For an ideal partner, speed daters rated earning prospects <b>7.5/9</b>. For an ideal 4-minute date: <b>5.1</b>. Looks barely moved (7.5 → 7.4). We know what four minutes can show.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">earning: partner</span><div class="track"><div class="fill alt" style="width:83%"></div></div><span class="val">7.5</span></div><div class="row"><span class="lbl">earning: 4-min date</span><div class="track"><div class="fill" style="width:57%"></div></div><span class="val">5.1</span></div><div class="row"><span class="lbl">looks: partner</span><div class="track"><div class="fill alt" style="width:84%"></div></div><span class="val">7.5</span></div><div class="row"><span class="lbl">looks: 4-min date</span><div class="track"><div class="fill" style="width:83%"></div></div><span class="val">7.4</span></div></div></div>
+<div class="foot"><div class="src">Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), reanalyzed: 349 people, stated ratings 1–9 before the event.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S27"><div class="cid"><b>S27</b> · Same Chat, Two Reviews</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Both sides of one conversation</div>
+<div class="big mid">1 IN 3</div>
+<h2 class="head">DATES WHERE TWO PEOPLE RATED THE SAME CONVERSATION 3+ POINTS APART</h2>
+<p class="sub">Same four minutes, same table. On <b>34%</b> of 2,038 dates, the two reviews were 3+ points apart on a 9-point scale. On <b>18%</b>, one said great and the other said meh. If it felt off to you, they might have loved it. Or not.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">3+ points apart</span><div class="track"><div class="fill" style="width:33.7%"></div></div><span class="val">34%</span></div><div class="row"><span class="lbl">one great, one meh</span><div class="track"><div class="fill alt" style="width:18.2%"></div></div><span class="val">18%</span></div><div class="row"><span class="lbl">within 1 point</span><div class="track"><div class="fill alt" style="width:42.8%"></div></div><span class="val">43%</span></div></div></div>
+<div class="foot"><div class="src">Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), reanalyzed: 2,038 dates, both people rated "interaction smoothness" 1–9.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div></div></section>
+<section class="couples" id="sec-couples"><div class="sheethead"><h1>I HEREBY <b>COMMIT</b> · COUPLES · 1 UPDATED + 5 NEW (NORTHWESTERN DATA)</h1><p>Northwestern speed-dating update (Joel, Eastwick & Finkel 2017 data, reanalyzed read-only from Supabase; Columbia for comparison). Every number is a real computed value with its n in northwestern_findings_grokbot.md. Couples-challenge answers are EXAMPLE placeholders. Associations only; no scores, no rankings, no race. Mockup by grokbot, Sep 28, 2026 PT.</p></div>
+<div class="sheet"><div class="wrap" id="card-C04"><div class="cid"><b>C04</b> · The #1 Predictor</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">What actually predicts a happy relationship</div>
+<div class="big">#1</div>
+<h2 class="head">PREDICTOR: HOW COMMITTED YOU THINK YOUR PARTNER IS</h2>
+<p class="sub">43 studies, 11,196 couples: your own view explained up to <b>45%</b> of satisfaction. Bonus: on first dates, our read of their interest mostly mirrored our own. Rate each other's commitment 1–10. Privately. Then reveal.</p>
+<div class="viz"><div class="scale">you rate their commitment<div class="row"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i></div>they rate yours<div class="row"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i></div><span style="color:var(--accent)">hidden until you both lock in · then flip</span></div></div>
+<div class="foot"><div class="src">Joel et al. 2020, PNAS: 43 longitudinal datasets, 11,196 couples. Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), 2,020 dates. Ratings are private product answers.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C21"><div class="cid"><b>C21</b> · Day-One Mind Read</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Couples challenge · first-date interest</div>
+<div class="big mid">50/50</div>
+<h2 class="head">READING A FIRST DATE'S INTEREST WAS A COIN FLIP. HOW DID YOU TWO DO?</h2>
+<p class="sub">In 2,000+ speed dates, people's guess of "they're into me" mostly mirrored their own feelings. You know how yours ended. Each of you: how into them were you on date one, and how into you were they? Reveal together.</p>
+<div class="viz"><div class="quick"><button>me → you: ?/10</button><button>my guess of you: ?/10</button><button>you → me: ?/10</button><button>your guess of me: ?/10</button></div></div>
+<div class="foot"><div class="src">Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), reanalyzed (2,020 dates) + Columbia (8,069 ratings). Your answers are private product data.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C22"><div class="cid"><b>C22</b> · First-Date Fireworks Audit</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Couples challenge · chemistry</div>
+<div class="big">24<small>%</small></div>
+<h2 class="head">OF STRONG SPARKS WERE MUTUAL. RATE YOUR FIRST-DATE CHEMISTRY, SEPARATELY.</h2>
+<p class="sub">In real speed dates, when one person felt fireworks (7+/9), the other did too only <b>24%</b> of the time. Rate your first-date chemistry 1–9. Separately. Then see if you were the lucky 24%.</p>
+<div class="viz"><div class="quick"><button>my first-date chemistry: ?/9</button><button>yours: ?/9</button></div></div>
+<div class="foot"><div class="src">Northwestern speed-dating studies (Joel, Eastwick &amp; Finkel 2017 data, UKDS 852716): 349 undergrads, 2,021 linked dates. Reanalysis by iherebycommit. Your ratings are private product answers.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C23"><div class="cid"><b>C23</b> · Who Made the First Move?</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Couples challenge · the first move</div>
+<div class="big mid">47<small style="color:#555"> / </small>25</div>
+<h2 class="head">OF MEN VS. WOMEN SAY THEY USUALLY GO FIRST. WHO DID IN YOUR COUPLE?</h2>
+<p class="sub">Among 347 speed daters, <b>47%</b> of men and <b>25%</b> of women said they usually initiate. Now answer separately: who made the first move? Comments decide.</p>
+<div class="viz"><div class="quick"><button>me</button><button>them</button><button>both at once</button><button>still disputed</button></div></div>
+<div class="foot"><div class="src">Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), reanalyzed: 347 people (init3). Your answers are private product data.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C24"><div class="cid"><b>C24</b> · Same Date, Two Reviews</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Couples challenge · your first conversation</div>
+<div class="big mid">1 IN 3</div>
+<h2 class="head">FIRST DATES WHERE TWO PEOPLE RATED THE SAME CHAT 3+ POINTS APART. RATE YOURS.</h2>
+<p class="sub">On <b>34%</b> of real speed dates, the two people's ratings of the same conversation were 3+ points apart. How smooth was your first conversation, 1–9? Answer separately.</p>
+<div class="viz"><div class="quick"><button>me: ?/9</button><button>you: ?/9</button></div></div>
+<div class="foot"><div class="src">Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), reanalyzed: 2,038 dates. Your ratings are private product answers.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C25"><div class="cid"><b>C25</b> · The Picky One</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Couples challenge · who was pickier</div>
+<div class="big">82<small>%</small></div>
+<h2 class="head">OF SPEED DATERS CALLED THEMSELVES VERY PICKY. WHICH OF YOU WAS PICKIER?</h2>
+<p class="sub"><b>82%</b> of speed daters said they were "very picky." Their choices barely matched. So: who was pickier before you two met? Point on three.</p>
+<div class="viz"><div class="quick"><button>me</button><button>them</button><button>both impossible</button><button>neither, honestly</button></div></div>
+<div class="foot"><div class="src">Northwestern speed dating (Joel, Eastwick &amp; Finkel 2017 data), reanalyzed: 349 people (init1). Your answers are private product data.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div></div></section>
+</div></body></html>

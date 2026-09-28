@@ -1,0 +1,531 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>I Hereby Commit · 40 insight cards (mockups)_grokbot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0e0e;--text:#f0ece0;--body:#9a978c;--muted:#888;--dim:#333;--lime:#c8f135;--orange:#FF7A2F;--radius:4px;--accent:var(--lime)}
+body.couples{--accent:var(--orange)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace}
+body{min-height:100vh;display:flex;justify-content:center}
+.phone{width:393px;min-height:852px;position:relative;padding:10px 16px 18px;overflow:hidden}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--text)}
+.logo b{color:var(--accent);font-weight:400}
+.flowtoggle{display:flex;gap:4px}
+.flowtoggle button{font-family:'Space Mono',monospace;font-size:10px;padding:5px 8px;border:1px solid var(--dim);background:transparent;color:var(--muted);border-radius:var(--radius);cursor:pointer;text-transform:uppercase}
+.flowtoggle button.on{border-color:var(--accent);color:var(--bg);background:var(--accent)}
+.progress{display:flex;gap:3px;margin:6px 0 8px}
+.progress span{flex:1;height:3px;background:var(--dim);border-radius:2px}
+.progress span.done{background:var(--accent)}
+/* 9:16 story card */
+.card{width:361px;height:642px;position:relative;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid #222;cursor:pointer;user-select:none}
+.card .inner{position:absolute;inset:0;padding:26px 22px 20px;display:flex;flex-direction:column}
+.card.hero .inner{background:var(--accent);color:#0e0e0e}
+.kicker{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero .kicker{color:#0e0e0e;opacity:.75}
+.big{font-family:'Bebas Neue',sans-serif;font-size:112px;line-height:.85;color:var(--accent);letter-spacing:1px}
+.hero .big{color:#0e0e0e}
+.big small{font-size:40px}
+h2.head{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:38px;line-height:.95;letter-spacing:.5px;margin:10px 0 12px;color:var(--text)}
+.hero h2.head{color:#0e0e0e}
+.sub{font-size:12px;line-height:1.55;color:var(--body)}
+.sub b{color:var(--text);font-weight:700}
+.hero .sub{color:#1c1c1c}.hero .sub b{color:#0e0e0e}
+.viz{margin:16px 0 8px;flex:1;display:flex;align-items:center;justify-content:center}
+.foot{margin-top:auto;border-top:1px solid #262626;padding-top:8px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.hero .foot{border-top-color:rgba(0,0,0,.25)}
+.src{font-size:8.5px;line-height:1.35;color:var(--muted);max-width:245px}
+.hero .src{color:#222}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--text);white-space:nowrap}
+.hero .brand{color:#0e0e0e}
+.example{position:absolute;top:8px;right:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777;border:1px solid #333;padding:1px 5px;border-radius:3px;background:rgba(14,14,14,.6)}
+.hero .example{color:#0e0e0e;border-color:rgba(0,0,0,.35);background:transparent}
+.private{position:absolute;top:8px;left:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--bg);background:var(--muted);padding:1px 5px;border-radius:3px}
+/* dots viz */
+.dots{display:grid;grid-template-columns:repeat(14,1fr);gap:5px;width:100%}
+.dots i{display:block;width:100%;aspect-ratio:1;border-radius:50%;background:var(--dim)}
+.dots i.m{background:var(--accent)}
+.dots i.w{background:var(--text)}
+.dots i.x{background:transparent;border:1px solid #444}
+.legend{font-size:9px;color:var(--muted);margin-top:8px;display:flex;gap:12px}
+.legend em{font-style:normal;display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.bar{width:100%}
+.bar .row{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:10px;color:var(--body)}
+.bar .row .lbl{width:92px;text-align:right}
+.bar .track{flex:1;height:14px;background:#1b1b1b;border-radius:2px;position:relative}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:2px}
+.bar .fill.alt{background:#555}
+.bar .val{width:40px;font-weight:700;color:var(--text)}
+.timeline{width:100%;position:relative;height:150px}
+.timeline .line{position:absolute;left:0;right:0;top:70px;height:2px;background:#333}
+.timeline .pt{position:absolute;top:62px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+.timeline .pt.ghost{background:#555}
+.timeline .lab{position:absolute;width:90px;margin-left:-45px;text-align:center;font-size:9px;color:var(--body);line-height:1.3}
+.timeline .lab b{display:block;font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);font-weight:400}
+.sil{display:flex;align-items:flex-end;justify-content:center;gap:26px;height:230px;width:100%}
+.sil div{display:flex;flex-direction:column;align-items:center;font-size:10px;color:var(--body)}
+.sil svg{display:block}
+.map{width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{font-size:10px;border:1px solid var(--accent);color:var(--accent);padding:4px 8px;border-radius:14px}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.quick button{font-family:'Space Mono',monospace;font-size:11px;padding:10px 6px;border:1px solid #444;background:#151515;color:var(--text);border-radius:var(--radius)}
+.cta{display:block;width:100%;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;padding:12px;border:0;border-radius:var(--radius);background:var(--accent);color:#0e0e0e;margin-top:8px;cursor:pointer}
+.cta.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.hero .cta{background:#0e0e0e;color:var(--accent)}
+.lock{font-size:40px;text-align:center}
+/* share row */
+.share{display:flex;gap:6px;margin-top:10px}
+.share button{flex:1;font-family:'Space Mono',monospace;font-size:10px;padding:9px 4px;border:1px solid var(--dim);background:#151515;color:var(--text);border-radius:var(--radius);cursor:pointer}
+.share button.primary{background:var(--accent);color:#0e0e0e;border-color:var(--accent);font-weight:700}
+.share button:disabled{opacity:.35;cursor:not-allowed}
+.navhint{display:flex;justify-content:space-between;font-size:9px;color:#555;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--accent);color:#0e0e0e;font-size:11px;padding:8px 12px;border-radius:var(--radius);opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+.mocknote{font-size:8.5px;color:#555;margin-top:6px;line-height:1.4}
+
+body{display:block;padding:24px}
+.sheet{display:grid;grid-template-columns:repeat(5,361px);gap:22px;justify-content:start}
+.wrap{position:relative}
+.cid{font-size:10px;color:#666;margin:0 0 5px 2px;letter-spacing:1px}
+.cid b{color:var(--accent)}
+.sheethead{margin:0 0 18px;max-width:1900px}
+.sheethead h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;letter-spacing:1px}
+.sheethead h1 b{color:var(--accent);font-weight:400}
+.sheethead p{font-size:11px;color:#8a877c;line-height:1.5;max-width:1500px}
+section{margin-bottom:48px}
+section.couples{--accent:var(--orange)}
+.tier{position:absolute;top:8px;left:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:1px 5px;border-radius:3px;border:1px solid #333;color:#777}
+.tier.c{background:#FFD23F;color:#0e0e0e;border-color:#FFD23F;font-weight:700}
+.rt{color:var(--accent);border-bottom:1px dashed var(--accent)}
+.big.txt{font-size:62px;line-height:.9}
+.big.mid{font-size:92px}
+.big .rtbig{border:2px dashed var(--accent);padding:0 10px;border-radius:6px}
+.steps{width:100%}
+.steps .st{display:flex;justify-content:space-between;align-items:center;border-left:3px solid var(--accent);padding:7px 10px;margin:6px 0;background:#151515;font-size:10px;color:var(--body)}
+.steps .st:nth-child(2){margin-left:14px}.steps .st:nth-child(3){margin-left:28px}.steps .st:nth-child(4){margin-left:42px}
+.steps .st b{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);font-weight:400}
+.vs{display:flex;gap:10px;width:100%}
+.vs div{flex:1;border:1px solid #2a2a2a;border-radius:6px;padding:12px 8px;text-align:center;font-size:10px;color:var(--body)}
+.vs div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:54px;color:var(--text);font-weight:400;line-height:1}
+.vs div:first-child b{color:var(--accent)}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.types span{font-size:9.5px;border:1px solid #333;color:#777;padding:7px 6px;border-radius:4px;text-align:center}
+.types span.on{border-color:var(--accent);background:var(--accent);color:#0e0e0e;font-weight:700}
+.scale{width:100%;font-size:9px;color:var(--body)}
+.scale .row{display:flex;gap:3px;margin:4px 0 12px}
+.scale .row i{flex:1;height:26px;border:1px solid #333;border-radius:3px;font-style:normal;display:flex;align-items:center;justify-content:center;color:#555;font-size:10px}
+.scale .row i.q{border-color:var(--accent);color:var(--accent)}
+.cal{display:flex;gap:10px;width:100%;align-items:center}
+.cal div{flex:1;border:1px solid #333;border-radius:6px;text-align:center;padding:10px 4px;font-size:8.5px;color:var(--body);letter-spacing:1px}
+.cal div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--text);font-weight:400;letter-spacing:0;margin-top:4px}
+.cal em{font-style:normal;font-family:'Bebas Neue',sans-serif;color:var(--accent);font-size:26px}
+.months{display:flex;align-items:flex-end;gap:4px;height:110px;width:100%}
+.months div{flex:1;display:flex;flex-direction:column;align-items:center;font-size:8px;color:#666;gap:4px}
+.months div i{display:block;width:100%;height:70px;border:1px dashed #444;border-radius:2px}
+.months div.on i{background:var(--accent);border:0}
+.months div.on{color:var(--accent)}
+.tbl{width:100%;border-collapse:collapse;font-size:10px}
+.tbl td{border-bottom:1px solid #262626;padding:8px 4px;color:var(--body)}
+.tbl tr:first-child td{font-size:9px;letter-spacing:1px;color:#777}
+.tbl td:nth-child(2){color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:19px}
+.tbl td:nth-child(3){color:#555;font-family:'Bebas Neue',sans-serif;font-size:19px}
+.rulerv{position:relative;width:100%;height:170px}
+.rulerv .ax{position:absolute;left:46%;top:6px;bottom:6px;width:2px;background:#333}
+.rulerv .mk{position:absolute;left:0;right:0;height:0;font-size:9.5px;color:var(--body)}
+.rulerv .mk span{position:absolute;right:56%;transform:translateY(-50%);white-space:nowrap}
+.rulerv .mk i{position:absolute;left:calc(46% - 8px);width:18px;height:2px;background:#666;transform:translateY(-1px)}
+.rulerv .mk.on i{background:var(--accent);height:4px}
+.rulerv .mk.on span{color:var(--text);font-weight:700}
+.rulerv .mk.rtm span{left:52%;right:auto;color:var(--accent)}
+.numline{position:relative;width:100%;height:104px}
+.numline .ln{position:absolute;left:0;right:0;top:44px;height:2px;background:#333}
+.numline .tk{position:absolute;top:52px;font-size:8.5px;color:#666;transform:translateX(-50%)}
+.numline .pt{position:absolute;top:36px;width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);transform:translateX(-50%)}
+.numline .pt.ghost{background:#666}
+.numline .lb{position:absolute;font-size:9px;color:var(--body);transform:translateX(-50%);white-space:nowrap}
+</style></head><body>
+<section class="singles" id="sec-singles"><div class="sheethead"><h1>I HEREBY <b>COMMIT</b> · 20 SINGLES INSIGHT CARDS</h1>
+<p>Example single: "Maya", 34, woman, Austin (78704), seeking men 32–40, 5′10″–6′4″, looking for relationship + marriage, 6-month timeline, open to Austin / Denver / New York and to relocating, Libra.<br>All personal values are EXAMPLE DATA for a made-up person. Public benchmark numbers are real loaded or published values with the source on each card. <span class="rt">◊</span> = computed at render time from the named table (not shown in the mockup, never invented). Yellow "TIER C" badge = company-reported / app data, flagged for Amanda's decision. Mockup by grokbot, Sep 28, 2026 PT.</p></div>
+<div class="sheet"><div class="wrap" id="card-S01"><div class="cid"><b>S01</b> · Say vs. Do</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">What people say vs. who they pick</div>
+<div class="big">16.5<small>%</small></div>
+<h2 class="head">OF REAL SPEED DATES ENDED IN A MUTUAL YES</h2>
+<p class="sub">Men said yes <b>47.7%</b> of the time, women <b>36.5%</b>. A classic study found what people <b>say</b> they want barely matches who they pick. Your checklist has entered the chat.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">men said yes</span><div class="track"><div class="fill" style="width:47.7%"></div></div><span class="val">47.7%</span></div><div class="row"><span class="lbl">women said yes</span><div class="track"><div class="fill alt" style="width:36.5%"></div></div><span class="val">36.5%</span></div><div class="row"><span class="lbl">mutual match</span><div class="track"><div class="fill" style="width:16.5%"></div></div><span class="val">16.5%</span></div></div></div>
+<div class="foot"><div class="src">Columbia speed dating (Fisman &amp; Iyengar 2002–04), 551 people, 8,378 dates: dec, match. Eastwick &amp; Finkel 2008.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S02"><div class="cid"><b>S02</b> · The Filter Stack</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Your filters, stacked</div>
+<div class="big">4<small>FILTERS</small></div>
+<h2 class="head">APPLIED IN ORDER. HERE'S WHO IS LEFT.</h2>
+<p class="sub">Gender, ages <b>32–40</b>, <b>5′10″–6′4″</b>, and your 3 cities. Each row is what survives the next filter. Watch which one does the most damage. Not a judgment. A funnel.</p>
+<div class="viz"><div class="steps"><div class="st"><span>Never-married men, your metro</span><b><span class="rt">◊</span></b></div><div class="st"><span>…aged 32–40</span><b><span class="rt">◊</span></b></div><div class="st"><span>…5′10″–6′4″ (41.7% of men 30–39)</span><b><span class="rt">◊</span></b></div><div class="st"><span>…in Austin, Denver or NYC</span><b><span class="rt">◊</span></b></div></div></div>
+<div class="foot"><div class="src">ACS 5-yr 2020–24 B12002 (never married, by age band); CDC NHANES 2021–23 heights. <span class="rt">◊</span> = computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S03"><div class="cid"><b>S03</b> · Tape Measure Truth</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Height, actually measured</div>
+<div class="big">5′9″</div>
+<h2 class="head">THE AVERAGE U.S. MAN, ON AN ACTUAL TAPE MEASURE</h2>
+<p class="sub">Your filter starts at <b>5′10″</b>. NHANES uses a stadiometer; dating profiles use vibes. We compared OkCupid's 2012 self-reported heights to the tape: <b><span class="rt">◊</span> inches</b> of "profile inflation."</p>
+<div class="viz"><div class="rulerv"><div class="ax"></div><div class="mk" style="top:94%"><i></i><span>5′6″</span></div><div class="mk" style="top:67.6%"><i></i><span>5′9″ NHANES avg</span></div><div class="mk on" style="top:58.8%"><i></i><span>5′10″ your min</span></div><div class="mk rtm" style="top:45%"><span>profile avg: <span class="rt">◊</span> (render)</span></div><div class="mk" style="top:6%"><i></i><span>6′4″</span></div></div></div>
+<div class="foot"><div class="src">CDC NHANES 2021–23 mean height, men 20+: 175.1 cm. OkCupid SF 2012 profiles (height, self-reported). <span class="rt">◊</span> = computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S04"><div class="cid"><b>S04</b> · Your Sign, Audited</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Your sign, by the numbers</div>
+<div class="big mid">LIBRA</div>
+<h2 class="head">WE CHECKED 59,946 PROFILES FOR HOW SERIOUSLY PEOPLE TAKE IT</h2>
+<p class="sub">Most people listed a sign. Far fewer said it <b>matters a lot</b>: <span class="rt">◊</span>% of Libras vs <span class="rt">◊</span>% of everyone. We don't do compatibility-by-stars. We did count, though. Very Libra of us.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">matters a lot</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div><div class="row"><span class="lbl">fun to think about</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div><div class="row"><span class="lbl">doesn't matter</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div></div></div>
+<div class="foot"><div class="src">OkCupid SF profiles, Jun 2012 (JSE 2015, permissioned): sign field, 59,946 profiles. <span class="rt">◊</span> = computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S05"><div class="cid"><b>S05</b> · The Actually-Looking Club</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A/B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Who is actually looking</div>
+<div class="big">57<small>%</small></div>
+<h2 class="head">OF SINGLE AMERICANS AREN'T LOOKING FOR A RELATIONSHIP OR DATES</h2>
+<p class="sub">You filled out a dating waitlist. You are, by definition, <b>not in the 57%</b>. Among single women your age, <span class="rt">◊</span>% are looking. Welcome to the minority that tries.</p>
+<div class="viz"><div style="width:100%"><div class="dots" style="grid-template-columns:repeat(20,1fr);gap:4px"><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i><i class="m"></i></div><div class="legend"><span><em style="border:1px solid #666"></em>not looking (57%)</span><span><em style="background:var(--accent)"></em>the rest (you)</span></div></div></div>
+<div class="foot"><div class="src">Pew Research Center, 2022 survey (short read Feb 2023). Age/gender split from Pew ATP W111 microdata. <span class="rt">◊</span> = computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S06"><div class="cid"><b>S06</b> · Strangers Welcome</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">How people like you meet now</div>
+<div class="big">89<small>%</small></div>
+<h2 class="head">OF COUPLES WHO MET ONLINE WERE COMPLETE STRANGERS BEFORE</h2>
+<p class="sub">The friend-of-a-friend pipeline is drying up: meeting through friends fell from <b>33% to 20%</b> of straight couples (1995→2017). Your person is probably a stranger. Hi, stranger.</p>
+<div class="viz"><div style="width:100%"><svg viewBox="0 -6 340 181" width="100%"><line x1="20" y1="150" x2="330" y2="150" stroke="#333"/>
+<path d="M20.0,143.6 C147.6,130.8 205.6,92.4 228.79999999999998,66.8 S263.6,34.8 275.2,25.19999999999999" stroke="var(--accent)" stroke-width="3" fill="none"/><path d="M20.0,44.39999999999999 C136.0,47.599999999999994 194.0,57.19999999999999 228.79999999999998,66.8 S263.6,82.8 275.2,86.0" stroke="#f0ece0" stroke-width="2" fill="none" opacity=".7"/>
+<circle cx="228.79999999999998" cy="66.8" r="4" fill="#555"/><text x="228.79999999999998" y="84.8" fill="#888" font-size="8.5" text-anchor="middle" font-family="Space Mono">≈2013</text>
+<text x="20.0" y="138.6" fill="var(--accent)" font-size="10" font-family="Space Mono">2%</text><text x="20.0" y="38.39999999999999" fill="#f0ece0" font-size="10" font-family="Space Mono">33%</text>
+<text x="279.2" y="29.19999999999999" fill="var(--accent)" font-size="10" font-family="Space Mono">39%</text><text x="279.2" y="90.0" fill="#f0ece0" font-size="10" font-family="Space Mono">20%</text>
+<text x="20" y="166" fill="#666" font-size="8.5" font-family="Space Mono">1995</text><text x="275.2" y="166" fill="#666" font-size="8.5" text-anchor="middle" font-family="Space Mono">2017</text></svg>
+<div class="legend"><span><em style="background:var(--accent)"></em>met online</span><span><em style="background:#f0ece0"></em>through friends</span><span>schematic</span></div></div></div>
+<div class="foot"><div class="src">Rosenfeld, Thomas &amp; Hausen 2019, PNAS (HCMST 2009 + 2017), C23, C25, C26. Same-sex seekers see C24 (65%).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S07"><div class="cid"><b>S07</b> · 182 Questions Later</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Why we don't do match %</div>
+<div class="big">182</div>
+<h2 class="head">SURVEY QUESTIONS COULDN'T PREDICT WHICH TWO PEOPLE WOULD CLICK</h2>
+<p class="sub">350 speed daters took surveys of up to 182 items. Models spotted who was broadly popular, <b>not who clicks with whom</b>. You gave us 14 answers. We won't pretend that's enough.</p>
+<div class="viz"><div class="vs"><div><b>182</b>questions in the study</div><div><b>14</b>your answers</div></div></div>
+<div class="foot"><div class="src">Joel, Eastwick &amp; Finkel 2017 (Psych Science), via Science News. Finkel et al. 2012: "no compelling evidence" matching algorithms work.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S08"><div class="cid"><b>S08</b> · The Algorithm Skeptic</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A/B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Can an algorithm predict love?</div>
+<div class="big">21<small>%</small></div>
+<h2 class="head">OF AMERICANS THINK A DATING ALGORITHM COULD PREDICT LOVE</h2>
+<p class="sub">35% say no. <b>43% aren't sure.</b> Researchers who graded the industry found "no compelling evidence" any matching algorithm works. We're not selling one. We're testing.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">yes</span><div class="track"><div class="fill" style="width:21%"></div></div><span class="val">21%</span></div><div class="row"><span class="lbl">no</span><div class="track"><div class="fill alt" style="width:35%"></div></div><span class="val">35%</span></div><div class="row"><span class="lbl">not sure</span><div class="track"><div class="fill alt" style="width:43%"></div></div><span class="val">43%</span></div><div class="row"><span class="lbl">people your age</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div></div></div>
+<div class="foot"><div class="src">Pew Research Center 2022 (C15); your-age split from Pew W111 ondalg. Finkel et al. 2012. <span class="rt">◊</span> = computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S09"><div class="cid"><b>S09</b> · Situationship Alumni</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Your situationship status</div>
+<div class="big">50<small>%</small></div>
+<h2 class="head">OF 18–34S HAVE BEEN IN A SITUATIONSHIP</h2>
+<p class="sub">You picked <b>relationship</b>, <b>marriage</b> and a 6-month timeline. Energy of someone who has done their time. (Among 18–34s, 29% of situationships started on social media.)</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">all U.S. adults</span><div class="track"><div class="fill alt" style="width:39%"></div></div><span class="val">39%</span></div><div class="row"><span class="lbl">ages 18–34</span><div class="track"><div class="fill" style="width:50%"></div></div><span class="val">50%</span></div></div></div>
+<div class="foot"><div class="src">YouGov poll, Jan 2024, n=1,110 U.S. adults (independent pollster, not app data).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S10"><div class="cid"><b>S10</b> · The Ick Report</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The ick, measured</div>
+<div class="big">64<small>%</small></div>
+<h2 class="head">OF SINGLES HAVE CAUGHT THE ICK</h2>
+<p class="sub"><b>75% of women</b> vs 57% of men. 26% ended things on the spot. The researchers also found ick-prone people score higher on perfectionism. Just noting it.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">women</span><div class="track"><div class="fill" style="width:75%"></div></div><span class="val">75%</span></div><div class="row"><span class="lbl">men</span><div class="track"><div class="fill alt" style="width:57%"></div></div><span class="val">57%</span></div><div class="row"><span class="lbl">ended it on the spot</span><div class="track"><div class="fill alt" style="width:26%"></div></div><span class="val">26%</span></div></div></div>
+<div class="foot"><div class="src">Collisson et al. 2025 (n=125 singles), via BPS Research Digest.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S11"><div class="cid"><b>S11</b> · Overwhelmed vs. Insecure</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A/B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The message gap</div>
+<div class="big mid">54<small style="color:#555"> / </small>64</div>
+<h2 class="head">WOMEN OVERWHELMED BY MESSAGES. MEN INSECURE ABOUT GETTING NONE.</h2>
+<p class="sub">Same apps, opposite problems. Among recent users, <b>54% of women</b> felt overwhelmed by messages and <b>64% of men</b> felt insecure about the lack. That's why we match in cohorts, not inboxes.</p>
+<div class="viz"><div class="vs"><div><b>54%</b>women: overwhelmed</div><div><b>64%</b>men: insecure</div></div></div>
+<div class="foot"><div class="src">Pew Research Center 2022 survey (C12, C13); age splits from Pew W111 ondemot.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S12"><div class="cid"><b>S12</b> · The Question Deficit</div>
+<div class="card"><div class="inner">
+<span class="tier c">TIER C · COMPANY DATA</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">the question deficit</div>
+<div class="big mid">62<small style="color:#555"> / </small>30</div>
+<h2 class="head">THINK THEY ASK ENOUGH QUESTIONS VS. THINK THEIR DATES DO</h2>
+<p class="sub">Everyone is a great listener, apparently. <b>85%</b> of daters say thoughtful questions make them want a second date. Homework: ask one more question than feels natural.</p>
+<div class="viz"><div class="vs"><div><b>62%</b>"I ask enough"</div><div><b>30%</b>"my date asks enough"</div></div></div>
+<div class="foot"><div class="src">COMPANY DATA: Hinge Labs Gen Z D.A.T.E. Report 2025, in-app survey (C38, C37). Not a probability sample.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S13"><div class="cid"><b>S13</b> · The Deep-Talk Standoff</div>
+<div class="card"><div class="inner">
+<span class="tier c">TIER C · COMPANY DATA</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">deep talk</div>
+<div class="big">65<small>%</small></div>
+<h2 class="head">OF MEN SAY THEY WANT DEEP TALK EARLY. 42% OF WOMEN THINK THEY DON'T.</h2>
+<p class="sub">And <b>49% of women</b> hold back waiting for him to go first (men: 17%). A whole generation, politely waiting. Somebody blink.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">men who want deep talk</span><div class="track"><div class="fill" style="width:65%"></div></div><span class="val">65%</span></div><div class="row"><span class="lbl">women who think men don't</span><div class="track"><div class="fill alt" style="width:42%"></div></div><span class="val">42%</span></div><div class="row"><span class="lbl">women waiting to go 2nd</span><div class="track"><div class="fill alt" style="width:49%"></div></div><span class="val">49%</span></div><div class="row"><span class="lbl">men waiting to go 2nd</span><div class="track"><div class="fill alt" style="width:17%"></div></div><span class="val">17%</span></div></div></div>
+<div class="foot"><div class="src">COMPANY DATA: Hinge Labs Gen Z D.A.T.E. Report 2025, heterosexual Gen Z in-app survey. Not a probability sample.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S14"><div class="cid"><b>S14</b> · The Schedule Moved</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A/B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Then vs. now</div>
+<div class="big">6→25<small>%</small></div>
+<h2 class="head">OF 40-YEAR-OLDS HAD NEVER MARRIED: 1980 VS. 2021</h2>
+<p class="sub">It was 20% in 2010. And <b>41% of U.S. women 30–34</b> have never married. You're not late. The schedule moved.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">1980</span><div class="track"><div class="fill alt" style="width:6%"></div></div><span class="val">6%</span></div><div class="row"><span class="lbl">2010</span><div class="track"><div class="fill alt" style="width:20%"></div></div><span class="val">20%</span></div><div class="row"><span class="lbl">2021</span><div class="track"><div class="fill" style="width:25%"></div></div><span class="val">25%</span></div></div></div>
+<div class="foot"><div class="src">Pew Research Center 2023 (Census data); ACS 5-yr 2020–24 B12002 national never-married, women 30–34: 41%.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S15"><div class="cid"><b>S15</b> · Would Move for Love</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Open to relocating</div>
+<div class="big">YES</div>
+<h2 class="head">YOU'D MOVE FOR LOVE. YOUR NEIGHBORS MOVED FOR LESS.</h2>
+<p class="sub">The Census says <b><span class="rt">◊</span>%</b> of people in your area changed homes in the past year. Jobs, leases, who knows. You'd do it for a person. Romantic. Logistically brave.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">your area</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div><div class="row"><span class="lbl">Austin metro</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div><div class="row"><span class="lbl">U.S.</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div></div></div>
+<div class="foot"><div class="src">ACS 5-yr 2020–24 pct_moved_last_year (ZCTA / metro / nation). <span class="rt">◊</span> = computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S16"><div class="cid"><b>S16</b> · Log Off, Go to Class?</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Where couples actually met</div>
+<div class="big">34.8<small>%</small></div>
+<h2 class="head">OF PARTNERED AMERICANS MET THROUGH WORK OR SCHOOL</h2>
+<p class="sub">Friends/family <b>31.9%</b>, online 12.0%, bars 8.1%. (All current couples, most met years ago.) Your area volunteers more than <span class="rt">◊</span>% of U.S. ZIPs (est.). Meet-cute at the food bank?</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">work / school</span><div class="track"><div class="fill" style="width:34.8%"></div></div><span class="val">34.8%</span></div><div class="row"><span class="lbl">friends / family</span><div class="track"><div class="fill alt" style="width:31.9%"></div></div><span class="val">31.9%</span></div><div class="row"><span class="lbl">online</span><div class="track"><div class="fill alt" style="width:12.0%"></div></div><span class="val">12.0%</span></div><div class="row"><span class="lbl">bar / restaurant</span><div class="track"><div class="fill alt" style="width:8.1%"></div></div><span class="val">8.1%</span></div><div class="row"><span class="lbl">elsewhere</span><div class="track"><div class="fill alt" style="width:8.4%"></div></div><span class="val">8.4%</span></div><div class="row"><span class="lbl">worship</span><div class="track"><div class="fill alt" style="width:4.8%"></div></div><span class="val">4.8%</span></div></div></div>
+<div class="foot"><div class="src">Pew ATP W56 (Oct 2019), current partners, weighted (harmonized couples view). Social Capital Atlas 2022 volunteering_rate (estimated). <span class="rt">◊</span> = render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S17"><div class="cid"><b>S17</b> · Your Dater Type</div>
+<div class="card"><div class="inner">
+<span class="tier">YOUR ANSWERS</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Your dater type</div>
+<div class="big txt">THE DECISIVE ROMANTIC</div>
+<h2 class="head"><SPAN CLASS="RT">◊</SPAN>% OF SINGLES ON THE WAITLIST SHARE YOUR TYPE</h2>
+<p class="sub">Marriage-minded, <b>6-month timeline</b>, 3 cities, would relocate. You don't browse; you shop with a list. There are 8 types. Find your friends'.</p>
+<div class="viz"><div class="types"><span class="on">Decisive Romantic</span><span class="">Hometown Closer</span><span class="">Patient Explorer</span><span class="">Slow Burn</span><span class="">Jet-Setter</span><span class="">Main Character</span><span class="">Open Road</span><span class="">Low-Key Local</span></div></div>
+<div class="foot"><div class="src">Your waitlist answers. Share of the waitlist shows only once 20+ singles have answered (today: fewer).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S18"><div class="cid"><b>S18</b> · The Pause</div>
+<div class="card"><div class="inner">
+<span class="tier">YOUR ANSWERS</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The question that made you think</div>
+<div class="big">41<small>SEC</small></div>
+<h2 class="head">YOUR LONGEST PAUSE: "WHAT AGES WOULD YOU DATE?"</h2>
+<p class="sub">You breezed through height in 6 seconds. Age took 41. We're not reading into it. (We're reading into it.)</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">age range</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">41s</span></div><div class="row"><span class="lbl">cities</span><div class="track"><div class="fill alt" style="width:46%"></div></div><span class="val">19s</span></div><div class="row"><span class="lbl">who you are</span><div class="track"><div class="fill alt" style="width:29%"></div></div><span class="val">12s</span></div><div class="row"><span class="lbl">timeline</span><div class="track"><div class="fill alt" style="width:22%"></div></div><span class="val">9s</span></div><div class="row"><span class="lbl">height</span><div class="track"><div class="fill alt" style="width:15%"></div></div><span class="val">6s</span></div></div></div>
+<div class="foot"><div class="src">Your own signup timing (onboarding_events dwell). Waitlist median per question shows at 20+ singles. EXAMPLE values.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S19"><div class="cid"><b>S19</b> · Fireworks &amp; Fatigue</div>
+<div class="card"><div class="inner">
+<span class="tier c">TIER C · COMPANY DATA</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">love at first sight</div>
+<div class="big">60<small>%</small></div>
+<h2 class="head">OF SINGLES NOW BELIEVE IN LOVE AT FIRST SIGHT</h2>
+<p class="sub">Up from 34% in 2014. Meanwhile <b>47%</b> say they're burned out on dating. Believing in fireworks while exhausted: extremely on brand for this decade.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">believe, 2014</span><div class="track"><div class="fill alt" style="width:34%"></div></div><span class="val">34%</span></div><div class="row"><span class="lbl">believe, 2025</span><div class="track"><div class="fill" style="width:60%"></div></div><span class="val">60%</span></div><div class="row"><span class="lbl">burned out, 2025</span><div class="track"><div class="fill alt" style="width:47%"></div></div><span class="val">47%</span></div></div></div>
+<div class="foot"><div class="src">COMPANY DATA: Match &amp; Kinsey Institute, Singles in America 2025 (opt-in panel, C30, C31). Not a probability sample.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S20"><div class="cid"><b>S20</b> · Delulu or Data?</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Your timeline, fact-checked</div>
+<div class="big">6<small>MO</small></div>
+<h2 class="head">YOUR "IN A RELATIONSHIP BY" TARGET VS. HOW LONG REAL COUPLES TOOK</h2>
+<p class="sub">In Stanford's couples study, people took a median <b><span class="rt">◊</span> months</b> from meeting to officially together. Online-met couples: <span class="rt">◊</span>. Ambitious. Not delusional. Probably.</p>
+<div class="viz"><div class="timeline"><div class="line"></div><div class="pt" style="left:4%"></div><div class="lab" style="left:4%;top:4px"><b>0</b>today</div><div class="pt" style="left:40.800000000000004%"></div><div class="lab" style="left:40.800000000000004%;top:92px"><b>6 MO</b>your target</div><div class="pt ghost" style="left:73.0%"></div><div class="lab" style="left:73.0%;top:4px"><b><span class="rt">◊</span></b>median: met → together</div></div></div>
+<div class="foot"><div class="src">HCMST 2017–22 (Rosenfeld et al.): month/year met (w1_q21a) vs relationship began (w1_q21b), weighted median. <span class="rt">◊</span> = computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div></div></section>
+<section class="couples" id="sec-couples"><div class="sheethead"><h1>I HEREBY <b>COMMIT</b> · 20 COUPLES INSIGHT CARDS</h1>
+<p>Example couple: "Jess & Sam", Brooklyn (11211), married. First date Mar 2019, moved in Jul 2020 (+16 mo), engaged Oct 2021, married Oct 2022. Ages 36 and 38.<br>All personal values are EXAMPLE DATA for a made-up person. Public benchmark numbers are real loaded or published values with the source on each card. <span class="rt">◊</span> = computed at render time from the named table (not shown in the mockup, never invented). Yellow "TIER C" badge = company-reported / app data, flagged for Amanda's decision. Mockup by grokbot, Sep 28, 2026 PT.</p></div>
+<div class="sheet"><div class="wrap" id="card-C01"><div class="cid"><b>C01</b> · Vintage 2019</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Your vintage</div>
+<div class="big">2019</div>
+<h2 class="head">THE YEAR YOU MET. ONLINE HAD BEEN #1 FOR ABOUT 6 YEARS.</h2>
+<p class="sub">Online passed "through friends" around <b>2013</b>. By 2017, <b>39%</b> of new straight couples met online. So: trend-followers, or friends-of-friends holdouts? Tap to tell us.</p>
+<div class="viz"><div style="width:100%"><svg viewBox="0 -6 340 181" width="100%"><line x1="20" y1="150" x2="330" y2="150" stroke="#333"/>
+<path d="M20.0,143.6 C147.6,130.8 205.6,92.4 228.79999999999998,66.8 S263.6,34.8 275.2,25.19999999999999" stroke="var(--accent)" stroke-width="3" fill="none"/><path d="M20.0,44.39999999999999 C136.0,47.599999999999994 194.0,57.19999999999999 228.79999999999998,66.8 S263.6,82.8 275.2,86.0" stroke="#f0ece0" stroke-width="2" fill="none" opacity=".7"/>
+<circle cx="228.79999999999998" cy="66.8" r="4" fill="#555"/><text x="228.79999999999998" y="84.8" fill="#888" font-size="8.5" text-anchor="middle" font-family="Space Mono">≈2013</text>
+<text x="20.0" y="138.6" fill="var(--accent)" font-size="10" font-family="Space Mono">2%</text><text x="20.0" y="38.39999999999999" fill="#f0ece0" font-size="10" font-family="Space Mono">33%</text>
+<text x="279.2" y="29.19999999999999" fill="var(--accent)" font-size="10" font-family="Space Mono">39%</text><text x="279.2" y="90.0" fill="#f0ece0" font-size="10" font-family="Space Mono">20%</text>
+<text x="20" y="166" fill="#666" font-size="8.5" font-family="Space Mono">1995</text><text x="275.2" y="166" fill="#666" font-size="8.5" text-anchor="middle" font-family="Space Mono">2017</text><line x1="298.4" y1="10" x2="298.4" y2="150" stroke="var(--text)" stroke-dasharray="3 3"/><text x="294.4" y="6" fill="var(--text)" font-size="9" text-anchor="end" font-family="Space Mono">you met: 2019</text></svg>
+<div class="legend"><span><em style="background:var(--accent)"></em>met online</span><span><em style="background:#f0ece0"></em>through friends</span><span>schematic</span></div></div></div>
+<div class="foot"><div class="src">Rosenfeld, Thomas &amp; Hausen 2019, PNAS (C23, C25); curves redrawn from HCMST 2017–22 at render time. Same-sex couples see C24 (65%).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C02"><div class="cid"><b>C02</b> · Lockdown Roommates</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The stress test</div>
+<div class="big">4<small>MO</small></div>
+<h2 class="head">INTO A PANDEMIC, YOU MOVED IN TOGETHER</h2>
+<p class="sub">Stanford's couples panel followed people through 2020: relationships that were <b>already excellent tended to get better</b>; weaker ones eroded. Couples who agreed on the rules did best. Hardest trial run available.</p>
+<div class="viz"><div class="timeline"><div class="line"></div><div class="pt" style="left:4%"></div><div class="lab" style="left:4%;top:4px"><b>MAR 19</b>first date</div><div class="pt ghost" style="left:29.76%"></div><div class="lab" style="left:29.76%;top:92px"><b>MAR 20</b>lockdowns</div><div class="pt" style="left:39.88%"></div><div class="lab" style="left:39.88%;top:4px"><b>JUL 20</b>moved in</div><div class="pt" style="left:96%"></div><div class="lab" style="left:96%;top:92px"><b>OCT 22</b>married</div></div></div>
+<div class="foot"><div class="src">HCMST 2017–20–22 panel via The Pudding, "A love story" (2026). Pandemic-wave items in research_hcmst_2017_2022.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C03"><div class="cid"><b>C03</b> · The 10-Year Dip</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Where you are on the curve</div>
+<div class="big">7.5<small>YRS</small></div>
+<h2 class="head">IN. THE AVERAGE SATISFACTION DIP BOTTOMS OUT AT YEAR 10.</h2>
+<p class="sub">A meta-analysis of <b>165,000+ people</b>: satisfaction dips around 10 years together (and age 40), then climbs for another decade. It never fell below <b>77%</b> of the max on average. Mark 2029. Then relax.</p>
+<div class="viz"><div style="width:100%"><svg viewBox="0 0 340 170" width="100%"><line x1="20" y1="140" x2="330" y2="140" stroke="#333"/>
+<path d="M20.0,30 C80.0,60 125.0,110 170.0,118 S260.0,70 320.0,55" stroke="var(--accent)" stroke-width="3" fill="none"/>
+<line x1="170.0" y1="118" x2="170.0" y2="140" stroke="#555" stroke-dasharray="3 3"/><text x="170.0" y="155" fill="#888" font-size="9" text-anchor="middle" font-family="Space Mono">yr 10 low</text>
+<circle cx="132.5" cy="103" r="7" fill="var(--text)" stroke="#0e0e0e" stroke-width="3"/><text x="126.5" y="92" fill="var(--text)" font-size="10" text-anchor="end" font-family="Space Mono">you · 7.5</text>
+<text x="20" y="155" fill="#666" font-size="9" font-family="Space Mono">0</text><text x="320.0" y="155" fill="#666" font-size="9" text-anchor="end" font-family="Space Mono">20 yrs</text>
+<text x="320.0" y="46" fill="#888" font-size="8.5" text-anchor="end" font-family="Space Mono">never below 77% of max</text></svg>
+<div class="legend">shape schematic · average across 165 samples</div></div></div>
+<div class="foot"><div class="src">Bühler et al. 2021 meta-analysis (165 samples), Univ. of Bern release. pairfam sat3 by duration once loaded. Curve shape schematic.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C04"><div class="cid"><b>C04</b> · The #1 Predictor</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">What actually predicts a happy relationship</div>
+<div class="big">#1</div>
+<h2 class="head">PREDICTOR: HOW COMMITTED YOU THINK YOUR PARTNER IS</h2>
+<p class="sub">Machine learning on <b>43 studies, 11,196 couples</b>. Your own view of the relationship explained up to 45% of satisfaction; personality added nothing beyond it. Challenge: rate each other's commitment 1–10. Privately. Then reveal.</p>
+<div class="viz"><div class="scale">you rate their commitment<div class="row"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i></div>they rate yours<div class="row"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i></div><span style="color:var(--accent)">hidden until you both lock in · then flip</span></div></div>
+<div class="foot"><div class="src">Joel et al. 2020, PNAS: 43 longitudinal datasets, 11,196 couples. Ratings are private product answers.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C05"><div class="cid"><b>C05</b> · Look, a Bird</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Bids for connection</div>
+<div class="big">86<small>%</small></div>
+<h2 class="head">HOW OFTEN LASTING COUPLES TURNED TOWARD EACH OTHER'S BIDS</h2>
+<p class="sub">Couples who later split: <b>33%</b>. A "bid" is any small reach for attention, like "look, a bird." Tonight: notice three. Not a test. A habit.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">stayed together</span><div class="track"><div class="fill" style="width:86%"></div></div><span class="val">86%</span></div><div class="row"><span class="lbl">later split</span><div class="track"><div class="fill alt" style="width:33%"></div></div><span class="val">33%</span></div></div></div>
+<div class="foot"><div class="src">Gottman newlywed study, six-year follow-up (Gottman Institute). #birdtest TikTok trend, 2023.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C06"><div class="cid"><b>C06</b> · Rome, Fact-Checked</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The Roman Empire question</div>
+<div class="big">4<small>%</small></div>
+<h2 class="head">OF U.S. MEN THINK ABOUT THE ROMAN EMPIRE DAILY</h2>
+<p class="sub">1% of women. And <b>53% of women</b> never do, vs 30% of men. So ask him. On camera. For science.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">men, daily</span><div class="track"><div class="fill" style="width:4%"></div></div><span class="val">4%</span></div><div class="row"><span class="lbl">women, daily</span><div class="track"><div class="fill alt" style="width:1%"></div></div><span class="val">1%</span></div><div class="row"><span class="lbl">men, never</span><div class="track"><div class="fill alt" style="width:30%"></div></div><span class="val">30%</span></div><div class="row"><span class="lbl">women, never</span><div class="track"><div class="fill alt" style="width:53%"></div></div><span class="val">53%</span></div></div></div>
+<div class="foot"><div class="src">YouGov poll (independent pollster). #RomanEmpire: 893M+ views (TIME).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C07"><div class="cid"><b>C07</b> · The Laundry Audit</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Who does what at home</div>
+<div class="big">71<small>%</small></div>
+<h2 class="head">OF COUPLES: SHE DOES THE LAUNDRY</h2>
+<p class="sub">Cleaning <b>66%</b>. Cooking 58%. Repairs: he does them in about 80%. Most people say they want an even split. Point at who does yours. Go.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">laundry (her)</span><div class="track"><div class="fill" style="width:71%"></div></div><span class="val">71%</span></div><div class="row"><span class="lbl">cleaning (her)</span><div class="track"><div class="fill alt" style="width:66%"></div></div><span class="val">66%</span></div><div class="row"><span class="lbl">cooking (her)</span><div class="track"><div class="fill alt" style="width:58%"></div></div><span class="val">58%</span></div><div class="row"><span class="lbl">repairs (him)</span><div class="track"><div class="fill alt" style="width:80%"></div></div><span class="val">80%</span></div></div></div>
+<div class="foot"><div class="src">FReDA German Family Demography Panel, 2023 wave (BiB policy brief, 2025).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C08"><div class="cid"><b>C08</b> · Speedrun to I Do</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">First date to wedding</div>
+<div class="big">3.6<small>YRS</small></div>
+<h2 class="head">FROM FIRST DATE TO WEDDING</h2>
+<p class="sub">Among straight couples who met on dating sites, half of those still together married within <b>3–4 years</b>. Offline-met couples: <b>more than 10</b>. You're on the online-dater schedule either way.</p>
+<div class="viz"><div class="timeline"><div class="line"></div><div class="pt" style="left:4%"></div><div class="lab" style="left:4%;top:4px"><b>0</b>first date</div><div class="pt" style="left:31.599999999999998%"></div><div class="lab" style="left:31.599999999999998%;top:92px"><b>3.6Y</b>you</div><div class="pt ghost" style="left:31.599999999999998%"></div><div class="lab" style="left:31.599999999999998%;top:4px"><b>3–4Y</b>online couples</div><div class="pt ghost" style="left:86.8%"></div><div class="lab" style="left:86.8%;top:92px"><b>10Y+</b>offline couples</div></div></div>
+<div class="foot"><div class="src">Rosenfeld 2017, "Couplehood and the Internet" (HCMST 2009 panel).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C09"><div class="cid"><b>C09</b> · Keys Before Ring</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The test drive</div>
+<div class="big">15<small>MO</small></div>
+<h2 class="head">BETWEEN MOVING IN AND GETTING ENGAGED</h2>
+<p class="sub">Shared keys <b>15 months</b> before the ring. In Stanford's couples data, <span class="rt">◊</span>% of married couples lived together first. Test-drive, then commit: statistically mainstream.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">lived together first, HCMST 2017</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div><div class="row"><span class="lbl">lived together first, HCMST 2009</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div><div class="row"><span class="lbl">you two</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">✓</span></div></div></div>
+<div class="foot"><div class="src">HCMST 2009 and 2017–22: cohabitation vs marriage dates (w1_q21c, w1_q21d). <span class="rt">◊</span> = computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C10"><div class="cid"><b>C10</b> · Whose Memory Wins?</div>
+<div class="card"><div class="inner">
+<span class="tier">YOUR ANSWERS</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The first-date showdown</div>
+<div class="big">7<small>DAYS</small></div>
+<h2 class="head">APART: YOU TWO DISAGREE ON YOUR FIRST DATE</h2>
+<p class="sub">You each entered it separately. One of you is thinking of a different night. <span class="rt">◊</span>% of linked couples on the waitlist agree to the day. Comments decide who's right.</p>
+<div class="viz"><div class="cal"><div>PARTNER A SAYS<b>MAR 16</b></div><em>≠</em><div>PARTNER B SAYS<b>MAR 23</b></div></div></div>
+<div class="foot"><div class="src">Your two waitlist answers (first_date, entered separately). Waitlist agreement rate shows at 20+ linked couples (today: 5).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C11"><div class="cid"><b>C11</b> · Your Couple Type</div>
+<div class="card"><div class="inner">
+<span class="tier">YOUR ANSWERS</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Your couple type</div>
+<div class="big txt">STEADY BUILDERS</div>
+<h2 class="head"><SPAN CLASS="RT">◊</SPAN>% OF COUPLES ON THE WAITLIST SHARE YOUR PACE</h2>
+<p class="sub">Moved in at <b>16 months</b>, ring at 2.6 years, wedding at 3.6. Not U-Haul, not a decade-long engagement. Measured. Deliberate. Slightly spreadsheet.</p>
+<div class="viz"><div class="types"><span class="">Speedrunners</span><span class="">U-Haulers</span><span class="on">Steady Builders</span><span class="">Traditionalists</span><span class="">Slow Burners</span><span class="">Separate-Keys Club</span></div></div>
+<div class="foot"><div class="src">Your waitlist milestone dates. Share of the waitlist shows once 20+ couples have answered (today: 5).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C12"><div class="cid"><b>C12</b> · 2,753 Days</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The day counter</div>
+<div class="big">2,753<small>DAYS</small></div>
+<h2 class="head">SINCE YOUR FIRST DATE. 3,000 LANDS IN JUNE 2027.</h2>
+<p class="sub">That's longer than <span class="rt">◊</span>% of current relationships in Stanford's couples survey. We did the math so nobody forgets the cake.</p>
+<div class="viz"><div class="timeline"><div class="line"></div><div class="pt" style="left:4%"></div><div class="lab" style="left:4%;top:4px"><b>DAY 0</b>first date</div><div class="pt" style="left:88.64%"></div><div class="lab" style="left:88.64%;top:92px"><b>2,753</b>today</div><div class="pt ghost" style="left:96%"></div><div class="lab" style="left:96%;top:4px"><b>3,000</b>jun 2027</div></div></div>
+<div class="foot"><div class="src">HCMST 2017–22 relationship duration at survey (w1_q21b → interview date), weighted percentile. <span class="rt">◊</span> = computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C13"><div class="cid"><b>C13</b> · Age Gap, Graded</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The age gap</div>
+<div class="big">1.8<small>YRS</small></div>
+<h2 class="head">APART. CLOSER IN AGE THAN <SPAN CLASS="RT">◊</SPAN>% OF U.S. COUPLES.</h2>
+<p class="sub">New York's median man first marries <b>1.4 years</b> older than its median woman (31.8 vs 30.4). You overshot by about 5 months. Statistically unremarkable, which is a compliment.</p>
+<div class="viz"><div class="numline"><div class="ln"></div><div class="tk" style="left:2.0%">0 yrs</div><div class="tk" style="left:49.5%">5 yrs</div><div class="tk" style="left:97.0%">10+ yrs</div><div class="pt ghost" style="left:15.299999999999999%"></div><div class="lb" style="left:15.299999999999999%;top:66px;transform:translateX(-50%);">NY median gap · 1.4</div><div class="pt" style="left:19.1%"></div><div class="lb" style="left:19.1%;top:14px;transform:translateX(4px);color:var(--text);font-weight:700">you · 1.8</div><div class="lb" style="left:50%;top:84px;color:var(--accent)">your percentile ◊ from HCMST at render</div></div></div>
+<div class="foot"><div class="src">HCMST (harmonized couples view, age_gap_abs, weighted). ACS 5-yr 2020–24 B12007, NY medians 31.8 / 30.4. <span class="rt">◊</span> = render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C14"><div class="cid"><b>C14</b> · Spring Fling</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Your first-date month</div>
+<div class="big mid">MARCH</div>
+<h2 class="head"><SPAN CLASS="RT">◊</SPAN>% OF U.S. COUPLES STARTED DATING IN MARCH</h2>
+<p class="sub">Stanford's couples survey records the month each relationship began. Most popular month: <span class="rt">◊</span>. Least: <span class="rt">◊</span>. So you're either basic or ahead of the curve.</p>
+<div class="viz"><div style="width:100%"><div class="months"><div class=""><i></i>J</div><div class=""><i></i>F</div><div class="on"><i></i>M</div><div class=""><i></i>A</div><div class=""><i></i>M</div><div class=""><i></i>J</div><div class=""><i></i>J</div><div class=""><i></i>A</div><div class=""><i></i>S</div><div class=""><i></i>O</div><div class=""><i></i>N</div><div class=""><i></i>D</div></div><div class="legend">bar heights computed at render time (HCMST)</div></div></div>
+<div class="foot"><div class="src">HCMST 2017–22 relationship start month (w1_q21b), weighted. Bar heights computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C15"><div class="cid"><b>C15</b> · Phone Check</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Tag your partner</div>
+<div class="big"><span style="opacity:.8">◊</span><small>%</small></div>
+<h2 class="head">OF PARTNERED AMERICANS SAY THEIR PARTNER GETS DISTRACTED BY THEIR PHONE</h2>
+<p class="sub">Among couples your age: <span class="rt">◊</span>%. Put this card down and look up. Ironically.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">all partnered adults</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div><div class="row"><span class="lbl">your age band</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val"><span class="rt">◊</span></span></div></div></div>
+<div class="foot"><div class="src">Pew ATP W56 (Oct 2019): partnerdistract, weighted. <span class="rt">◊</span> = computed at render time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C16"><div class="cid"><b>C16</b> · Double-Date Dare</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Tag another couple</div>
+<div class="big">36<small>QS</small></div>
+<h2 class="head">45 MINUTES. BUILT FOR STRANGERS. TRY IT WITH ANOTHER COUPLE.</h2>
+<p class="sub">The 36 questions made strangers feel <b>as close as their closest relationships</b>. You two have a 7.5-year head start. Tag a couple, take turns, skip anything heavy.</p>
+<div class="viz"><div class="chips" style="justify-content:center"><span>Set I · easy</span><span>Set II · deeper</span><span>Set III · deepest</span><span>Skip anytime</span></div></div>
+<div class="foot"><div class="src">Aron et al. 1997, via Greater Good Science Center.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C17"><div class="cid"><b>C17</b> · Balanced Diet</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Love languages, fact-checked</div>
+<div class="big">0/10</div>
+<h2 class="head">STUDIES BACKED THE "ONE LOVE LANGUAGE" IDEA</h2>
+<p class="sub">A 2024 review found <b>none of 10 studies</b> supported the claims. People value all five, and matching doesn't predict success. Think balanced diet, not blood type. Rank all five together anyway.</p>
+<div class="viz"><div class="chips" style="justify-content:center"><span>Words</span><span>Time</span><span>Gifts</span><span>Acts of service</span><span>Touch</span></div></div>
+<div class="foot"><div class="src">Impett, Park &amp; Muise 2024 review, via University of Toronto.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C18"><div class="cid"><b>C18</b> · The Excellence Rate</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Rate it. privately.</div>
+<div class="big mid">59→50<small>%</small></div>
+<h2 class="head">RATED THEIR RELATIONSHIP IN THE TOP CATEGORY, 2017 → 2022</h2>
+<p class="sub">Same Stanford panel: <b>59.0%</b> in 2017, 53.3% in 2020, 50.1% in 2022. Rate yours 1–5, separately. Reveal together. Or don't.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">2017</span><div class="track"><div class="fill alt" style="width:59.0%"></div></div><span class="val">59.0%</span></div><div class="row"><span class="lbl">2020</span><div class="track"><div class="fill alt" style="width:53.3%"></div></div><span class="val">53.3%</span></div><div class="row"><span class="lbl">2022</span><div class="track"><div class="fill alt" style="width:50.1%"></div></div><span class="val">50.1%</span></div><div class="row"><span class="lbl">you two</span><div class="track" style="border:1px dashed #444;background:transparent"></div><span class="val">?</span></div></div></div>
+<div class="foot"><div class="src">HCMST 2017–22 panel, top relationship-quality category by wave (harmonized couples view, weighted).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C19"><div class="cid"><b>C19</b> · Who Said It First?</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER B</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">The three words</div>
+<div class="big">1</div>
+<h2 class="head">TEEN RELATIONSHIP "FIRST" LINKED TO LATER MARRIAGE: SAYING "I LOVE YOU"</h2>
+<p class="sub">A long-running U.S. study followed teens into adulthood. Of all the relationship "firsts," <b>only saying "I love you"</b> was linked to marrying later. So: who said it first? Answer separately.</p>
+<div class="viz"><div class="quick"><button>I did</button><button>They did</button><button>Same moment</button><button>We disagree 😅</button></div></div>
+<div class="foot"><div class="src">Add Health (U.S. adolescents followed into adulthood), PMC2835313. "Who said it first" is a product answer.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-C20"><div class="cid"><b>C20</b> · Couple vs. Couple</div>
+<div class="card"><div class="inner">
+<span class="tier">YOUR ANSWERS</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Challenge another couple</div>
+<div class="big">VS</div>
+<h2 class="head">SEND THIS TO ONE COUPLE. SEE WHOSE NUMBERS WIN.</h2>
+<p class="sub">When they join, you both see a side-by-side: vintage, days together, couple type. Only the stats you both agree to share. Losers plan the double date.</p>
+<div class="viz"><table class="tbl"><tr><td></td><td>YOU TWO</td><td>THEM</td></tr><tr><td>vintage</td><td>2019</td><td>?</td></tr><tr><td>days</td><td>2,753</td><td>?</td></tr><tr><td>type</td><td>Steady Builders</td><td>?</td></tr></table></div>
+<div class="foot"><div class="src">Your waitlist answers + theirs, shown only with both couples' consent. Not a cohort stat.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div></div></section>
+</body></html>
