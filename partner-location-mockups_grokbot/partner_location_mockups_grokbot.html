@@ -75,7 +75,7 @@ input[type=range].ri::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 .sw .t{width:40px;height:22px;border-radius:11px;background:#2a2a2a;border:1px solid #444;position:relative;flex-shrink:0;transition:.15s}
 .sw .t::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:.15s}
 .sw.on .t{background:var(--accent);border-color:var(--accent)}.sw.on .t::after{left:20px;background:var(--bg)}
-.chk{display:flex;align-items:center;gap:10px;min-height:40px;font-size:13px;cursor:pointer;margin-top:4px}
+.chk{display:flex;align-items:center;gap:10px;min-height:36px;font-size:13px;cursor:pointer;margin-top:2px}
 .chk input{width:20px;height:20px;accent-color:var(--accent)}
 .done-btn{width:100%;margin-top:10px;background:transparent;border:1px solid var(--accent);border-radius:var(--radius);color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.1em;padding:10px;cursor:pointer}
 .note{font-size:9px;color:#666;line-height:1.4;margin-top:6px}
@@ -106,7 +106,7 @@ input[type=range].ri::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 .preset.sel{border-color:var(--accent)}.preset.sel .ic{border-color:var(--accent)}.preset.sel .ic::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--accent)}
 .preset .pt{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.05em;line-height:1.1}
 .preset .ps{font-size:10px;color:var(--muted);line-height:1.3}
-.pbody{border-left:2px solid var(--accent);padding:2px 0 4px 12px;margin:0 0 8px 8px}
+.pbody{border-left:2px solid var(--accent);padding:0 0 2px 12px;margin:0 0 6px 8px}
 .stops{display:flex;gap:4px}.stops .toggle-btn{font-size:14px;padding:7px 2px}
 .clamp1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--body)}
 /* Overview page */
@@ -124,25 +124,28 @@ input[type=range].ri::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 <div id="root"></div>
 <script>
 const HOME={city:'Austin',label:'Austin, TX',zip:'78704',lat:30.25,lng:-97.76};
-const MPH=45; // MOCK: drive minutes -> straight-line miles at ~45 mph average door to door. No real routing.
+// Radius is a miles slider (0-300) around home.
 const FULL_CITIES=['Denver, CO','New York, NY','Chicago, IL','Los Angeles, CA','San Francisco, CA','Seattle, WA','Nashville, TN','Miami, FL','Boston, MA'];
 const Q=new URLSearchParams(location.search);
 const V=(Q.get('variant')||'').toLowerCase();
 const START=Q.get('state')||'empty';
 let CITIES=[];
-const S={mode:'drive',miles:50,minutes:60,cities:[],relocate:false,collapsed:false,expanded:false,sheet:false,preset:null,adding:false,q:''};
+const S={miles:50,cities:[],relocate:false,collapsed:false,expanded:false,sheet:false,preset:null,adding:false,q:''};
 function hav(a,b){const R=3958.8,t=x=>x*Math.PI/180;const dl=t(b.lat-a.lat),dg=t(b.lng-a.lng);const h=Math.sin(dl/2)**2+Math.cos(t(a.lat))*Math.cos(t(b.lat))*Math.sin(dg/2)**2;return Math.round(2*R*Math.asin(Math.sqrt(h)));}
-function radiusMiles(){return S.mode==='drive'?Math.round(S.minutes/60*MPH):S.miles;}
-function fmtDrive(m){if(m<60)return m+' min';const h=m/60;return (Number.isInteger(h)?h:h.toFixed(1))+(h===1?' hr':' hrs');}
-function radiusText(short){if(S.mode==='drive'){return S.minutes?(short?'+'+fmtDrive(S.minutes):'within '+fmtDrive(S.minutes)+' drive'):(short?'only':'city only');}return S.miles?(short?'+'+S.miles+' mi':'within '+S.miles+' mi'):(short?'only':'city only');}
+function radiusMiles(){return S.miles;}
+function milesLabel(){return S.miles?'Within '+S.miles+' mi':'Just my city';}
+function milesSlider(sm){const m=S.miles;return `<div class="big-val mv" style="margin-top:${sm?2:6}px${sm?';font-size:20px':''}">${milesLabel()}</div><div class="range-wrap"><div class="range-track"></div><div class="range-fill mf" style="width:${m/300*100}%"></div><input class="ri" type="range" min="0" max="300" step="10" value="${m}" aria-label="Miles from home" oninput="setMiles(this)" onclick="event.stopPropagation()"></div>${sm?'':'<div class="ticks"><span>CITY ONLY</span><span>100</span><span>200</span><span>300 MI</span></div>'}`;}
+/* Update the slider readout in place (no full re-render, so dragging stays smooth) */
+function setMiles(el){S.miles=+el.value;document.querySelectorAll('.mv').forEach(e=>e.textContent=milesLabel());document.querySelectorAll('.mf').forEach(e=>e.style.width=(S.miles/300*100)+'%');document.querySelectorAll('.lv-home').forEach(e=>e.textContent=HOME.label+' · '+radiusText(false));renderSugs();}
+function radiusText(short){return S.miles?(short?'+'+S.miles+' mi':'within '+S.miles+' mi'):(short?'only':'city only');}
 function summary(){const p=[HOME.city+' '+radiusText(true)];if(S.cities.length)p.push(S.cities.length+' other '+(S.cities.length===1?'city':'cities'));if(S.relocate)p.push('open to relocating');return p.join(' · ');}
 function short(c){return c.typed?c.label:c.city==='New York'?'NYC':c.city==='Los Angeles'?'LA':c.city==='San Francisco'?'SF':c.city;}
 function esc(s){return String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
 function setState(name){S.collapsed=false;S.expanded=false;S.sheet=false;S.adding=false;S.q='';
-  if(name==='empty'){S.cities=[];S.relocate=false;S.preset=null;S.mode=V==='a'?'miles':'drive';S.miles=50;S.minutes=60;}
+  if(name==='empty'){S.cities=[];S.relocate=false;S.preset=null;S.miles=50;}
   else{S.cities=FULL_CITIES.map(l=>CITIES.find(c=>c.label===l)).filter(Boolean).map(c=>({...c,typed:false}));S.cities.push({label:'Marfa',city:'Marfa',lat:null,lng:null,typed:true});
-    S.relocate=true;S.mode='drive';S.minutes=120;S.miles=90;S.preset='plus';
-    if(V==='a'){S.mode='miles';S.miles=90;}
+    S.relocate=true;S.miles=120;S.preset='plus';
+
     if(name==='collapsed')S.collapsed=true; if(name==='sheet')S.sheet=true; if(name==='expanded')S.expanded=true;}
 }
 /* ---------- shared UI ---------- */
@@ -166,22 +169,22 @@ function fitChips(sel,lines){const box=document.querySelector(sel);if(!box)retur
   const top0=box.firstElementChild.offsetTop,lh=36;const over=()=>{const els=[...box.children].filter(e=>!e.classList.contains('hid'));return els.some(e=>e.offsetTop-top0>=lh*lines-2);};
   let hidden=0;while(over()&&hidden<chips.length){const vis=chips.filter(c=>!c.classList.contains('hid'));vis[vis.length-1].classList.add('hid');hidden++;more.textContent='+'+hidden+' more';more.classList.remove('hid');}}
 /* ---------- variant A: miles slider + wrapping chips (2 lines max) + relocate switch ---------- */
-function varA(){if(S.collapsed)return condRow(summary());const m=S.miles,pct=m/300*100;
+function varA(){if(S.collapsed)return condRow(summary());
  return `<div class="q q-active"><label class="field-label">Partner Location</label>${homeLine()}
- <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:6px"><span class="big-val">${m?'Within '+m+' mi':'Just my city'}</span><span class="sub">≈ ${fmtDrive(Math.round(m/MPH*60/15)*15||0)} drive*</span></div>
- <div class="range-wrap"><div class="range-track"></div><div class="range-fill" style="width:${pct}%"></div><input class="ri" type="range" min="0" max="300" step="10" value="${m}" oninput="S.miles=+this.value;render()"></div>
- <div class="ticks"><span>CITY ONLY</span><span>100</span><span>200</span><span>300 MI</span></div>
+
+
+ ${milesSlider()}
  <div class="sec-k"><span>Other cities ${S.cities.length?'<span class="badge-n">'+S.cities.length+'</span>':''}</span>${S.expanded?'<button class="lnk" onclick="S.expanded=false;render()">show less</button>':''}</div>
  <div class="chips" id="chipsA">${chipsHTML()}</div>${addBox()}
- ${relocateSwitch()}${doneBtn()}<div class="note">*Drive time is a mock estimate (${MPH} mph average, straight line). No real routing.</div></div>`;}
-/* ---------- variant B: miles / drive-time segmented stops + one-line chip strip + checkbox ---------- */
+ ${relocateSwitch()}${doneBtn()}</div>`;}
+/* ---------- variant B: miles slider + one-line chip strip + checkbox ---------- */
 function varB(){if(S.collapsed)return condRow(summary(),S.cities.length?'<span class="badge-n">'+S.cities.length+' cities</span>':'');
- const stops=S.mode==='drive'?[[0,'City'],[30,'30 m'],[60,'1 hr'],[120,'2 hr'],[180,'3 hr'],[240,'4 hr']]:[[0,'City'],[25,'25'],[50,'50'],[100,'100'],[200,'200'],[300,'300']];
- const cur=S.mode==='drive'?S.minutes:S.miles;
+
+
  return `<div class="q q-active"><label class="field-label">Partner Location</label>${homeLine()}
- <div class="row" style="margin-bottom:6px"><button class="toggle-btn ${S.mode==='miles'?'selected':''}" onclick="S.mode='miles';render()">MILES</button><button class="toggle-btn ${S.mode==='drive'?'selected':''}" onclick="S.mode='drive';render()">DRIVE TIME</button></div>
- <div class="stops">${stops.map(([v,l])=>`<button class="toggle-btn ${cur===v?'selected':''}" onclick="${S.mode==='drive'?'S.minutes':'S.miles'}=${v};render()">${l}</button>`).join('')}</div>
- <div class="sub" style="margin-top:4px">${S.mode==='drive'?(S.minutes?'≈ '+radiusMiles()+' mi around '+HOME.city+' (mock estimate)':'Only '+HOME.city):(S.miles?'Within '+S.miles+' mi of '+HOME.city:'Only '+HOME.city)}</div>
+ ${milesSlider()}
+
+
  <div class="sec-k"><span>Also these cities ${S.cities.length?'<span class="badge-n">'+S.cities.length+'</span>':''}</span>${S.expanded?'<button class="lnk" onclick="S.expanded=false;render()">collapse</button>':''}</div>
  <div class="chips" id="chipsB">${chipsHTML({addChip:false})}</div>${addBox('Add a city (type any town)')}
  <label class="chk"><input type="checkbox" ${S.relocate?'checked':''} onchange="S.relocate=this.checked;render()"> Anywhere - I'd relocate for love</label>
@@ -192,24 +195,24 @@ function varC(){const has=S.cities.length||S.relocate||S.preset;
  if(S.collapsed) main=condRow(summary());
  else if(!has) main=`<div class="q q-active"><label class="field-label">Partner Location</label>${homeLine()}<button class="cta" onclick="S.sheet=true;S.preset='set';render()">SET WHERE YOU'D DATE ›<small>Distance from home, other cities, relocating</small></button></div>`;
  else main=`<div class="q q-active"><label class="field-label">Partner Location</label><div class="card" onclick="S.sheet=true;render()">
-  <div class="ln"><span class="lk">Home</span><span class="lv">${HOME.label} · ${radiusText(false)}</span></div>
+  <div class="ln"><span class="lk">Home</span><span class="lv lv-home">${HOME.label} · ${radiusText(false)}</span></div>
   <div class="ln"><span class="lk">Cities <span class="badge-n">${S.cities.length}</span></span><span class="lv ${S.cities.length?'':'empty'}">${S.cities.length?S.cities.map(short).join(', '):'None added'}</span></div>
   <div class="ln"><span class="lk">Relocate</span><span class="lv ${S.relocate?'':'empty'}">${S.relocate?'Yes, for the right person':'No'}</span></div>
   <div class="foot">EDIT ›</div></div>${doneBtn()}</div>`;
- const pct=S.minutes/240*100;
+
  const sheet=`<div class="sheet-bg ${S.sheet?'open':''}" onclick="S.sheet=false;render()"></div><div class="sheet ${S.sheet?'open':''}"><div class="grab"></div><h3>WHERE YOU'D DATE</h3>
-  <div class="sec-k" style="margin-top:4px"><span>Around home · ${HOME.label}</span><span style="color:var(--text);letter-spacing:0">${S.minutes?fmtDrive(S.minutes)+' drive':'City only'}</span></div>
-  <div class="range-wrap"><div class="range-track"></div><div class="range-fill" style="width:${pct}%"></div><input class="ri" type="range" min="0" max="240" step="15" value="${S.minutes}" oninput="S.minutes=+this.value;S.mode='drive';render()"></div>
-  <div class="ticks"><span>CITY</span><span>1 HR</span><span>2 HR</span><span>3 HR</span><span>4 HR ≈ 180 MI*</span></div>
+  <div class="sec-k" style="margin-top:4px"><span>Around home · ${HOME.label}</span></div>
+  ${milesSlider()}
+
   <div class="sec-k"><span>Other cities <span class="badge-n">${S.cities.length}</span></span></div>
   <input id="addin" class="field-input" placeholder="Add a city or town" value="${esc(S.q)}" oninput="S.q=this.value;renderSugs()" onkeydown="if(event.key==='Enter'){pickTyped();}" autocomplete="off"><div id="sugs"></div>
   <div class="clist" style="margin-top:6px">${S.cities.map((c,i)=>`<div class="crow ${c.typed?'unm':''}"><span>${esc(c.label)}</span><span class="dist">${c.lat!=null?hav(HOME,c)+' mi':''}</span><button class="x" onclick="rm(${i})">×</button></div>`).join('')||'<div class="crow" style="color:#555">No cities yet</div>'}</div>
-  ${relocateSwitch()}<button class="btn btn-primary" style="padding:12px;font-size:18px;margin-top:4px" onclick="S.sheet=false;render()">SAVE</button><div class="note">*Drive time is a mock estimate (${MPH} mph average). No real routing.</div></div>`;
+  ${relocateSwitch()}<button class="btn btn-primary" style="padding:12px;font-size:18px;margin-top:8px" onclick="S.sheet=false;render()">SAVE</button></div>`;
  return main+sheet;}
 /* ---------- variant D: presets that expand ---------- */
 function varD(){if(S.collapsed){const p={area:'Just my area',plus:'My area + cities',any:'Anywhere'}[S.preset]||'';return condRow(summary(),' · '+p);}
- const P=[['area','JUST MY AREA','Within a drive of '+HOME.city],['plus','MY AREA + OTHER CITIES','Around home, plus places you pick'],['any','ANYWHERE','Open to relocating for love']];
- const stops=`<div class="stops">${[[30,'30 m'],[60,'1 hr'],[120,'2 hr'],[180,'3 hr'],[240,'4 hr']].map(([v,l])=>`<button class="toggle-btn ${S.minutes===v?'selected':''}" onclick="event.stopPropagation();S.minutes=${v};render()">${l}</button>`).join('')}</div><div class="sub" style="margin-top:3px">≈ ${radiusMiles()} mi around ${HOME.city} (mock estimate)</div>`;
+ const P=[['area','JUST MY AREA','Within a set distance of '+HOME.city],['plus','MY AREA + OTHER CITIES','Around home, plus places you pick'],['any','ANYWHERE','Open to relocating for love']];
+ const stops=milesSlider(true);
  const list=S.expanded||S.cities.length<=4?`<div class="chips" id="chipsD" style="margin-top:6px">${chipsHTML()}</div>`:`<div style="display:flex;align-items:center;gap:8px;margin-top:6px"><span class="clamp1" style="flex:1">${S.cities.map(short).join(', ')}</span><button class="chip more" onclick="S.expanded=true;render()">EDIT ${S.cities.length}</button></div>`;
  let body='';
  if(S.preset==='area') body=`<div class="pbody">${stops}</div>`;
@@ -237,25 +240,22 @@ function render(){
 }
 function renderOverview(){document.body.style.overflow='auto';const base=location.pathname,vv=Q.get('v')||1;
  const L=(v,s,t)=>`<a href="${base}?variant=${v}&state=${s}&v=${vv}">${t}</a>`;
- const rows=[['a','A · Radius slider + chips','Home radius as a 0–300 mi slider (with a mocked drive-time readout), small wrapping city chips capped at two lines with “+N more”, and a relocate switch.'],
- ['b','B · Miles / drive-time stops','A MILES | DRIVE TIME segmented control with six tap stops (city, 30 m … 4 hr or 25 … 300 mi), a one-line chip strip with “+N more”, an always-visible add box and the existing relocate checkbox.'],
- ['c','C · Summary card + editor sheet','The question shows one three-line card (home radius, cities with a count badge, relocate). Tapping it opens a bottom sheet with a drive-time slider, city search, a compact list with distances, and a relocate switch.'],
+ const rows=[['a','A · Radius slider + chips','Home radius as a 0–300 mi slider small wrapping city chips capped at two lines with “+N more”, and a relocate switch.'],
+ ['b','B · Miles slider + one-line strip','A 0–300 mi slider, a one-line city chip strip with “+N more”, an always-visible add box and the existing relocate checkbox.'],
+ ['c','C · Summary card + editor sheet','The question shows one three-line card (home radius, cities with a count badge, relocate). Tapping it opens a bottom sheet with a miles slider, city search, a compact list with distances, and a relocate switch.'],
  ['d','D · Presets that expand','Three choices: Just my area / My area + other cities / Anywhere. The chosen one expands to only the controls it needs; 10 cities fold into one comma line with an EDIT 10 button.']];
- document.getElementById('root').innerHTML=`<div class="ov"><h1>PARTNER LOCATION <span>MOCKUPS</span></h1><p>Sandbox only, example data. Singles styling copied from production index.html. Home = Austin, TX from zip 78704. Each link opens a 393-wide phone screen. The stress test is Amanda's example: 10 other cities (9 from the 454-city list plus “Marfa” typed and flagged unmapped) and within 2 hours of home, plus open to relocating.</p>
- ${rows.map(([v,t,d])=>`<h2>${t}</h2><p>${d}</p><div class="links">${L(v,'empty','Empty')}${L(v,'full','10 cities + 2 hrs')}${v==='c'?L(v,'sheet','Editor sheet'):''}${v!=='c'?L(v,'expanded','Expanded chips'):''}${L(v,'collapsed','Collapsed row')}</div>`).join('')}
- <h2>Drive time is mocked</h2><p>No routing here. Drive minutes convert to a straight-line radius at ${MPH} mph average (2 hrs ≈ 90 mi). A real build would store the minutes the person chose and compute reach later (for example with a drive-time isochrone service) or keep the simple conversion and label it as approximate.</p>
+ document.getElementById('root').innerHTML=`<div class="ov"><h1>PARTNER LOCATION <span>MOCKUPS</span></h1><p>Sandbox only, example data. Singles styling copied from production index.html. Home = Austin, TX from zip 78704. Each link opens a 393-wide phone screen. The stress test is Amanda's example: 10 other cities (9 from the 454-city list plus “Marfa” typed and flagged unmapped) and within 120 miles of home, plus open to relocating. v2: every variant uses one miles slider (0–300 mi) around home.</p>
+ ${rows.map(([v,t,d])=>`<h2>${t}</h2><p>${d}</p><div class="links">${L(v,'empty','Empty')}${L(v,'full','10 cities + 120 mi')}${v==='c'?L(v,'sheet','Editor sheet'):''}${v!=='c'?L(v,'expanded','Expanded chips'):''}${L(v,'collapsed','Collapsed row')}</div>`).join('')}
  <h2>Data each variant would save (proposal only; no database changes)</h2>
  <p>All new columns nullable, no constraints. Existing <code>partner_locations</code> (jsonb) and <code>open_to_anywhere</code> stay; list fields get readable companions in the readable views and responses_research.</p>
  <table><tr><th>Field</th><th>Type</th><th>Meaning</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>
- <tr><td><code>home_radius_mode</code></td><td>text</td><td>miles | drive | city_only</td><td>miles</td><td>✓</td><td>drive</td><td>drive</td></tr>
- <tr><td><code>home_radius_miles</code></td><td>integer</td><td>Chosen miles (A, B-miles) or the mocked conversion of drive minutes</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
- <tr><td><code>home_drive_minutes</code></td><td>integer</td><td>Chosen drive time (null in miles mode)</td><td>–</td><td>✓</td><td>✓</td><td>✓</td></tr>
+ <tr><td><code>home_radius_miles</code></td><td>integer</td><td>Miles from home, 0–300 (0 = just my city)</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
  <tr><td><code>home_center</code></td><td>(none new)</td><td>Reuse zip_generated_lat_long / zip_generated_city from step 1</td><td colspan="4">same for all</td></tr>
  <tr><td><code>partner_locations</code></td><td>jsonb (existing)</td><td>Other cities; mapped entries have lat/lng, typed towns saved as typed with matched=false</td><td colspan="4">same for all</td></tr>
  <tr><td><code>partner_locations_text</code>, <code>_count</code>, <code>_unmapped</code></td><td>readable (existing view columns)</td><td>“Denver, CO; New York, NY; …; Marfa”</td><td colspan="4">same for all</td></tr>
  <tr><td><code>open_to_relocate</code></td><td>boolean</td><td>“Open to relocating for love”. Keep writing open_to_anywhere = same value for back-compat.</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
  <tr><td><code>partner_location_preset</code></td><td>text</td><td>area | plus | any</td><td>–</td><td>–</td><td>–</td><td>✓</td></tr>
- <tr><td><code>partner_location_summary</code></td><td>text (readable companion)</td><td>“Austin +2 hrs · 10 other cities · open to relocating”</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr></table>
+ <tr><td><code>partner_location_summary</code></td><td>text (readable companion)</td><td>“Austin +120 mi · 10 other cities · open to relocating”</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr></table>
  <p style="margin-top:14px">Screens are built to fit 393×852 without scrolling in every state shown. At 320 wide nothing overflows sideways; chips re-flow and “+N more” recounts.</p></div>`;}
 fetch('cities_grokbot.json').then(r=>r.json()).then(d=>{CITIES=d;setState(START);render();}).catch(()=>{setState(START);render();});
 window.addEventListener('resize',()=>{if(V)render();});
