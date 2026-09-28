@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>I Hereby Commit · Match rate &amp; pickiness cards (mockups)_grokbot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0e0e;--text:#f0ece0;--body:#9a978c;--muted:#888;--dim:#333;--lime:#c8f135;--orange:#FF7A2F;--radius:4px;--accent:var(--lime)}
+body.couples{--accent:var(--orange)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace}
+body{min-height:100vh;display:flex;justify-content:center}
+.phone{width:393px;min-height:852px;position:relative;padding:10px 16px 18px;overflow:hidden}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--text)}
+.logo b{color:var(--accent);font-weight:400}
+.flowtoggle{display:flex;gap:4px}
+.flowtoggle button{font-family:'Space Mono',monospace;font-size:10px;padding:5px 8px;border:1px solid var(--dim);background:transparent;color:var(--muted);border-radius:var(--radius);cursor:pointer;text-transform:uppercase}
+.flowtoggle button.on{border-color:var(--accent);color:var(--bg);background:var(--accent)}
+.progress{display:flex;gap:3px;margin:6px 0 8px}
+.progress span{flex:1;height:3px;background:var(--dim);border-radius:2px}
+.progress span.done{background:var(--accent)}
+/* 9:16 story card */
+.card{width:361px;height:642px;position:relative;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid #222;cursor:pointer;user-select:none}
+.card .inner{position:absolute;inset:0;padding:26px 22px 20px;display:flex;flex-direction:column}
+.card.hero .inner{background:var(--accent);color:#0e0e0e}
+.kicker{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero .kicker{color:#0e0e0e;opacity:.75}
+.big{font-family:'Bebas Neue',sans-serif;font-size:112px;line-height:.85;color:var(--accent);letter-spacing:1px}
+.hero .big{color:#0e0e0e}
+.big small{font-size:40px}
+h2.head{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:38px;line-height:.95;letter-spacing:.5px;margin:10px 0 12px;color:var(--text)}
+.hero h2.head{color:#0e0e0e}
+.sub{font-size:12px;line-height:1.55;color:var(--body)}
+.sub b{color:var(--text);font-weight:700}
+.hero .sub{color:#1c1c1c}.hero .sub b{color:#0e0e0e}
+.viz{margin:16px 0 8px;flex:1;display:flex;align-items:center;justify-content:center}
+.foot{margin-top:auto;border-top:1px solid #262626;padding-top:8px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.hero .foot{border-top-color:rgba(0,0,0,.25)}
+.src{font-size:8.5px;line-height:1.35;color:var(--muted);max-width:245px}
+.hero .src{color:#222}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--text);white-space:nowrap}
+.hero .brand{color:#0e0e0e}
+.example{position:absolute;top:8px;right:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777;border:1px solid #333;padding:1px 5px;border-radius:3px;background:rgba(14,14,14,.6)}
+.hero .example{color:#0e0e0e;border-color:rgba(0,0,0,.35);background:transparent}
+.private{position:absolute;top:8px;left:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--bg);background:var(--muted);padding:1px 5px;border-radius:3px}
+/* dots viz */
+.dots{display:grid;grid-template-columns:repeat(14,1fr);gap:5px;width:100%}
+.dots i{display:block;width:100%;aspect-ratio:1;border-radius:50%;background:var(--dim)}
+.dots i.m{background:var(--accent)}
+.dots i.w{background:var(--text)}
+.dots i.x{background:transparent;border:1px solid #444}
+.legend{font-size:9px;color:var(--muted);margin-top:8px;display:flex;gap:12px}
+.legend em{font-style:normal;display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.bar{width:100%}
+.bar .row{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:10px;color:var(--body)}
+.bar .row .lbl{width:92px;text-align:right}
+.bar .track{flex:1;height:14px;background:#1b1b1b;border-radius:2px;position:relative}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:2px}
+.bar .fill.alt{background:#555}
+.bar .val{width:40px;font-weight:700;color:var(--text)}
+.timeline{width:100%;position:relative;height:150px}
+.timeline .line{position:absolute;left:0;right:0;top:70px;height:2px;background:#333}
+.timeline .pt{position:absolute;top:62px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+.timeline .pt.ghost{background:#555}
+.timeline .lab{position:absolute;width:90px;margin-left:-45px;text-align:center;font-size:9px;color:var(--body);line-height:1.3}
+.timeline .lab b{display:block;font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);font-weight:400}
+.sil{display:flex;align-items:flex-end;justify-content:center;gap:26px;height:230px;width:100%}
+.sil div{display:flex;flex-direction:column;align-items:center;font-size:10px;color:var(--body)}
+.sil svg{display:block}
+.map{width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{font-size:10px;border:1px solid var(--accent);color:var(--accent);padding:4px 8px;border-radius:14px}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.quick button{font-family:'Space Mono',monospace;font-size:11px;padding:10px 6px;border:1px solid #444;background:#151515;color:var(--text);border-radius:var(--radius)}
+.cta{display:block;width:100%;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;padding:12px;border:0;border-radius:var(--radius);background:var(--accent);color:#0e0e0e;margin-top:8px;cursor:pointer}
+.cta.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.hero .cta{background:#0e0e0e;color:var(--accent)}
+.lock{font-size:40px;text-align:center}
+/* share row */
+.share{display:flex;gap:6px;margin-top:10px}
+.share button{flex:1;font-family:'Space Mono',monospace;font-size:10px;padding:9px 4px;border:1px solid var(--dim);background:#151515;color:var(--text);border-radius:var(--radius);cursor:pointer}
+.share button.primary{background:var(--accent);color:#0e0e0e;border-color:var(--accent);font-weight:700}
+.share button:disabled{opacity:.35;cursor:not-allowed}
+.navhint{display:flex;justify-content:space-between;font-size:9px;color:#555;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--accent);color:#0e0e0e;font-size:11px;padding:8px 12px;border-radius:var(--radius);opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+.mocknote{font-size:8.5px;color:#555;margin-top:6px;line-height:1.4}
+
+body{display:block;padding:24px}
+.sheet{display:grid;grid-template-columns:repeat(5,361px);gap:22px;justify-content:start}
+.wrap{position:relative}
+.cid{font-size:10px;color:#666;margin:0 0 5px 2px;letter-spacing:1px}
+.cid b{color:var(--accent)}
+.sheethead{margin:0 0 18px;max-width:1900px}
+.sheethead h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;letter-spacing:1px}
+.sheethead h1 b{color:var(--accent);font-weight:400}
+.sheethead p{font-size:11px;color:#8a877c;line-height:1.5;max-width:1500px}
+section{margin-bottom:48px}
+section.couples{--accent:var(--orange)}
+.tier{position:absolute;top:8px;left:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:1px 5px;border-radius:3px;border:1px solid #333;color:#777}
+.tier.c{background:#FFD23F;color:#0e0e0e;border-color:#FFD23F;font-weight:700}
+.rt{color:var(--accent);border-bottom:1px dashed var(--accent)}
+.big.txt{font-size:62px;line-height:.9}
+.big.mid{font-size:92px}
+.big .rtbig{border:2px dashed var(--accent);padding:0 10px;border-radius:6px}
+.steps{width:100%}
+.steps .st{display:flex;justify-content:space-between;align-items:center;border-left:3px solid var(--accent);padding:7px 10px;margin:6px 0;background:#151515;font-size:10px;color:var(--body)}
+.steps .st:nth-child(2){margin-left:14px}.steps .st:nth-child(3){margin-left:28px}.steps .st:nth-child(4){margin-left:42px}
+.steps .st b{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);font-weight:400}
+.vs{display:flex;gap:10px;width:100%}
+.vs div{flex:1;border:1px solid #2a2a2a;border-radius:6px;padding:12px 8px;text-align:center;font-size:10px;color:var(--body)}
+.vs div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:54px;color:var(--text);font-weight:400;line-height:1}
+.vs div:first-child b{color:var(--accent)}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.types span{font-size:9.5px;border:1px solid #333;color:#777;padding:7px 6px;border-radius:4px;text-align:center}
+.types span.on{border-color:var(--accent);background:var(--accent);color:#0e0e0e;font-weight:700}
+.scale{width:100%;font-size:9px;color:var(--body)}
+.scale .row{display:flex;gap:3px;margin:4px 0 12px}
+.scale .row i{flex:1;height:26px;border:1px solid #333;border-radius:3px;font-style:normal;display:flex;align-items:center;justify-content:center;color:#555;font-size:10px}
+.scale .row i.q{border-color:var(--accent);color:var(--accent)}
+.cal{display:flex;gap:10px;width:100%;align-items:center}
+.cal div{flex:1;border:1px solid #333;border-radius:6px;text-align:center;padding:10px 4px;font-size:8.5px;color:var(--body);letter-spacing:1px}
+.cal div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--text);font-weight:400;letter-spacing:0;margin-top:4px}
+.cal em{font-style:normal;font-family:'Bebas Neue',sans-serif;color:var(--accent);font-size:26px}
+.months{display:flex;align-items:flex-end;gap:4px;height:110px;width:100%}
+.months div{flex:1;display:flex;flex-direction:column;align-items:center;font-size:8px;color:#666;gap:4px}
+.months div i{display:block;width:100%;height:70px;border:1px dashed #444;border-radius:2px}
+.months div.on i{background:var(--accent);border:0}
+.months div.on{color:var(--accent)}
+.tbl{width:100%;border-collapse:collapse;font-size:10px}
+.tbl td{border-bottom:1px solid #262626;padding:8px 4px;color:var(--body)}
+.tbl tr:first-child td{font-size:9px;letter-spacing:1px;color:#777}
+.tbl td:nth-child(2){color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:19px}
+.tbl td:nth-child(3){color:#555;font-family:'Bebas Neue',sans-serif;font-size:19px}
+.rulerv{position:relative;width:100%;height:170px}
+.rulerv .ax{position:absolute;left:46%;top:6px;bottom:6px;width:2px;background:#333}
+.rulerv .mk{position:absolute;left:0;right:0;height:0;font-size:9.5px;color:var(--body)}
+.rulerv .mk span{position:absolute;right:56%;transform:translateY(-50%);white-space:nowrap}
+.rulerv .mk i{position:absolute;left:calc(46% - 8px);width:18px;height:2px;background:#666;transform:translateY(-1px)}
+.rulerv .mk.on i{background:var(--accent);height:4px}
+.rulerv .mk.on span{color:var(--text);font-weight:700}
+.rulerv .mk.rtm span{left:52%;right:auto;color:var(--accent)}
+.numline{position:relative;width:100%;height:104px}
+.numline .ln{position:absolute;left:0;right:0;top:44px;height:2px;background:#333}
+.numline .tk{position:absolute;top:52px;font-size:8.5px;color:#666;transform:translateX(-50%)}
+.numline .pt{position:absolute;top:36px;width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);transform:translateX(-50%)}
+.numline .pt.ghost{background:#666}
+.numline .lb{position:absolute;font-size:9px;color:var(--body);transform:translateX(-50%);white-space:nowrap}
+ section{margin-bottom:36px} .tbl td{padding:3px 5px}</style></head><body>
+<div id="all"><section class="singles" id="sec-singles"><div class="sheethead"><h1>I HEREBY <b>COMMIT</b> · MATCH RATE &amp; PICKINESS · 5 NEW CARDS</h1><p>Match rate &amp; pickiness cards. Match rate reflects how picky you are as much as how others respond, so it is not a desirability score. Benchmarks computed read-only from Supabase (Columbia speed dating, Northwestern speed dating, NHANES 2021–23). S29 personal values are EXAMPLE DATA ("Maya", seeking men 32–40, 5′10″–6′4″). Cohort rows need n ≥ 20; no individual ranks, no race. Mockup by grokbot, Sep 28, 2026 PT.</p></div>
+<div class="sheet"><div class="wrap" id="card-S28"><div class="cid"><b>S28</b> · Picky vs. Open</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Match rate is a two-way number</div>
+<div class="big">6<small style="color:#555"> / </small>25<small>%</small></div>
+<h2 class="head">MATCH RATE: THE PICKIEST QUARTER VS. THE MOST OPEN QUARTER</h2>
+<p class="sub">The pickiest quarter of speed daters got the <b>most</b> yeses (51%) but matched on just <b>6%</b> of dates. The most open quarter got fewer yeses (33%) and matched on <b>25%</b>. Your match rate is your pickiness as much as theirs.</p>
+<div class="viz"><table class="tbl"><tr><td>quarter</td><td>said yes</td><td>got a yes</td><td>matched</td></tr><tr><td>pickiest</td><td>12%</td><td>51%</td><td>6%</td></tr><tr><td>2nd</td><td>33%</td><td>46%</td><td>16%</td></tr><tr><td>3rd</td><td>49%</td><td>40%</td><td>21%</td></tr><tr><td>most open</td><td>78%</td><td>33%</td><td>25%</td></tr></table></div>
+<div class="foot"><div class="src">Columbia speed dating (Fisman &amp; Iyengar 2002–04), reanalyzed: 551 people, 8,378 ratings of 4,194 dates. Quarters of about 138 people. Northwestern replication: 349 people.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S29"><div class="cid"><b>S29</b> · Your Pickiness Percentile</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Your filters, as a yes-rate</div>
+<div class="big">42<small>%</small></div>
+<h2 class="head">OF MEN IN THEIR 30S FIT YOUR 5′10″–6′4″ FILTER: YOUR FILTER'S YES-RATE</h2>
+<p class="sub">Speed daters said yes to a median <b>40%</b> of the people they met. Your height filter says yes to <b>42%</b> of men your age. That's more open than <b>52%</b> of speed daters. Picky? Right in the middle.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">10th pct speed dater</span><div class="track"><div class="fill alt" style="width:10%"></div></div><span class="val">10%</span></div><div class="row"><span class="lbl">median speed dater</span><div class="track"><div class="fill alt" style="width:40%"></div></div><span class="val">40%</span></div><div class="row"><span class="lbl">your filter</span><div class="track"><div class="fill" style="width:41.7%"></div></div><span class="val">42%</span></div><div class="row"><span class="lbl">90th pct speed dater</span><div class="track"><div class="fill alt" style="width:80%"></div></div><span class="val">80%</span></div></div></div>
+<div class="foot"><div class="src">NHANES 2021–23 heights (men 30–39); Columbia speed dating (Fisman &amp; Iyengar 2002–04), reanalyzed: 551 people, 8,378 ratings of 4,194 dates. Waitlist comparison unlocks at 20+ singles.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S30"><div class="cid"><b>S30</b> · The Match Funnel</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Swipestats-style, but real dates</div>
+<div class="big">39<small>%</small></div>
+<h2 class="head">OF SPEED DATERS' YESES TURNED INTO A MATCH (MATCH YIELD)</h2>
+<p class="sub">The average speed dater met <b>15</b> people, said yes to <b>6.4</b>, matched with <b>2.5</b>, and later reached out on <b>28%</b> of matches. <b>18%</b> went home with zero. Steep, for everyone.</p>
+<div class="viz"><div class="steps"><div class="st"><span>met</span><b>15.2</b></div><div class="st"><span>said yes</span><b>6.4</b></div><div class="st"><span>matched</span><b>2.5</b></div><div class="st"><span>reached out</span><b>0.7</b></div></div></div>
+<div class="foot"><div class="src">Columbia speed dating (Fisman &amp; Iyengar 2002–04), reanalyzed: 551 people, 8,378 ratings of 4,194 dates. Follow-up: 263 people who answered.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S31"><div class="cid"><b>S31</b> · Match Rate Leaderboard</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">SwipeRank-style, cohorts only</div>
+<div class="big">20.5<small>%</small></div>
+<h2 class="head">MATCH RATE FOR LAW STUDENTS: NO. 1 OF 9 FIELDS</h2>
+<p class="sub">Law matched on <b>20.5%</b> of dates, social work on <b>10.7%</b> (478 people). Partly pickiness: social work said yes least. City boards unlock at 20+.</p>
+<div class="viz"><table class="tbl"><tr><td>#</td><td>field (n)</td><td>match</td><td>said yes</td></tr><tr><td>1</td><td>Law (48)</td><td>20.5%</td><td>48%</td></tr><tr><td>2</td><td>Social science (46)</td><td>18.4%</td><td>47%</td></tr><tr><td>3</td><td>Business / econ (130)</td><td>17.6%</td><td>42%</td></tr><tr><td>8</td><td>Engineering (56)</td><td>13.5%</td><td>48%</td></tr><tr><td>9</td><td>Social work (30)</td><td>10.7%</td><td>34%</td></tr></table></div>
+<div class="foot"><div class="src">Columbia speed dating (Fisman &amp; Iyengar 2002–04), reanalyzed: 551 people, 8,378 ratings of 4,194 dates. Fields with 20+ people only (478 people).</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div><div class="wrap" id="card-S32"><div class="cid"><b>S32</b> · More Options, Pickier</div>
+<div class="card"><div class="inner">
+<span class="tier">TIER A</span><span class="example">Example data</span>
+<div class="kicker" style="margin-top:8px">Choice changes the yes</div>
+<div class="big">18<small style="color:#555"> / </small>9<small>DATES</small></div>
+<h2 class="head">BIG NIGHTS VS. SMALL NIGHTS: MORE CHOICE CAME WITH FEWER YESES</h2>
+<p class="sub">On nights with about <b>18</b> dates, speed daters said yes <b>41%</b> of the time and matched on <b>15.7%</b>. On nights with about <b>9</b>, they said yes <b>46%</b> and matched on <b>20.2%</b>. A bigger menu, a pickier diner.</p>
+<div class="viz"><div class="bar"><div class="row"><span class="lbl">yes, ~18-date nights</span><div class="track"><div class="fill alt" style="width:41.3%"></div></div><span class="val">41%</span></div><div class="row"><span class="lbl">yes, ~9-date nights</span><div class="track"><div class="fill" style="width:46.3%"></div></div><span class="val">46%</span></div><div class="row"><span class="lbl">matched, ~18-date nights</span><div class="track"><div class="fill alt" style="width:15.7%"></div></div><span class="val">15.7%</span></div><div class="row"><span class="lbl">matched, ~9-date nights</span><div class="track"><div class="fill" style="width:20.2%"></div></div><span class="val">20.2%</span></div></div></div>
+<div class="foot"><div class="src">Columbia speed dating (Fisman &amp; Iyengar 2002–04), reanalyzed: 551 people, 8,378 ratings of 4,194 dates. "Extensive" vs. "limited" choice nights: 386 vs. 165 people.</div><div class="brand">IHEREBYCOMMIT.COM</div></div>
+</div></div></div></div></section></div></body></html>
