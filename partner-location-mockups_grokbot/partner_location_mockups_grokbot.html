@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Partner Location mockups (sandbox)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* Base tokens copied from production index.html (pearlouisebot/iherebycommit.com master) */
+:root{--bg:#0e0e0e;--text:#f0ece0;--body:#9a978c;--accent:#c8f135;--orange:#FF7A2F;--muted:#888;--dim:#333;--error:#ff4f4f;--radius:4px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;font-size:14px;line-height:1.5}
+button{font:inherit;color:inherit}
+#app{max-width:430px;margin:0 auto;height:100vh;height:100dvh;display:flex;flex-direction:column;padding:0 24px;position:relative;overflow:hidden}
+.progress-container{padding:20px 0 0}.progress-steps{display:flex;gap:4px}.progress-step{flex:1;height:3px;background:var(--dim)}.progress-step.done{background:var(--accent)}.progress-step.active{background:var(--text)}
+.applying-badge{display:flex;align-items:center;gap:8px;padding:12px 0 0;font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.applying-badge strong{color:var(--accent)}
+.applying-badge a{color:var(--muted);text-decoration:underline}
+.screen-content{flex:1;display:flex;flex-direction:column;padding:20px 0 8px;overflow-y:auto;min-height:0}
+.screen-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.screen-headline{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:.95;letter-spacing:.02em;margin-bottom:18px}
+.screen-headline .accent{color:var(--accent)}
+.bottom-action{flex-shrink:0;margin:0 -24px;padding:8px 24px calc(env(safe-area-inset-bottom,12px) + 4px);background:linear-gradient(to top,var(--bg) 80%,transparent)}
+.btn{width:100%;padding:18px 24px;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.1em;border:none;cursor:pointer;text-align:center}
+.btn-primary{background:var(--accent);color:var(--bg)}
+.field-label{display:block;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.q-active>.field-label{font-size:14px;letter-spacing:.02em;text-transform:none;color:var(--text)}
+.field-input{width:100%;background:transparent;border:1px solid var(--dim);border-radius:var(--radius);color:var(--text);font-family:'Space Mono',monospace;font-size:16px;padding:10px 12px;min-height:44px;outline:none}
+.field-input:focus{border-color:var(--accent)}
+.field-input::placeholder{color:#555}
+.toggle-btn{flex:1;padding:10px 4px;line-height:20px;background:transparent;border:1px solid var(--dim);border-radius:var(--radius);color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.05em;cursor:pointer;text-align:center;white-space:nowrap;min-width:0}
+.toggle-btn.selected{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+/* Condensed row (same look as production .who-cond) */
+.cond{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--dim);border-radius:var(--radius);padding:7px 12px;min-height:50px;cursor:pointer;margin-bottom:12px}
+.cond-txt{display:flex;flex-direction:column;min-width:0}
+.cond-k{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);line-height:1.4}
+.cond-v{font-size:13px;line-height:1.4;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cond-edit{font-size:10px;color:var(--accent);letter-spacing:.1em;flex-shrink:0}
+.badge-n{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:var(--accent);color:var(--bg);font-size:10px;font-weight:700;text-align:center;line-height:16px;margin-left:4px;vertical-align:1px}
+/* Home line */
+.home{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--body);margin-bottom:6px}
+.home b{color:var(--text);font-weight:400}
+.home .chg{color:var(--muted);font-size:10px;letter-spacing:.1em;text-decoration:underline;background:none;border:none;cursor:pointer}
+/* Slider (production style) */
+.range-wrap{position:relative;height:40px;display:flex;align-items:center}
+.range-track{position:absolute;left:0;right:0;height:4px;background:#2a2a2a;border-radius:2px}
+.range-fill{position:absolute;left:0;height:4px;background:var(--accent);border-radius:2px;pointer-events:none}
+input[type=range].ri{position:absolute;width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:40px;margin:0;z-index:2}
+input[type=range].ri::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+input[type=range].ri::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--accent);border:none}
+.ticks{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);letter-spacing:.08em;margin-top:-4px}
+.big-val{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1;color:var(--text)}
+.big-val small{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-left:6px}
+.sub{font-size:11px;color:var(--muted)}
+.row{display:flex;gap:6px}
+.sec-k{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;display:flex;justify-content:space-between;align-items:center}
+.sec-k .lnk{color:var(--accent);letter-spacing:.08em;cursor:pointer;background:none;border:none;font-size:10px;text-transform:none}
+/* Compact chips (smaller than production's 44px chips) */
+.chips{display:flex;flex-wrap:wrap;gap:6px;overflow:hidden}
+.chip{display:inline-flex;align-items:center;gap:0;height:30px;background:#2a2a28;border:1px solid #444;border-radius:15px;font-size:11px;padding:0 0 0 10px;white-space:nowrap;max-width:100%}
+.chip .x{background:none;border:none;color:var(--muted);font-size:16px;line-height:1;width:28px;height:28px;cursor:pointer}
+.chip.unm{border-style:dashed;color:var(--body)}
+.chip.unm::after{content:'typed';font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 2px 0 4px}
+.chip.more{background:transparent;border-color:var(--accent);color:var(--accent);padding:0 10px;cursor:pointer}
+.chip.add{background:transparent;border:1px dashed var(--muted);color:var(--accent);padding:0 10px;cursor:pointer}
+.chip.hid{display:none}
+.sugs{border:1px solid var(--dim);border-radius:var(--radius);margin-top:6px;overflow:hidden}
+.sug{display:flex;justify-content:space-between;width:100%;text-align:left;background:#1a1a1a;border:none;border-top:1px solid var(--dim);padding:10px 12px;font-size:13px;cursor:pointer}
+.sug:first-child{border-top:none}.sug .d{color:var(--muted);font-size:10px}.sug.typed{color:var(--accent)}
+/* Switch */
+.sw{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;cursor:pointer;font-size:13px;margin-top:6px}
+.sw .t{width:40px;height:22px;border-radius:11px;background:#2a2a2a;border:1px solid #444;position:relative;flex-shrink:0;transition:.15s}
+.sw .t::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:.15s}
+.sw.on .t{background:var(--accent);border-color:var(--accent)}.sw.on .t::after{left:20px;background:var(--bg)}
+.chk{display:flex;align-items:center;gap:10px;min-height:40px;font-size:13px;cursor:pointer;margin-top:4px}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.done-btn{width:100%;margin-top:10px;background:transparent;border:1px solid var(--accent);border-radius:var(--radius);color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.1em;padding:10px;cursor:pointer}
+.note{font-size:9px;color:#666;line-height:1.4;margin-top:6px}
+/* Variant C */
+.card{border:1px solid var(--dim);border-radius:6px;padding:4px 12px;cursor:pointer}
+.card .ln{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-top:1px solid #1f1f1f}
+.card .ln:first-child{border-top:none}
+.card .lk{font-size:9px;letter-spacing:.15em;color:var(--muted);width:62px;flex-shrink:0;text-transform:uppercase}
+.card .lv{font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card .lv.empty{color:#555}
+.card .foot{display:flex;justify-content:flex-end;padding:6px 0 4px;font-size:10px;color:var(--accent);letter-spacing:.1em}
+.cta{width:100%;background:transparent;border:1px dashed var(--accent);color:var(--accent);border-radius:6px;padding:18px 12px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.08em;cursor:pointer;text-align:left}
+.cta small{display:block;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0;margin-top:2px}
+.sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:50;display:none}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:92%;background:#151515;border-top:1px solid var(--dim);border-radius:14px 14px 0 0;padding:8px 20px 16px;z-index:51;display:none;flex-direction:column}
+.sheet.open,.sheet-bg.open{display:flex}
+.sheet .grab{width:40px;height:4px;border-radius:2px;background:#444;margin:0 auto 10px}
+.sheet h3{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;font-weight:400;margin-bottom:4px}
+.clist{overflow-y:auto;border:1px solid var(--dim);border-radius:var(--radius);max-height:190px}
+.crow{display:flex;justify-content:space-between;align-items:center;padding:0 0 0 12px;height:36px;border-top:1px solid #222;font-size:12px}
+.crow:first-child{border-top:none}.crow .dist{color:var(--muted);font-size:10px;margin-left:auto;margin-right:4px}
+.crow .x{background:none;border:none;color:var(--muted);font-size:18px;width:36px;height:36px;cursor:pointer}
+.crow.unm span:first-child::after{content:' · typed';color:var(--muted);font-size:9px}
+/* Variant D */
+.preset{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;border:1px solid var(--dim);border-radius:var(--radius);padding:9px 12px;margin-bottom:6px;cursor:pointer}
+.preset .ic{width:18px;height:18px;border-radius:50%;border:1px solid var(--muted);flex-shrink:0;position:relative}
+.preset.mini{padding:6px 12px}.preset.mini .ps,.preset.mini br{display:none}.preset.mini .pt{font-size:16px}
+.preset.sel{border-color:var(--accent)}.preset.sel .ic{border-color:var(--accent)}.preset.sel .ic::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--accent)}
+.preset .pt{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.05em;line-height:1.1}
+.preset .ps{font-size:10px;color:var(--muted);line-height:1.3}
+.pbody{border-left:2px solid var(--accent);padding:2px 0 4px 12px;margin:0 0 8px 8px}
+.stops{display:flex;gap:4px}.stops .toggle-btn{font-size:14px;padding:7px 2px}
+.clamp1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--body)}
+/* Overview page */
+.ov{max-width:760px;margin:0 auto;padding:24px 20px 60px;height:auto}
+.ov h1{font-family:'Bebas Neue',sans-serif;font-size:44px;line-height:1;margin-bottom:6px}.ov h1 span{color:var(--accent)}
+.ov h2{font-family:'Bebas Neue',sans-serif;font-size:26px;margin:26px 0 6px;color:var(--accent);font-weight:400}
+.ov p,.ov li{font-size:12px;color:var(--body);line-height:1.6}.ov ul{padding-left:18px}
+.ov a{color:var(--text)}
+.ov .links a{display:inline-block;border:1px solid var(--dim);padding:6px 10px;margin:4px 4px 0 0;font-size:11px;text-decoration:none}
+.ov table{border-collapse:collapse;width:100%;margin-top:6px}.ov td,.ov th{border:1px solid var(--dim);padding:5px 7px;font-size:11px;text-align:left;vertical-align:top;color:var(--body)}.ov th{color:var(--text)}
+.ov code{color:var(--accent);font-size:11px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const HOME={city:'Austin',label:'Austin, TX',zip:'78704',lat:30.25,lng:-97.76};
+const MPH=45; // MOCK: drive minutes -> straight-line miles at ~45 mph average door to door. No real routing.
+const FULL_CITIES=['Denver, CO','New York, NY','Chicago, IL','Los Angeles, CA','San Francisco, CA','Seattle, WA','Nashville, TN','Miami, FL','Boston, MA'];
+const Q=new URLSearchParams(location.search);
+const V=(Q.get('variant')||'').toLowerCase();
+const START=Q.get('state')||'empty';
+let CITIES=[];
+const S={mode:'drive',miles:50,minutes:60,cities:[],relocate:false,collapsed:false,expanded:false,sheet:false,preset:null,adding:false,q:''};
+function hav(a,b){const R=3958.8,t=x=>x*Math.PI/180;const dl=t(b.lat-a.lat),dg=t(b.lng-a.lng);const h=Math.sin(dl/2)**2+Math.cos(t(a.lat))*Math.cos(t(b.lat))*Math.sin(dg/2)**2;return Math.round(2*R*Math.asin(Math.sqrt(h)));}
+function radiusMiles(){return S.mode==='drive'?Math.round(S.minutes/60*MPH):S.miles;}
+function fmtDrive(m){if(m<60)return m+' min';const h=m/60;return (Number.isInteger(h)?h:h.toFixed(1))+(h===1?' hr':' hrs');}
+function radiusText(short){if(S.mode==='drive'){return S.minutes?(short?'+'+fmtDrive(S.minutes):'within '+fmtDrive(S.minutes)+' drive'):(short?'only':'city only');}return S.miles?(short?'+'+S.miles+' mi':'within '+S.miles+' mi'):(short?'only':'city only');}
+function summary(){const p=[HOME.city+' '+radiusText(true)];if(S.cities.length)p.push(S.cities.length+' other '+(S.cities.length===1?'city':'cities'));if(S.relocate)p.push('open to relocating');return p.join(' · ');}
+function short(c){return c.typed?c.label:c.city==='New York'?'NYC':c.city==='Los Angeles'?'LA':c.city==='San Francisco'?'SF':c.city;}
+function esc(s){return String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+function setState(name){S.collapsed=false;S.expanded=false;S.sheet=false;S.adding=false;S.q='';
+  if(name==='empty'){S.cities=[];S.relocate=false;S.preset=null;S.mode=V==='a'?'miles':'drive';S.miles=50;S.minutes=60;}
+  else{S.cities=FULL_CITIES.map(l=>CITIES.find(c=>c.label===l)).filter(Boolean).map(c=>({...c,typed:false}));S.cities.push({label:'Marfa',city:'Marfa',lat:null,lng:null,typed:true});
+    S.relocate=true;S.mode='drive';S.minutes=120;S.miles=90;S.preset='plus';
+    if(V==='a'){S.mode='miles';S.miles=90;}
+    if(name==='collapsed')S.collapsed=true; if(name==='sheet')S.sheet=true; if(name==='expanded')S.expanded=true;}
+}
+/* ---------- shared UI ---------- */
+function header(){return `<div class="progress-container"><div class="progress-steps">${[1,1,0,0,0,0,0].map((d,i)=>`<div class="progress-step ${i<2?'done':i===2?'active':''}"></div>`).join('')}</div></div>
+<div class="applying-badge">Applying as <strong>single</strong> · <a href="?v=${Q.get('v')||1}">mockups</a> · variant ${V.toUpperCase()}</div>`;}
+function seekRow(){return `<div class="cond"><div class="cond-txt"><span class="cond-k">Seeking</span><span class="cond-v">Men</span></div><span class="cond-edit">EDIT</span></div>`;}
+function ageHeight(){return `<div class="q"><label class="field-label" style="font-size:14px;letter-spacing:.02em;text-transform:none;color:var(--text)">Age Range</label>
+<div class="range-wrap" style="margin-top:26px"><div class="range-track"></div><div class="range-fill" style="left:15%;width:32%"></div><span class="big-val" style="position:absolute;left:15%;top:-22px;transform:translateX(-50%);font-size:20px">32</span><span class="big-val" style="position:absolute;left:47%;top:-22px;transform:translateX(-50%);font-size:20px">40</span></div></div>
+<div class="q" style="margin-top:14px"><label class="field-label" style="font-size:14px;letter-spacing:.02em;text-transform:none;color:var(--text)">Partner Height</label>
+<div class="range-wrap" style="margin-top:26px"><div class="range-track"></div><div class="range-fill" style="left:46%;width:23%"></div><span class="big-val" style="position:absolute;left:46%;top:-22px;transform:translateX(-50%);font-size:20px">5'10"</span><span class="big-val" style="position:absolute;left:69%;top:-22px;transform:translateX(-50%);font-size:20px">6'4"</span></div></div>`;}
+function homeLine(){return `<div class="home"><span>Home: <b>${HOME.label}</b> (${HOME.zip})</span><button class="chg" onclick="toast('Home comes from the zip on step 1')">from your zip</button></div>`;}
+function chipsHTML(opts={}){const {max=99,addChip=true}=opts;let h=S.cities.map((c,i)=>`<span class="chip ${c.typed?'unm':''}" title="${esc(c.label)}">${esc(short(c))}<button class="x" aria-label="Remove ${esc(c.label)}" onclick="rm(${i})">×</button></span>`).join('');
+  h+=`<span class="chip more hid" onclick="S.expanded=true;render()"></span>`; if(addChip)h+=`<span class="chip add" onclick="S.adding=true;render();focusAdd()">+ city</span>`;return h;}
+function addBox(ph){if(!S.adding&&V!=='b')return '';return `<input id="addin" class="field-input" style="margin-top:6px" placeholder="${ph||'Type a city or town'}" value="${esc(S.q)}" oninput="S.q=this.value;renderSugs()" onkeydown="if(event.key==='Enter'){pickTyped();}" autocomplete="off"><div id="sugs"></div>`;}
+function relocateSwitch(label){return `<div class="sw ${S.relocate?'on':''}" onclick="S.relocate=!S.relocate;render()"><span>${label||'Open to relocating for love'}</span><span class="t"></span></div>`;}
+function doneBtn(){return `<button class="done-btn" onclick="S.collapsed=true;S.sheet=false;render()">DONE</button>`;}
+function condRow(val,extra){return `<div class="cond" onclick="S.collapsed=false;render()"><div class="cond-txt"><span class="cond-k">Partner location${extra||''}</span><span class="cond-v">${esc(val)}</span></div><span class="cond-edit">EDIT</span></div>`;}
+/* Fit chips into N lines, replacing the overflow with "+N more" */
+function fitChips(sel,lines){const box=document.querySelector(sel);if(!box)return;const chips=[...box.querySelectorAll('.chip:not(.more):not(.add)')];const more=box.querySelector('.chip.more');const add=box.querySelector('.chip.add');
+  chips.forEach(c=>c.classList.remove('hid'));more.classList.add('hid');if(S.expanded||!chips.length)return;
+  const top0=box.firstElementChild.offsetTop,lh=36;const over=()=>{const els=[...box.children].filter(e=>!e.classList.contains('hid'));return els.some(e=>e.offsetTop-top0>=lh*lines-2);};
+  let hidden=0;while(over()&&hidden<chips.length){const vis=chips.filter(c=>!c.classList.contains('hid'));vis[vis.length-1].classList.add('hid');hidden++;more.textContent='+'+hidden+' more';more.classList.remove('hid');}}
+/* ---------- variant A: miles slider + wrapping chips (2 lines max) + relocate switch ---------- */
+function varA(){if(S.collapsed)return condRow(summary());const m=S.miles,pct=m/300*100;
+ return `<div class="q q-active"><label class="field-label">Partner Location</label>${homeLine()}
+ <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:6px"><span class="big-val">${m?'Within '+m+' mi':'Just my city'}</span><span class="sub">≈ ${fmtDrive(Math.round(m/MPH*60/15)*15||0)} drive*</span></div>
+ <div class="range-wrap"><div class="range-track"></div><div class="range-fill" style="width:${pct}%"></div><input class="ri" type="range" min="0" max="300" step="10" value="${m}" oninput="S.miles=+this.value;render()"></div>
+ <div class="ticks"><span>CITY ONLY</span><span>100</span><span>200</span><span>300 MI</span></div>
+ <div class="sec-k"><span>Other cities ${S.cities.length?'<span class="badge-n">'+S.cities.length+'</span>':''}</span>${S.expanded?'<button class="lnk" onclick="S.expanded=false;render()">show less</button>':''}</div>
+ <div class="chips" id="chipsA">${chipsHTML()}</div>${addBox()}
+ ${relocateSwitch()}${doneBtn()}<div class="note">*Drive time is a mock estimate (${MPH} mph average, straight line). No real routing.</div></div>`;}
+/* ---------- variant B: miles / drive-time segmented stops + one-line chip strip + checkbox ---------- */
+function varB(){if(S.collapsed)return condRow(summary(),S.cities.length?'<span class="badge-n">'+S.cities.length+' cities</span>':'');
+ const stops=S.mode==='drive'?[[0,'City'],[30,'30 m'],[60,'1 hr'],[120,'2 hr'],[180,'3 hr'],[240,'4 hr']]:[[0,'City'],[25,'25'],[50,'50'],[100,'100'],[200,'200'],[300,'300']];
+ const cur=S.mode==='drive'?S.minutes:S.miles;
+ return `<div class="q q-active"><label class="field-label">Partner Location</label>${homeLine()}
+ <div class="row" style="margin-bottom:6px"><button class="toggle-btn ${S.mode==='miles'?'selected':''}" onclick="S.mode='miles';render()">MILES</button><button class="toggle-btn ${S.mode==='drive'?'selected':''}" onclick="S.mode='drive';render()">DRIVE TIME</button></div>
+ <div class="stops">${stops.map(([v,l])=>`<button class="toggle-btn ${cur===v?'selected':''}" onclick="${S.mode==='drive'?'S.minutes':'S.miles'}=${v};render()">${l}</button>`).join('')}</div>
+ <div class="sub" style="margin-top:4px">${S.mode==='drive'?(S.minutes?'≈ '+radiusMiles()+' mi around '+HOME.city+' (mock estimate)':'Only '+HOME.city):(S.miles?'Within '+S.miles+' mi of '+HOME.city:'Only '+HOME.city)}</div>
+ <div class="sec-k"><span>Also these cities ${S.cities.length?'<span class="badge-n">'+S.cities.length+'</span>':''}</span>${S.expanded?'<button class="lnk" onclick="S.expanded=false;render()">collapse</button>':''}</div>
+ <div class="chips" id="chipsB">${chipsHTML({addChip:false})}</div>${addBox('Add a city (type any town)')}
+ <label class="chk"><input type="checkbox" ${S.relocate?'checked':''} onchange="S.relocate=this.checked;render()"> Anywhere - I'd relocate for love</label>
+ ${doneBtn()}</div>`;}
+/* ---------- variant C: summary card + bottom sheet editor ---------- */
+function varC(){const has=S.cities.length||S.relocate||S.preset;
+ let main;
+ if(S.collapsed) main=condRow(summary());
+ else if(!has) main=`<div class="q q-active"><label class="field-label">Partner Location</label>${homeLine()}<button class="cta" onclick="S.sheet=true;S.preset='set';render()">SET WHERE YOU'D DATE ›<small>Distance from home, other cities, relocating</small></button></div>`;
+ else main=`<div class="q q-active"><label class="field-label">Partner Location</label><div class="card" onclick="S.sheet=true;render()">
+  <div class="ln"><span class="lk">Home</span><span class="lv">${HOME.label} · ${radiusText(false)}</span></div>
+  <div class="ln"><span class="lk">Cities <span class="badge-n">${S.cities.length}</span></span><span class="lv ${S.cities.length?'':'empty'}">${S.cities.length?S.cities.map(short).join(', '):'None added'}</span></div>
+  <div class="ln"><span class="lk">Relocate</span><span class="lv ${S.relocate?'':'empty'}">${S.relocate?'Yes, for the right person':'No'}</span></div>
+  <div class="foot">EDIT ›</div></div>${doneBtn()}</div>`;
+ const pct=S.minutes/240*100;
+ const sheet=`<div class="sheet-bg ${S.sheet?'open':''}" onclick="S.sheet=false;render()"></div><div class="sheet ${S.sheet?'open':''}"><div class="grab"></div><h3>WHERE YOU'D DATE</h3>
+  <div class="sec-k" style="margin-top:4px"><span>Around home · ${HOME.label}</span><span style="color:var(--text);letter-spacing:0">${S.minutes?fmtDrive(S.minutes)+' drive':'City only'}</span></div>
+  <div class="range-wrap"><div class="range-track"></div><div class="range-fill" style="width:${pct}%"></div><input class="ri" type="range" min="0" max="240" step="15" value="${S.minutes}" oninput="S.minutes=+this.value;S.mode='drive';render()"></div>
+  <div class="ticks"><span>CITY</span><span>1 HR</span><span>2 HR</span><span>3 HR</span><span>4 HR ≈ 180 MI*</span></div>
+  <div class="sec-k"><span>Other cities <span class="badge-n">${S.cities.length}</span></span></div>
+  <input id="addin" class="field-input" placeholder="Add a city or town" value="${esc(S.q)}" oninput="S.q=this.value;renderSugs()" onkeydown="if(event.key==='Enter'){pickTyped();}" autocomplete="off"><div id="sugs"></div>
+  <div class="clist" style="margin-top:6px">${S.cities.map((c,i)=>`<div class="crow ${c.typed?'unm':''}"><span>${esc(c.label)}</span><span class="dist">${c.lat!=null?hav(HOME,c)+' mi':''}</span><button class="x" onclick="rm(${i})">×</button></div>`).join('')||'<div class="crow" style="color:#555">No cities yet</div>'}</div>
+  ${relocateSwitch()}<button class="btn btn-primary" style="padding:12px;font-size:18px;margin-top:4px" onclick="S.sheet=false;render()">SAVE</button><div class="note">*Drive time is a mock estimate (${MPH} mph average). No real routing.</div></div>`;
+ return main+sheet;}
+/* ---------- variant D: presets that expand ---------- */
+function varD(){if(S.collapsed){const p={area:'Just my area',plus:'My area + cities',any:'Anywhere'}[S.preset]||'';return condRow(summary(),' · '+p);}
+ const P=[['area','JUST MY AREA','Within a drive of '+HOME.city],['plus','MY AREA + OTHER CITIES','Around home, plus places you pick'],['any','ANYWHERE','Open to relocating for love']];
+ const stops=`<div class="stops">${[[30,'30 m'],[60,'1 hr'],[120,'2 hr'],[180,'3 hr'],[240,'4 hr']].map(([v,l])=>`<button class="toggle-btn ${S.minutes===v?'selected':''}" onclick="event.stopPropagation();S.minutes=${v};render()">${l}</button>`).join('')}</div><div class="sub" style="margin-top:3px">≈ ${radiusMiles()} mi around ${HOME.city} (mock estimate)</div>`;
+ const list=S.expanded||S.cities.length<=4?`<div class="chips" id="chipsD" style="margin-top:6px">${chipsHTML()}</div>`:`<div style="display:flex;align-items:center;gap:8px;margin-top:6px"><span class="clamp1" style="flex:1">${S.cities.map(short).join(', ')}</span><button class="chip more" onclick="S.expanded=true;render()">EDIT ${S.cities.length}</button></div>`;
+ let body='';
+ if(S.preset==='area') body=`<div class="pbody">${stops}</div>`;
+ if(S.preset==='plus') body=`<div class="pbody">${stops}<div class="sec-k"><span>Other cities ${S.cities.length?'<span class="badge-n">'+S.cities.length+'</span>':''}</span>${S.expanded?'<button class="lnk" onclick="S.expanded=false;render()">done editing</button>':''}</div>${S.cities.length?list:'<div class="chips" id="chipsD">'+chipsHTML()+'</div>'}${addBox()}<label class="chk"><input type="checkbox" ${S.relocate?'checked':''} onchange="S.relocate=this.checked;render()"> Also open to relocating</label></div>`;
+ if(S.preset==='any') body=`<div class="pbody"><div class="sub" style="margin-bottom:4px">Still like someone near home? (optional)</div>${stops}</div>`;
+ return `<div class="q q-active"><label class="field-label">Partner Location</label>${homeLine()}${P.map(([k,t,s])=>`<button class="preset ${S.preset===k?'sel':''} ${S.preset&&S.preset!==k?'mini':''}" onclick="S.preset='${k}';S.relocate=${k==='any'}||S.relocate&&'${k}'!=='area';render()"><span class="ic"></span><span><span class="pt">${t}</span><br><span class="ps">${s}</span></span></button>${S.preset===k?body:''}`).join('')}${S.preset?doneBtn():''}</div>`;}
+/* ---------- actions ---------- */
+function rm(i){S.cities.splice(i,1);render();}
+function focusAdd(){const e=document.getElementById('addin');if(e)e.focus();}
+function addCity(c){if(!S.cities.some(x=>x.label===c.label))S.cities.push(c);S.q='';render();focusAdd();}
+function pickTyped(){const t=S.q.trim();if(!t)return;const m=CITIES.find(c=>c.label.toLowerCase()===t.toLowerCase()||c.city.toLowerCase()===t.toLowerCase());addCity(m?{...m,typed:false}:{label:t,city:t,lat:null,lng:null,typed:true});}
+function renderSugs(){const box=document.getElementById('sugs');if(!box)return;const t=S.q.trim().toLowerCase();if(!t){box.innerHTML='';return;}
+ const r=radiusMiles();const hits=CITIES.filter(c=>c.label.toLowerCase().startsWith(t)||c.city.toLowerCase().startsWith(t)).sort((x,y)=>(y.country==='US')-(x.country==='US')).slice(0,3); // US first, then population order
+ box.innerHTML='<div class="sugs">'+hits.map(c=>{const d=hav(HOME,c);return `<button class="sug" onclick='addCity(${JSON.stringify({...c,typed:false})})'><span>${esc(c.label)}</span><span class="d">${d<=r?'inside your radius':d+' mi'}</span></button>`;}).join('')+`<button class="sug typed" onclick="pickTyped()"><span>Add “${esc(S.q.trim())}” as typed</span><span class="d">unmapped</span></button></div>`;}
+let _t;function toast(m){clearTimeout(_t);let e=document.getElementById('toast');if(!e){e=document.createElement('div');e.id='toast';e.style.cssText='position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:#222;border:1px solid #444;padding:8px 14px;font-size:12px;z-index:99';document.body.appendChild(e);}e.textContent=m;e.style.display='block';_t=setTimeout(()=>e.style.display='none',1600);}
+function render(){
+ if(!V){return renderOverview();}
+ const body={a:varA,b:varB,c:varC,d:varD}[V]();
+ const inner=`${header()}<div class="screen-content"><div class="screen-label">Step 3 of 7</div><div class="screen-headline">WHAT YOU <span class="accent">WANT</span></div>${seekRow()}${body}${S.collapsed?ageHeight():''}</div><div class="bottom-action"><button class="btn btn-primary">NEXT</button></div>`;
+ const app=document.getElementById('app')||(()=>{document.getElementById('root').innerHTML='<div id="app"></div>';return document.getElementById('app');})();
+ const hadFocus=document.activeElement&&document.activeElement.id==='addin';const pos=hadFocus?document.activeElement.selectionStart:null;
+ app.innerHTML=inner; if(V==='c'&&S.sheet){app.querySelector('.sheet-bg').style.position='absolute';}
+ if(hadFocus){const e=document.getElementById('addin');if(e){e.focus();e.setSelectionRange(pos,pos);renderSugs();}}
+ fitChips('#chipsA',2);fitChips('#chipsB',1);fitChips('#chipsD',2);
+}
+function renderOverview(){document.body.style.overflow='auto';const base=location.pathname,vv=Q.get('v')||1;
+ const L=(v,s,t)=>`<a href="${base}?variant=${v}&state=${s}&v=${vv}">${t}</a>`;
+ const rows=[['a','A · Radius slider + chips','Home radius as a 0–300 mi slider (with a mocked drive-time readout), small wrapping city chips capped at two lines with “+N more”, and a relocate switch.'],
+ ['b','B · Miles / drive-time stops','A MILES | DRIVE TIME segmented control with six tap stops (city, 30 m … 4 hr or 25 … 300 mi), a one-line chip strip with “+N more”, an always-visible add box and the existing relocate checkbox.'],
+ ['c','C · Summary card + editor sheet','The question shows one three-line card (home radius, cities with a count badge, relocate). Tapping it opens a bottom sheet with a drive-time slider, city search, a compact list with distances, and a relocate switch.'],
+ ['d','D · Presets that expand','Three choices: Just my area / My area + other cities / Anywhere. The chosen one expands to only the controls it needs; 10 cities fold into one comma line with an EDIT 10 button.']];
+ document.getElementById('root').innerHTML=`<div class="ov"><h1>PARTNER LOCATION <span>MOCKUPS</span></h1><p>Sandbox only, example data. Singles styling copied from production index.html. Home = Austin, TX from zip 78704. Each link opens a 393-wide phone screen. The stress test is Amanda's example: 10 other cities (9 from the 454-city list plus “Marfa” typed and flagged unmapped) and within 2 hours of home, plus open to relocating.</p>
+ ${rows.map(([v,t,d])=>`<h2>${t}</h2><p>${d}</p><div class="links">${L(v,'empty','Empty')}${L(v,'full','10 cities + 2 hrs')}${v==='c'?L(v,'sheet','Editor sheet'):''}${v!=='c'?L(v,'expanded','Expanded chips'):''}${L(v,'collapsed','Collapsed row')}</div>`).join('')}
+ <h2>Drive time is mocked</h2><p>No routing here. Drive minutes convert to a straight-line radius at ${MPH} mph average (2 hrs ≈ 90 mi). A real build would store the minutes the person chose and compute reach later (for example with a drive-time isochrone service) or keep the simple conversion and label it as approximate.</p>
+ <h2>Data each variant would save (proposal only; no database changes)</h2>
+ <p>All new columns nullable, no constraints. Existing <code>partner_locations</code> (jsonb) and <code>open_to_anywhere</code> stay; list fields get readable companions in the readable views and responses_research.</p>
+ <table><tr><th>Field</th><th>Type</th><th>Meaning</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>
+ <tr><td><code>home_radius_mode</code></td><td>text</td><td>miles | drive | city_only</td><td>miles</td><td>✓</td><td>drive</td><td>drive</td></tr>
+ <tr><td><code>home_radius_miles</code></td><td>integer</td><td>Chosen miles (A, B-miles) or the mocked conversion of drive minutes</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+ <tr><td><code>home_drive_minutes</code></td><td>integer</td><td>Chosen drive time (null in miles mode)</td><td>–</td><td>✓</td><td>✓</td><td>✓</td></tr>
+ <tr><td><code>home_center</code></td><td>(none new)</td><td>Reuse zip_generated_lat_long / zip_generated_city from step 1</td><td colspan="4">same for all</td></tr>
+ <tr><td><code>partner_locations</code></td><td>jsonb (existing)</td><td>Other cities; mapped entries have lat/lng, typed towns saved as typed with matched=false</td><td colspan="4">same for all</td></tr>
+ <tr><td><code>partner_locations_text</code>, <code>_count</code>, <code>_unmapped</code></td><td>readable (existing view columns)</td><td>“Denver, CO; New York, NY; …; Marfa”</td><td colspan="4">same for all</td></tr>
+ <tr><td><code>open_to_relocate</code></td><td>boolean</td><td>“Open to relocating for love”. Keep writing open_to_anywhere = same value for back-compat.</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+ <tr><td><code>partner_location_preset</code></td><td>text</td><td>area | plus | any</td><td>–</td><td>–</td><td>–</td><td>✓</td></tr>
+ <tr><td><code>partner_location_summary</code></td><td>text (readable companion)</td><td>“Austin +2 hrs · 10 other cities · open to relocating”</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr></table>
+ <p style="margin-top:14px">Screens are built to fit 393×852 without scrolling in every state shown. At 320 wide nothing overflows sideways; chips re-flow and “+N more” recounts.</p></div>`;}
+fetch('cities_grokbot.json').then(r=>r.json()).then(d=>{CITIES=d;setState(START);render();}).catch(()=>{setState(START);render();});
+window.addEventListener('resize',()=>{if(V)render();});
+</script>
+</body>
+</html>
