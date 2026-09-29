@@ -891,6 +891,8 @@
       html.vk #screen-3 #ww-ranges { margin-bottom: calc(var(--vk-g) - 5px); }
     }
     #vk-zip-val.muted { color: var(--muted); }
+    .vk-cb-txt { white-space: nowrap; overflow: hidden; text-overflow: clip; min-width: 0; }
+    @media (max-width: 359px) { html.vk #screen-3 .partner-location-anywhere { font-size: 11.5px; gap: 7px; } }
     #vk-other-sum.empty { color: var(--muted); }
     @media (max-height: 720px) { html.vk #vk-row .cp-field { min-height: 44px; padding-top: 4px; padding-bottom: 4px; } }
     /* 320: the halves are ~150px, so CHANGE / EDIT step aside (the whole box is the button) and values drop to 11px */
@@ -1305,7 +1307,7 @@
             </div></div>
             <label class="partner-location-anywhere" for="partner-location-anywhere">
               <input type="checkbox" id="partner-location-anywhere">
-              <span>I'm open to relocating for love</span>
+              <span class="vk-cb-txt">I'm open to dating in other cities</span>
             </label>
             <div class="vi-extra" id="vi-extra" role="button" tabindex="0" aria-label="Edit relocation cities" hidden><span class="field-label vi-extra-k">Also</span><span class="cp-sum vi-extra-sum" id="vi-extra-sum"></span><span class="cp-edit">EDIT</span></div>
           </div>
