@@ -1308,8 +1308,8 @@
             <div class="range-slider-wrap vi-dist-wrap">
               <div class="range-track"></div>
               <div class="range-fill" id="vi-dist-fill" style="left:0"></div>
-              <span id="vk-dist-bubble" class="slider-bubble">300 miles</span>
-              <input type="range" id="vi_dist_mi" class="range-input" min="0" max="34" step="1" value="34" aria-valuetext="300 miles" aria-label="Distance in miles from your partner city">
+              <span id="vk-dist-bubble" class="slider-bubble">30 miles</span>
+              <input type="range" id="vi_dist_mi" class="range-input" min="0" max="34" step="1" value="7" aria-valuetext="30 miles" aria-label="Distance in miles from your partner city">
             </div>
           </div>
           <div class="pc-extra" id="pc-extra">
@@ -4836,9 +4836,9 @@ function _vkRender() {
 }
 // Distance origin = the partner zip. The old "ALSO" line and J's fold are not used in K.
 _viOrigin = function () { return _vkZip || _viName(partnerCityPrimary) || 'Distance'; };
-// Distance snaps to 35 stops, each an equal share of the track (slider value = stop index; default 300).
+// Distance snaps to 35 stops, each an equal share of the track (slider value = stop index; default index 7 = 30 miles).
 const _VK_STOPS = [1, 3, 5, 10, 15, 20, 25, 30].concat(Array.from({ length: 27 }, (_, i) => 40 + i * 10));
-_viMi = function () { const el = document.getElementById('vi_dist_mi'); return el ? _VK_STOPS[Math.max(0, Math.min(_VK_STOPS.length - 1, parseInt(el.value, 10) || 0))] : 300; };
+_viMi = function () { const el = document.getElementById('vi_dist_mi'); return el ? _VK_STOPS[Math.max(0, Math.min(_VK_STOPS.length - 1, parseInt(el.value, 10) || 0))] : 30; };
 _viDistUpdate = function () {
   const el = document.getElementById('vi_dist_mi'), lab = document.getElementById('vi-dist-label'), fill = document.getElementById('vi-dist-fill'), bub = document.getElementById('vk-dist-bubble');
   if (!el || !lab) return;
