@@ -930,6 +930,9 @@
     .vk2-opt .vk2-sub { color: var(--muted); overflow: hidden; text-overflow: ellipsis; }
     .vk2-opt.vk2-none { color: var(--muted); cursor: default; }
     @media (max-height: 720px) { .vk2-opt { min-height: 40px; } }
+    html.vk2 #vi-dist-label { display: flex; white-space: nowrap; overflow: hidden; min-width: 0; }
+    html.vk2 #vi-dist-label .vk2-lab-pre, html.vk2 #vi-dist-label .vk2-lab-cbd { flex: none; }
+    html.vk2 #vi-dist-label .vk2-lab-city { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   </style>
 </head>
 <body class="landing-active">
@@ -2378,6 +2381,7 @@ async function saveLead() {
     partner_city_primary: partnerCityPrimaryPayload(),
     partner_cities_extra: partnerCitiesExtraPayload(),
     partner_cities_extra_text: partnerCitiesExtraTextPayload(),
+    ...partnerDistancePayload(),
     age_min: state.status === 'partnered' ? null : (state.ageMin || null),
     age_max: state.status === 'partnered' ? null : (state.ageMax || null),
     gender_seeking: state.status === 'partnered' ? null : (state.genderSeeking || null),
@@ -2976,6 +2980,7 @@ async function doSubmit() {
     partner_city_primary: partnerCityPrimaryPayload(),
     partner_cities_extra: partnerCitiesExtraPayload(),
     partner_cities_extra_text: partnerCitiesExtraTextPayload(),
+    ...partnerDistancePayload(),
     age_min: state.status === 'partnered' ? null : (state.ageMin || null),
     age_max: state.status === 'partnered' ? null : (state.ageMax || null),
     gender_seeking: state.status === 'partnered' ? null : (state.genderSeeking || null),
@@ -3754,6 +3759,22 @@ function partnerCitiesExtraPayload() {
 function partnerCitiesExtraTextPayload() {
   if (state.status === 'partnered' || !partnerLocationReady || !partnerCitiesExtra.length) return null;
   return partnerCitiesExtra.map(p => p.label).join('; ');
+}
+// MOCKUP_grokbot K2: the distance as chosen, all nullable. partner_distance_mi = the slider stop in miles (canonical, as in K);
+// partner_distance_km = the same stop in km, rounded as shown to km users; partner_distance_unit = what the user saw ('mi' for US
+// partner cities, 'km' everywhere else); the origin = the zip / postcode typed, or the city picked by name (measured from its CBD).
+function partnerDistancePayload() {
+  if (state.status === 'partnered' || !partnerLocationReady || state.partnerDistanceMi == null) return {};
+  const p = partnerCityPrimary || {}, byName = !!(typeof _vk2Label !== 'undefined' && _vk2Label);
+  return {
+    partner_distance_mi: state.partnerDistanceMi,
+    partner_distance_km: state.partnerDistanceKm == null ? null : state.partnerDistanceKm,
+    partner_distance_unit: state.partnerDistanceUnit || 'mi',
+    partner_distance_origin_type: byName ? 'city' : (/^\d{5}$/.test(state.partnerZip || _vkZip || '') ? 'zip' : 'postcode'),
+    partner_distance_origin: byName ? (p.label || null) : ((state.partnerZip || _vkZip) || null),
+    partner_distance_origin_country: (typeof _vk2Country !== 'undefined' && _vk2Country) || p.country || null,
+    partner_distance_origin_lat_long: (p.zip_lat != null ? p.zip_lat + ',' + p.zip_lng : (p.lat != null ? p.lat + ',' + p.lng : null)),
+  };
 }
 function openToAnywherePayload() {
   if (state.status === 'partnered' || !partnerLocationReady) return null;
@@ -4959,7 +4980,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 // K2: PARTNER CITY accepts a US zip (5 digits, zippopotam, as in K), a UK or Canadian postcode (zippopotam gb / ca, outward part),
 // or a city name (suggestions from cities_grokbot.json: US + ~280 international cities). Shown as "78704 · Austin" (zip / postcode)
-// or "London, UK" (city). Distance: miles for the US and the UK, km everywhere else (same 35 slider stops, km rounded).
+// or "London, UK" (city). Distance: miles for the US only, km for every other country (same 35 slider stops, km rounded).
 let _vk2Label = '', _vk2Country = 'US', _vk2Opts = [], _vk2Act = 0, _vk2Busy = false;
 const _vk2Inp = () => document.getElementById('vk-zip-input');
 // K seeds the applicant's own zip whenever _vkZip is empty; in K2 an empty zip can mean "a city was chosen", so seed once only.
@@ -5096,14 +5117,21 @@ _vkCommit = async function (zip) {
   else if (document.getElementById('vk-zip-box').classList.contains('bad')) { _vk2Hide(); const l = document.getElementById('vk2-sug'); const d = document.createElement('div'); d.className = 'vk2-opt vk2-none'; d.textContent = 'Zip not found: try a zip, postcode or city'; l.appendChild(d); l.hidden = false; }
 };
 _viOrigin = function () { return _vkZip || _vkName || _viName(partnerCityPrimary) || 'Distance'; };
-function _vk2Miles() { return !_vk2Country || _vk2Country === 'US' || _vk2Country === 'GB'; }
+// Label rule: set by zip / postcode -> "Distance from 78704" / "SW1A 1AA"; set by picking a city by name -> "Distance from London CBD".
+// A long city name is cut with an ellipsis and " CBD" always stays visible (letter-spacing is left as in the I AM A labels).
+function _vk2LabCity(lab, name) {
+  const s = (c, t) => { const e = document.createElement('span'); e.className = c; e.textContent = t; return e; };
+  lab.replaceChildren(s('vk2-lab-pre', 'Distance from\u00a0'), s('vk2-lab-city', name), s('vk2-lab-cbd', '\u00a0CBD'));
+  lab.title = 'Distance from ' + name + ' CBD';
+}
+function _vk2Miles() { return !_vk2Country || _vk2Country === 'US'; } // miles only for US zips / US cities; km for every other country (UK and Canada included)
 _viDistUpdate = function () {
   const el = document.getElementById('vi_dist_mi'), lab = document.getElementById('vi-dist-label'), fill = document.getElementById('vi-dist-fill'), bub = document.getElementById('vk-dist-bubble');
   if (!el || !lab) return;
   const mi = _viMi(), km = _vk2Km(mi), miles = _vk2Miles();
   const txt = miles ? mi + (mi === 1 ? ' mile' : ' miles') : km + ' km';
   state.partnerDistanceMi = mi; state.partnerDistanceKm = km; state.partnerDistanceUnit = miles ? 'mi' : 'km';
-  lab.textContent = 'Distance from ' + _viOrigin();
+  _vk2Label ? _vk2LabCity(lab, _vkName) : (lab.textContent = 'Distance from ' + _viOrigin(), lab.title = '');
   el.setAttribute('aria-valuetext', miles ? txt : km + ' kilometres');
   const w = el.offsetWidth, pct = (el.value - el.min) / (el.max - el.min);
   if (fill) { fill.style.left = '0'; fill.style.width = w ? _sliderThumbX(el, w) + 'px' : (pct * 100) + '%'; }
