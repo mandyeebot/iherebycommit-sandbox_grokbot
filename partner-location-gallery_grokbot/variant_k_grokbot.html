@@ -870,6 +870,21 @@
     .vk-zip-input { width: 100%; min-width: 0; box-sizing: border-box; margin: 0; padding: 0; border: none; outline: none; background: transparent;
       font-family: 'Space Mono', monospace; font-size: 16px; line-height: 1.15; color: var(--text); letter-spacing: 0.05em; }
     .vk-zip-input[hidden] { display: none; }
+    /* 2026-09-28 spacing: the age and height blocks get equal room above and below, all = G, the gap from the age ball's bottom
+       to the PARTNER HEIGHT label as measured before this change (17px at normal heights, 9px on short screens).
+       G = checkbox bottom -> AGE RANGE label = age ball -> PARTNER HEIGHT label = height ball -> end of the block.
+       (checkbox row is 44px with a 20px box -> 12px under the box; slider track box is 44px with a 26px ball -> 9px under the ball.)
+       ?gap=N on the K page overrides G for trying other values. */
+    html.vk { --vk-g: 17px; }
+    html.vk #screen-3 #ww-loc:not(.collapsed) { margin-bottom: calc(var(--vk-g) - 12px) !important; }
+    html.vk #ww-ranges .ww-age-group { margin-bottom: calc(var(--vk-g) - 9px) !important; }
+    html.vk #screen-3 #ww-ranges { margin-bottom: calc(var(--vk-g) - 9px); }
+    @media (max-height: 720px) {
+      html.vk { --vk-g: 9px; }
+      html.vk #screen-3 #ww-loc:not(.collapsed) { margin-bottom: calc(var(--vk-g) - 7px) !important; }   /* 34px row -> 7px under the box */
+      html.vk #ww-ranges .ww-age-group { margin-bottom: calc(var(--vk-g) - 5px) !important; }           /* 36px track -> 5px under the ball */
+      html.vk #screen-3 #ww-ranges { margin-bottom: calc(var(--vk-g) - 5px); }
+    }
     #vk-zip-val.muted { color: var(--muted); }
     #vk-other-sum.empty { color: var(--muted); }
     @media (max-height: 720px) { html.vk #vk-row .cp-field { min-height: 44px; padding-top: 4px; padding-bottom: 4px; } }
@@ -4765,6 +4780,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // city is not pinned there). Ticking relocating shows OTHER CITIES + opens the picklist; Done fills it. Unticking keeps the
 // cities (box stays, still editable); with none chosen, unticking hides the box again.
 let _vkZip = '', _vkName = '';
+(function () { const g = parseInt(new URLSearchParams(location.search).get('gap'), 10); if (g >= 0 && g <= 60) document.documentElement.style.setProperty('--vk-g', g + 'px'); })();
 function _vkFit(el, names, sep, refit) { // whole names that fit, then "+ N more"
   el._cpRefit = refit; el.replaceChildren();
   const a = document.createElement('span'); a.className = 'cp-sum-first'; el.appendChild(a);
