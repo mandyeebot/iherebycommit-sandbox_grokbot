@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Who You Are: location field mockups (sandbox)</title>
+<style>
+ * { box-sizing: border-box; } body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #eef0f3; color: #1d1d1f; }
+ header { padding: 20px 24px 8px; } h1 { font-size: 20px; margin: 0 0 6px; } .sub { font-size: 13px; color: #555; margin: 0 0 12px; max-width: 900px; line-height: 1.45; }
+ .ctl { display: flex; gap: 8px; font-size: 13px; } .ctl button { font: inherit; padding: 7px 14px; border-radius: 999px; border: 1px solid #b9bec7; background: #fff; cursor: pointer; } .ctl button.on { background: #1d1d1f; color: #fff; }
+ .grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 16px 24px 40px; align-items: flex-start; }
+ .lbl { display: flex; align-items: baseline; gap: 8px; margin: 0 0 8px; } .lbl b { font-size: 22px; } .lbl span { font-size: 12.5px; color: #444; }
+ .phone { border-radius: 28px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.18); background: #111; } iframe { border: 0; display: block; }
+</style></head><body>
+<header><h1>Who You Are: new location field (sandbox mockup)</h1>
+<p class="sub">Two options for the Location question. <b>A</b>: a small map. "Use my location" asks the browser for your position and drops the pin; drag the pin or tap the map to move it; the city shows under the map. <b>B</b>: a zip or city box (suggestions as you type) with a small "Use my location" link. Nothing is saved (sandbox). Open one alone with <code>wya_grokbot.html?opt=A&amp;demo=1</code> (or opt=B).</p>
+<div class="ctl"><button data-w="393" data-h="852" class="on">393 × 852</button><button data-w="320" data-h="640">320 × 640</button></div></header>
+<main class="grid" id="grid"></main>
+<script>
+var OPTS = [['A', 'Map pin + Use my location'], ['B', 'Zip or city box + Use my location link']], W = 393, H = 852;
+function render() { var g = document.getElementById('grid'); g.innerHTML = '';
+  OPTS.forEach(function (o) { var d = document.createElement('section');
+    d.innerHTML = '<div class="lbl"><b>' + o[0] + '</b><span>' + o[1] + '</span><a target="_blank" href="wya_grokbot.html?opt=' + o[0] + '&demo=1">open alone ↗</a></div><div class="phone" style="width:' + W + 'px;height:' + H + 'px"><iframe title="Option ' + o[0] + '" allow="geolocation" width="' + W + '" height="' + H + '" src="wya_grokbot.html?opt=' + o[0] + '&demo=1&t=' + Date.now() + '"></iframe></div>';
+    g.appendChild(d); }); }
+document.querySelectorAll('.ctl button').forEach(function (b) { b.onclick = function () { document.querySelectorAll('.ctl button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); W = +b.dataset.w; H = +b.dataset.h; render(); }; });
+render();
+</script></body></html>
