@@ -933,7 +933,14 @@
     html.vk2 #vi-dist-label { display: flex; white-space: nowrap; overflow: hidden; min-width: 0; }
     html.vk2 #vi-dist-label .vk2-lab-pre, html.vk2 #vi-dist-label .vk2-lab-cbd { flex: none; }
     html.vk2 #vi-dist-label .vk2-lab-city { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-  </style>
+      /* MOCKUP_grokbot sheet footer: DONE sits exactly where the page's pinned NEXT is; small X close top-right */
+    .cp-x { width: 40px; height: 40px; margin: -4px -8px -4px 0; display: flex; align-items: center; justify-content: center; background: none; border: none; border-radius: var(--radius); color: var(--text); cursor: pointer; touch-action: manipulation; flex-shrink: 0; }
+    .cp-x:hover, .cp-x:focus-visible { background: #222; }
+    .cp-x svg { width: 18px; height: 18px; display: block; }
+    .cp-sheet-head { min-height: 40px; }
+    .cp-foot { flex-shrink: 0; height: 112px; position: relative; }
+    .cp-foot .cp-done-btm { position: absolute; left: 23px; right: 23px; bottom: 49px; width: auto; }
+</style>
 </head>
 <body class="landing-active">
 
@@ -4691,11 +4698,32 @@ async function _doZipLookup(zip) {
 <!-- MOCKUP_grokbot city picker sheet -->
 <div class="cp-backdrop" id="cp-backdrop" hidden></div>
 <div class="cp-sheet" id="cp-sheet" role="dialog" aria-modal="true" aria-label="Partner cities" hidden>
-  <div class="cp-sheet-head"><span class="cp-sheet-title" id="cp-sheet-title">Partner cities</span><button type="button" class="cp-done" id="cp-done">DONE</button></div>
+  <div class="cp-sheet-head"><span class="cp-sheet-title" id="cp-sheet-title">Partner cities</span><button type="button" class="cp-x" id="cp-x" aria-label="Close"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button></div>
   <div class="cp-search-wrap"><input class="field-input" id="cp-search" type="text" placeholder="Search or type a city" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="done" aria-controls="cp-list"></div>
   <div class="cp-hint" id="cp-hint"></div>
   <div class="cp-list" id="cp-list" role="group" aria-label="Cities"></div>
+  <div class="cp-foot"><button type="button" class="btn btn-primary cp-done-btm" id="cp-done">DONE</button></div>
 </div>
+<script>
+// MOCKUP_grokbot: pin a sheet's DONE to the exact box of the page's pinned NEXT (same x, y, width, height),
+// and reserve that space at the bottom of the sheet so the sheet's content (list / map) ends 8px above it.
+function sheetPinDone(sheetId) {
+  const s = document.getElementById(sheetId); if (!s || s.hidden) return;
+  const f = s.querySelector('.cp-foot'), b = f && f.querySelector('.cp-done-btm'); if (!b) return;
+  const n = [...document.querySelectorAll('.screen.active .bottom-action .btn-primary')].find(e => e.offsetParent && e.getBoundingClientRect().height > 0);
+  if (!n) { b.removeAttribute('style'); f.removeAttribute('style'); return; }
+  const r = n.getBoundingClientRect(), sb = s.getBoundingClientRect().bottom;
+  b.style.cssText = 'position:fixed;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;right:auto;bottom:auto;margin:0;z-index:2';
+  f.style.height = Math.max(0, Math.round(sb - r.top + 8)) + 'px';
+}
+window.addEventListener('resize', () => document.querySelectorAll('.cp-sheet').forEach(s => { if (!s.hidden) sheetPinDone(s.id); }));
+
+(function () {
+  // X keeps the picks and closes, exactly like tapping the backdrop (same handlers run).
+  document.getElementById('cp-x').addEventListener('click', e => { e.preventDefault(); document.getElementById('cp-backdrop').click(); });
+  const _o = _cpOpen; window._cpOpen = _cpOpen = function () { const r = _o.apply(this, arguments); sheetPinDone('cp-sheet'); return r; };
+})();
+</script>
 <div class="mock-badge_grokbot">Mockup K2</div>
 
 <!-- MOCKUP_grokbot variant I behaviour -->

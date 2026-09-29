@@ -721,15 +721,26 @@
     .wya-csearch { position: relative; z-index: 1100; }
     #wya-cq { width: 100%; min-height: 44px; padding: 10px 12px; font-size: 16px; box-sizing: border-box; }
     .wya-csearch .wya-sug { left: 16px; right: 16px; }
-    .wya-ctools { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 20px 10px; }
-    .wya-ctip { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .wya-ctools { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 4px 20px 8px; }
+    .wya-ctip { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: -0.02em; line-height: 15px; color: var(--muted); max-width: 100%; }
     .wya-cmap { position: relative; flex: 1; min-height: 0; margin: 0 16px; border: 1px solid var(--dim); border-radius: var(--radius); overflow: hidden; background: #1a1a1a; }
     #wya-map-c { position: absolute; inset: 0; background: #1a1a1a; }
     #wya-map-c .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.6); }
     #wya-map-c .leaflet-control-attribution { font-size: 8px; line-height: 1.3; background: rgba(17,17,17,0.75); color: var(--muted); padding: 0 4px; }
     #wya-map-c .leaflet-control-attribution a { color: var(--muted); }
-    #wya-map-c .leaflet-control-zoom { display: none; }
-    .wya-cfoot { padding: 10px 20px calc(env(safe-area-inset-bottom, 0px) + 14px); min-height: 18px; }
+    #wya-map-c { touch-action: none; } /* pinch goes to the map, not the page */
+    #wya-map-c .leaflet-control-zoom { margin: 10px 10px 0 0; border: none; box-shadow: none; border-radius: var(--radius); background: none; display: flex; flex-direction: column; gap: 6px; }
+    #wya-map-c .leaflet-control-zoom a { width: 40px; height: 40px; line-height: 38px; font-family: 'Space Mono', monospace; font-size: 22px; font-weight: 400; text-indent: 0; color: var(--text); background: rgba(17,17,17,0.92); border: 1px solid var(--dim); border-radius: var(--radius); box-sizing: border-box; touch-action: manipulation; }
+    #wya-map-c .leaflet-control-zoom a:hover, #wya-map-c .leaflet-control-zoom a:active { background: #222; color: var(--accent); }
+    #wya-map-c .leaflet-control-zoom a.leaflet-disabled { color: #444; background: rgba(17,17,17,0.92); }
+    .wya-cfoot { padding: 8px 20px 0; min-height: 18px; }
+    /* MOCKUP_grokbot sheet footer: DONE sits exactly where the page's pinned NEXT is; small X close top-right */
+    .cp-x { width: 40px; height: 40px; margin: -4px -8px -4px 0; display: flex; align-items: center; justify-content: center; background: none; border: none; border-radius: var(--radius); color: var(--text); cursor: pointer; touch-action: manipulation; flex-shrink: 0; }
+    .cp-x:hover, .cp-x:focus-visible { background: #222; }
+    .cp-x svg { width: 18px; height: 18px; display: block; }
+    .cp-sheet-head { min-height: 40px; }
+    .cp-foot { flex-shrink: 0; height: 112px; position: relative; }
+    .cp-foot .cp-done-btm { position: absolute; left: 23px; right: 23px; bottom: 49px; width: auto; }
     .wya-cfoot .wya-city { display: block; font-size: 12px; }
     .wya-map-wrap { position: relative; height: 150px; border: 1px solid var(--dim); border-radius: var(--radius); overflow: hidden; background: #1a1a1a; }
     #wya-map { position: absolute; inset: 0; background: #1a1a1a; }
@@ -4076,6 +4087,19 @@ async function _doZipLookup(zip) {
 </script>
 <!-- MOCKUP_grokbot WYA: location field logic (options A / B / C) -->
 <script>
+// MOCKUP_grokbot: pin a sheet's DONE to the exact box of the page's pinned NEXT (same x, y, width, height),
+// and reserve that space at the bottom of the sheet so the sheet's content (list / map) ends 8px above it.
+function sheetPinDone(sheetId) {
+  const s = document.getElementById(sheetId); if (!s || s.hidden) return;
+  const f = s.querySelector('.cp-foot'), b = f && f.querySelector('.cp-done-btm'); if (!b) return;
+  const n = [...document.querySelectorAll('.screen.active .bottom-action .btn-primary')].find(e => e.offsetParent && e.getBoundingClientRect().height > 0);
+  if (!n) { b.removeAttribute('style'); f.removeAttribute('style'); return; }
+  const r = n.getBoundingClientRect(), sb = s.getBoundingClientRect().bottom;
+  b.style.cssText = 'position:fixed;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;right:auto;bottom:auto;margin:0;z-index:2';
+  f.style.height = Math.max(0, Math.round(sb - r.top + 8)) + 'px';
+}
+window.addEventListener('resize', () => document.querySelectorAll('.cp-sheet').forEach(s => { if (!s.hidden) sheetPinDone(s.id); }));
+
 // Stored per applicant (see wyaPayload): lat / lng rounded to 2 decimals (~1.1 km north-south, less east-west) for privacy,
 // the browser's geolocation accuracy (m, GPS only), the source ('gps' | 'pin' | 'zip' | 'city'), the readable label and country.
 // A = inline map; B = zip / city box; C = compact row that opens the map in an overlay sheet (styled like the city picklist).
@@ -4148,10 +4172,12 @@ async function _wyaFromPoint(lat, lng, source, accuracy) {
 function _wyaMapInit() {
   if (_wyaMap || !_wyaId.map || !window.L) return;
   const el = document.getElementById(_wyaId.map); if (!el || !el.offsetWidth) return;
-  _wyaMap = L.map(el, { zoomControl: false, attributionControl: true, worldCopyJump: true }).setView([39.5, -98.35], 3);
+  _wyaMap = L.map(el, { zoomControl: false, attributionControl: true, worldCopyJump: true, touchZoom: true, doubleClickZoom: true, bounceAtZoomLimits: false }).setView([39.5, -98.35], 3);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(_wyaMap);
   _wyaMap.attributionControl.setPrefix(false);
   _wyaMap.on('click', e => _wyaDrop(e.latlng.lat, e.latlng.lng, 'pin'));
+  // C: visible + / − buttons (pinch-zoom and double-tap zoom stay on, Leaflet's defaults)
+  if (WYA_OPT === 'C') L.control.zoom({ position: 'topright', zoomInText: '+', zoomOutText: '\u2212', zoomInTitle: 'Zoom in', zoomOutTitle: 'Zoom out' }).addTo(_wyaMap);
 }
 function _wyaPinAt(lat, lng, zoom) {
   if (!_wyaMap) return;
@@ -4231,13 +4257,14 @@ function wyaOpenSheet() {
   s.hidden = false; b.hidden = false; q.value = ''; document.getElementById('wya-csug').hidden = true;
   _wyaPend = null;
   document.getElementById('wya-row').classList.add('active');
+  sheetPinDone('wya-sheet');
   requestAnimationFrame(() => {
     _wyaMapInit(); if (!_wyaMap) return; _wyaMap.invalidateSize();
     if (state.wya) { _wyaPinAt(state.wya.lat, state.wya.lng, 12); _wyaShow('\uD83D\uDCCD ' + _wyaTxt(state.wya), 'set'); }
     else _wyaShow('Search, use your location, or tap the map');
   });
 }
-function wyaCloseSheet() { // Done / backdrop / Escape: keep what was picked (like the city picklist) and close
+function wyaCloseSheet() { // DONE / X / backdrop / Escape: keep what was picked (like the city picklist) and close
   const s = document.getElementById('wya-sheet'), b = document.getElementById('wya-backdrop');
   document.getElementById('wya-cq').blur(); s.hidden = true; b.hidden = true;
   document.getElementById('wya-row').classList.remove('active');
@@ -4267,6 +4294,7 @@ window.addEventListener('load', () => {
     document.getElementById('wya-row').addEventListener('click', e => { e.preventDefault(); wyaOpenSheet(); });
     document.getElementById('wya-done').addEventListener('click', e => { e.preventDefault(); wyaCloseSheet(); });
     document.getElementById('wya-backdrop').addEventListener('click', wyaCloseSheet);
+    document.getElementById('wya-x').addEventListener('click', e => { e.preventDefault(); wyaCloseSheet(); }); // X = keep the pick and close, like the backdrop
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.getElementById('wya-sheet').hidden) wyaCloseSheet(); });
     // EDIT on the folded Location row opens the sheet straight away (the row stays folded, so nothing on the screen moves)
     const cond = document.querySelector('#who-loc > .who-cond');
@@ -4290,11 +4318,12 @@ window.addEventListener('load', () => {
 <!-- MOCKUP_grokbot WYA C: map sheet (same look and behaviour as the city picklist sheet: backdrop, title + DONE, search on top) -->
 <div class="cp-backdrop wya-backdrop" id="wya-backdrop" hidden></div>
 <div class="cp-sheet wya-sheet" id="wya-sheet" role="dialog" aria-modal="true" aria-label="Where you live" hidden>
-  <div class="cp-sheet-head"><span class="cp-sheet-title">Where you live</span><button type="button" class="cp-done" id="wya-done">DONE</button></div>
+  <div class="cp-sheet-head"><span class="cp-sheet-title">Where you live</span><button type="button" class="cp-x" id="wya-x" aria-label="Close"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button></div>
   <div class="cp-search-wrap wya-csearch"><input class="field-input" id="wya-cq" type="text" placeholder="Zip, postcode or city" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-autocomplete="list" aria-controls="wya-csug" aria-expanded="false"><div class="wya-sug" id="wya-csug" role="listbox" hidden></div></div>
-  <div class="wya-ctools"><button type="button" class="wya-gps" id="wya-gps-c" onclick="wyaLocate()"><span class="wya-gps-ic" aria-hidden="true"></span>USE MY LOCATION</button><span class="wya-ctip">or tap the map · drag the pin</span></div>
+  <div class="wya-ctools"><button type="button" class="wya-gps" id="wya-gps-c" onclick="wyaLocate()"><span class="wya-gps-ic" aria-hidden="true"></span>USE MY LOCATION</button><span class="wya-ctip">Pinch or use + / − to zoom · tap or drag the pin</span></div>
   <div class="wya-cmap"><div id="wya-map-c" role="application" aria-label="Map: tap or drag the pin to where you live"></div></div>
   <div class="wya-cfoot"><span class="wya-city" id="wya-city-c">Search, use your location, or tap the map</span></div>
+  <div class="cp-foot"><button type="button" class="btn btn-primary cp-done-btm" id="wya-done">DONE</button></div>
 </div>
 </body>
 </html>
