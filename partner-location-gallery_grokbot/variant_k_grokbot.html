@@ -905,6 +905,8 @@
     .vk-cb-txt { white-space: nowrap; overflow: hidden; text-overflow: clip; min-width: 0; }
     @media (max-width: 359px) { html.vk #screen-3 .partner-location-anywhere { font-size: 11.5px; gap: 7px; } }
     #vk-other-sum.empty { color: var(--muted); }
+    html.vk.vk-al-text #screen-3 .range-slider-wrap { margin-left: 13px; margin-right: 13px; } /* 1px border + 12px padding = box text column */
+    @media (max-width: 359px) { html.vk.vk-al-text #vk-row.solo .cp-field { padding-left: 12px; padding-right: 12px; } } /* keep the zip text on the same 13px column at 320 */
     html.vk #vk-other-sum .cp-sum-more { color: inherit; } /* '+ N more' in the same white as the city names */
     @media (max-height: 720px) { html.vk #vk-row .cp-field { min-height: 44px; padding-top: 4px; padding-bottom: 4px; } }
     /* 320: the halves are ~150px, so CHANGE / EDIT step aside (the whole box is the button) and values drop to 11px */
@@ -4800,6 +4802,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // city is not pinned there). Ticking relocating shows OTHER CITIES + opens the picklist; Done fills it. Unticking keeps the
 // cities (box stays, still editable); with none chosen, unticking hides the box again.
 let _vkZip = '', _vkName = '';
+// Slider side margins (?align=track|text): track = track and balls span the box edges (24..W-24, ball never overhangs);
+// text = track and balls inset 13px to line up with the boxes' inner text (SEEKING / PARTNER CITY labels and EDIT / CHANGE).
+const _VK_ALIGN_DEFAULT = 'track';
+(function () { const a = new URLSearchParams(location.search).get('align'); document.documentElement.classList.add('vk-al-' + (a === 'text' || a === 'track' ? a : _VK_ALIGN_DEFAULT)); })();
 (function () { const g = parseInt(new URLSearchParams(location.search).get('gap'), 10); if (g >= 0 && g <= 60) document.documentElement.style.setProperty('--vk-g', g + 'px'); })();
 function _vkFit(el, names, sep, refit) { // whole names that fit, then "+ N more"
   el._cpRefit = refit; el.replaceChildren();

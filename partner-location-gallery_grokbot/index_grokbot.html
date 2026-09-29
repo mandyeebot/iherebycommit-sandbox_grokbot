@@ -10,7 +10,7 @@
 (function () {
   var q = new URLSearchParams(location.search), v = (q.get('v') || '').toUpperCase();
   if (/^(K|J|I|H2|F|G|H|D|E|LIVE)$/.test(v)) {
-    location.replace('variant_' + v.toLowerCase() + '_grokbot.html?demo=1&cities=' + (q.get('cities') === '10' ? '10' : '3'));
+    location.replace('variant_' + v.toLowerCase() + '_grokbot.html?demo=1&cities=' + (q.get('cities') === '10' ? '10' : '3') + (/^(track|text)$/.test(q.get('align') || '') ? '&align=' + q.get('align') : ''));
   }
 })();
 </script>
