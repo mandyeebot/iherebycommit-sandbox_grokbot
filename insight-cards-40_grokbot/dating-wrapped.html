@@ -25,9 +25,7 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
 .bar{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:#fff}
 .bar.done i{width:100%}
-.bar.now i{width:100%;animation:fill var(--dur,9s) linear forwards}
-.paused .bar.now i{animation-play-state:paused}
-@keyframes fill{from{width:0}to{width:100%}}
+.bar.now i{width:100%}
 .chrome{position:absolute;top:26px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;z-index:20;font-size:9px;letter-spacing:1.5px;text-transform:uppercase}
 .chrome .logo{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px}
 .ex{border:1.5px solid currentColor;border-radius:999px;padding:3px 8px;font-weight:700}
@@ -45,12 +43,23 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
 .tapL,.tapR{position:absolute;top:50px;bottom:60px;z-index:10}
 .tapL{left:0;width:33%}.tapR{right:0;width:67%}
 .hint{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:9px;color:#666;z-index:0}
-/* animation */
-.a{opacity:0;transform:translateY(18px);animation:up .6s cubic-bezier(.2,.8,.2,1) forwards}
-.a2{animation-delay:.25s}.a3{animation-delay:.5s}.a4{animation-delay:.8s}.a5{animation-delay:1.1s}.a6{animation-delay:1.5s}
-@keyframes up{to{opacity:1;transform:none}}
-.static .a{opacity:1;transform:none;animation:none}
-.static .bar.now i{animation:none;width:100%}
+/* no animation: cards are static and only change on click/tap or arrow keys */
+.nav{width:393px;max-width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px}
+.nav button{font:700 11px 'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;border:1.5px solid #f6efe3;background:none;color:#f6efe3;border-radius:999px;padding:10px 16px;cursor:pointer}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav button.nx{background:#f6efe3;color:#111}
+.nav .pos{font:700 11px 'Space Mono',monospace;color:#9a978c;letter-spacing:1px;text-align:center}
+.tapL,.tapR{cursor:pointer}
+/* spend + relic */
+.rows{margin-top:10px;display:flex;flex-direction:column;gap:4px;position:relative;z-index:2}
+.rows div{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.5px}
+.rows label{width:104px;flex:none;text-transform:uppercase;letter-spacing:1px;font-size:9px}
+.rows i{display:block;height:11px;border-radius:3px;background:currentColor}
+.rows em{font-style:normal;white-space:nowrap}
+.chips{position:relative;z-index:2;margin-top:6px}
+.chips p{font-size:9.5px;line-height:1.4;margin:0 0 5px}
+.chips b{background:#0b2545;color:#e0b64a;border-radius:4px;padding:1px 5px;font-size:8.5px;letter-spacing:1px;text-transform:uppercase}
+.unit{position:relative;z-index:2;font-size:8.5px;line-height:1.4;border:1.5px dashed currentColor;border-radius:8px;padding:6px 8px;margin-top:8px}
 /* charts */
 .bars12{display:flex;align-items:flex-end;gap:5px;height:120px;margin-top:18px;position:relative;z-index:2}
 .bars12 div{flex:1;background:currentColor;border-radius:3px 3px 0 0;opacity:.35;position:relative}
@@ -122,8 +131,8 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
 <body>
 <div class="top">
   <div class="brand">I HEREBY <b>COMMIT</b> · DATING WRAPPED</div>
-  <div class="note"><b style="color:#f6efe3">Hinge and League decks use Amanda's REAL exports</b> (totals only: no names, photos, message text or locations). The <b style="color:#f6efe3">Tinder deck is still EXAMPLE DATA</b> for a made-up person ("Maya"), because no real Tinder export was found. Every outside stat shows its source on the screen. Tap right = next, left = back, hold = pause, arrow keys work.</div>
-  <div class="tabs"><button class="tab on" data-deck="start">Start</button><button class="tab" data-deck="tinder">Tinder · 8</button><button class="tab" data-deck="hinge">Hinge · 8</button><button class="tab" data-deck="league">League · 12</button></div>
+  <div class="note"><b style="color:#f6efe3">Hinge and League decks use Amanda's REAL exports</b> (totals only: no names, photos, message text or locations). The <b style="color:#f6efe3">Tinder deck is still EXAMPLE DATA</b> for a made-up person ("Maya"), because no real Tinder export was found. Every outside stat shows its source on the screen. Cards are static: nothing moves or advances on its own. Use the Back / Next buttons under the phone, tap the right or left side of the screen, or the arrow keys.</div>
+  <div class="tabs"><button class="tab on" data-deck="start">Start</button><button class="tab" data-deck="tinder">Tinder · 9</button><button class="tab" data-deck="hinge">Hinge · 9</button><button class="tab" data-deck="league">League · 14</button></div>
 </div>
 <div class="phone" id="phone">
   <div class="bars" id="bars"></div>
@@ -131,8 +140,9 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
   <div id="stage"></div>
   <div class="tapL" id="tapL"></div><div class="tapR" id="tapR"></div>
 </div>
+<div class="nav"><button id="bk" onclick="prev()">← Back</button><span class="pos" id="pos"></span><button class="nx" id="nx" onclick="next()">Next →</button></div>
 <div class="legend">
-  <b>How to read this.</b> Solid "✓ YOUR REAL … DATA" tags = numbers computed from Amanda's own export (read-only aggregates, table and column named on the tag). Dashed "EXAMPLE DATA" tags = made-up numbers (Tinder deck only). Every outside stat has a tappable source box with the source name, year and n, and each deck ends with a Sources screen. <b style="color:#e0b64a">League</b>: league_profile, league_interactions, league_matches, league_messages, league_preferences, league_activity. <b style="color:#9b7bff">Hinge</b>: hinge_interactions, hinge_messages, hinge_preferences. We never show email, phone, location, IP, message text, or match names or photos. No League company data or League-published stats. Match rate reflects how picky you are as much as how others respond. It is not a desirability score.
+  <b>How to read this.</b> Solid "✓ YOUR REAL … DATA" tags = numbers computed from Amanda's own export (read-only aggregates, table and column named on the tag). Dashed "EXAMPLE DATA" tags = made-up numbers (Tinder deck only). Every outside stat has a tappable source box with the source name, year and n, and each deck ends with a Sources screen. <b style="color:#e0b64a">League</b>: league_profile, league_interactions, league_matches, league_messages, league_preferences, league_activity, league_purchases. <b style="color:#9b7bff">Hinge</b>: hinge_interactions, hinge_messages, hinge_preferences, hinge_purchases. We never show email, phone, location, IP, message text, or match names or photos. No League company data or League-published stats. Match rate reflects how picky you are as much as how others respond. It is not a desirability score.
 </div>
 <script>
 const TH={
@@ -162,6 +172,7 @@ const SRC={
  nhanes2:{name:'CDC NHANES body measurements (NCHS Series 3, No. 50)',meta:'Measured Aug 2021–Aug 2023, published 2025 · n=385 men 30–39, 348 men 40–49',url:'https://doi.org/10.15620/cdc/174595'},
  tinderData:{name:'Tinder · download your data (data.json)',meta:'Official Tinder data request page',url:'https://account.gotinder.com/data'},
  hingeData:{name:'Hinge · How can I make a Privacy Request?',meta:'Official Hinge help page (request your export)',url:'https://help.hinge.co/hc/en-us/articles/360004792234-How-can-I-make-a-Privacy-Request'},
+ tc2016:{name:'TechCrunch · "The League launches a rebuilt, event-centric dating app"',meta:'News article, Apr 28 2016',url:'https://techcrunch.com/2016/04/28/the-league-launches-a-rebuilt-event-centric-dating-app/'},
  leagueData:{name:'The League · How do I request a copy of my personal data?',meta:'Official League help page ("Email Me My Data")',url:'https://theleague-help.zendesk.com/hc/en-us/articles/47047296772763-How-do-I-request-a-copy-of-my-personal-data-on-The-League'}
 };
 function shortUrl(u){return u.replace(/^https?:\/\/(www\.)?/,'')}
@@ -186,16 +197,16 @@ start:[
   <div class="h a a2" style="font-size:40px">Your dating year.<br>One deck per app.</div>
   <div class="p a a3">Pick an app to start. Each deck uses <b>only that app's export</b>, in that app's colors. Tinder is EXAMPLE data. Hinge and League are <b>Amanda's real exports</b>. Every outside stat shows its source on the screen.</div>
   <div class="picker a a4">
-   <button style="background:${T.primary};color:#fff" onclick="event.stopPropagation();setDeck('tinder')"><span class="ic" style="background:#fff;color:${T.primary}">T</span><div><b>Your Tinder Wrapped</b><span>EXAMPLE data · 8 screens</span></div></button>
-   <button style="background:${H.primary};color:#fff" onclick="event.stopPropagation();setDeck('hinge')"><span class="ic" style="background:#fff;color:${H.primary}">H</span><div><b>Your Hinge Wrapped</b><span>Amanda's REAL data · 8 screens</span></div></button>
-   <button style="background:${L.second};color:${L.dark}" onclick="event.stopPropagation();setDeck('league')"><span class="ic" style="background:${L.primary};color:${L.second}">L</span><div><b>Your League Wrapped</b><span>Amanda's REAL data · 12 screens</span></div></button>
+   <button style="background:${T.primary};color:#fff" onclick="event.stopPropagation();setDeck('tinder')"><span class="ic" style="background:#fff;color:${T.primary}">T</span><div><b>Your Tinder Wrapped</b><span>EXAMPLE data · 9 screens</span></div></button>
+   <button style="background:${H.primary};color:#fff" onclick="event.stopPropagation();setDeck('hinge')"><span class="ic" style="background:#fff;color:${H.primary}">H</span><div><b>Your Hinge Wrapped</b><span>Amanda's REAL data · 9 screens</span></div></button>
+   <button style="background:${L.second};color:${L.dark}" onclick="event.stopPropagation();setDeck('league')"><span class="ic" style="background:${L.primary};color:${L.second}">L</span><div><b>Your League Wrapped</b><span>Amanda's REAL data · 14 screens</span></div></button>
   </div>
   ${foot('All personal numbers on every screen are EXAMPLE DATA for a made-up person.',false)}`}
 ],
 tinder:[
  {bg:T.primary,fg:'#fff',html:()=>`${blob(420,-120,440,T.second)}${blob(170,250,170,T.acc,.95)}
   ${badge(T,'b0',null)}
-  <div class="k a" style="margin-top:14px">Deck 1 of 3 · 8 screens</div>
+  <div class="k a" style="margin-top:14px">Deck 1 of 3 · 9 screens</div>
   <div class="divider a a2">Your<br>Tinder<br>Wrapped</div>
   <div class="h a a3" style="font-size:24px;margin-top:14px">You swiped. You matched.<br>You met people. Here's the proof.</div>
   <div class="p a a4">Built from the <b>data.json</b> you downloaded from Tinder. Read on your phone, not our servers.</div>
@@ -204,7 +215,7 @@ tinder:[
   ${badge(T,'b1',null)}
   ${mine('data.json → Usage.app_opens')}
   <div class="h a a2">You opened Tinder</div>
-  <div class="big a a3" style="color:${T.acc}" data-count="1214">1,214</div>
+  <div class="big a a3" style="color:${T.acc}">1,214</div>
   <div class="h a a3" style="font-size:22px">times this year.</div>
   <div class="p a a4">That's <b>3.3 a day</b>. Your busiest month was <b style="color:${T.acc}">February</b>.</div>
   <div class="a a5" style="color:${T.acc}">${bars12()}</div>
@@ -223,7 +234,7 @@ tinder:[
  {bg:T.second,fg:T.dark,html:()=>`${blob(230,-80,-40,T.acc,.9)}
   ${badge(T,'b0','cite')}
   ${mine('data.json → Usage.matches ÷ swipes_likes (341 ÷ 775)')}
-  <div class="big a a2" data-count="44" style="font-size:110px">44<small>%</small></div>
+  <div class="big a a2" style="font-size:110px">44<small>%</small></div>
   <div class="h a a3" style="font-size:21px">of your right swipes turned into matches.</div>
   <div class="p a a4" style="margin-top:8px"><b>Heads up:</b> match rate is part pickiness, part how people respond. It is <b>not a hotness score.</b></div>
   ${cite('swipestats','Compared with','Typical (median) match rate: <b>women 41%</b>, <b>men 2%</b>. Same formula as yours (matches ÷ right swipes).')}
@@ -254,6 +265,21 @@ tinder:[
   <div class="p a a4" style="margin-top:8px"><b style="color:${T.acc}">19%</b> of your matches got 11+ messages from you (64 of 341).</div>
   ${cite('swipestats','Compared with','Women\'s matches where the uploader sent 11+ messages: <b>13.5%</b>. Also counts only messages the uploader sent, like yours.','background:rgba(255,241,230,.08)')}
   ${foot('EXAMPLE DATA')}`},
+ {bg:T.dark,fg:'#fff',html:()=>`${blob(-60,420,420,T.primary,.55)}
+  ${badge(T,'b0',null)}
+  ${mine('data.json → Purchases')}
+  <div class="k" style="color:${T.acc}">What you spent</div>
+  <div class="h" style="font-size:25px">You paid for Tinder <span style="color:${T.acc}">3 times</span>.</div>
+  <div class="funnel">
+   <div style="background:${T.primary};color:#fff">Gold · 6 months · Jan 2025<b>6 mo</b></div>
+   <div style="background:${T.primary};color:#fff;opacity:.8">Plus · 1 month · Jun 2025<b>1 mo</b></div>
+   <div style="background:${T.primary};color:#fff;opacity:.65">Gold · 1 month · Nov 2025<b>1 mo</b></div>
+   <div style="background:#fff;color:${T.dark}">Boosts used<b>4</b></div>
+   <div style="background:#fff;color:${T.dark}">Super Likes used<b>11</b></div>
+  </div>
+  <div class="h" style="font-size:19px;margin-top:12px">8 paid months. Total spend: <span style="color:${T.acc}">not in your file.</span></div>
+  <div class="unit">Tinder's export lists each subscription's tier, length, start/end dates and app store, plus boost and Super Like use. <b>It doesn't include prices, so we can't total your spend.</b> Check your App Store or Google Play receipts for the dollar amount.</div>
+  ${foot('Purchases: EXAMPLE DATA (fields match Tinder data.json → Purchases: subscription, boost_tracking, super_like_tracking)')}`},
  {bg:T.primary,fg:'#fff',html:()=>`${blob(260,220,580,T.acc,.9)}
   ${badge(T,'b0',null)}
   <div class="h a a2" style="font-size:26px">Maya's Tinder 2025, in one screenshot.</div>
@@ -270,13 +296,13 @@ tinder:[
   ${foot('IHEREBYCOMMIT.COM · all personal numbers EXAMPLE DATA',false)}`},
  {bg:T.light,fg:T.dark,html:()=>sources(T,[
    {k:'swipestats',used:'Used on: Guess vs. real (screen 3), Match rate (4), Match to real life (6).'},
-   {k:'tinderData',used:'Where your data.json comes from. Every personal number in this deck is from that file (EXAMPLE DATA here).'}],
+   {k:'tinderData',used:'Where your data.json comes from. Every personal number in this deck is from that file (EXAMPLE DATA here). The spending screen (7) uses its Purchases section, which has subscription tier, length and dates but no prices.'}],
    'Tap any source to open it. SwipeStats numbers are a company analysis of people who chose to upload their data, not a random sample.')}
 ],
 hinge:[
  {bg:H.primary,fg:'#fff',html:()=>`${blob(400,-150,480,H.second)}${blob(150,275,330,H.acc,.95)}
   ${badge(H,'b0',null)}
-  <div class="k a" style="margin-top:14px">Deck 2 of 3 · 8 screens</div>
+  <div class="k a" style="margin-top:14px">Deck 2 of 3 · 9 screens</div>
   <div class="divider a a2">Your<br>Hinge<br>Wrapped</div>
   <div class="p a a3" style="font-size:14px">Built from <b>Amanda's real Hinge export</b> (CSV files, exported Sep 28, 2026). Only totals: no names, photos, message text or locations.</div>
   ${foot('Amanda · on Hinge since April 2025 · YOUR REAL HINGE DATA',false)}`},
@@ -334,6 +360,19 @@ hinge:[
   <div class="h a a4" style="font-size:20px">wide: your age range.</div>
   <div class="p a a5">On The League (also your real data) you set 33–52 and a 5′11″ height minimum. Hinge-you is more open on height.</div>
   ${foot('YOUR REAL HINGE DATA')}`},
+ {bg:H.dark,fg:'#fff',html:()=>`${blob(250,-60,380,H.primary,.8)}
+  ${badge(H,'b0',null)}
+  ${real(H,'hinge_purchases · usd_price, purchase_type, purchased_at')}
+  <div class="k" style="color:${H.acc}">What you spent</div>
+  <div class="big" style="color:${H.acc}"><small>$</small>229<small>.95</small></div>
+  <div class="h" style="font-size:22px;margin-top:6px">on Hinge, Aug–Dec 2025.</div>
+  <div class="funnel">
+   <div style="background:${H.primary};color:#fff">6 subscription payments<b>$219.96</b></div>
+   <div style="background:${H.second};color:${H.dark}">1 Boost · Aug 31<b>$9.99</b></div>
+  </div>
+  <div class="h" style="font-size:19px;margin-top:14px">That's about <span style="color:${H.second};font-size:28px">$4.42</span> for each of the 52 people you messaged.</div>
+  <div class="unit">Payments Aug 14–Dec 14, 2025, as recorded in USD in your export. A second "boost" entry has no price (likely the Boost being used) and isn't counted. Plan names are blank in the file.</div>
+  ${foot('Spend: YOUR REAL HINGE DATA (hinge_purchases)')}`},
  {bg:H.primary,fg:'#fff',html:()=>`${blob(260,220,580,H.second,.9)}
   ${badge(H,'b0',null)}
   <div class="h a a2" style="font-size:26px">Amanda's Hinge, in one screenshot.</div>
@@ -349,13 +388,13 @@ hinge:[
   <div class="cta a a4"><button style="background:#fff;color:${H.primary}">Share my Wrapped</button><button style="background:${H.dark};color:#fff" onclick="event.stopPropagation();next()">Sources →</button></div>
   ${foot('IHEREBYCOMMIT.COM · YOUR REAL HINGE DATA',false)}`},
  {bg:H.light,fg:H.dark,html:()=>sources(H,[
-   {k:'hingeData',used:'Where your Hinge export comes from. Every number in this deck is computed from it (tables hinge_interactions, hinge_messages, hinge_preferences).'}],
+   {k:'hingeData',used:'Where your Hinge export comes from. Every number in this deck is computed from it (tables hinge_interactions, hinge_messages, hinge_preferences, hinge_purchases).'}],
    '<b>No outside statistics are used in this deck.</b> Your export has no match dates, "We Met" answers, like comments or links between likes and chats, so screens that needed those were dropped.')}
 ],
 league:[
  {bg:L.primary,fg:L.light,html:()=>`${blob(380,-140,540,L.second,.9)}${blob(120,300,180,L.acc,.9)}
   ${badge(L,'b1',null)}
-  <div class="k a" style="margin-top:12px;color:${L.second}">Deck 3 of 3 · 12 screens</div>
+  <div class="k a" style="margin-top:12px;color:${L.second}">Deck 3 of 3 · 14 screens</div>
   <div class="divider a a2" style="color:${L.second}">Your<br>League<br>Wrapped</div>
   <div class="p a a3" style="font-size:13px">Built from <b>Amanda's real League export</b> ("Email Me My Data", exported Sep 28, 2026). Only totals: <b style="color:${L.second}">no names, photos, message text or locations.</b></div>
   ${foot('Amanda · on The League since 2015 · YOUR REAL LEAGUE DATA',false)}`},
@@ -380,7 +419,7 @@ league:[
  {bg:L.primary,fg:L.light,html:()=>`${blob(220,240,-40,L.second,.6)}
   ${badge(L,'b1',null)}
   ${real(L,'league_interactions.became_match')}
-  <div class="big a a2" style="color:${L.second}" data-count="59">59<small>%</small></div>
+  <div class="big a a2" style="color:${L.second}">59<small>%</small></div>
   <div class="h a a3" style="font-size:22px">of your likes became matches.</div>
   <div class="a a4" style="color:${L.second}">${dots(100,59)}</div>
   <div class="p a a4"><b>1,189 matches from 2,024 likes</b> (1,202 matches in total). Match rate is part pickiness, part how people respond. It's <b>not a hotness score.</b></div>
@@ -431,14 +470,33 @@ league:[
   <div class="h a a4" style="font-size:19px;margin-top:4px">A 5′11″ minimum fits about <span style="color:${L.primary};font-size:30px">28%</span> of U.S. men 30–39 and <span style="color:${L.primary};font-size:30px">34%</span> of men 40–49.</div>
   ${cite('nhanes2','Source for 28% and 34%','Measured heights of U.S. men. Both figures are our estimates from the report\'s published percentiles.')}
   ${foot('Filters: YOUR REAL LEAGUE DATA')}`},
- {bg:L.second,fg:L.dark,html:()=>`${blob(260,-80,540,L.primary,.9)}
+ {bg:L.second,fg:L.dark,html:()=>`
   ${badge(L,'b0',null)}
-  ${real(L,'league_activity · group + event entries')}
-  <div class="h a a2">You joined</div>
-  <div class="big a a3" style="color:${L.primary}">61</div>
-  <div class="h a a3" style="font-size:22px">League groups. Plus 3 events.</div>
-  <div class="p a a4">The social side of the app. Group and event names stay private.</div>
-  ${foot('YOUR REAL LEAGUE DATA')}`},
+  ${real(L,'league_activity · group_name, event_name, region')}
+  <div class="k">A League relic · 1 of 2</div>
+  <div class="h" style="font-size:24px">You joined <span style="color:${L.primary}">61 groups</span> in 9 cities, plus 3 events.</div>
+  <div class="rows"><div><label>Los Angeles</label><i style="width:150px;color:${L.primary}"></i><em>21</em></div><div><label>Austin</label><i style="width:93px;color:${L.primary}"></i><em>13</em></div><div><label>SF Bay Area</label><i style="width:79px;color:${L.primary}"></i><em>11</em></div><div><label>New York</label><i style="width:36px;color:${L.primary}"></i><em>5</em></div><div><label>London</label><i style="width:29px;color:${L.primary}"></i><em>4</em></div><div><label>Denver</label><i style="width:14px;color:${L.primary}"></i><em>2</em></div><div><label>Paris</label><i style="width:14px;color:${L.primary}"></i><em>2</em></div><div><label>Berlin</label><i style="width:7px;color:${L.primary}"></i><em>1</em></div><div><label>Santa Barbara</label><i style="width:7px;color:${L.primary}"></i><em>1</em></div><div><label>Global</label><i style="width:7px;color:${L.primary}"></i><em>1</em></div></div>
+  <div class="p" style="margin-top:10px;font-size:11px;line-height:1.45"><b>Your repeat clubs:</b> Soho House ×5 · Comedy Lovers ×4 · Founders ×2 · Equinox ×2 · YPO ×2 · Foodies ×2 · karaoke ×2</div>
+  ${cite('tc2016','Groups and events arrived in 2016','Launched in The League\'s 2016 rebuild. No longer in the app, per Amanda.')}
+  ${foot('Groups: YOUR REAL LEAGUE DATA · no join dates in the export')}`},
+ {bg:L.light,fg:L.dark,html:()=>`
+  ${badge(L,'b0',null)}
+  <div class="k" style="margin-bottom:4px">A League relic · 2 of 2</div>
+  <div class="h" style="font-size:20px">Every group you were in.</div>
+  <div class="chips"><p><b>Los Angeles 21</b> Beach Lovers · Beach Volleyballers · Boating in Southern California · Brits in LA · Comedy Lovers · Comedy Lovers (LA) · Creatives LA · Doc in the League · F1 Racing Fans 🏎 🏎 🏎 · Film Lovers · Fitness Freaks · Founders · Hikers · Hiking Los Angeles · Karaoke Friends LA · LA Dodger Fans ⚾️ · Los Angeles · Los Angeles Singles · Malibu Singles · Soho House LA (Official) · Surfers in LA</p><p><b>Austin 13</b> Austin · Austin Sand Volleyball · Austin Super Friends · Austin Tech Folks · Comedy Lovers · Downtown Austin · Foodies · Kitesurfers · Live Music Peeps · Members-Only · Singles in Austin · Soho House Austin · Texas Two-Steppers</p><p><b>SF Bay Area 11</b> Equinox Members · Foodies · Founders · League Angel Investors · Learn to Surf Goalmate Group · NFL Fans · Soho House Members · YPO Members - INACTIVE · ☑️ Equinox Members · ☑️ Soho House Members · ✅ YPO Members</p><p><b>New York 5</b> Global House/Apt/Flat Swapping · Karaoke Fiends · Retired: Full - Semi - Early - FIRE - Mini · Soho House Members (Global) · Tall Clubs International</p><p><b>London 4</b> Bar Scouts · Comedy Lovers · Film Buffs · Londoners.</p><p><b>Denver 2</b> Childfree Lifestyle · Skiers &amp; Snowboarders</p><p><b>Paris 2</b> Movie Buffs · Paris</p><p><b>Berlin 1</b> League Burners</p><p><b>Santa Barbara 1</b> Santa Barbara ☀️ Meet ups and events</p><p><b>Global 1</b> Summit At Sea - Summit Series</p></div>
+  <div class="p" style="margin-top:8px;font-size:10.5px;line-height:1.4;border-top:1.5px solid;padding-top:6px"><b>Your 3 events, all in Austin:</b> Introducing League Events · Singles Happy Hour in Austin! · Singles Mixer in Austin!</div>
+  ${foot('YOUR REAL LEAGUE DATA (league_activity) · group names only, no members')}`},
+ {bg:L.dark,fg:L.light,html:()=>`${blob(260,-70,320,L.primary,1)}
+  ${badge(L,'b0',null)}
+  ${real(L,'league_purchases · amount, category, is_refunded')}
+  <div class="k" style="color:${L.second}">What you spent</div>
+  <div class="big" style="color:${L.second}"><small>$</small>8,575</div>
+  <div class="h" style="font-size:20px;margin-top:6px">on The League, 2016–2019. <span style="color:${L.acc}">74 purchases.</span></div>
+  <div class="rows"><div><label>Membership</label><i style="width:95px;color:${L.second}"></i><em>$6,600 · 39</em></div><div><label>Boosts</label><i style="width:16px;color:${L.second}"></i><em>$1,126 · 7</em></div><div><label>Tickets</label><i style="width:7px;color:${L.second}"></i><em>$482 · 14</em></div><div><label>Service</label><i style="width:4px;color:${L.second}"></i><em>$200 · 1</em></div><div><label>Extra profiles</label><i style="width:4px;color:${L.second}"></i><em>$168 · 13</em></div></div>
+  <div class="h" style="font-size:16px;margin-top:10px">Biggest year: <span style="color:${L.second}">2019, $4,721</span>. About <span style="color:${L.acc}">$7.13</span> per match (1,202 all-time).</div>
+  <div class="p" style="margin-top:6px;font-size:10.5px;line-height:1.4">Not counted: 4 refunded purchases worth $5,700, including 2 memberships in Jan 2022.</div>
+  <div class="unit">Units to confirm: the export has no currency field. The amounts match U.S. App Store prices ($4.99, $19.99, $199.99, $999.99), so we assume USD. They're the price recorded for each purchase and may not include tax or discounts. Purchases run 2016–2019; matches run 2017–2026.</div>
+  ${foot('Spend: YOUR REAL LEAGUE DATA (league_purchases)')}`},
  {bg:L.primary,fg:L.light,html:()=>`${blob(260,220,580,L.second,.9)}
   ${badge(L,'b1',null)}
   <div class="h a a2" style="font-size:26px;color:${L.second}">Amanda's League, in one screenshot.</div>
@@ -455,37 +513,35 @@ league:[
   ${foot('IHEREBYCOMMIT.COM · YOUR REAL LEAGUE DATA',false)}`},
  {bg:L.light,fg:L.dark,html:()=>sources(L,[
    {k:'nhanes2',used:'Used on: Your League filters (screen 9). Shares of men 5′11″ or taller, estimated from the published percentiles.'},
-   {k:'leagueData',used:'Where your League file comes from. Every other number in this deck is computed from it (league_profile, league_interactions, league_matches, league_messages, league_preferences, league_activity).'}],
-   'Tap any source to open it. <b>No League company data or League-published stats are used.</b> Your export includes only messages you sent (from Nov 2023) and likes/passes from Feb 2017 onward.',`<div class="cta" style="margin-top:10px"><button style="background:${L.primary};color:${L.second}" onclick="event.stopPropagation();setDeck('start')">All decks ↺</button></div>`)}
+   {k:'tc2016',used:'Used on: A League relic (10). Launch of groups and events. "No longer in the app" is per Amanda.'},
+   {k:'leagueData',used:'Where your League file comes from. Every other number in this deck is computed from it (7 league_ tables: profile, interactions, matches, messages, preferences, activity, purchases).'}],
+   'Tap any source to open it. <b>No League company data or League-published stats are used.</b> Messages cover only ones you sent (from Nov 2023); likes/passes start Feb 2017.',`<div class="cta" style="margin-top:10px"><button style="background:${L.primary};color:${L.second}" onclick="event.stopPropagation();setDeck('start')">All decks ↺</button></div>`)}
 ]};
 
 
 const ORDER=['start','tinder','hinge','league'];
 const qs=new URLSearchParams(location.search);
-let justHeld=false;
-let deck=ORDER.includes(qs.get('deck'))?qs.get('deck'):'start', idx=Math.max(0,(parseInt(qs.get('s')||'1',10)||1)-1), timer=null, paused=false;
+let deck=ORDER.includes(qs.get('deck'))?qs.get('deck'):'start', idx=Math.max(0,(parseInt(qs.get('s')||'1',10)||1)-1);
 const isStatic=qs.has('static'); if(isStatic)document.body.classList.add('static');
-const DUR=9000;
 const phone=document.getElementById('phone'),stage=document.getElementById('stage'),barsEl=document.getElementById('bars'),chrome=document.getElementById('chrome'),exTag=document.getElementById('exTag');
-function countUp(el){const t=+el.dataset.count;const suffix=el.innerHTML.replace(/^[\d,]+/,'');const t0=performance.now();const d=900;function f(n){const p=Math.min(1,(n-t0)/d);const v=Math.round(t*(1-Math.pow(1-p,3)));el.innerHTML=v.toLocaleString('en-US')+suffix;if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+const NAME={start:'Start',tinder:'Tinder',hinge:'Hinge',league:'League'};
 function render(){
   const list=decks[deck]; idx=Math.min(Math.max(idx,0),list.length-1); const s=list[idx];
-  barsEl.innerHTML=list.map((_,i)=>`<div class="bar ${i<idx?'done':i===idx?'now':''}" style="--dur:${DUR}ms"><i></i></div>`).join('');
+  barsEl.innerHTML=list.map((_,i)=>`<div class="bar ${i<idx?'done':i===idx?'now':''}"><i></i></div>`).join('');
   stage.innerHTML=`<div class="screen" style="background:${s.bg};color:${s.fg}">${s.html()}</div>`;
   chrome.style.color=s.fg;
   exTag.textContent=deck==='tinder'?'Example data':deck==='start'?'Tinder = example':'Your real data';
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.deck===deck));
-  if(!isStatic) stage.querySelectorAll('[data-count]').forEach(countUp);
-  clearTimeout(timer); if(!isStatic&&!paused&&!s.noauto) timer=setTimeout(next,DUR);
+  document.getElementById('pos').textContent=`${NAME[deck]} · ${idx+1} / ${list.length}`;
+  document.getElementById('bk').disabled=(deck==='start'&&idx===0);
+  document.getElementById('nx').disabled=(deck===ORDER[ORDER.length-1]&&idx===list.length-1);
 }
-function next(){const n=decks[deck].length; if(idx<n-1){idx++;render()} else {const k=ORDER.indexOf(deck); if(k<ORDER.length-1){setDeck(ORDER[k+1])} else clearTimeout(timer)}}
+function next(){const n=decks[deck].length; if(idx<n-1){idx++;render()} else {const k=ORDER.indexOf(deck); if(k<ORDER.length-1){setDeck(ORDER[k+1])}}}
 function prev(){if(idx>0){idx--;render()} else {const k=ORDER.indexOf(deck); if(k>0){deck=ORDER[k-1];idx=decks[deck].length-1;render()}}}
 function setDeck(d){deck=d;idx=0;render()}
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>setDeck(t.dataset.deck));
-document.getElementById('tapR').onclick=()=>{if(justHeld){justHeld=false;return}next()}; document.getElementById('tapL').onclick=()=>{if(justHeld){justHeld=false;return}prev()};
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')next(); if(e.key==='ArrowLeft')prev()});
-let holdT; phone.addEventListener('pointerdown',()=>{holdT=setTimeout(()=>{paused=true;justHeld=true;phone.classList.add('paused');clearTimeout(timer)},250)});
-phone.addEventListener('pointerup',()=>{clearTimeout(holdT); if(paused){paused=false;phone.classList.remove('paused');timer=setTimeout(next,DUR/2)}});
+document.getElementById('tapR').onclick=()=>next(); document.getElementById('tapL').onclick=()=>prev();
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next()} if(e.key==='ArrowLeft')prev()});
 render();
 </script>
 </body>
