@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Partner Location mockups: gallery (sandbox)</title>
+<script>
+// ?v=F|G|H|D|E|LIVE opens one variant alone, already past onboarding.
+(function () {
+  var q = new URLSearchParams(location.search), v = (q.get('v') || '').toUpperCase();
+  if (/^(F|G|H|D|E|LIVE)$/.test(v)) {
+    location.replace('variant_' + v.toLowerCase() + '_grokbot.html?demo=1&cities=' + (q.get('cities') === '10' ? '10' : '3'));
+  }
+})();
+</script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #eef0f3; color: #1d1d1f; }
+  header { padding: 20px 24px 8px; }
+  h1 { font-size: 20px; margin: 0 0 6px; }
+  .sub { font-size: 13px; color: #555; margin: 0 0 12px; max-width: 900px; line-height: 1.45; }
+  .ctl { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 13px; }
+  .ctl button { font: inherit; padding: 7px 14px; border-radius: 999px; border: 1px solid #b9bec7; background: #fff; cursor: pointer; }
+  .ctl button.on { background: #1d1d1f; color: #fff; border-color: #1d1d1f; }
+  .grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 16px 24px 40px; align-items: flex-start; }
+  .card { width: 393px; flex: 0 0 393px; }
+  .lbl { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px; min-height: 40px; }
+  .lbl b { font-size: 22px; min-width: 28px; }
+  .lbl span { font-size: 13px; color: #444; line-height: 1.35; flex: 1; }
+  .lbl a { font-size: 12px; color: #0a58ca; white-space: nowrap; }
+  .phone { width: 393px; height: 852px; border-radius: 34px; overflow: hidden; background: #fff; box-shadow: 0 0 0 10px #1d1d1f, 0 12px 30px rgba(0,0,0,.25); margin: 10px; margin-left: 10px; }
+  .phone iframe { width: 393px; height: 852px; border: 0; display: block; }
+  .card.live .lbl b { color: #8a5a00; }
+  @media (max-width: 860px) {
+    header { padding: 16px 14px 4px; }
+    .grid { flex-direction: column; flex-wrap: nowrap; padding: 12px 0 30px; gap: 22px; }
+    .card { width: 100%; flex: none; }
+    .lbl { padding: 0 14px; }
+    .phone { width: 100%; max-width: 393px; margin: 0 auto; border-radius: 0; box-shadow: none; border-top: 1px solid #ccd; border-bottom: 1px solid #ccd; }
+    .phone iframe { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Partner Location mockups: side by side</h1>
+  <p class="sub">Each frame opens on the singles <b>What You Want</b> screen (Seeking already answered, home zip 78704 = Austin, TX) and is fully interactive. Sample cities are pre-added. Saves are off: nothing leaves this page. Tip: add <code>?v=F</code> (or G, H, D, E, LIVE) to the URL to open one variant alone.</p>
+  <div class="ctl">Sample cities:
+    <button id="c3" class="on" onclick="setCities(3)">3 cities</button>
+    <button id="c10" onclick="setCities(10)">10 cities</button>
+    <button onclick="setCities(N)">Reset all frames</button>
+  </div>
+</header>
+<main class="grid" id="grid"></main>
+<script>
+var VARIANTS = [
+  ['F', 'Compact field showing a one-line city summary; tap it to open a search sheet with popular cities.'],
+  ['G', 'Horizontal strip of city chips that scrolls sideways; tap it or "+" to open the same search sheet.'],
+  ['H', 'Half row: DISTANCE on the left (tap to show the slider), CITIES (n) on the right opening the sheet.'],
+  ['D', 'Half-row city tags plus a DISTANCE slider (0–300 mi from 78704) at the top of the ranges.'],
+  ['E', 'Half row: "DISTANCE · EDIT" on the left (EDIT reveals the slider), outline Add city pill on the right.'],
+  ['LIVE', 'Current live design (2026-09-27r): primary city plus Add city tags, for comparison.']
+];
+var N = new URLSearchParams(location.search).get('cities') === '10' ? 10 : 3;
+function src(v) { return 'variant_' + v.toLowerCase() + '_grokbot.html?demo=1&cities=' + N + '&t=' + Date.now(); }
+function render() {
+  var g = document.getElementById('grid'); g.innerHTML = '';
+  VARIANTS.forEach(function (x) {
+    var d = document.createElement('section');
+    d.className = 'card' + (x[0] === 'LIVE' ? ' live' : '');
+    d.innerHTML = '<div class="lbl"><b>' + x[0] + '</b><span>' + x[1] + '</span><a target="_blank" href="?v=' + x[0] + '&cities=' + N + '">open alone ↗</a></div>' +
+      '<div class="phone"><iframe title="Variant ' + x[0] + '" data-v="' + x[0] + '" src="' + src(x[0]) + '"></iframe></div>';
+    g.appendChild(d);
+  });
+}
+function setCities(n) {
+  N = n;
+  document.getElementById('c3').classList.toggle('on', n === 3);
+  document.getElementById('c10').classList.toggle('on', n === 10);
+  var q = new URLSearchParams(location.search); q.set('cities', n); history.replaceState(null, '', '?' + q.toString());
+  render();
+}
+setCities(N);
+</script>
+</body>
+</html>
