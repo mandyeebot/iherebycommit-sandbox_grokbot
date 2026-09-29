@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="cp v-f vi vj vk">
+<html lang="en" class="cp v-f vi vj vk vk2">
 <head>
   <!-- MOCKUP_grokbot (sandbox only): every save / submit / event is answered locally with a fake OK; nothing leaves the page
        except the zip lookup, fonts and the city list. Not indexed. -->
@@ -913,6 +913,23 @@
     @media (max-height: 720px) { html.vk #vk-row .cp-field { min-height: 44px; padding-top: 4px; padding-bottom: 4px; } }
     /* 320: the halves are ~150px, so CHANGE / EDIT step aside (the whole box is the button) and values drop to 11px */
     @media (max-width: 359px) { html.vk #vk-row:not(.solo) .cp-field { padding-left: 9px; padding-right: 8px; } html.vk #vk-row:not(.solo) .cp-edit { display: none; } html.vk #vk-row:not(.solo) .cp-sum { font-size: 11px; } html.vk #vk-row:not(.solo) { gap: 6px; } }
+    /* ===== MOCKUP_grokbot K2: zip / postcode / city name ===== */
+    html.vk2 #vk-row { position: relative; }
+    html.vk2 .vk-zip-input { width: auto; max-width: 100%; text-overflow: ellipsis; overflow: hidden; }
+    html.vk2 #vk-zip-box.editing .vk-zip-input { flex: 1 1 auto; width: 100% !important; }
+    html.vk2 #vk-zip-box.editing .vk-zip-city { display: none; }
+    html.vk2 .vk-zip-input::placeholder { color: var(--muted); opacity: 1; }
+    .vk2-sug { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 30; display: flex; flex-direction: column; background: #1a1a1a;
+      border: 1px solid var(--dim); border-radius: var(--radius); overflow: hidden; box-shadow: 0 10px 24px rgba(0,0,0,0.55); }
+    .vk2-sug[hidden] { display: none; }
+    .vk2-opt { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; box-sizing: border-box; border-top: 1px solid var(--dim);
+      font-family: 'Space Mono', monospace; font-size: 13px; color: var(--text); cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .vk2-opt:first-child { border-top: none; }
+    .vk2-opt.active, .vk2-opt:active { background: #2a2a28; }
+    .vk2-opt .vk2-k { color: var(--accent); flex: none; }
+    .vk2-opt .vk2-sub { color: var(--muted); overflow: hidden; text-overflow: ellipsis; }
+    .vk2-opt.vk2-none { color: var(--muted); cursor: default; }
+    @media (max-height: 720px) { .vk2-opt { min-height: 40px; } }
   </style>
 </head>
 <body class="landing-active">
@@ -1283,15 +1300,16 @@
           <!-- MOCKUP_grokbot K: top row. Left = PARTNER CITY as a zip + city (tap to type another zip; the distance is measured from it).
                Right = OTHER CITIES (extra cities, independent of the zip); hidden until there are some, so the left box is full width. -->
           <div class="cp-half-row vk-row solo" id="vk-row">
-            <div class="cp-field" id="vk-zip-box" role="button" tabindex="0" aria-label="Change partner zip code">
+            <div class="cp-field" id="vk-zip-box" role="button" tabindex="0" aria-label="Change partner city: zip, postcode or city name">
               <span class="cp-line cp-top-line"><label class="field-label cp-k" for="vk-zip-input">Partner city</label><span class="cp-edit" id="vk-zip-edit">CHANGE</span></span>
               <!-- The zip digits are an input styled as the text itself (read-only until CHANGE), so editing happens in place: same line, same box height, city stays beside it. -->
-              <span class="cp-sum vk-zip-line" id="vk-zip-val"><input class="vk-zip-input" id="vk-zip-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="5" size="5" autocomplete="postal-code" enterkeyhint="done" aria-label="Partner zip code" readonly tabindex="-1"><span class="vk-zip-city" id="vk-zip-city"></span></span>
+              <span class="cp-sum vk-zip-line" id="vk-zip-val"><input class="vk-zip-input" id="vk-zip-input" type="text" inputmode="text" maxlength="40" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="Zip or city" role="combobox" aria-autocomplete="list" aria-controls="vk2-sug" aria-expanded="false" aria-label="Partner city: zip, postcode or city name" readonly tabindex="-1"><span class="vk-zip-city" id="vk-zip-city"></span></span>
             </div>
             <div class="cp-field" id="vk-other-box" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Edit other cities">
               <span class="cp-line cp-top-line"><label class="field-label cp-k" id="vk-other-k">Other cities</label><span class="cp-edit">EDIT</span></span>
               <span class="cp-sum" id="vk-other-sum"></span>
             </div>
+            <div class="vk2-sug" id="vk2-sug" role="listbox" aria-label="Partner city suggestions" hidden></div>
           </div>
           <div class="cp-field cp-opens" id="cp-field" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Choose partner cities">
             <span class="cp-txt"><label class="field-label cp-k" id="cp-label">Partner cities</label><span class="cp-sum" id="cp-sum"></span></span><span class="cp-edit">EDIT</span>
@@ -4657,7 +4675,7 @@ async function _doZipLookup(zip) {
   <div class="cp-hint" id="cp-hint"></div>
   <div class="cp-list" id="cp-list" role="group" aria-label="Cities"></div>
 </div>
-<div class="mock-badge_grokbot">Mockup K</div>
+<div class="mock-badge_grokbot">Mockup K2</div>
 
 <!-- MOCKUP_grokbot variant I behaviour -->
 <script>
@@ -4924,16 +4942,188 @@ async function _vkCommit(zip) {
 }
 document.addEventListener('DOMContentLoaded', () => {
   const box = document.getElementById('vk-zip-box'), inp = document.getElementById('vk-zip-input');
-  box.addEventListener('click', e => { if (e.target === inp) return; e.preventDefault(); if (box.classList.contains('editing')) _vkCommit(inp.value.trim()); else _vkEdit(); });
+  box.addEventListener('click', e => { if (e.target === inp) return; e.preventDefault(); if (!box.classList.contains('editing')) _vkEdit(); else if (e.target.closest('#vk-zip-edit')) _vk2Enter(); else inp.focus(); });
   box.addEventListener('keydown', e => { if (e.target === box && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); _vkEdit(); } });
-  inp.addEventListener('input', () => { inp.value = inp.value.replace(/\D/g, '').slice(0, 5); if (box.classList.contains('bad')) { box.classList.remove('bad'); _vkRender(); } if (inp.value.length === 5) _vkCommit(inp.value); });
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); _vkCommit(inp.value.trim()); } else if (e.key === 'Escape') { e.preventDefault(); _vkClose(); } });
-  inp.addEventListener('blur', () => setTimeout(() => { if (box.classList.contains('editing') && document.activeElement !== inp) { if (inp.value.length !== 5) _vkClose(); } }, 150));
+  inp.addEventListener('input', () => { if (box.classList.contains('bad')) { box.classList.remove('bad'); _vkRender(); } _vk2Suggest(inp.value); if (/^\d{5}$/.test(inp.value.trim())) _vkCommit(inp.value.trim()); });
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); _vk2Enter(); } else if (e.key === 'Escape') { e.preventDefault(); _vkClose(); } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); _vk2Move(e.key === 'ArrowDown' ? 1 : -1); } });
+  inp.addEventListener('blur', () => setTimeout(() => { if (box.classList.contains('editing') && document.activeElement !== inp && !_vk2Busy) _vkClose(); }, 200));
+  _vk2Wire();
   const ob = document.getElementById('vk-other-box');
   ob.addEventListener('click', e => { e.preventDefault(); _cpOpen(); });
   ob.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); _cpOpen(); } });
   // Relocate box: ticking shows OTHER CITIES and opens the picklist (I's handler); unticking keeps any chosen cities.
 });
+</script>
+
+<!-- MOCKUP_grokbot variant K2 -->
+<script>
+// K2: PARTNER CITY accepts a US zip (5 digits, zippopotam, as in K), a UK or Canadian postcode (zippopotam gb / ca, outward part),
+// or a city name (suggestions from cities_grokbot.json: US + ~280 international cities). Shown as "78704 · Austin" (zip / postcode)
+// or "London, UK" (city). Distance: miles for the US and the UK, km everywhere else (same 35 slider stops, km rounded).
+let _vk2Label = '', _vk2Country = 'US', _vk2Opts = [], _vk2Act = 0, _vk2Busy = false;
+const _vk2Inp = () => document.getElementById('vk-zip-input');
+// K seeds the applicant's own zip whenever _vkZip is empty; in K2 an empty zip can mean "a city was chosen", so seed once only.
+let _vk2Seeded = false;
+const _vk2InitK = _vkInit;
+_vkInit = function () { if (_vk2Seeded || _vk2Label) return; _vk2InitK(); if (_vkZip) _vk2Seeded = true; };
+function _vk2Fit() { // not editing: the input is exactly as wide as its text (monospace), so " · Austin" sits right after the digits
+  const inp = _vk2Inp(); if (!inp) return;
+  const box = document.getElementById('vk-zip-box');
+  if (box && box.classList.contains('editing')) { inp.style.width = ''; return; }
+  inp.style.width = 'calc(' + Math.max(1, (inp.value || inp.placeholder).length) + 'ch + 2px)';
+}
+_vkRender = function () {
+  _vkInit();
+  const inp = _vk2Inp(), c = document.getElementById('vk-zip-city'), box = document.getElementById('vk-zip-box'), v = document.getElementById('vk-zip-val');
+  if (inp && box && !box.classList.contains('editing')) { inp.value = _vkZip || _vk2Label; _vk2Fit(); }
+  if (c && box && !box.classList.contains('bad')) c.textContent = _vkZip ? '\u00a0\u00b7 ' + _vkName : (_vk2Label ? '' : 'Add a zip or city');
+  if (v) v.title = partnerCityPrimary ? partnerCityPrimary.label : '';
+  const row = document.getElementById('vk-row'), n = partnerCitiesExtra.length;
+  if (row) row.classList.toggle('solo', !(partnerLocationAnywhere || n));
+  const s = document.getElementById('vk-other-sum');
+  if (s) {
+    s.classList.toggle('empty', !n);
+    if (n) { const fit = () => _vkFit(s, partnerCitiesExtra.map(_cpCityName), ', ', fit); fit(); s.title = partnerCitiesExtra.map(p => p.label).join('; '); }
+    else { s._cpRefit = null; s.textContent = 'Add cities'; s.title = ''; }
+  }
+  _viDistUpdate();
+};
+_vkEdit = function () {
+  const box = document.getElementById('vk-zip-box'), inp = _vk2Inp();
+  if (box.classList.contains('editing')) return;
+  loadPartnerCities();
+  box.classList.add('editing'); box.classList.remove('bad'); inp.readOnly = false; inp.tabIndex = 0; inp.value = _vkZip || _vk2Label; _vk2Fit();
+  document.getElementById('vk-zip-edit').textContent = 'DONE';
+  inp.focus(); inp.select(); try { inp.setSelectionRange(0, inp.value.length); } catch (e) {}
+  _vk2Suggest('');
+};
+_vkClose = function () {
+  const box = document.getElementById('vk-zip-box'), inp = _vk2Inp();
+  box.classList.remove('editing', 'bad'); inp.readOnly = true; inp.tabIndex = -1; if (document.activeElement === inp) inp.blur();
+  document.getElementById('vk-zip-edit').textContent = 'CHANGE';
+  _vk2Hide(); _vkRender();
+};
+// Postcode shapes: US 5 digits; Canada A1A[ 1A1]; UK outward code (+ optional inward), e.g. SW1A 1AA, E1, M1 1AE.
+const _VK2_CA = /^([A-Z]\d[A-Z])\s*(\d[A-Z]\d)?$/i, _VK2_UK = /^([A-Z]{1,2}\d[A-Z\d]?)(\s*\d[A-Z]{2})?$/i;
+function _vk2Postcodes(q) {
+  q = q.trim(); const out = [];
+  if (/^\d{5}$/.test(q)) out.push({ cc: 'us', code: q, show: q, sub: 'US zip' });
+  let m = q.match(_VK2_CA); if (m) out.push({ cc: 'ca', code: m[1].toUpperCase(), show: q.toUpperCase().replace(/\s+/, ' '), sub: 'Canada postcode' });
+  m = q.match(_VK2_UK); if (m) out.push({ cc: 'gb', code: m[1].toUpperCase(), show: q.toUpperCase().replace(/\s+/, ' '), sub: 'UK postcode' });
+  return out;
+}
+function _vk2Suggest(q) {
+  const list = document.getElementById('vk2-sug'), inp = _vk2Inp(); if (!list) return;
+  const t = String(q || '').trim();
+  if (!t) { _vk2Hide(); return; }
+  const max = window.innerHeight <= 720 ? 4 : 5;
+  const pcs = _vk2Postcodes(t);
+  const cities = /[a-z\u00c0-\uffff]/i.test(t) && !pcs.some(p => p.cc !== 'us' && /\d/.test(t)) ? _searchPartnerCities(t, max) : [];
+  _vk2Opts = pcs.map(p => ({ pc: p })).concat(cities.map(c => ({ city: c }))).slice(0, max);
+  if (!PARTNER_CITIES.length) loadPartnerCities().then(() => { if (_vk2Inp().value.trim() === t) _vk2Suggest(t); });
+  list.replaceChildren();
+  if (!_vk2Opts.length) {
+    const d = document.createElement('div'); d.className = 'vk2-opt vk2-none'; d.textContent = /\d/.test(t) ? 'Keep typing: zip or postcode' : 'No match yet: try a bigger city nearby'; list.appendChild(d);
+  }
+  _vk2Opts.forEach((o, i) => {
+    const d = document.createElement('div'); d.className = 'vk2-opt' + (i === 0 ? ' active' : ''); d.setAttribute('role', 'option'); d.dataset.i = i;
+    if (o.pc) { d.innerHTML = '<span class="vk2-k"></span><span class="vk2-sub"></span>'; d.children[0].textContent = o.pc.show; d.children[1].textContent = o.pc.sub; }
+    else d.textContent = o.city.label;
+    list.appendChild(d);
+  });
+  _vk2Act = 0; list.hidden = false; inp.setAttribute('aria-expanded', 'true');
+}
+function _vk2Hide() { const l = document.getElementById('vk2-sug'); if (l) { l.hidden = true; l.replaceChildren(); } _vk2Opts = []; const i = _vk2Inp(); if (i) i.setAttribute('aria-expanded', 'false'); }
+function _vk2Move(d) {
+  if (!_vk2Opts.length) return; _vk2Act = (_vk2Act + d + _vk2Opts.length) % _vk2Opts.length;
+  document.querySelectorAll('#vk2-sug .vk2-opt').forEach((r, i) => r.classList.toggle('active', i === _vk2Act));
+}
+function _vk2Enter() {
+  const t = _vk2Inp().value.trim();
+  if (!t || t === (_vkZip || _vk2Label)) { _vkClose(); return; }
+  if (_vk2Opts.length) { _vk2Pick(_vk2Opts[_vk2Act] || _vk2Opts[0]); return; }
+  _vk2Bad('Not found');
+}
+function _vk2Pick(o) {
+  if (!o) return;
+  if (o.pc) { o.pc.cc === 'us' ? _vkCommit(o.pc.code) : _vk2Postcode(o.pc); return; }
+  _vk2SetCity(o.city);
+}
+function _vk2SetCity(c) {
+  _vkSeq++;
+  partnerCityPrimary = _plEntryFromCity(c);
+  _vkZip = ''; _vkName = c.city; _vk2Label = c.label; _vk2Country = c.country || ''; state.partnerZip = '';
+  partnerLocationTouched = true;
+  _vkClose(); _renderPartnerLocationChips(); _wwLocChanged();
+}
+function _vk2Bad(msg) {
+  const box = document.getElementById('vk-zip-box'); box.classList.add('bad');
+  _vk2Hide();
+  const list = document.getElementById('vk2-sug'); const d = document.createElement('div'); d.className = 'vk2-opt vk2-none'; d.textContent = msg + ': try a zip, postcode or city'; list.appendChild(d); list.hidden = false;
+  const inp = _vk2Inp(); inp.focus(); inp.select();
+}
+function _vk2Km(mi) { const k = mi * 1.609344; return mi <= 3 ? Math.round(k) : k <= 60 ? 5 * Math.round(k / 5) : 10 * Math.round(k / 10); }
+function _vk2Nearest(lat, lng, cc) { // nearest listed city (same country, within 60 km) names a postcode area, e.g. SW1A -> London
+  let best = null, bd = 60;
+  for (const c of PARTNER_CITIES) { if (cc && c.country !== cc) continue; const d = _vk2Dist(lat, lng, c.lat, c.lng); if (d < bd) { bd = d; best = c; } }
+  return best;
+}
+function _vk2Dist(a, b, c, d) { const R = 6371, r = x => x * Math.PI / 180, dl = r(c - a), dg = r(d - b); const h = Math.sin(dl / 2) ** 2 + Math.cos(r(a)) * Math.cos(r(c)) * Math.sin(dg / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); }
+async function _vk2Postcode(p) {
+  const seq = ++_vkSeq; _vk2Busy = true;
+  try {
+    const r = await fetch('https://api.zippopotam.us/' + p.cc + '/' + encodeURIComponent(p.code));
+    if (!r.ok) throw new Error('not found');
+    const d = await r.json(), pl = d.places && d.places[0]; if (!pl) throw new Error('not found');
+    if (seq !== _vkSeq) return;
+    await Promise.resolve(loadPartnerCities());
+    const lat = parseFloat(pl.latitude), lng = parseFloat(pl.longitude), CC = p.cc.toUpperCase();
+    const near = _vk2Nearest(lat, lng, CC), name = near ? near.city : String(pl['place name']).split(' (')[0];
+    partnerCityPrimary = near ? Object.assign(_plEntryFromCity(near), { zip: p.show, zip_lat: lat, zip_lng: lng })
+      : { label: name + ', ' + (CC === 'GB' ? 'UK' : 'Canada'), city: name, region: pl.state || null, country: CC, lat, lng, geonames_id: null, typed: false, matched: false, zip: p.show };
+    _vkZip = p.show; _vkName = name; _vk2Label = ''; _vk2Country = CC; state.partnerZip = p.show;
+    partnerLocationTouched = true; _vk2Busy = false;
+    _vkClose(); _renderPartnerLocationChips(); _wwLocChanged();
+  } catch (e) { _vk2Busy = false; if (seq === _vkSeq) _vk2Bad('Postcode not found'); }
+}
+// US zips: K's lookup, then remember the country (miles) and clear any city label.
+const _vk2CommitK = _vkCommit;
+_vkCommit = async function (zip) {
+  if (/^\d{5}$/.test(zip) && zip === _vkZip) { _vkClose(); return; }
+  _vk2Busy = true;
+  const before = _vkZip; await _vk2CommitK(zip); _vk2Busy = false;
+  if (_vkZip === zip && before !== zip) { _vk2Label = ''; _vk2Country = 'US'; _vkRender(); }
+  else if (document.getElementById('vk-zip-box').classList.contains('bad')) { _vk2Hide(); const l = document.getElementById('vk2-sug'); const d = document.createElement('div'); d.className = 'vk2-opt vk2-none'; d.textContent = 'Zip not found: try a zip, postcode or city'; l.appendChild(d); l.hidden = false; }
+};
+_viOrigin = function () { return _vkZip || _vkName || _viName(partnerCityPrimary) || 'Distance'; };
+function _vk2Miles() { return !_vk2Country || _vk2Country === 'US' || _vk2Country === 'GB'; }
+_viDistUpdate = function () {
+  const el = document.getElementById('vi_dist_mi'), lab = document.getElementById('vi-dist-label'), fill = document.getElementById('vi-dist-fill'), bub = document.getElementById('vk-dist-bubble');
+  if (!el || !lab) return;
+  const mi = _viMi(), km = _vk2Km(mi), miles = _vk2Miles();
+  const txt = miles ? mi + (mi === 1 ? ' mile' : ' miles') : km + ' km';
+  state.partnerDistanceMi = mi; state.partnerDistanceKm = km; state.partnerDistanceUnit = miles ? 'mi' : 'km';
+  lab.textContent = 'Distance from ' + _viOrigin();
+  el.setAttribute('aria-valuetext', miles ? txt : km + ' kilometres');
+  const w = el.offsetWidth, pct = (el.value - el.min) / (el.max - el.min);
+  if (fill) { fill.style.left = '0'; fill.style.width = w ? _sliderThumbX(el, w) + 'px' : (pct * 100) + '%'; }
+  if (bub) { bub.textContent = txt; if (w) { const bw = bub.getBoundingClientRect().width; bub.style.left = Math.max(0, Math.min(w - bw, _sliderThumbX(el, w) - bw / 2)) + 'px'; } }
+};
+function _vk2Wire() {
+  const list = document.getElementById('vk2-sug');
+  list.addEventListener('mousedown', e => e.preventDefault()); // keep the keyboard up while tapping a suggestion
+  list.addEventListener('click', e => { const r = e.target.closest('.vk2-opt[data-i]'); if (r) { e.preventDefault(); e.stopPropagation(); _vk2Pick(_vk2Opts[+r.dataset.i]); } });
+  // ?pc=london (or a zip / postcode) on the K2 page: start with that partner city, for demos and screenshots.
+  const pc = new URLSearchParams(location.search).get('pc');
+  if (pc) {
+    const go = () => loadPartnerCities().then(() => {
+      const p = _vk2Postcodes(pc)[0];
+      if (p) { p.cc === 'us' ? _vkCommit(p.code) : _vk2Postcode(p); return; }
+      const c = _searchPartnerCities(pc, 1)[0]; if (c) _vk2SetCity(c);
+    });
+    const wait = () => document.documentElement.hasAttribute('data-demo-ready') ? go() : setTimeout(wait, 100); wait();
+  }
+}
 </script>
 <!-- MOCKUP_grokbot gallery demo for I: ?demo=1 skips onboarding and lands on What You Want with nothing answered yet. -->
 <script>
