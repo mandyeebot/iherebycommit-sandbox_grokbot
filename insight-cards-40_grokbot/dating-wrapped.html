@@ -110,6 +110,7 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
 .cite .cn{font-size:10.5px;font-weight:700;line-height:1.3;margin-top:2px}
 .cite .cm{font-size:9.5px;line-height:1.35;opacity:.9}
 .cite .cu{font-size:9.5px;text-decoration:underline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.real{position:relative;z-index:3;align-self:flex-start;border:1.5px solid currentColor;border-radius:8px;padding:4px 8px;font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;line-height:1.35;background:rgba(255,255,255,.18)}
 .mine{position:relative;z-index:3;align-self:flex-start;border:1.5px dashed currentColor;border-radius:8px;padding:4px 8px;font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;line-height:1.35}
 .srclist{display:flex;flex-direction:column;gap:8px;margin-top:12px;position:relative;z-index:12}
 .srclist a{display:flex;flex-direction:column;gap:3px;border:1.5px solid currentColor;border-radius:12px;padding:9px 11px;color:inherit;text-decoration:none;background:rgba(255,255,255,.4)}
@@ -121,8 +122,8 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
 <body>
 <div class="top">
   <div class="brand">I HEREBY <b>COMMIT</b> · DATING WRAPPED</div>
-  <div class="note">Tap-through mockup. <b style="color:#f6efe3">Every personal number is EXAMPLE DATA</b> for a made-up person ("Maya", 34, Austin). Each screen shows which app's data it comes from, in that app's colors. Benchmarks are real published figures, and each screen says what it's compared with. League screens use guessed export fields (not confirmed yet). Tap right = next, left = back, hold = pause, arrow keys work.</div>
-  <div class="tabs"><button class="tab on" data-deck="start">Start</button><button class="tab" data-deck="tinder">Tinder · 8</button><button class="tab" data-deck="hinge">Hinge · 8</button><button class="tab" data-deck="league">League · 7</button></div>
+  <div class="note"><b style="color:#f6efe3">Hinge and League decks use Amanda's REAL exports</b> (totals only: no names, photos, message text or locations). The <b style="color:#f6efe3">Tinder deck is still EXAMPLE DATA</b> for a made-up person ("Maya"), because no real Tinder export was found. Every outside stat shows its source on the screen. Tap right = next, left = back, hold = pause, arrow keys work.</div>
+  <div class="tabs"><button class="tab on" data-deck="start">Start</button><button class="tab" data-deck="tinder">Tinder · 8</button><button class="tab" data-deck="hinge">Hinge · 8</button><button class="tab" data-deck="league">League · 12</button></div>
 </div>
 <div class="phone" id="phone">
   <div class="bars" id="bars"></div>
@@ -131,7 +132,7 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
   <div class="tapL" id="tapL"></div><div class="tapR" id="tapR"></div>
 </div>
 <div class="legend">
-  <b>How to read this.</b> Every personal number is <b>EXAMPLE DATA</b> (dashed tag) from a made-up person's export. Every outside stat has a tappable source box right on the screen with the source name, year and n, and each deck ends with a Sources screen listing every link. <b style="color:#ff2e63">Tinder deck</b>: <i>data.json → Usage</i> and <i>Messages</i> (only the messages you sent). <b style="color:#9b7bff">Hinge deck</b>: <i>matches.json</i> (like / match / chats / we_met) and <i>user.json → preferences</i>. <b style="color:#e0b64a">League deck</b>: <b>field names are guesses</b>. What's in The League's "Email Me My Data" export isn't publicly documented, so every League screen is marked "fields to be confirmed". It uses no outside statistics: every comparison is you vs. your own Tinder and Hinge numbers. Files are read in your browser, and only the counts leave your phone. Match rate shows how picky you are as much as how others respond. It is not a desirability score.
+  <b>How to read this.</b> Solid "✓ YOUR REAL … DATA" tags = numbers computed from Amanda's own export (read-only aggregates, table and column named on the tag). Dashed "EXAMPLE DATA" tags = made-up numbers (Tinder deck only). Every outside stat has a tappable source box with the source name, year and n, and each deck ends with a Sources screen. <b style="color:#e0b64a">League</b>: league_profile, league_interactions, league_matches, league_messages, league_preferences, league_activity. <b style="color:#9b7bff">Hinge</b>: hinge_interactions, hinge_messages, hinge_preferences. We never show email, phone, location, IP, message text, or match names or photos. No League company data or League-published stats. Match rate reflects how picky you are as much as how others respond. It is not a desirability score.
 </div>
 <script>
 const TH={
@@ -151,40 +152,43 @@ function blob(sz,x,y,col,op=1){return `<div class="blob" style="width:${sz}px;he
 function foot(src,share=true){return `<div class="foot a a6"><div class="src">${src}</div>${share?'<button class="share">Share ↗</button>':''}</div>`}
 // Big source badge + comparison pill (every deck screen)
 function badge(th,v,cmp){const b=th[v||'b0'];
-  const sub=th===L?'<small>EXAMPLE DATA — League export fields to be confirmed</small>':`<small>EXAMPLE DATA · ${th===T?'data.json':'matches.json + user.json'}</small>`;
-  const c=cmp==='cite'?`<div class="cmp">Outside stat on this screen · source below ↓</div>`:cmp==='own'?`<div class="cmp">Compared with: your own other decks (example data)</div>`:cmp==='src'?`<div class="cmp">Every link used in this deck</div>`:`<div class="cmp none">Just your data · no outside stats</div>`;
+  const sub=th===T?'<small>EXAMPLE DATA · data.json</small>':`<small>YOUR REAL ${th.name.toUpperCase()} DATA · Amanda's export, Sep 28 2026</small>`;
+  const c=cmp==='cite'?`<div class="cmp">Outside stat on this screen · source below ↓</div>`:cmp==='realown'?`<div class="cmp">Compared with: your other real deck (you vs. you)</div>`:cmp==='src'?`<div class="cmp">Every link used in this deck</div>`:`<div class="cmp none">Just your data · no outside stats</div>`;
   return `<div class="srcb" style="background:${b.bg};color:${b.fg}"><span class="ic" style="background:${b.icbg};color:${b.icfg}">${th.letter}</span><span>From your ${th.name} data${sub}</span></div>${c}`}
 // ---- citations (every outside stat gets one, on the screen itself) ----
 const SRC={
  swipestats:{name:'SwipeStats · Tinder Statistics',meta:'Company blog, updated Mar 2026 · uploads 2020–25 · n=7,079 (842 women, 6,233 men) · opt-in users, not a random sample',url:'https://www.swipestats.io/blog/tinder-statistics'},
- nw:{name:'Northwestern speed-dating study (Joel, Eastwick & Finkel)',meta:'2017 dataset · in-person speed dating, self-reported · n=174 women, 173 men',url:'https://doi.org/10.5255/UKDA-SN-852716'},
  nhanes:{name:'CDC NHANES body measurements (NCHS Series 3, No. 50)',meta:'Measured Aug 2021–Aug 2023, published 2025 · n=385 men aged 30–39',url:'https://doi.org/10.15620/cdc/174595'},
- hingeWeMet:{name:'Hinge, company-reported 2018 beta (via TechCrunch)',meta:'Oct 2018 · n not published',url:'https://techcrunch.com/2018/10/16/hinge-is-first-dating-app-to-actually-measure-real-world-success/'},
+ nhanes2:{name:'CDC NHANES body measurements (NCHS Series 3, No. 50)',meta:'Measured Aug 2021–Aug 2023, published 2025 · n=385 men 30–39, 348 men 40–49',url:'https://doi.org/10.15620/cdc/174595'},
  tinderData:{name:'Tinder · download your data (data.json)',meta:'Official Tinder data request page',url:'https://account.gotinder.com/data'},
  hingeData:{name:'Hinge · How can I make a Privacy Request?',meta:'Official Hinge help page (request your export)',url:'https://help.hinge.co/hc/en-us/articles/360004792234-How-can-I-make-a-Privacy-Request'},
- leagueData:{name:'The League · How do I request a copy of my personal data?',meta:'Official League help page ("Email Me My Data"). What the file contains is not publicly documented.',url:'https://theleague-help.zendesk.com/hc/en-us/articles/47047296772763-How-do-I-request-a-copy-of-my-personal-data-on-The-League'}
+ leagueData:{name:'The League · How do I request a copy of my personal data?',meta:'Official League help page ("Email Me My Data")',url:'https://theleague-help.zendesk.com/hc/en-us/articles/47047296772763-How-do-I-request-a-copy-of-my-personal-data-on-The-League'}
 };
 function shortUrl(u){return u.replace(/^https?:\/\/(www\.)?/,'')}
 function cite(key,label,claim,style){const s=SRC[key];
   return `<a class="cite a a5" href="${s.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="${style||''}">
    <span class="cl">${label} ↗</span><span class="cc">${claim}</span><span class="cn">${s.name}</span><span class="cm">${s.meta}</span><span class="cu">${shortUrl(s.url)}</span></a>`}
+const LY={l:['17','18','19','20','21','22','23','24','25','26'],v:[450,67,45,48,53,528,389,173,248,23]};
+const LH=[82,77,53,86,37,23,2,3,44,66,46,65,46,69,87,44,87,200,103,35,233,148,116,272];
+function barsN(vals,labels,hi,h){const mx=Math.max(...vals);return `<div class="bars12" style="height:${h||110}px;gap:${vals.length>12?2:5}px">`+vals.map((v,i)=>`<div class="${i===hi?'hi':''}" style="height:${Math.max(2,Math.round(v/mx*100))}%"><span>${labels[i]||''}</span></div>`).join('')+'</div>'}
+function real(th,text){return `<div class="real a a2">✓ YOUR REAL ${th.name.toUpperCase()} DATA · ${text}</div>`}
 function mine(text){return `<div class="mine a a2">EXAMPLE DATA · YOUR NUMBER · ${text}</div>`}
 function sources(th,items,note,extra){
   return `${badge(th,th===L?'b1':'b0','src')}
   <div class="h a a2" style="font-size:26px">Sources for this deck</div>
   <div class="p a a2" style="margin-top:6px;font-size:11.5px">${note}</div>
   <div class="srclist a a3">${items.map((it,i)=>{const s=SRC[it.k];return `<a href="${s.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><b>${i+1}. ${s.name} ↗</b><span>${it.used}</span><span>${s.meta}</span><em>${shortUrl(s.url)}</em></a>`}).join('')}</div>${extra||''}
-  ${foot('All personal numbers in this deck are EXAMPLE DATA for a made-up person.',false)}`}
+  ${foot(th===T?'All personal numbers in this deck are EXAMPLE DATA for a made-up person.':'All personal numbers in this deck are YOUR REAL '+th.name.toUpperCase()+' DATA (totals only).',false)}`}
 const decks={
 start:[
  {bg:INK,fg:CREAM,noauto:true,html:()=>`${blob(300,170,-90,T.primary,.9)}${blob(260,-120,520,H.primary,.9)}${blob(160,270,560,L.second,.95)}
   <div class="k a" style="margin-top:6px">Dating Wrapped · 2025 · example</div>
   <div class="h a a2" style="font-size:40px">Your dating year.<br>One deck per app.</div>
-  <div class="p a a3">Pick an app to start. Each deck uses <b>only that app's export</b>, in that app's colors. Every outside stat shows its source on the screen, and each deck ends with a Sources screen.</div>
+  <div class="p a a3">Pick an app to start. Each deck uses <b>only that app's export</b>, in that app's colors. Tinder is EXAMPLE data. Hinge and League are <b>Amanda's real exports</b>. Every outside stat shows its source on the screen.</div>
   <div class="picker a a4">
-   <button style="background:${T.primary};color:#fff" onclick="event.stopPropagation();setDeck('tinder')"><span class="ic" style="background:#fff;color:${T.primary}">T</span><div><b>Your Tinder Wrapped</b><span>8 screens · from your data.json</span></div></button>
-   <button style="background:${H.primary};color:#fff" onclick="event.stopPropagation();setDeck('hinge')"><span class="ic" style="background:#fff;color:${H.primary}">H</span><div><b>Your Hinge Wrapped</b><span>8 screens · from matches.json + user.json</span></div></button>
-   <button style="background:${L.second};color:${L.dark}" onclick="event.stopPropagation();setDeck('league')"><span class="ic" style="background:${L.primary};color:${L.second}">L</span><div><b>Your League Wrapped</b><span>7 screens · export fields to be confirmed</span></div></button>
+   <button style="background:${T.primary};color:#fff" onclick="event.stopPropagation();setDeck('tinder')"><span class="ic" style="background:#fff;color:${T.primary}">T</span><div><b>Your Tinder Wrapped</b><span>EXAMPLE data · 8 screens</span></div></button>
+   <button style="background:${H.primary};color:#fff" onclick="event.stopPropagation();setDeck('hinge')"><span class="ic" style="background:#fff;color:${H.primary}">H</span><div><b>Your Hinge Wrapped</b><span>Amanda's REAL data · 8 screens</span></div></button>
+   <button style="background:${L.second};color:${L.dark}" onclick="event.stopPropagation();setDeck('league')"><span class="ic" style="background:${L.primary};color:${L.second}">L</span><div><b>Your League Wrapped</b><span>Amanda's REAL data · 12 screens</span></div></button>
   </div>
   ${foot('All personal numbers on every screen are EXAMPLE DATA for a made-up person.',false)}`}
 ],
@@ -274,149 +278,187 @@ hinge:[
   ${badge(H,'b0',null)}
   <div class="k a" style="margin-top:14px">Deck 2 of 3 · 8 screens</div>
   <div class="divider a a2">Your<br>Hinge<br>Wrapped</div>
-  <div class="p a a3" style="font-size:14px">Built from <b>matches.json</b> and <b>user.json</b> in your Hinge export. Read on your phone.</div>
-  ${foot('Maya · 34 · Austin · on Hinge since 2022 · EXAMPLE DATA',false)}`},
+  <div class="p a a3" style="font-size:14px">Built from <b>Amanda's real Hinge export</b> (CSV files, exported Sep 28, 2026). Only totals: no names, photos, message text or locations.</div>
+  ${foot('Amanda · on Hinge since April 2025 · YOUR REAL HINGE DATA',false)}`},
  {bg:H.light,fg:H.dark,html:()=>`${blob(200,250,-40,H.second,.7)}
-  ${badge(H,'b0','cite')}
-  ${mine('matches.json → threads you liked first vs. they liked first')}
-  <div class="big a a2" data-count="42" style="color:${H.primary};font-size:110px">42<small>%</small></div>
-  <div class="h a a3" style="font-size:21px">of your matches started with YOUR like.</div>
-  <div class="row a a4"><span>You liked first · 42%</span><span>They liked first · 58%</span></div>
-  <div class="meter a a4" style="color:${H.primary}"><i style="width:42%"></i></div>
-  ${cite('nw','For context · not the same measure','In person, <b>25% of women</b> and <b>47% of men</b> said they usually make the first move. That\'s what people say they usually do, not a count of app likes, so it isn\'t a score for you.')}
-  ${foot('EXAMPLE DATA')}`},
- {bg:H.second,fg:H.dark,html:()=>`${blob(280,-90,500,H.primary,.85)}
   ${badge(H,'b0',null)}
-  ${mine('matches.json → comments on the likes you sent')}
-  <div class="h a a2">You added a comment to</div>
-  <div class="big a a3">1 <small>in</small> 3</div>
-  <div class="h a a3" style="font-size:22px">likes you sent.</div>
-  <div class="p a a4">Your comments averaged <b>9 words</b>. The prompt you commented on most: <b>"Typical Sunday"</b>. Brunch diplomacy.</div>
-  <div class="a a5" style="margin-top:10px;position:relative;z-index:2"><span class="pill" style="background:${H.dark};color:${H.acc}">Typical Sunday · 14</span><span class="pill" style="background:${H.dark};color:${H.acc}">Two truths & a lie · 9</span><span class="pill" style="background:${H.dark};color:${H.acc}">Green flags · 6</span></div>
-  ${foot('No comparison yet: appears once 20+ waitlist members upload · EXAMPLE DATA')}`},
- {bg:H.dark,fg:H.light,html:()=>`${blob(200,240,-50,H.primary,.7)}
-  ${badge(H,'b1','cite')}
-  ${mine('user.json → height 5′10″–6′4″ + age, both marked dealbreakers')}
-  <div class="h a a2" style="font-size:21px">Your height range, <span style="color:${H.acc}">5′10″–6′4″</span>, is a dealbreaker. It fits</div>
-  <div class="big a a3" style="color:${H.acc};font-size:104px">42<small>%</small></div>
-  <div class="h a a3" style="font-size:19px">of U.S. men aged 30–39.</div>
-  <div class="p a a4" style="margin-top:6px">So it skips about 58 of every 100 men your age. Your call. We just did the math.</div>
-  ${cite('nhanes','Source for 42%','Measured heights of U.S. men aged 30–39. 42% is our estimate from the report\'s published percentiles.','background:rgba(239,234,255,.07)')}
-  ${foot('EXAMPLE DATA for the range and dealbreakers')}`},
- {bg:H.light,fg:H.dark,html:()=>`${blob(140,270,580,H.acc,.95)}
-  ${badge(H,'b0','cite')}
-  ${mine('matches.json → we_met (did you meet, was it your type)')}
-  <div class="h a a2" style="font-size:22px">You told Hinge you met</div>
-  <div class="big a a3" style="color:${H.primary};font-size:104px">7</div>
-  <div class="h a a3" style="font-size:20px">matches in real life. 3 were your type.</div>
-  <div class="quiz a a4" style="color:${H.primary};gap:5px;margin-top:10px">
-   <div class="pick" style="padding:7px 12px"><span style="color:#fff">My type</span><span style="color:#fff">3 of 7</span></div>
-   <div style="padding:7px 12px"><span>Not my type</span><span>4 of 7</span></div>
+  ${real(H,'hinge_interactions · like + skip timestamps')}
+  <div class="h a a2">Swiping days in your Hinge export:</div>
+  <div class="big a a3" style="color:${H.primary}">5 <small>days</small></div>
+  <div class="h a a3" style="font-size:21px">5 swiping days between Aug 11 and 31, 2025: 141 likes, 114 skips.</div>
+  <div class="p a a4">Then you stopped swiping: just 1 more like, in October. Your favorite day: <b>Sunday</b> (76 likes).</div>
+  ${foot('Pacific time · YOUR REAL HINGE DATA')}`},
+ {bg:H.second,fg:H.dark,html:()=>`${blob(260,-90,520,H.primary,.85)}
+  ${badge(H,'b0','realown')}
+  ${real(H,'hinge_interactions · 142 likes, 114 skips, 2 roses')}
+  <div class="big a a2" style="font-size:112px">55<small>%</small></div>
+  <div class="h a a3" style="font-size:21px">of the profiles you acted on got a like.</div>
+  <div class="vs a a3" style="height:120px">
+   <div class="col"><div class="fill" style="height:100%;background:${H.dark};color:${H.acc};font-size:28px">142</div><label>Likes</label></div>
+   <div class="col"><div class="fill" style="height:80%;background:rgba(21,13,51,.2);font-size:28px">114</div><label>Skips</label></div>
   </div>
-  ${cite('hingeWeMet','Separate fact · not compared with you','In Hinge\'s 2018 beta, <b>72%</b> said they wanted a second date. Your export records "my type", not "want a second date", so we don\'t compare the two.')}
-  ${foot('EXAMPLE DATA')}`},
- {bg:H.second,fg:H.dark,html:()=>`${blob(220,-60,-30,H.acc,.9)}
+  <div class="p a a4">Plus <b>2 roses</b>. On The League (also your real data) you liked <b>74%</b>. More selective on Hinge.</div>
+  ${foot('YOUR REAL HINGE DATA')}`},
+ {bg:H.dark,fg:H.light,html:()=>`${blob(220,230,-50,H.primary,.7)}
+  ${badge(H,'b1',null)}
+  ${real(H,'hinge_messages · 271 messages you sent, Aug–Nov 2025')}
+  <div class="h a a2" style="font-size:25px">271 messages to 52 people.</div>
+  <div class="sum a a3">
+   <div style="background:${H.primary}"><label>Typical chat</label><b>3 <span style="font-size:16px">msgs</span></b></div>
+   <div style="background:${H.acc};color:${H.dark}"><label>Typical message</label><b>7 <span style="font-size:16px">words</span></b></div>
+   <div style="background:${H.second};color:${H.dark}"><label>Chats with 11+ from you</label><b>7</b></div>
+   <div style="background:${H.light};color:${H.dark}"><label>Longest chat (your side)</label><b>22</b></div>
+  </div>
+  <div class="p a a4"><b style="color:${H.acc}">14</b> people got exactly one message from you. The export only includes messages you sent, and we never show the text.</div>
+  ${foot('Medians · YOUR REAL HINGE DATA')}`},
+ {bg:H.light,fg:H.dark,html:()=>`${blob(160,260,570,H.acc,.95)}
   ${badge(H,'b0',null)}
-  ${mine('matches.json → days from match to we_met')}
-  <div class="h a a2">Fastest match to "We Met":</div>
-  <div class="big a a3">4 <small>days</small></div>
-  <div class="p a a4">Your typical gap was <b>11 days</b>. The slow burner took <b>38</b>.</div>
-  <div class="vs a a4" style="height:130px">
-   <div class="col"><div class="fill" style="height:11%;background:${H.dark};color:${H.acc};font-size:24px">4</div><label>Fastest</label></div>
-   <div class="col"><div class="fill" style="height:29%;background:${H.dark};color:${H.acc};font-size:24px">11</div><label>Typical</label></div>
-   <div class="col"><div class="fill" style="height:100%;background:${H.primary};color:#fff;font-size:24px">38</div><label>Slowest</label></div>
+  ${real(H,'hinge_interactions · match_blocks.csv')}
+  <div class="h a a2">You removed</div>
+  <div class="big a a3" style="color:${H.primary}">117</div>
+  <div class="h a a3" style="font-size:22px">connections.</div>
+  <div class="row a a4"><span>August 2025 · 47</span><span>September 2025 · 70</span></div>
+  <div class="meter a a4" style="color:${H.primary}"><i style="width:40%"></i></div>
+  <div class="p a a5">Hinge files these under "blocks", its record of people you removed from your list. September was clean-up month.</div>
+  ${foot('YOUR REAL HINGE DATA')}`},
+ {bg:H.second,fg:H.dark,html:()=>`${blob(200,-60,-30,H.acc,.9)}
+  ${badge(H,'b0','realown')}
+  ${real(H,'hinge_preferences · age, height, distance')}
+  <div class="h a a2">Your Hinge filters</div>
+  <div class="a a3" style="margin-top:14px;position:relative;z-index:2">
+   <span class="pill" style="background:${H.dark};color:${H.acc};font-size:13px">Age 32–54 · dealbreaker</span>
+   <span class="pill" style="background:${H.dark};color:${H.acc};font-size:13px">Height: open</span>
+   <span class="pill" style="background:${H.dark};color:${H.acc};font-size:13px">Within 20 mi</span>
   </div>
-  ${foot('Hinge asks a few days after you swap numbers, so this runs a little long · EXAMPLE DATA')}`},
+  <div class="big a a4" style="margin-top:8px">22 <small>yrs</small></div>
+  <div class="h a a4" style="font-size:20px">wide: your age range.</div>
+  <div class="p a a5">On The League (also your real data) you set 33–52 and a 5′11″ height minimum. Hinge-you is more open on height.</div>
+  ${foot('YOUR REAL HINGE DATA')}`},
  {bg:H.primary,fg:'#fff',html:()=>`${blob(260,220,580,H.second,.9)}
   ${badge(H,'b0',null)}
-  <div class="h a a2" style="font-size:26px">Maya's Hinge 2025, in one screenshot.</div>
-  ${mine('every tile below')}
+  <div class="h a a2" style="font-size:26px">Amanda's Hinge, in one screenshot.</div>
+  ${real(H,'every tile below')}
   <div class="sum a a3">
-   <div style="background:${H.light};color:${H.dark}"><label>You liked first</label><b style="color:${H.primary}">42%</b></div>
-   <div style="background:${H.second};color:${H.dark}"><label>Likes w/ comment</label><b>1 in 3</b></div>
-   <div style="background:${H.dark}"><label>Dealbreakers</label><b style="color:${H.acc}">2</b></div>
-   <div style="background:${H.acc};color:${H.dark}"><label>Met IRL · my type</label><b>7 · 3</b></div>
-   <div style="background:${H.dark}"><label>Fastest to date</label><b style="color:${H.second}">4 days</b></div>
-   <div style="background:${H.light};color:${H.dark}"><label>Top prompt</label><b class="t">Typical Sunday</b></div>
+   <div style="background:${H.light};color:${H.dark}"><label>Swiping days</label><b style="color:${H.primary}">5</b></div>
+   <div style="background:${H.second};color:${H.dark}"><label>Liked</label><b>55%</b></div>
+   <div style="background:${H.dark}"><label>People messaged</label><b style="color:${H.acc}">52</b></div>
+   <div style="background:${H.acc};color:${H.dark}"><label>Messages sent</label><b>271</b></div>
+   <div style="background:${H.dark}"><label>Removed</label><b style="color:${H.second}">117</b></div>
+   <div style="background:${H.light};color:${H.dark}"><label>Roses</label><b>2</b></div>
   </div>
   <div class="cta a a4"><button style="background:#fff;color:${H.primary}">Share my Wrapped</button><button style="background:${H.dark};color:#fff" onclick="event.stopPropagation();next()">Sources →</button></div>
-  ${foot('IHEREBYCOMMIT.COM · all personal numbers EXAMPLE DATA',false)}`},
+  ${foot('IHEREBYCOMMIT.COM · YOUR REAL HINGE DATA',false)}`},
  {bg:H.light,fg:H.dark,html:()=>sources(H,[
-   {k:'nw',used:'Used on: First move (screen 2), as context only, not the same measure.'},
-   {k:'nhanes',used:'Used on: Dealbreakers (screen 4): 42% of men 30–39 are 5′10″–6′4″ (our estimate from the published percentiles).'},
-   {k:'hingeWeMet',used:'Used on: We Met (screen 5), as a separate fact, not compared with your "my type" count.'},
-   {k:'hingeData',used:'Where your Hinge export comes from. Every personal number in this deck is from it (EXAMPLE DATA here).'}],
-   'Tap any source to open it.')}
+   {k:'hingeData',used:'Where your Hinge export comes from. Every number in this deck is computed from it (tables hinge_interactions, hinge_messages, hinge_preferences).'}],
+   '<b>No outside statistics are used in this deck.</b> Your export has no match dates, "We Met" answers, like comments or links between likes and chats, so screens that needed those were dropped.')}
 ],
 league:[
  {bg:L.primary,fg:L.light,html:()=>`${blob(380,-140,540,L.second,.9)}${blob(120,300,180,L.acc,.9)}
   ${badge(L,'b1',null)}
-  <div class="k a" style="margin-top:12px;color:${L.second}">Deck 3 of 3 · 7 screens</div>
+  <div class="k a" style="margin-top:12px;color:${L.second}">Deck 3 of 3 · 12 screens</div>
   <div class="divider a a2" style="color:${L.second}">Your<br>League<br>Wrapped</div>
-  <div class="p a a3" style="font-size:13px">Built from the file you get when you tap <b>"Email Me My Data"</b> in The League. <b style="color:${L.second}">We haven't seen a real League export yet</b>, so every field on these screens is a guess until we confirm it.</div>
-  ${foot('Maya · 34 · Austin · EXAMPLE DATA — League export fields to be confirmed. No League company data or League-published stats are used.',false)}`},
+  <div class="p a a3" style="font-size:13px">Built from <b>Amanda's real League export</b> ("Email Me My Data", exported Sep 28, 2026). Only totals: <b style="color:${L.second}">no names, photos, message text or locations.</b></div>
+  ${foot('Amanda · on The League since 2015 · YOUR REAL LEAGUE DATA',false)}`},
  {bg:L.light,fg:L.dark,html:()=>`${blob(220,230,-40,L.second,.85)}
   ${badge(L,'b0',null)}
-  ${mine('assumed field: account start date (to be confirmed)')}
-  <div class="h a a2">You've been in The League for</div>
-  <div class="big a a3" style="color:${L.primary}">14 <small>months</small></div>
-  <div class="p a a4">Joined <b>August 2024</b>. Your newest app of the three.</div>
-  <div class="row a a5"><span>Tinder · since 2019</span><span>Hinge · since 2022</span><span>League · 2024</span></div>
-  <div class="meter a a5" style="color:${L.primary}"><i style="width:22%"></i></div>
-  ${foot('Tinder and Hinge dates come from your other decks · EXAMPLE DATA')}`},
- {bg:L.second,fg:L.dark,html:()=>`${blob(260,-90,540,L.primary,.9)}
-  ${badge(L,'b0','own')}
-  ${mine('assumed fields: likes sent + passes (to be confirmed)')}
-  <div class="h a a2" style="font-size:23px">You liked 9% of the profiles The League showed you.</div>
+  ${real(L,'league_profile.account_created_at')}
+  <div class="h a a2">You joined The League in</div>
+  <div class="big a a3" style="color:${L.primary}">2015</div>
+  <div class="h a a3" style="font-size:22px">March. That's 11½ years.</div>
+  <div class="p a a4">The like and pass history in your export starts in <b>February 2017</b>, so the next screens cover 2017–2026.</div>
+  ${foot('YOUR REAL LEAGUE DATA')}`},
+ {bg:L.second,fg:L.dark,html:()=>`${blob(260,-90,560,L.primary,.9)}
+  ${badge(L,'b0','realown')}
+  ${real(L,'league_interactions.interaction_type · like / reject')}
+  <div class="h a a2" style="font-size:23px">You liked 74% of the profiles you acted on.</div>
   <div class="vs a a3" style="height:130px">
-   <div class="col"><div class="fill" style="height:90%;background:${L.primary};color:${L.second}">9%</div><label>League · 96 of 1,040</label></div>
-   <div class="col"><div class="fill" style="height:50%;background:rgba(6,18,31,.16)">5%</div><label>Your Tinder</label></div>
+   <div class="col"><div class="fill" style="height:100%;background:${L.primary};color:${L.second}">2,024</div><label>Likes</label></div>
+   <div class="col"><div class="fill" style="height:35%;background:rgba(6,18,31,.16)">709</div><label>Passes</label></div>
   </div>
-  <div class="p a a4">Same you, different app. More open here. It's just your two numbers side by side, not a verdict.</div>
-  ${foot('Both numbers are yours (Tinder figure from your Tinder deck) · EXAMPLE DATA')}`},
- {bg:L.primary,fg:L.light,html:()=>`${blob(240,230,640,L.second,.85)}
-  ${badge(L,'b1','own')}
-  ${mine('assumed fields: matches + messages you sent (to be confirmed) · first dates = your onboarding answer')}
-  <div class="h a a2" style="font-size:24px">38 matches. You messaged 27.</div>
-  <div class="funnel a a3">
-   <div style="background:${L.second};color:${L.dark}">Your likes <b>96</b></div>
-   <div style="background:${L.acc};color:${L.dark};margin-right:16%">Matches <b>38</b></div>
-   <div style="background:${L.light};color:${L.dark};margin-right:32%">You sent a message <b>27</b></div>
-   <div style="background:#fff;color:${L.dark};margin-right:52%">First dates <b>3</b></div>
-  </div>
-  <div class="p a a4"><b style="color:${L.second}">71%</b> of your League matches got a message from you. On Tinder it was <b>62%</b> (212 of 341).</div>
-  ${foot('Both numbers are yours · EXAMPLE DATA')}`},
- {bg:L.light,fg:L.dark,html:()=>`${blob(160,-50,-10,L.acc,.8)}
+  <div class="p a a4">An open swiper: 2,024 likes, 709 passes. On Hinge (also your real data) you liked <b>55%</b>.</div>
+  ${foot('Feb 2017–Sep 2026 · YOUR REAL LEAGUE DATA')}`},
+ {bg:L.primary,fg:L.light,html:()=>`${blob(220,240,-40,L.second,.6)}
+  ${badge(L,'b1',null)}
+  ${real(L,'league_interactions.became_match')}
+  <div class="big a a2" style="color:${L.second}" data-count="59">59<small>%</small></div>
+  <div class="h a a3" style="font-size:22px">of your likes became matches.</div>
+  <div class="a a4" style="color:${L.second}">${dots(100,59)}</div>
+  <div class="p a a4"><b>1,189 matches from 2,024 likes</b> (1,202 matches in total). Match rate is part pickiness, part how people respond. It's <b>not a hotness score.</b></div>
+  ${foot('YOUR REAL LEAGUE DATA')}`},
+ {bg:L.light,fg:L.dark,html:()=>`${blob(180,-60,-20,L.acc,.8)}
   ${badge(L,'b0',null)}
-  ${mine('assumed fields: preference settings (to be confirmed)')}
-  <div class="h a a2">You set 3 filters. None were dealbreakers.</div>
-  <div class="a a3" style="margin-top:14px;position:relative;z-index:2">
-   <span class="pill" style="background:${L.primary};color:${L.second};font-size:13px">Age 31–40</span>
-   <span class="pill" style="background:${L.primary};color:${L.second};font-size:13px">Within 15 mi</span>
-   <span class="pill" style="background:${L.primary};color:${L.second};font-size:13px">Height: any</span>
+  ${real(L,'league_interactions by year, Pacific time')}
+  <div class="h a a2">Your biggest League year: 2022.</div>
+  <div class="big a a3" style="color:${L.primary};font-size:100px">528</div>
+  <div class="h a a3" style="font-size:19px">likes and 257 matches that year.</div>
+  <div class="a a4" style="color:${L.primary}">${barsN(LY.v,LY.l,5,110)}</div>
+  <div class="p a a5" style="margin-top:22px">Quietest year: 2019 (45 likes). 2026 so far: 23 likes.</div>
+  ${foot('Likes per year · YOUR REAL LEAGUE DATA')}`},
+ {bg:L.dark,fg:L.light,html:()=>`${blob(200,250,-60,L.primary,.9)}
+  ${badge(L,'b1',null)}
+  ${real(L,'league_interactions.occurred_at · Pacific time')}
+  <div class="big a a2" style="color:${L.acc}">56<small>%</small></div>
+  <div class="h a a3" style="font-size:21px">of your likes happened between 8 pm and 6 am.</div>
+  <div class="a a4" style="color:${L.acc}">${barsN(LH,LH.map((_,i)=>i%6===0?(i===0?'12a':i===12?'12p':(i<12?i+'a':(i-12)+'p')):''),23,100)}</div>
+  <div class="p a a5" style="margin-top:22px">Peak hour: <b style="color:${L.acc}">11 pm</b> (272 likes). Favorite day: <b style="color:${L.acc}">Sunday</b> (438).</div>
+  ${foot('Shown in Pacific time; shift it if you lived elsewhere · YOUR REAL LEAGUE DATA')}`},
+ {bg:L.second,fg:L.dark,html:()=>`${blob(240,220,560,L.primary,.9)}
+  ${badge(L,'b0',null)}
+  ${real(L,'league_matches.hours_match_to_first_message')}
+  <div class="h a a2">Your typical wait before sending a first message:</div>
+  <div class="big a a3" style="color:${L.primary}">6½ <small>days</small></div>
+  <div class="p a a4">That's the median across the <b>177 matches</b> you messaged. <b>14</b> of them heard from you within an hour. Slow burn, with the occasional sprint.</div>
+  ${foot('Matches since Nov 2023, when your message history starts · YOUR REAL LEAGUE DATA')}`},
+ {bg:L.primary,fg:L.light,html:()=>`${blob(200,-50,580,L.second,.8)}
+  ${badge(L,'b1',null)}
+  ${real(L,'league_messages · 1,000 messages you sent, Nov 2023–Sep 2026')}
+  <div class="h a a2" style="font-size:25px;color:${L.second}">1,000 messages to 189 people.</div>
+  <div class="sum a a3">
+   <div style="background:${L.second};color:${L.dark}"><label>Typical message</label><b>6 <span style="font-size:16px">words</span></b></div>
+   <div style="background:${L.acc};color:${L.dark}"><label>Chats with 11+ from you</label><b>19</b></div>
+   <div style="background:${L.light};color:${L.dark}"><label>Most to one person</label><b>58</b></div>
+   <div style="background:${L.dark}"><label>Matches you messaged</label><b style="color:${L.second}">41%</b></div>
   </div>
-  <div class="big a a4" style="color:${L.primary};margin-top:10px">10 <small>yrs</small></div>
-  <div class="h a a4" style="font-size:20px">wide: your age range.</div>
-  <div class="p a a5">Easygoing on paper. Your Hinge filters were stricter: height was a dealbreaker there.</div>
-  ${foot('Hinge comparison is from your Hinge deck · EXAMPLE DATA')}`},
+  <div class="p a a4">41% = 141 of your 341 matches since Nov 2023. The export only includes messages you sent, starting Nov 2023, and we never show the text.</div>
+  ${foot('YOUR REAL LEAGUE DATA')}`},
+ {bg:L.light,fg:L.dark,html:()=>`${blob(140,-50,-10,L.acc,.8)}
+  ${badge(L,'b0','cite')}
+  ${real(L,'league_preferences · age, height, distance, cities')}
+  <div class="h a a2" style="font-size:24px">Your League filters</div>
+  <div class="a a3" style="margin-top:8px;position:relative;z-index:2">
+   <span class="pill" style="background:${L.primary};color:${L.second};font-size:12px">Age 33–52</span><span class="pill" style="background:${L.primary};color:${L.second};font-size:12px">Height 5′11″–6′9″</span><span class="pill" style="background:${L.primary};color:${L.second};font-size:12px">Within 37 mi</span><span class="pill" style="background:${L.primary};color:${L.second};font-size:12px">Open to multiple cities</span>
+  </div>
+  <div class="h a a4" style="font-size:19px;margin-top:4px">A 5′11″ minimum fits about <span style="color:${L.primary};font-size:30px">28%</span> of U.S. men 30–39 and <span style="color:${L.primary};font-size:30px">34%</span> of men 40–49.</div>
+  ${cite('nhanes2','Source for 28% and 34%','Measured heights of U.S. men. Both figures are our estimates from the report\'s published percentiles.')}
+  ${foot('Filters: YOUR REAL LEAGUE DATA')}`},
+ {bg:L.second,fg:L.dark,html:()=>`${blob(260,-80,540,L.primary,.9)}
+  ${badge(L,'b0',null)}
+  ${real(L,'league_activity · group + event entries')}
+  <div class="h a a2">You joined</div>
+  <div class="big a a3" style="color:${L.primary}">61</div>
+  <div class="h a a3" style="font-size:22px">League groups. Plus 3 events.</div>
+  <div class="p a a4">The social side of the app. Group and event names stay private.</div>
+  ${foot('YOUR REAL LEAGUE DATA')}`},
  {bg:L.primary,fg:L.light,html:()=>`${blob(260,220,580,L.second,.9)}
   ${badge(L,'b1',null)}
-  <div class="h a a2" style="font-size:26px;color:${L.second}">Maya's League 2025, in one screenshot.</div>
-  ${mine('every tile below · League fields to be confirmed')}
+  <div class="h a a2" style="font-size:26px;color:${L.second}">Amanda's League, in one screenshot.</div>
+  ${real(L,'every tile below')}
   <div class="sum a a3">
-   <div style="background:${L.second};color:${L.dark}"><label>Member for</label><b>14 mo</b></div>
-   <div style="background:${L.light};color:${L.dark}"><label>Liked</label><b>9%</b></div>
-   <div style="background:${L.dark}"><label>Matches</label><b style="color:${L.acc}">38</b></div>
-   <div style="background:${L.acc};color:${L.dark}"><label>You messaged</label><b>71%</b></div>
-   <div style="background:${L.dark}"><label>First dates</label><b style="color:${L.second}">3</b></div>
-   <div style="background:${L.light};color:${L.dark}"><label>First dates by app</label><b class="t">Tinder 9 · Hinge 7 · League 3</b></div>
+   <div style="background:${L.second};color:${L.dark}"><label>Member since</label><b>2015</b></div>
+   <div style="background:${L.light};color:${L.dark}"><label>Liked</label><b>74%</b></div>
+   <div style="background:${L.dark}"><label>Matches</label><b style="color:${L.acc}">1,202</b></div>
+   <div style="background:${L.acc};color:${L.dark}"><label>Biggest year</label><b>2022</b></div>
+   <div style="background:${L.dark}"><label>Peak hour</label><b style="color:${L.second}">11 pm</b></div>
+   <div style="background:${L.light};color:${L.dark}"><label>Messages sent</label><b>1,000</b></div>
   </div>
   <div class="cta a a4"><button style="background:${L.second};color:${L.dark}">Share my Wrapped</button><button style="background:${L.light};color:${L.dark}" onclick="event.stopPropagation();next()">Sources →</button></div>
-  ${foot('IHEREBYCOMMIT.COM · EXAMPLE DATA — League export fields to be confirmed',false)}`},
+  ${foot('IHEREBYCOMMIT.COM · YOUR REAL LEAGUE DATA',false)}`},
  {bg:L.light,fg:L.dark,html:()=>sources(L,[
-   {k:'leagueData',used:'Where your League file comes from. Every personal number in this deck would come from it (EXAMPLE DATA here; field names to be confirmed).'}],
-   '<b>No outside statistics are used in this deck.</b> Every comparison is you vs. you (your Tinder and Hinge decks). No League company data or League-published stats.',`<div class="cta" style="margin-top:10px"><button style="background:${L.primary};color:${L.second}" onclick="event.stopPropagation();setDeck('start')">All decks ↺</button></div>`)}
+   {k:'nhanes2',used:'Used on: Your League filters (screen 9). Shares of men 5′11″ or taller, estimated from the published percentiles.'},
+   {k:'leagueData',used:'Where your League file comes from. Every other number in this deck is computed from it (league_profile, league_interactions, league_matches, league_messages, league_preferences, league_activity).'}],
+   'Tap any source to open it. <b>No League company data or League-published stats are used.</b> Your export includes only messages you sent (from Nov 2023) and likes/passes from Feb 2017 onward.',`<div class="cta" style="margin-top:10px"><button style="background:${L.primary};color:${L.second}" onclick="event.stopPropagation();setDeck('start')">All decks ↺</button></div>`)}
 ]};
+
 
 const ORDER=['start','tinder','hinge','league'];
 const qs=new URLSearchParams(location.search);
@@ -431,7 +473,7 @@ function render(){
   barsEl.innerHTML=list.map((_,i)=>`<div class="bar ${i<idx?'done':i===idx?'now':''}" style="--dur:${DUR}ms"><i></i></div>`).join('');
   stage.innerHTML=`<div class="screen" style="background:${s.bg};color:${s.fg}">${s.html()}</div>`;
   chrome.style.color=s.fg;
-  exTag.textContent=deck==='league'?'Example data · fields TBC':'Example data';
+  exTag.textContent=deck==='tinder'?'Example data':deck==='start'?'Tinder = example':'Your real data';
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.deck===deck));
   if(!isStatic) stage.querySelectorAll('[data-count]').forEach(countUp);
   clearTimeout(timer); if(!isStatic&&!paused&&!s.noauto) timer=setTimeout(next,DUR);
