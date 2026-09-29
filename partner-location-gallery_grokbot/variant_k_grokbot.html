@@ -880,12 +880,13 @@
        G = checkbox bottom -> AGE RANGE label = age ball -> PARTNER HEIGHT label = height ball -> end of the block.
        (checkbox row is 44px with a 20px box -> 12px under the box; slider track box is 44px with a 26px ball -> 9px under the ball.)
        ?gap=N on the K page overrides G for trying other values. */
-    html.vk { --vk-g: 17px; }
+    /* T = ball -> checkbox box: the checkbox is tucked under the distance slider so label + slider + checkbox read as one unit (T < G). */
+    html.vk { --vk-g: 17px; --vk-t: 5px; }
     html.vk #screen-3 #ww-loc:not(.collapsed) { margin-bottom: calc(var(--vk-g) - 12px) !important; }
     html.vk #ww-ranges .ww-age-group { margin-bottom: calc(var(--vk-g) - 9px) !important; }
     html.vk #screen-3 #ww-ranges { margin-bottom: calc(var(--vk-g) - 9px); }
     @media (max-height: 720px) {
-      html.vk { --vk-g: 9px; }
+      html.vk { --vk-g: 9px; --vk-t: 3px; }
       html.vk #screen-3 #ww-loc:not(.collapsed) { margin-bottom: calc(var(--vk-g) - 7px) !important; }   /* 34px row -> 7px under the box */
       html.vk #ww-ranges .ww-age-group { margin-bottom: calc(var(--vk-g) - 5px) !important; }           /* 36px track -> 5px under the ball */
       html.vk #screen-3 #ww-ranges { margin-bottom: calc(var(--vk-g) - 5px); }
@@ -895,15 +896,16 @@
        from the ball to the checkbox box = G (same as the age / height blocks). */
     html.vk #screen-3 #vi-dist-label { margin-bottom: 8px; }
     html.vk.vj #screen-3 #vi-dist .vi-dist-wrap { margin-top: 22.4px; }
-    html.vk.vj #vi-dist, html.vk.vj #ww-loc.vj-folded #vi-dist { margin: var(--vk-g) 0 calc(var(--vk-g) - 21px) !important; } /* 9px under the ball + 12px above the checkbox box */
+    html.vk.vj #vi-dist, html.vk.vj #ww-loc.vj-folded #vi-dist { margin: var(--vk-g) 0 calc(var(--vk-t) - 21px) !important; } /* 9px under the ball + 12px above the checkbox box */
     @media (max-height: 720px) {
       html.vk #screen-3 #vi-dist-label { margin-bottom: 6px; }
       html.vk.vj #screen-3 #vi-dist .vi-dist-wrap { margin-top: 20px; }
-      html.vk.vj #vi-dist, html.vk.vj #ww-loc.vj-folded #vi-dist { margin: var(--vk-g) 0 calc(var(--vk-g) - 12px) !important; } /* 5px under the ball + 7px above the box */
+      html.vk.vj #vi-dist, html.vk.vj #ww-loc.vj-folded #vi-dist { margin: var(--vk-g) 0 calc(var(--vk-t) - 12px) !important; } /* 5px under the ball + 7px above the box */
     }
     .vk-cb-txt { white-space: nowrap; overflow: hidden; text-overflow: clip; min-width: 0; }
     @media (max-width: 359px) { html.vk #screen-3 .partner-location-anywhere { font-size: 11.5px; gap: 7px; } }
     #vk-other-sum.empty { color: var(--muted); }
+    html.vk #vk-other-sum .cp-sum-more { color: inherit; } /* '+ N more' in the same white as the city names */
     @media (max-height: 720px) { html.vk #vk-row .cp-field { min-height: 44px; padding-top: 4px; padding-bottom: 4px; } }
     /* 320: the halves are ~150px, so CHANGE / EDIT step aside (the whole box is the button) and values drop to 11px */
     @media (max-width: 359px) { html.vk #vk-row:not(.solo) .cp-field { padding-left: 9px; padding-right: 8px; } html.vk #vk-row:not(.solo) .cp-edit { display: none; } html.vk #vk-row:not(.solo) .cp-sum { font-size: 11px; } html.vk #vk-row:not(.solo) { gap: 6px; } }
