@@ -9,7 +9,7 @@
 // ?v=F|G|H|D|E|LIVE opens one variant alone, already past onboarding.
 (function () {
   var q = new URLSearchParams(location.search), v = (q.get('v') || '').toUpperCase();
-  if (/^(I|H2|F|G|H|D|E|LIVE)$/.test(v)) {
+  if (/^(J|I|H2|F|G|H|D|E|LIVE)$/.test(v)) {
     location.replace('variant_' + v.toLowerCase() + '_grokbot.html?demo=1&cities=' + (q.get('cities') === '10' ? '10' : '3'));
   }
 })();
@@ -47,7 +47,7 @@
 <body>
 <header>
   <h1>Partner Location mockups: side by side</h1>
-  <p class="sub">Each frame opens on the singles <b>What You Want</b> screen (I and H2 start before Seeking is answered; the rest have Seeking answered, home zip 78704 = Austin, TX) and is fully interactive. Sample cities are pre-added. Saves are off: nothing leaves this page. Tip: add <code>?v=I</code> (or H2, F, G, H, D, E, LIVE) to the URL to open one variant alone.</p>
+  <p class="sub">Each frame opens on the singles <b>What You Want</b> screen (J, I and H2 start before Seeking is answered; the rest have Seeking answered, home zip 78704 = Austin, TX) and is fully interactive. Sample cities are pre-added. Saves are off: nothing leaves this page. Tip: add <code>?v=J</code> (or I, H2, F, G, H, D, E, LIVE) to the URL to open one variant alone.</p>
   <div class="ctl">Sample cities:
     <button id="c3" class="on" onclick="setCities(3)">3 cities</button>
     <button id="c10" onclick="setCities(10)">10 cities</button>
@@ -57,6 +57,7 @@
 <main class="grid" id="grid"></main>
 <script>
 var VARIANTS = [
+  ['J', 'All at once after Seeking; nothing folds'],
   ['I', 'Seeking first; city + distance; relocate opens list'],
   ['H2', 'I\'s flow, folds into H\'s half row'],
   ['F', 'City names that fit + N more; tap for search sheet'],
