@@ -867,9 +867,14 @@
     .vk-row .cp-sum-first { overflow: hidden; text-overflow: ellipsis; }
     #vk-zip-box.editing { border-color: var(--accent); }
     #vk-zip-box.bad { border-color: var(--error, #ff5a5a); }
-    .vk-zip-input { width: 100%; min-width: 0; box-sizing: border-box; margin: 0; padding: 0; border: none; outline: none; background: transparent;
-      font-family: 'Space Mono', monospace; font-size: 16px; line-height: 1.15; color: var(--text); letter-spacing: 0.05em; }
-    .vk-zip-input[hidden] { display: none; }
+    .vk-zip-line { align-items: baseline; }
+    .vk-zip-input { flex: none; width: calc(5ch + 2px); min-width: 0; height: auto; box-sizing: content-box; margin: 0 0 0 -1px; padding: 0 1px; border: none; border-radius: 2px;
+      outline: none; background: transparent; font: inherit; line-height: inherit; letter-spacing: 0; color: inherit; caret-color: var(--accent); pointer-events: none; -webkit-appearance: none; appearance: none; }
+    .vk-zip-input:placeholder-shown { width: calc(5ch + 2px); }
+    #vk-zip-box.editing .vk-zip-input { pointer-events: auto; background: rgba(212, 255, 58, 0.14); }
+    .vk-zip-input::selection { background: var(--accent); color: var(--bg); }
+    .vk-zip-city { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #vk-zip-box.bad .vk-zip-city { color: var(--error, #ff5a5a); }
     /* 2026-09-28 spacing: the age and height blocks get equal room above and below, all = G, the gap from the age ball's bottom
        to the PARTNER HEIGHT label as measured before this change (17px at normal heights, 9px on short screens).
        G = checkbox bottom -> AGE RANGE label = age ball -> PARTNER HEIGHT label = height ball -> end of the block.
@@ -1262,8 +1267,8 @@
           <div class="cp-half-row vk-row solo" id="vk-row">
             <div class="cp-field" id="vk-zip-box" role="button" tabindex="0" aria-label="Change partner zip code">
               <span class="cp-line cp-top-line"><label class="field-label cp-k" for="vk-zip-input">Partner city</label><span class="cp-edit" id="vk-zip-edit">CHANGE</span></span>
-              <span class="cp-sum" id="vk-zip-val"></span>
-              <input class="vk-zip-input" id="vk-zip-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="5" autocomplete="postal-code" enterkeyhint="done" aria-label="Partner zip code" hidden>
+              <!-- The zip digits are an input styled as the text itself (read-only until CHANGE), so editing happens in place: same line, same box height, city stays beside it. -->
+              <span class="cp-sum vk-zip-line" id="vk-zip-val"><input class="vk-zip-input" id="vk-zip-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="5" size="5" autocomplete="postal-code" enterkeyhint="done" aria-label="Partner zip code" readonly tabindex="-1"><span class="vk-zip-city" id="vk-zip-city"></span></span>
             </div>
             <div class="cp-field" id="vk-other-box" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Edit other cities">
               <span class="cp-line cp-top-line"><label class="field-label cp-k" id="vk-other-k">Other cities</label><span class="cp-edit">EDIT</span></span>
@@ -4799,8 +4804,11 @@ function _vkInit() { // the applicant's own zip + city until they type another o
 }
 function _vkRender() {
   _vkInit();
-  const v = document.getElementById('vk-zip-val');
-  if (v && !v.classList.contains('muted')) { v.textContent = _vkZip ? _vkZip + ' \u00b7 ' + _vkName : 'Add a zip code'; v.title = partnerCityPrimary ? partnerCityPrimary.label : ''; }
+  const v = document.getElementById('vk-zip-val'), inp = document.getElementById('vk-zip-input'), c = document.getElementById('vk-zip-city');
+  const box = document.getElementById('vk-zip-box');
+  if (inp && box && !box.classList.contains('editing')) inp.value = _vkZip;
+  if (c && box && !box.classList.contains('bad')) c.textContent = _vkZip ? '\u00a0\u00b7 ' + _vkName : 'Add a zip code';
+  if (v) v.title = partnerCityPrimary ? partnerCityPrimary.label : '';
   // OTHER CITIES shows while relocating is ticked or once it has cities (unticking keeps them); otherwise Partner city is full width.
   const row = document.getElementById('vk-row'), n = partnerCitiesExtra.length;
   if (row) row.classList.toggle('solo', !(partnerLocationAnywhere || n));
@@ -4834,13 +4842,13 @@ _renderPartnerLocationChips = function () { _vkRenderF(); _vkRender(); };
 function _vkEdit() {
   const box = document.getElementById('vk-zip-box'), inp = document.getElementById('vk-zip-input'), v = document.getElementById('vk-zip-val');
   if (box.classList.contains('editing')) return;
-  box.classList.add('editing'); box.classList.remove('bad'); v.hidden = true; inp.hidden = false; inp.value = _vkZip;
+  box.classList.add('editing'); box.classList.remove('bad'); inp.readOnly = false; inp.tabIndex = 0; inp.value = _vkZip;
   document.getElementById('vk-zip-edit').textContent = 'DONE';
-  inp.focus(); inp.select();
+  inp.focus(); inp.select(); try { inp.setSelectionRange(0, inp.value.length); } catch (e) {}
 }
 function _vkClose() {
   const box = document.getElementById('vk-zip-box'), inp = document.getElementById('vk-zip-input'), v = document.getElementById('vk-zip-val');
-  box.classList.remove('editing', 'bad'); inp.hidden = true; v.hidden = false; v.classList.remove('muted');
+  box.classList.remove('editing', 'bad'); inp.readOnly = true; inp.tabIndex = -1; if (document.activeElement === inp) inp.blur();
   document.getElementById('vk-zip-edit').textContent = 'CHANGE';
   _vkRender();
 }
@@ -4866,14 +4874,15 @@ async function _vkCommit(zip) {
   } catch (e) {
     if (seq !== _vkSeq) return;
     box.classList.add('bad');
-    const inp = document.getElementById('vk-zip-input'); inp.value = ''; inp.placeholder = 'ZIP not found'; inp.focus();
+    const c = document.getElementById('vk-zip-city'); if (c) c.textContent = '\u00a0\u00b7 ZIP not found';
+    const inp = document.getElementById('vk-zip-input'); inp.focus(); inp.select();
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
   const box = document.getElementById('vk-zip-box'), inp = document.getElementById('vk-zip-input');
   box.addEventListener('click', e => { if (e.target === inp) return; e.preventDefault(); if (box.classList.contains('editing')) _vkCommit(inp.value.trim()); else _vkEdit(); });
   box.addEventListener('keydown', e => { if (e.target === box && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); _vkEdit(); } });
-  inp.addEventListener('input', () => { inp.value = inp.value.replace(/\D/g, '').slice(0, 5); box.classList.remove('bad'); if (inp.value.length === 5) _vkCommit(inp.value); });
+  inp.addEventListener('input', () => { inp.value = inp.value.replace(/\D/g, '').slice(0, 5); if (box.classList.contains('bad')) { box.classList.remove('bad'); _vkRender(); } if (inp.value.length === 5) _vkCommit(inp.value); });
   inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); _vkCommit(inp.value.trim()); } else if (e.key === 'Escape') { e.preventDefault(); _vkClose(); } });
   inp.addEventListener('blur', () => setTimeout(() => { if (box.classList.contains('editing') && document.activeElement !== inp) { if (inp.value.length !== 5) _vkClose(); } }, 150));
   const ob = document.getElementById('vk-other-box');
