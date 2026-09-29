@@ -25,9 +25,9 @@
   .ctl button.on { background: #1d1d1f; color: #fff; border-color: #1d1d1f; }
   .grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 16px 24px 40px; align-items: flex-start; }
   .card { width: 393px; flex: 0 0 393px; }
-  .lbl { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px; min-height: 40px; }
-  .lbl b { font-size: 22px; min-width: 28px; }
-  .lbl span { font-size: 13px; color: #444; line-height: 1.35; flex: 1; }
+  .lbl { display: flex; align-items: baseline; gap: 8px; margin: 0 0 8px; height: 28px; white-space: nowrap; }
+  .lbl b { font-size: 22px; }
+  .lbl span { font-size: 12.5px; color: #444; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   .lbl a { font-size: 12px; color: #0a58ca; white-space: nowrap; }
   .phone { width: 393px; height: 852px; border-radius: 34px; overflow: hidden; background: #fff; box-shadow: 0 0 0 10px #1d1d1f, 0 12px 30px rgba(0,0,0,.25); margin: 10px; margin-left: 10px; }
   .phone iframe { width: 393px; height: 852px; border: 0; display: block; }
@@ -36,7 +36,9 @@
     header { padding: 16px 14px 4px; }
     .grid { flex-direction: column; flex-wrap: nowrap; padding: 12px 0 30px; gap: 22px; }
     .card { width: 100%; flex: none; }
-    .lbl { padding: 0 14px; }
+    .lbl { padding: 0 14px; height: auto; white-space: normal; align-items: flex-start; }
+    .lbl span { overflow: visible; line-height: 1.35; padding-top: 6px; }
+    .lbl a { padding-top: 6px; }
     .phone { width: 100%; max-width: 393px; margin: 0 auto; border-radius: 0; box-shadow: none; border-top: 1px solid #ccd; border-bottom: 1px solid #ccd; }
     .phone iframe { width: 100%; }
   }
@@ -55,12 +57,12 @@
 <main class="grid" id="grid"></main>
 <script>
 var VARIANTS = [
-  ['F', 'Compact field showing a one-line city summary; tap it to open a search sheet with popular cities.'],
-  ['G', 'Horizontal strip of city chips that scrolls sideways; tap it or "+" to open the same search sheet.'],
-  ['H', 'Half row: DISTANCE on the left (tap to show the slider), CITIES (n) on the right opening the sheet.'],
-  ['D', 'Half-row city tags plus a DISTANCE slider (0–300 mi from 78704) at the top of the ranges.'],
-  ['E', 'Half row: "DISTANCE · EDIT" on the left (EDIT reveals the slider), outline Add city pill on the right.'],
-  ['LIVE', 'Current live design (2026-09-27r): primary city plus Add city tags, for comparison.']
+  ['F', 'One-line city summary; tap for a search sheet'],
+  ['G', 'Scrolling city chip strip + search sheet'],
+  ['H', 'Half row: distance (EDIT) + CITIES (n) sheet'],
+  ['D', 'City half row, tags + distance slider'],
+  ['E', 'Half row: distance (EDIT) + Add cities pill'],
+  ['LIVE', 'Current live design (27r), for comparison']
 ];
 var N = new URLSearchParams(location.search).get('cities') === '10' ? 10 : 3;
 function src(v) { return 'variant_' + v.toLowerCase() + '_grokbot.html?demo=1&cities=' + N + '&t=' + Date.now(); }
@@ -69,7 +71,7 @@ function render() {
   VARIANTS.forEach(function (x) {
     var d = document.createElement('section');
     d.className = 'card' + (x[0] === 'LIVE' ? ' live' : '');
-    d.innerHTML = '<div class="lbl"><b>' + x[0] + '</b><span>' + x[1] + '</span><a target="_blank" href="?v=' + x[0] + '&cities=' + N + '">open alone ↗</a></div>' +
+    d.innerHTML = '<div class="lbl"><b>' + x[0] + '</b><span title="' + x[1] + '">' + x[1] + '</span><a target="_blank" href="?v=' + x[0] + '&cities=' + N + '">open alone ↗</a></div>' +
       '<div class="phone"><iframe title="Variant ' + x[0] + '" data-v="' + x[0] + '" src="' + src(x[0]) + '"></iframe></div>';
     g.appendChild(d);
   });
