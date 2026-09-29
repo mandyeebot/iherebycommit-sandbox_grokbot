@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="cp v-f">
+<html lang="en" class="cp v-f vi">
 <head>
   <!-- MOCKUP_grokbot (sandbox only): every save / submit / event is answered locally with a fake OK; nothing leaves the page
        except the zip lookup, fonts and the city list. Not indexed. -->
@@ -812,6 +812,24 @@
     .btn-friend-green { background: #c8f135; color: #0e0e0e; }
     .btn-friend-green:hover { background: #d8ff40; }
     .btn-friend-green:active { transform: scale(0.98); }
+    /* ===== MOCKUP_grokbot variant I ===== */
+    html.cp.vi #cp-field, html.cp.vi .pc-half-add, html.cp.vi #ww-loc-tags { display: none !important; }
+    html.cp.vi .pc-half-row { display: block !important; }
+    html.cp.vi #pc-primary-slot { display: block !important; }
+    html.cp.vi .pc-half-primary { width: 100%; }
+    html.cp.vi .pc-half-primary .pc-primary { -webkit-line-clamp: 1; }
+    #vi-dist { margin: 12px 0 0 !important; }
+    #screen-3 #vi-dist-label { margin-bottom: 0; }
+    #vi-dist .vi-dist-wrap { margin-top: 0; }
+    html.cp.vi #pc-extra .partner-location-anywhere { margin-top: 0; }
+    .vi-extra { display: flex; align-items: center; gap: 8px; min-height: 32px; cursor: pointer; min-width: 0; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+    .vi-extra[hidden] { display: none; }
+    #screen-3 .vi-extra-k { margin: 0; flex-shrink: 0; }
+    .vi-extra-sum { flex: 1; min-width: 0; font-size: 12px; }
+    /* Partner Location reopened with EDIT: Age Range + Partner Height step aside again until it folds (no scrolling on small phones) */
+    html.vi #ww-loc:not(.collapsed):not(.cr-later) ~ #ww-ranges { display: none !important; }
+    .cp-row.pinned { cursor: default; }
+    .cp-row.pinned:active { background: none; }
   </style>
 </head>
 <body class="landing-active">
@@ -1188,6 +1206,15 @@
           </div>
           <div id="pc-primary-slot"></div>
           <div class="field-error" id="err-partner_location"></div>
+          <!-- MOCKUP_grokbot I: distance from the partner city (0-300 mi, default 300); the label is the live readout. -->
+          <div class="field-group vi-dist" id="vi-dist">
+            <label class="field-label" id="vi-dist-label" for="vi_dist_mi">78704 + 300 miles</label>
+            <div class="range-slider-wrap vi-dist-wrap">
+              <div class="range-track"></div>
+              <div class="range-fill" id="vi-dist-fill" style="left:0"></div>
+              <input type="range" id="vi_dist_mi" class="range-input" min="0" max="300" step="5" value="300" aria-label="Distance in miles from your partner city">
+            </div>
+          </div>
           <div class="pc-extra" id="pc-extra">
             <div id="partner-location-chips" class="pc-tags"></div>
             <div id="pc-extra-slot"><div id="pc-picker" hidden>
@@ -1198,6 +1225,7 @@
               <input type="checkbox" id="partner-location-anywhere">
               <span>I'm open to relocating for love</span>
             </label>
+            <div class="vi-extra" id="vi-extra" role="button" tabindex="0" aria-label="Edit relocation cities" hidden><span class="field-label vi-extra-k">Also</span><span class="cp-sum vi-extra-sum" id="vi-extra-sum"></span><span class="cp-edit">EDIT</span></div>
           </div>
         </div>
         </div>
@@ -3318,7 +3346,7 @@ function _crDefineAll() {
   // returning to the screen), so Partner city + Change, "+ Add city" with its tags and the relocate checkbox are always in view.
   // It doesn't hold back Age Range + Partner Height: they appear with it (a missing primary city is caught by Next with
   // "Choose a partner city"). If it ever is collapsed, EDIT reopens it as before.
-  crDef('ww-loc', { busy: _plBusy, noCollapse: true, stepDone: () => true, value: partnerLocationSummary });
+  crDef('ww-loc', { busy: _plBusy, key: () => 'City', stepDone: () => false, value: () => _viLocSummary(), onExpand: () => { _viDone = false; } }); // MOCKUP_grokbot I: folds on Done / Next, holds back the ranges until then
   // Age range + partner height: one set, shown together, never collapsed (no condensed row); defaults are saved untouched.
   crDef('ww-ranges', { stepDone: () => false, value: () => '' });
   // Intentions & Family
@@ -4528,41 +4556,128 @@ async function _doZipLookup(zip) {
   <div class="cp-hint" id="cp-hint"></div>
   <div class="cp-list" id="cp-list" role="group" aria-label="Cities"></div>
 </div>
-<div class="mock-badge_grokbot">Mockup F</div>
+<div class="mock-badge_grokbot">Mockup I</div>
 
-<!-- MOCKUP_grokbot gallery demo: ?demo=1 skips onboarding and opens singles What You Want with Seeking answered.
-     &cities=3 (default) or &cities=10 pre-selects sample cities (zip 78704 = Austin, TX is the home city). -->
+<!-- MOCKUP_grokbot variant I behaviour -->
+<script>
+// Flow: Seeking (Men / Women / Both, none preselected) -> folds -> Partner Location: "Partner city" row (the zip's city; tap for the
+// existing single-city search), distance slider "78704 + N miles" (0-300, default 300), "I'm open to relocating for love".
+// Ticking relocating opens the F picklist with the partner city checked + pinned; Done folds the question into one row
+// "City: Austin + N miles, +3 more" (EDIT reopens it). Not ticking: Next folds it (Next = done for this question; it does
+// not leave the screen). Unticking relocating clears the extra cities. Age Range + Partner Height appear once it has folded.
+let _viDone = false;
+function _viName(p) { return p ? String(p.city || p.label || '').split(',')[0].trim() : ''; }
+function _viMi() { const el = document.getElementById('vi_dist_mi'); return el ? parseInt(el.value, 10) : 300; }
+function _viLocSummary() {
+  if (!_viDone || !partnerCityPrimary) return '';
+  const n = partnerCitiesExtra.length;
+  return _viName(partnerCityPrimary) + ' + ' + _viMi() + ' miles' + (n ? ', +' + n + ' more' : '');
+}
+function _viOrigin() { // distance is from the zip while the partner city is the home city, else from the chosen city
+  const home = _cpHome(), zip = _crV('postal_code');
+  return (home && partnerCityPrimary && _plSame(home, partnerCityPrimary) && zip) ? zip : (_viName(partnerCityPrimary) || 'Distance');
+}
+function _viDistUpdate() {
+  const el = document.getElementById('vi_dist_mi'), lab = document.getElementById('vi-dist-label'), fill = document.getElementById('vi-dist-fill');
+  if (!el || !lab) return;
+  const v = parseInt(el.value, 10); state.partnerDistanceMi = v;
+  lab.textContent = _viOrigin() + ' + ' + v + ' miles';
+  const w = el.getBoundingClientRect().width, pct = (v - el.min) / (el.max - el.min);
+  if (fill) { fill.style.left = '0'; fill.style.width = w ? (pct * (w - SLIDER_THUMB_W) + SLIDER_THUMB_W / 2) + 'px' : (pct * 100) + '%'; }
+}
+function _viExtraRender() {
+  const box = document.getElementById('vi-extra'), sum = document.getElementById('vi-extra-sum');
+  if (!box || !sum) return;
+  box.hidden = !partnerLocationAnywhere;
+  if (box.hidden) return;
+  const fit = () => _cpFitNames(sum, partnerCitiesExtra.map(_cpCityName), 'Choose cities', fit);
+  fit();
+  sum.title = partnerCitiesExtra.map(p => p.label).join('; ');
+}
+function _viFinish() {
+  if (!partnerCityPrimary) return false;
+  if (_plOpen) _closePartnerLocationAdder();
+  const a = document.activeElement; if (a && a.blur) a.blur();
+  _viDone = true;
+  if (!crCollapse('ww-loc')) { _viDone = false; return false; }
+  crSync();
+  return true;
+}
+// Partner city stays checked and pinned in the picklist (change it with the Partner city row instead).
+const _viToggleF = _cpToggle;
+_cpToggle = function (entry) {
+  if (entry && partnerCityPrimary && _plSame(entry, partnerCityPrimary)) {
+    const h = document.getElementById('cp-hint'); if (h) h.textContent = _viName(partnerCityPrimary) + ' is your partner city, so it stays checked.';
+    return;
+  }
+  return _viToggleF(entry);
+};
+const _viListF = _cpRenderList;
+_cpRenderList = function () {
+  _viListF();
+  const t = document.getElementById('cp-sheet-title'); if (t) t.textContent = 'Open to relocating: cities (' + _cpSel().length + ')';
+  const first = document.querySelector('#cp-list .cp-row[aria-checked="true"]');
+  if (first && partnerCityPrimary) {
+    first.classList.add('pinned'); first.setAttribute('aria-disabled', 'true');
+    let n = first.querySelector('.cp-row-note'); if (!n) { n = document.createElement('span'); n.className = 'cp-row-note'; first.appendChild(n); }
+    n.textContent = 'partner city';
+  }
+};
+const _viRenderF = _renderPartnerLocationChips;
+_renderPartnerLocationChips = function () {
+  _viRenderF();
+  const k = document.getElementById('partner-location-label'); if (k) k.textContent = 'Partner city';
+  const ch = document.getElementById('pc-change'); if (ch) ch.textContent = 'CHANGE';
+  _viExtraRender(); _viDistUpdate();
+};
+const _viGoNextF = goNext;
+goNext = async function (id) {
+  if (id === 3) {
+    const u = document.getElementById('ww-loc');
+    if (u && !u.classList.contains('collapsed') && !_crHidden('ww-loc') && partnerCityPrimary) {
+      _commitPartnerLocationTyped();
+      if (_viFinish()) return; // Next folds Partner Location and shows Age Range + Partner Height (stays on this screen)
+    }
+  }
+  return _viGoNextF(id);
+};
+document.addEventListener('DOMContentLoaded', () => {
+  const s = document.getElementById('vi_dist_mi');
+  s.addEventListener('input', () => { _viDistUpdate(); _wwLocChanged(); });
+  window.addEventListener('resize', () => requestAnimationFrame(_viDistUpdate));
+  const any = document.getElementById('partner-location-anywhere');
+  any.addEventListener('change', () => {
+    partnerLocationAnywhere = !!any.checked;
+    if (any.checked) setTimeout(_cpOpen, 0);
+    else partnerCitiesExtra = [];
+  });
+  const ex = document.getElementById('vi-extra');
+  ex.addEventListener('click', e => { e.preventDefault(); _cpOpen(); });
+  ex.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); _cpOpen(); } });
+  document.getElementById('cp-done').addEventListener('click', () => { if (partnerLocationAnywhere) setTimeout(_viFinish, 0); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { _viDistUpdate(); _viExtraRender(); });
+});
+</script>
+<!-- MOCKUP_grokbot gallery demo for I: ?demo=1 skips onboarding and lands on What You Want with nothing answered yet. -->
 <script>
 (function () {
-  var qs = new URLSearchParams(location.search);
-  if (!qs.has('demo')) return;
-  var N = qs.get('cities') === '10' ? 10 : 3;
+  if (!new URLSearchParams(location.search).has('demo')) return;
   function set(id, v) { var e = document.getElementById(id); if (e) e.value = v; }
   window.addEventListener('load', function () {
     try {
       state.status = 'single'; state.gender = 'woman';
-      document.querySelectorAll('#btn-gender-woman').forEach(function (b) { b.classList.add('selected'); });
       set('first_name', 'Demo'); set('last_name', 'User'); set('email', 'demo@example.com');
       set('birthdate', '1994-05-05'); state.birthdateTouched = true;
       set('postal_code', '78704'); state.locationMode = 'zip'; state.zipCity = 'Austin, TX'; state.zipLatLong = '30.2422,-97.7694'; state.locationCountry = 'United States';
       if (typeof _buildHeightSelect === 'function') _buildHeightSelect();
       set('height_ftin', '165'); state.heightCm = 165; state.heightTouched = true;
       state.race = ['Prefer not to say'];
+      state.genderSeeking = null;
       showScreen(3, 'forward');
-      setGenderSeeking('both'); crTap('ww-seek');
-      var p = loadPartnerCities();
-      Promise.resolve(p).then(function () {
-        var want = N === 10 ? ['Houston, TX', 'Dallas, TX', 'San Antonio, TX', 'Denver, CO', 'Chicago, IL', 'Seattle, WA', 'Boston, MA', 'Miami, FL', '*Marfa'] : ['Houston, TX', 'Denver, CO', '*Marfa'];
-        var extra = want.map(function (l) {
-          if (l[0] === '*') return _plTypedEntry(l.slice(1)); // a free-typed town: saved as typed, matched=false
-          var c = PARTNER_CITIES.find(function (x) { return x.label === l; });
-          return c ? _plEntryFromCity(c) : _plTypedEntry(l);
-        });
-        if (!partnerCityPrimary) partnerCityPrimary = _ownCityEntry();
-        partnerCitiesExtra = extra.filter(function (e) { return !_plSame(e, partnerCityPrimary); });
-        partnerLocationTouched = true;
-        _renderPartnerLocationChips(); if (typeof _wwLocChanged === 'function') _wwLocChanged();
-        requestAnimationFrame(function () { if (typeof _placeAllSliderBubbles === 'function') _placeAllSliderBubbles(); });
+      ['men', 'women', 'both'].forEach(function (v) { var b = document.getElementById('btn-seek-' + v); if (b) b.classList.remove('selected'); });
+      Promise.resolve(loadPartnerCities()).then(function () {
+        if (!partnerLocationTouched) partnerCityPrimary = _ownCityEntry();
+        _renderPartnerLocationChips();
         document.documentElement.setAttribute('data-demo-ready', String(_plAll().length));
       });
     } catch (e) { console.error('demo boot', e); }
