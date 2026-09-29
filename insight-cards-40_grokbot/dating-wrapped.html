@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dating Wrapped · tap-through mockup (example data)_grokbot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0e0e0e;--cream:#f6efe3;--lime:#c8f135;--pink:#ff2e63;--orange:#ff7a2f;--purple:#6c3bff;--navy:#17123a;--teal:#00c2a8;--sky:#7fd3ff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0e0e0e;color:var(--cream);font-family:'Space Mono',monospace;min-height:100%}
+body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40px}
+.top{width:min(393px,100%);margin-bottom:12px}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px}.brand b{color:var(--lime);font-weight:400}
+.note{font-size:10px;color:#9a978c;line-height:1.5;margin:4px 0 10px}
+.tabs{display:flex;gap:8px}
+.tab{flex:1;border:1.5px solid #333;background:none;color:var(--cream);font:700 11px 'Space Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;padding:10px 6px;border-radius:999px;cursor:pointer}
+.tab.on[data-deck=tinder]{background:var(--pink);border-color:var(--pink);color:#fff}
+.tab.on[data-deck=hinge]{background:var(--purple);border-color:var(--purple);color:#fff}
+.phone{position:relative;width:393px;max-width:100%;height:780px;border-radius:38px;overflow:hidden;background:#000;box-shadow:0 0 0 10px #1c1c1c,0 30px 80px rgba(0,0,0,.6);user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.bars{position:absolute;top:14px;left:14px;right:14px;display:flex;gap:4px;z-index:20}
+.bar{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#fff}
+.bar.done i{width:100%}
+.bar.now i{width:100%;animation:fill var(--dur,9s) linear forwards}
+.paused .bar.now i{animation-play-state:paused}
+@keyframes fill{from{width:0}to{width:100%}}
+.chrome{position:absolute;top:26px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;z-index:20;font-size:9px;letter-spacing:1.5px;text-transform:uppercase}
+.chrome .logo{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px}
+.ex{border:1.5px solid currentColor;border-radius:999px;padding:3px 8px;font-weight:700}
+.screen{position:absolute;inset:0;padding:64px 24px 22px;display:flex;flex-direction:column;overflow:hidden}
+.k{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:10px;position:relative;z-index:2}
+.h{font-family:'Archivo Black',sans-serif;font-size:31px;line-height:1.02;letter-spacing:-.5px;position:relative;z-index:2}
+.big{font-family:'Bebas Neue',sans-serif;font-size:150px;line-height:.82;letter-spacing:-1px;position:relative;z-index:2}
+.big small{font-size:.38em;letter-spacing:0}
+.p{font-size:12.5px;line-height:1.55;margin-top:12px;position:relative;z-index:2}
+.p b{font-weight:700}
+.foot{margin-top:auto;position:relative;z-index:2;font-size:8.5px;line-height:1.45;opacity:.85;border-top:1.5px solid currentColor;padding-top:8px;display:flex;gap:10px;justify-content:space-between;align-items:flex-end}
+.foot .src{max-width:78%}
+.share{font:700 9px 'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;border:1.5px solid currentColor;border-radius:999px;padding:6px 10px;background:none;color:inherit;white-space:nowrap}
+.blob{position:absolute;border-radius:50%;z-index:1;pointer-events:none}
+.tapL,.tapR{position:absolute;top:50px;bottom:60px;z-index:10}
+.tapL{left:0;width:33%}.tapR{right:0;width:67%}
+.hint{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:9px;color:#666;z-index:0}
+/* animation */
+.a{opacity:0;transform:translateY(18px);animation:up .6s cubic-bezier(.2,.8,.2,1) forwards}
+.a2{animation-delay:.25s}.a3{animation-delay:.5s}.a4{animation-delay:.8s}.a5{animation-delay:1.1s}.a6{animation-delay:1.5s}
+@keyframes up{to{opacity:1;transform:none}}
+.static .a{opacity:1;transform:none;animation:none}
+.static .bar.now i{animation:none;width:100%}
+/* charts */
+.bars12{display:flex;align-items:flex-end;gap:5px;height:120px;margin-top:18px;position:relative;z-index:2}
+.bars12 div{flex:1;background:currentColor;border-radius:3px 3px 0 0;opacity:.35;position:relative}
+.bars12 div.hi{opacity:1}
+.bars12 span{position:absolute;bottom:-15px;left:0;right:0;text-align:center;font-size:8px;opacity:.8}
+.vs{display:flex;gap:14px;align-items:flex-end;height:190px;margin-top:16px;position:relative;z-index:2}
+.vs .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.vs .fill{min-height:40px;border-radius:10px 10px 0 0;display:flex;align-items:flex-start;justify-content:center;padding-top:6px;font-family:'Bebas Neue';font-size:34px}
+.vs label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;text-align:center;font-weight:700}
+.dots{display:grid;grid-template-columns:repeat(20,1fr);gap:4px;margin-top:16px;position:relative;z-index:2}
+.dots i{aspect-ratio:1;border-radius:50%;border:1.5px solid currentColor}
+.dots i.f{background:currentColor}
+.quad{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;height:220px;margin-top:14px;position:relative;z-index:2}
+.quad div{border:1.5px solid currentColor;border-radius:12px;padding:8px;font-size:9px;line-height:1.3;display:flex;flex-direction:column;justify-content:space-between;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.quad div.me{background:var(--ink);color:var(--lime);border-color:var(--ink)}
+.quad div em{font-style:normal;font-family:'Archivo Black';font-size:14px;letter-spacing:0;text-transform:none}
+.axis{display:flex;justify-content:space-between;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;margin-top:5px;position:relative;z-index:2;font-weight:700}
+.funnel{margin-top:14px;display:flex;flex-direction:column;gap:6px;position:relative;z-index:2}
+.funnel div{border-radius:8px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700}
+.funnel b{font-family:'Bebas Neue';font-size:30px;letter-spacing:0;font-weight:400}
+.sum{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative;z-index:2}
+.sum div{border-radius:14px;padding:10px 12px;min-height:84px;display:flex;flex-direction:column;justify-content:space-between}
+.sum label{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;opacity:.8}
+.sum b{font-family:'Bebas Neue';font-size:40px;font-weight:400;line-height:.9}
+.sum b.t{font-family:'Archivo Black';font-size:17px;line-height:1.05}
+.pill{display:inline-block;border-radius:999px;padding:5px 11px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin:0 6px 6px 0}
+.quiz{display:flex;flex-direction:column;gap:7px;margin-top:14px;position:relative;z-index:2}
+.quiz div{border:1.5px solid currentColor;border-radius:12px;padding:10px 12px;font-size:12px;font-weight:700;display:flex;justify-content:space-between}
+.quiz div.pick{background:currentColor}.quiz div.pick span{color:var(--purple)}
+.meter{height:16px;border-radius:999px;background:rgba(0,0,0,.18);margin-top:8px;overflow:hidden;position:relative;z-index:2}
+.meter i{display:block;height:100%;border-radius:999px;background:currentColor}
+.row{display:flex;justify-content:space-between;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:12px;position:relative;z-index:2}
+.cta{margin-top:10px;display:flex;gap:8px;position:relative;z-index:12}
+.cta button{flex:1;border:none;border-radius:999px;padding:12px 8px;font:700 10px 'Space Mono';letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+.legend{width:min(393px,100%);margin-top:18px;font-size:10px;color:#9a978c;line-height:1.6}
+.legend b{color:var(--cream)}
+@media (max-width:420px){.phone{height:calc(100vh - 150px);min-height:660px;border-radius:24px;box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brand">I HEREBY <b>COMMIT</b> · DATING WRAPPED</div>
+  <div class="note">Tap-through mockup. <b style="color:#f6efe3">Every personal number is EXAMPLE DATA</b> for a made-up person ("Maya", 34, Austin). Benchmarks are real published figures, cited on each screen. Tap right = next, left = back, hold = pause, arrow keys work.</div>
+  <div class="tabs"><button class="tab on" data-deck="tinder">Tinder · 7</button><button class="tab" data-deck="hinge">Hinge · 7</button></div>
+</div>
+<div class="phone" id="phone">
+  <div class="bars" id="bars"></div>
+  <div class="chrome" id="chrome"><span class="logo">I HEREBY COMMIT</span><span class="ex">Example data</span></div>
+  <div id="stage"></div>
+  <div class="tapL" id="tapL"></div><div class="tapR" id="tapR"></div>
+</div>
+<div class="legend">
+  <b>Where each number would come from.</b> Tinder deck: <i>data.json → Usage</i> (app_opens, swipes_likes, swipes_passes, matches, messages_sent) and <i>Messages</i> (your sent messages only). Hinge deck: <i>matches.json</i> (like / match / chats / we_met) and <i>user.json → preferences</i>. Files are parsed in your browser; only the counts leave the phone (see the Concept Doc, privacy section). Benchmarks: SwipeStats Tinder analysis (7,079 opt-in profiles, 2020–25, company blog — not a random sample); Northwestern speed dating (349 people); CDC NHANES 2021–23; Hinge 2018 beta (company-reported). Match rate reflects how picky you are as much as how others respond — it is not a desirability score.
+</div>
+<script>
+const C={ink:'#0e0e0e',cream:'#f6efe3',lime:'#c8f135',pink:'#ff2e63',orange:'#ff7a2f',purple:'#6c3bff',navy:'#17123a',teal:'#00c2a8',sky:'#7fd3ff'};
+const months=['J','F','M','A','M','J','J','A','S','O','N','D'];
+const opens=[118,146,109,96,88,84,79,92,101,110,93,98]; // example data, sums 1214
+function bars12(){const mx=Math.max(...opens);return '<div class="bars12">'+opens.map((v,i)=>`<div class="${v===mx?'hi':''}" style="height:${Math.round(v/mx*100)}%"><span>${months[i]}</span></div>`).join('')+'</div>'}
+function dots(n,f){let s='<div class="dots">';for(let i=0;i<n;i++)s+=`<i class="${i<f?'f':''}"></i>`;return s+'</div>'}
+function blob(sz,x,y,col,op=1){return `<div class="blob" style="width:${sz}px;height:${sz}px;left:${x}px;top:${y}px;background:${col};opacity:${op}"></div>`}
+function foot(src,share=true){return `<div class="foot a a6"><div class="src">${src}</div>${share?'<button class="share">Share ↗</button>':''}</div>`}
+const decks={
+tinder:[
+ {bg:C.pink,fg:'#fff',html:()=>`${blob(420,-120,420,C.orange)}${blob(170,250,120,C.lime,.95)}
+  <div class="k a">Your Tinder, Wrapped · 2025</div>
+  <div class="big a a2" style="font-size:170px">2025</div>
+  <div class="h a a3" style="font-size:36px">You swiped.<br>You matched.<br>You met people.<br>Here's the proof.</div>
+  <div class="p a a4">Built from the <b>data.json</b> you downloaded from Tinder. Read on your phone, not our servers. 7 screens.</div>
+  ${foot('Maya · 34 · Austin · on Tinder since 2019 · EXAMPLE DATA',false)}`},
+ {bg:C.navy,fg:C.cream,html:()=>`${blob(260,200,-80,C.pink,.9)}
+  <div class="k a" style="color:${C.lime}">Screen time, but make it romance</div>
+  <div class="h a a2">You opened Tinder</div>
+  <div class="big a a3" style="color:${C.lime}" data-count="1214">1,214</div>
+  <div class="h a a3" style="font-size:24px">times this year.</div>
+  <div class="p a a4">That's <b>3.3 a day</b>. Your busiest month was <b style="color:${C.lime}">February</b>. Valentine's energy is real.</div>
+  <div class="a a5" style="color:${C.lime}">${bars12()}</div>
+  ${foot('Your data.json → Usage.app_opens, summed by month. EXAMPLE DATA.')}`},
+ {bg:C.lime,fg:C.ink,html:()=>`${blob(300,190,470,C.pink,.9)}
+  <div class="k a">Guess vs. reality</div>
+  <div class="h a a2">At signup you guessed you swipe right on 20% of profiles.</div>
+  <div class="vs a a3">
+   <div class="col"><div class="fill" style="height:80%;background:rgba(14,14,14,.18)">20%</div><label>Your guess</label></div>
+   <div class="col"><div class="fill" style="height:22%;background:${C.ink};color:${C.lime}">5%</div><label>The real you</label></div>
+  </div>
+  <div class="h a a4" style="font-size:26px;margin-top:14px">You're pickier than you think.</div>
+  <div class="p a a5">You liked <b>775</b> of <b>15,500</b> profiles. Among 842 women in SwipeStats' Tinder data, the middle group swiped right on about <b>4–6%</b>. Right in the pack.</div>
+  ${foot('You: Usage.swipes_likes ÷ (likes + passes). Guess: your onboarding answer. Benchmark: SwipeStats Tinder analysis, female selectivity deciles 5–6 (842 women, opt-in uploads 2020–25).')}`},
+ {bg:C.orange,fg:C.ink,html:()=>`${blob(230,-70,-60,C.lime,.95)}
+  <div class="k a">Match rate</div>
+  <div class="big a a2" data-count="44">44<small>%</small></div>
+  <div class="h a a3" style="font-size:25px">of your right swipes turned into matches.</div>
+  <div class="a a4">${dots(100,44)}</div>
+  <div class="p a a5"><b>Heads up:</b> match rate is part pickiness, part how people respond. It is <b>not a hotness score.</b> Typical woman in SwipeStats' data: 41% (n=842). Typical man: 2% (n=6,233). Same app, very different game.</div>
+  ${foot('You: Usage.matches ÷ Usage.swipes_likes (341 ÷ 775). Benchmark: SwipeStats median match rate by gender (company blog, opt-in uploads, not a random sample).')}`},
+ {bg:C.cream,fg:C.ink,html:()=>`${blob(200,230,-40,C.pink,.9)}
+  <div class="k a">Your swipe personality</div>
+  <div class="h a a2">You're <span style="background:${C.lime};padding:0 4px">The Curator</span></div>
+  <div class="p a a3">Picky with swipes. Generous with words. You like few people, then actually talk to them: <b>6.1 messages per match</b>.</div>
+  <div class="quad a a4">
+   <div class="me">Picky + chatty<em>The Curator ← you</em></div>
+   <div>Open + chatty<em>The Social Butterfly</em></div>
+   <div>Picky + quiet<em>The Minimalist</em></div>
+   <div>Open + quiet<em>The Window Shopper</em></div>
+  </div>
+  <div class="axis a a4"><span>← pickier swiper</span><span>more open swiper →</span></div>
+  <div class="p a a5" style="font-size:11px">Four types, no ranking. Send it to the group chat and find the Window Shopper.</div>
+  ${foot('Your like rate (5%) and messages sent per match (Messages ÷ matches). Types are fun labels from your own numbers, not a score. EXAMPLE DATA.')}`},
+ {bg:C.navy,fg:C.cream,html:()=>`${blob(320,160,480,C.orange,.95)}
+  <div class="k a" style="color:${C.orange}">From match to real life</div>
+  <div class="h a a2">341 matches.<br>9 first dates.</div>
+  <div class="funnel a a3">
+   <div style="background:${C.pink};color:#fff">Matches <b>341</b></div>
+   <div style="background:${C.orange};color:${C.ink};margin-right:14%">You sent a message <b>212</b></div>
+   <div style="background:${C.lime};color:${C.ink};margin-right:30%">Chats with 11+ of your messages <b>64</b></div>
+   <div style="background:${C.cream};color:${C.ink};margin-right:52%">First dates <b>9</b></div>
+  </div>
+  <div class="p a a4"><b style="color:${C.lime}">19%</b> of your matches became real conversations. Across 842 women in SwipeStats' data it was <b>about 14%</b>. You don't just collect matches.</div>
+  ${foot('Messages (your sent messages only; Tinder does not export what others sent). First dates: your onboarding answer. Benchmark: SwipeStats, women\'s matches with 11+ messages (6.9% + 4.7% + 1.8%).')}`},
+ {bg:C.pink,fg:'#fff',html:()=>`${blob(260,220,560,C.lime,.95)}
+  <div class="k a">Maya's Tinder · 2025</div>
+  <div class="h a a2" style="font-size:28px">Your year, in one screenshot.</div>
+  <div class="sum a a3">
+   <div style="background:${C.navy}"><label>App opens</label><b style="color:${C.lime}">1,214</b></div>
+   <div style="background:${C.lime};color:${C.ink}"><label>Swipe right</label><b>5%</b></div>
+   <div style="background:${C.orange};color:${C.ink}"><label>Match rate</label><b>44%</b></div>
+   <div style="background:${C.cream};color:${C.ink}"><label>Type</label><b class="t">The Curator</b></div>
+   <div style="background:${C.ink}"><label>Peak month</label><b style="color:${C.orange}">Feb</b></div>
+   <div style="background:${C.ink}"><label>First dates</label><b style="color:${C.pink}">9</b></div>
+  </div>
+  <div class="cta a a4"><button style="background:#fff;color:${C.pink}">Share my Wrapped</button><button style="background:${C.ink};color:#fff" onclick="event.stopPropagation();setDeck('hinge')">Next: Hinge →</button></div>
+  ${foot('IHEREBYCOMMIT.COM · all personal numbers EXAMPLE DATA',false)}`}
+],
+hinge:[
+ {bg:C.purple,fg:'#fff',html:()=>`${blob(400,-150,470,C.teal)}${blob(150,275,330,C.cream,.95)}
+  <div class="k a">Your Hinge, Wrapped · 2025</div>
+  <div class="h a a2" style="font-size:46px;margin-top:10px">Your Hinge year.<br><span style="color:${C.lime}">Wrapped.</span></div>
+  <div class="p a a3">Built from <b>matches.json</b> and <b>user.json</b> in your Hinge export. Read on your phone. 7 screens.</div>
+  ${foot('Maya · 34 · Austin · on Hinge since 2022 · EXAMPLE DATA',false)}`},
+ {bg:C.cream,fg:C.ink,html:()=>`${blob(260,200,-70,C.teal,.9)}
+  <div class="k a">Who made the first move?</div>
+  <div class="big a a2" data-count="42" style="color:${C.purple}">42<small>%</small></div>
+  <div class="h a a3" style="font-size:25px">of your matches started with YOUR like.</div>
+  <div class="row a a4"><span>You liked first · 42%</span><span>They liked first · 58%</span></div>
+  <div class="meter a a4" style="color:${C.purple}"><i style="width:42%"></i></div>
+  <div class="p a a5">In a Northwestern speed-dating study, only <b>25% of women</b> said they usually make the first move (n=174; men 47%, n=173). You go first more than most say they do.</div>
+  ${foot('You: matches.json threads with like[] + match[] (you first) vs match[] only (they first). Benchmark: Northwestern speed dating, "I usually initiate" 5–7 of 7 (self-report, different setting).')}`},
+ {bg:C.teal,fg:C.ink,html:()=>`${blob(280,-90,480,C.purple,.95)}
+  <div class="k a">The comment game</div>
+  <div class="h a a2">You added a comment to</div>
+  <div class="big a a3">1 <small>in</small> 3</div>
+  <div class="h a a3" style="font-size:24px">likes you sent.</div>
+  <div class="p a a4">Your comments averaged <b>9 words</b>. The prompt you commented on most: <b>"Typical Sunday"</b>. Brunch diplomacy.</div>
+  <div class="a a5" style="margin-top:12px;position:relative;z-index:2"><span class="pill" style="background:${C.ink};color:${C.teal}">Typical Sunday · 14</span><span class="pill" style="background:${C.ink};color:${C.teal}">Two truths & a lie · 9</span><span class="pill" style="background:${C.ink};color:${C.teal}">Green flags · 6</span></div>
+  ${foot('matches.json → like[].like[].comment (share of likes with a comment, word count). No benchmark yet: shows once 20+ people on the waitlist upload. EXAMPLE DATA.')}`},
+ {bg:C.ink,fg:C.cream,html:()=>`${blob(240,210,-60,C.purple,.95)}
+  <div class="k a" style="color:${C.lime}">Your dealbreakers</div>
+  <div class="h a a2">You made 2 things non-negotiable: <span style="color:${C.lime}">age</span> and <span style="color:${C.lime}">height</span>.</div>
+  <div class="big a a3" style="color:${C.lime}">42<small>%</small></div>
+  <div class="h a a3" style="font-size:22px">of U.S. men in their 30s are 5′10″–6′4″.</div>
+  <div class="a a4" style="color:${C.lime}">${dots(100,42)}</div>
+  <div class="p a a5">Your height dealbreaker quietly skips 58 of every 100 men your age. Your call. We just did the math.</div>
+  ${foot('You: user.json → preferences.height_min/max + height_dealbreaker, age_dealbreaker. Benchmark: CDC NHANES 2021–23, measured heights, men 30–39 (41.7%).')}`},
+ {bg:C.purple,fg:'#fff',html:()=>`${blob(140,260,525,C.lime,.95)}
+  <div class="k a">"We Met"</div>
+  <div class="h a a2">You told Hinge you met</div>
+  <div class="big a a3">7</div>
+  <div class="h a a3" style="font-size:24px">matches in real life.</div>
+  <div class="quiz a a4">
+   <div class="pick"><span>My type</span><span>3</span></div>
+   <div><span>Not my type</span><span>4</span></div>
+  </div>
+  <div class="p a a5">3 of 7 is <b>43%</b>. When Hinge tested this feature in 2018, <b>72%</b> of people wanted a second date. First dates are hard. You kept going.</div>
+  ${foot('You: matches.json → we_met[].did_meet_subject, was_my_type. Benchmark: Hinge beta results via TechCrunch, Oct 2018 (company-reported; sample size not published).')}`},
+ {bg:C.lime,fg:C.ink,html:()=>`${blob(220,-60,-50,C.teal,.95)}
+  <div class="k a">Speed round</div>
+  <div class="h a a2">Fastest match to "We Met":</div>
+  <div class="big a a3">4 <small>days</small></div>
+  <div class="p a a4">Your typical gap was <b>11 days</b>. The slow burner took <b>38</b>.</div>
+  <div class="vs a a4" style="height:150px">
+   <div class="col"><div class="fill" style="height:11%;background:${C.ink};color:${C.lime};font-size:24px">4</div><label>Fastest</label></div>
+   <div class="col"><div class="fill" style="height:29%;background:${C.ink};color:${C.lime};font-size:24px">11</div><label>Typical</label></div>
+   <div class="col"><div class="fill" style="height:100%;background:${C.purple};color:#fff;font-size:24px">38</div><label>Slowest</label></div>
+  </div>
+  ${foot('matches.json: days from match[].timestamp to we_met[].timestamp (Hinge asks a few days after you swap numbers, so this runs a little long). EXAMPLE DATA.')}`},
+ {bg:C.purple,fg:'#fff',html:()=>`${blob(260,220,560,C.teal,.95)}
+  <div class="k a">Maya's Hinge · 2025</div>
+  <div class="h a a2" style="font-size:28px">Your year, in one screenshot.</div>
+  <div class="sum a a3">
+   <div style="background:${C.cream};color:${C.ink}"><label>You liked first</label><b style="color:${C.purple}">42%</b></div>
+   <div style="background:${C.teal};color:${C.ink}"><label>Likes w/ comment</label><b>1 in 3</b></div>
+   <div style="background:${C.ink}"><label>Dealbreakers</label><b style="color:${C.lime}">2</b></div>
+   <div style="background:${C.lime};color:${C.ink}"><label>Met IRL</label><b>7</b></div>
+   <div style="background:${C.ink}"><label>Fastest to date</label><b style="color:${C.teal}">4 days</b></div>
+   <div style="background:${C.cream};color:${C.ink}"><label>Top prompt</label><b class="t">Typical Sunday</b></div>
+  </div>
+  <div class="cta a a4"><button style="background:#fff;color:${C.purple}">Share my Wrapped</button><button style="background:${C.lime};color:${C.ink}">Add League or OkCupid →</button></div>
+  ${foot('IHEREBYCOMMIT.COM · all personal numbers EXAMPLE DATA',false)}`}
+]};
+const qs=new URLSearchParams(location.search);
+let justHeld=false;
+let deck=qs.get('deck')==='hinge'?'hinge':'tinder', idx=Math.max(0,(parseInt(qs.get('s')||'1',10)||1)-1), timer=null, paused=false;
+const isStatic=qs.has('static'); if(isStatic)document.body.classList.add('static');
+const DUR=9000;
+const phone=document.getElementById('phone'),stage=document.getElementById('stage'),barsEl=document.getElementById('bars'),chrome=document.getElementById('chrome');
+function countUp(el){const t=+el.dataset.count;const suffix=el.innerHTML.replace(/^[\d,]+/,'');const t0=performance.now();const d=900;function f(n){const p=Math.min(1,(n-t0)/d);const v=Math.round(t*(1-Math.pow(1-p,3)));el.innerHTML=v.toLocaleString('en-US')+suffix;if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+function render(){
+  const list=decks[deck]; idx=Math.min(Math.max(idx,0),list.length-1); const s=list[idx];
+  barsEl.innerHTML=list.map((_,i)=>`<div class="bar ${i<idx?'done':i===idx?'now':''}" style="--dur:${DUR}ms"><i></i></div>`).join('');
+  stage.innerHTML=`<div class="screen" style="background:${s.bg};color:${s.fg}">${s.html()}</div>`;
+  chrome.style.color=s.fg;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.deck===deck));
+  if(!isStatic) stage.querySelectorAll('[data-count]').forEach(countUp);
+  clearTimeout(timer); if(!isStatic&&!paused) timer=setTimeout(next,DUR);
+}
+function next(){const n=decks[deck].length; if(idx<n-1){idx++;render()} else if(deck==='tinder'){setDeck('hinge')} else {clearTimeout(timer)}}
+function prev(){if(idx>0){idx--;render()} else if(deck==='hinge'){deck='tinder';idx=decks.tinder.length-1;render()}}
+function setDeck(d){deck=d;idx=0;render()}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>setDeck(t.dataset.deck));
+document.getElementById('tapR').onclick=()=>{if(justHeld){justHeld=false;return}next()}; document.getElementById('tapL').onclick=()=>{if(justHeld){justHeld=false;return}prev()};
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')next(); if(e.key==='ArrowLeft')prev()});
+let holdT; phone.addEventListener('pointerdown',()=>{holdT=setTimeout(()=>{paused=true;justHeld=true;phone.classList.add('paused');clearTimeout(timer)},250)});
+phone.addEventListener('pointerup',()=>{clearTimeout(holdT); if(paused){paused=false;phone.classList.remove('paused');timer=setTimeout(next,DUR/2)}});
+render();
+</script>
+</body>
+</html>
