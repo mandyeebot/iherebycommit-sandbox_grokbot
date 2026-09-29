@@ -10,11 +10,11 @@
  .phone { border-radius: 28px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.18); background: #111; } iframe { border: 0; display: block; }
 </style></head><body>
 <header><h1>Who You Are: new location field (sandbox mockup)</h1>
-<p class="sub">Two options for the Location question. <b>A</b>: a small map. "Use my location" asks the browser for your position and drops the pin; drag the pin or tap the map to move it; the city shows under the map. <b>B</b>: a zip or city box (suggestions as you type) with a small "Use my location" link. Nothing is saved (sandbox). Open one alone with <code>wya_grokbot.html?opt=A&amp;demo=1</code> (or opt=B).</p>
+<p class="sub">Two options for the Location question. <b>A</b>: a small map. "Use my location" asks the browser for your position and drops the pin; drag the pin or tap the map to move it; the city shows under the map. <b>B</b>: a zip or city box (suggestions as you type) with a small "Use my location" link. <b>C</b>: a compact row ("Tap to set on map"); tapping it opens the map as an overlay sheet like the city picklist, with search, Use my location, a draggable pin and DONE. Nothing is saved (sandbox). Open one alone with <code>wya_grokbot.html?opt=A&amp;demo=1</code> (or opt=B / opt=C).</p>
 <div class="ctl"><button data-w="393" data-h="852" class="on">393 × 852</button><button data-w="320" data-h="640">320 × 640</button></div></header>
 <main class="grid" id="grid"></main>
 <script>
-var OPTS = [['A', 'Map pin + Use my location'], ['B', 'Zip or city box + Use my location link']], W = 393, H = 852;
+var OPTS = [['A', 'Map pin + Use my location'], ['B', 'Zip or city box + Use my location link'], ['C', 'Compact row; map opens as an overlay']], W = 393, H = 852;
 function render() { var g = document.getElementById('grid'); g.innerHTML = '';
   OPTS.forEach(function (o) { var d = document.createElement('section');
     d.innerHTML = '<div class="lbl"><b>' + o[0] + '</b><span>' + o[1] + '</span><a target="_blank" href="wya_grokbot.html?opt=' + o[0] + '&demo=1">open alone ↗</a></div><div class="phone" style="width:' + W + 'px;height:' + H + 'px"><iframe title="Option ' + o[0] + '" allow="geolocation" width="' + W + '" height="' + H + '" src="wya_grokbot.html?opt=' + o[0] + '&demo=1&t=' + Date.now() + '"></iframe></div>';

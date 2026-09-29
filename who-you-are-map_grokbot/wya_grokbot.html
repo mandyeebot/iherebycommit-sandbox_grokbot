@@ -17,7 +17,7 @@
     };
     if (navigator.sendBeacon) { var rb = navigator.sendBeacon.bind(navigator); navigator.sendBeacon = function (u, d) { return BLOCK.test(String(u)) ? true : rb(u, d); }; }
     var o = (new URLSearchParams(location.search).get('opt') || 'A').toUpperCase();
-    document.documentElement.classList.add('wya', o === 'B' ? 'wya-b' : 'wya-a');
+    document.documentElement.classList.add('wya', o === 'B' ? 'wya-b' : o === 'C' ? 'wya-c' : 'wya-a');
   })();
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
@@ -703,7 +703,34 @@
     .btn-friend-green:hover { background: #d8ff40; }
     .btn-friend-green:active { transform: scale(0.98); }
     /* ===== MOCKUP_grokbot WYA: location field ===== */
-    html.wya-a .wya-opt-b, html.wya-b .wya-opt-a { display: none !important; }
+    html:not(.wya-a) .wya-opt-a, html:not(.wya-b) .wya-opt-b, html:not(.wya-c) .wya-opt-c { display: none !important; }
+    /* C: compact row (same height as the other inputs) that opens the map sheet */
+    .wya-rowbox { display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left; cursor: pointer; touch-action: manipulation; }
+    .wya-rowbox.active { border-color: var(--accent); }
+    .wya-row-v { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
+    .wya-row-v.empty { color: var(--muted); font-size: 13px; }
+    .wya-row-edit { flex-shrink: 0; font-size: 10px; letter-spacing: 0.1em; color: var(--accent); }
+    /* C: the map sheet reuses the city picklist sheet (.cp-sheet / .cp-backdrop, copied below) */
+    .cp-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 900; }
+    .cp-backdrop[hidden], .cp-sheet[hidden] { display: none; }
+    .cp-sheet { position: fixed; left: 0; right: 0; bottom: 0; top: 64px; z-index: 901; max-width: 520px; margin: 0 auto; background: #161616; border: 1px solid var(--dim); border-bottom: none; border-radius: 10px 10px 0 0; display: flex; flex-direction: column; box-shadow: 0 -8px 30px rgba(0,0,0,0.5); }
+    .cp-sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px 8px 20px; }
+    .cp-sheet-title { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+    .cp-done { min-height: 40px; padding: 0 18px; background: var(--accent); color: var(--bg); border: none; border-radius: var(--radius); font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.1em; cursor: pointer; }
+    .cp-search-wrap { padding: 0 16px 8px; }
+    .wya-csearch { position: relative; z-index: 1100; }
+    #wya-cq { width: 100%; min-height: 44px; padding: 10px 12px; font-size: 16px; box-sizing: border-box; }
+    .wya-csearch .wya-sug { left: 16px; right: 16px; }
+    .wya-ctools { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 20px 10px; }
+    .wya-ctip { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .wya-cmap { position: relative; flex: 1; min-height: 0; margin: 0 16px; border: 1px solid var(--dim); border-radius: var(--radius); overflow: hidden; background: #1a1a1a; }
+    #wya-map-c { position: absolute; inset: 0; background: #1a1a1a; }
+    #wya-map-c .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.6); }
+    #wya-map-c .leaflet-control-attribution { font-size: 8px; line-height: 1.3; background: rgba(17,17,17,0.75); color: var(--muted); padding: 0 4px; }
+    #wya-map-c .leaflet-control-attribution a { color: var(--muted); }
+    #wya-map-c .leaflet-control-zoom { display: none; }
+    .wya-cfoot { padding: 10px 20px calc(env(safe-area-inset-bottom, 0px) + 14px); min-height: 18px; }
+    .wya-cfoot .wya-city { display: block; font-size: 12px; }
     .wya-map-wrap { position: relative; height: 150px; border: 1px solid var(--dim); border-radius: var(--radius); overflow: hidden; background: #1a1a1a; }
     #wya-map { position: absolute; inset: 0; background: #1a1a1a; }
     #wya-map .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.6); } /* dark map to match the page */
@@ -911,6 +938,9 @@
                 <div class="wya-sug" id="wya-sug" role="listbox" hidden></div>
               </div>
               <div class="wya-under"><span class="wya-city" id="wya-city-b"></span><button type="button" class="wya-link" id="wya-gps-b" onclick="wyaLocate()">Use my location</button></div>
+            </div>
+            <div class="wya-opt-c">
+              <button type="button" class="field-input wya-rowbox" id="wya-row" aria-haspopup="dialog"><span class="wya-row-v empty" id="wya-row-v">Tap to set on map</span><span class="wya-row-edit" id="wya-row-edit">SET</span></button>
             </div>
             <div class="wya-legacy" hidden>
             <label class="field-label" id="location-label">US Zip Code</label>
@@ -4044,20 +4074,24 @@ async function _doZipLookup(zip) {
   showError('postal_code', 'ZIP code not found');
 }
 </script>
-<!-- MOCKUP_grokbot WYA: location field logic -->
+<!-- MOCKUP_grokbot WYA: location field logic (options A / B / C) -->
 <script>
 // Stored per applicant (see wyaPayload): lat / lng rounded to 2 decimals (~1.1 km north-south, less east-west) for privacy,
 // the browser's geolocation accuracy (m, GPS only), the source ('gps' | 'pin' | 'zip' | 'city'), the readable label and country.
-const WYA_OPT = document.documentElement.classList.contains('wya-b') ? 'B' : 'A';
-let _wyaMap = null, _wyaPin = null, _wyaSeq = 0;
+// A = inline map; B = zip / city box; C = compact row that opens the map in an overlay sheet (styled like the city picklist).
+const _wyaH = document.documentElement.classList;
+const WYA_OPT = _wyaH.contains('wya-c') ? 'C' : _wyaH.contains('wya-b') ? 'B' : 'A';
+let _wyaMap = null, _wyaPin = null, _wyaSeq = 0, _wyaPend = null;
 const _wyaR2 = x => Math.round(x * 100) / 100;
 const _WYA_CC = { GB: 'UK', US: 'US', AE: 'UAE' };
+const _wyaId = { A: { city: 'wya-city-a', gps: 'wya-gps-a', map: 'wya-map' }, B: { city: 'wya-city-b', gps: 'wya-gps-b' }, C: { city: 'wya-city-c', gps: 'wya-gps-c', map: 'wya-map-c' } }[WYA_OPT];
 function wyaPayload() {
   const w = state.wya; if (!w) return {};
   return { location_lat: w.lat, location_lng: w.lng, location_accuracy_m: w.accuracy, location_source: w.source, location_label: w.label, location_country_code: w.cc || null };
 }
+const _wyaTxt = o => (o.cc === 'US' && o.zip ? o.zip + ' \u00b7 ' : '') + o.label;
 function _wyaShow(txt, cls) {
-  const el = document.getElementById(WYA_OPT === 'A' ? 'wya-city-a' : 'wya-city-b'); if (!el) return;
+  const el = document.getElementById(_wyaId.city); if (!el) return;
   el.textContent = txt; el.className = 'wya-city' + (cls ? ' ' + cls : ''); el.title = txt;
 }
 // One place that records a location and keeps the page's existing fields in step (height units, payload, collapsed row).
@@ -4071,9 +4105,17 @@ function _wyaSet(o) {
   state.zipCity = o.label; state.zipLatLong = lat + ',' + lng; state.locationCountry = us ? 'United States' : (o.country || null);
   if (typeof _syncHeightMode === 'function') _syncHeightMode(state.locationMode);
   hideError('postal_code');
-  _wyaShow('\uD83D\uDCCD ' + (us && o.zip ? o.zip + ' \u00b7 ' : '') + o.label, 'set');
+  _wyaShow('\uD83D\uDCCD ' + _wyaTxt(Object.assign({}, o, { cc })), 'set');
   if (WYA_OPT === 'B') { const q = document.getElementById('wya-q'); q.value = us && o.zip ? o.zip : o.label; }
+  if (WYA_OPT === 'C') _wyaRow();
   crTap('who-loc', WYA_OPT === 'A' ? 2500 : 1200); crRefresh(); // A waits longer so the pin can still be nudged; each move restarts the wait
+  if (WYA_OPT === 'C' && crIsCollapsed('who-loc')) _crFill('who-loc', crText('who-loc')); // C edits happen in the sheet: the row stays folded
+}
+// C: the pick waits in the sheet until Done (or closing it); the chosen place shows under the map meanwhile.
+function _wyaTake(o) {
+  if (WYA_OPT !== 'C') { _wyaSet(o); return; }
+  _wyaPend = Object.assign({}, o, { cc: (o.cc || '').toUpperCase() });
+  _wyaShow('\uD83D\uDCCD ' + _wyaTxt(_wyaPend), 'set');
 }
 // Readable name for a point: OpenStreetMap Nominatim (English), falling back to the nearest listed city.
 async function _wyaName(lat, lng) {
@@ -4100,52 +4142,53 @@ async function _wyaFromPoint(lat, lng, source, accuracy) {
   _wyaShow('Finding the city\u2026');
   const n = await _wyaName(lat, lng);
   if (seq !== _wyaSeq) return;
-  _wyaSet(Object.assign({ lat, lng, source, accuracy }, n));
+  _wyaTake(Object.assign({ lat, lng, source, accuracy }, n));
 }
-// ---- A: map ----
+// ---- map (A inline, C in the sheet) ----
 function _wyaMapInit() {
-  if (_wyaMap || WYA_OPT !== 'A' || !window.L) return;
-  const el = document.getElementById('wya-map'); if (!el || !el.offsetWidth) return;
+  if (_wyaMap || !_wyaId.map || !window.L) return;
+  const el = document.getElementById(_wyaId.map); if (!el || !el.offsetWidth) return;
   _wyaMap = L.map(el, { zoomControl: false, attributionControl: true, worldCopyJump: true }).setView([39.5, -98.35], 3);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(_wyaMap);
   _wyaMap.attributionControl.setPrefix(false);
   _wyaMap.on('click', e => _wyaDrop(e.latlng.lat, e.latlng.lng, 'pin'));
 }
-function _wyaDrop(lat, lng, source, accuracy, zoom) {
-  if (_wyaMap) {
-    if (!_wyaPin) {
-      _wyaPin = L.marker([lat, lng], { draggable: true, autoPan: true, keyboard: true, title: 'Drag to where you live', icon: L.divIcon({ className: '', html: '<div class="wya-pin"></div>', iconSize: [22, 22], iconAnchor: [11, 11] }) }).addTo(_wyaMap);
-      _wyaPin.on('dragend', () => { const p = _wyaPin.getLatLng(); _wyaFromPoint(p.lat, p.lng, 'pin', null); });
-    } else _wyaPin.setLatLng([lat, lng]);
-    if (zoom) _wyaMap.setView([lat, lng], zoom); else _wyaMap.panTo([lat, lng]);
-  }
-  _wyaFromPoint(lat, lng, source, accuracy);
+function _wyaPinAt(lat, lng, zoom) {
+  if (!_wyaMap) return;
+  if (!_wyaPin) {
+    _wyaPin = L.marker([lat, lng], { draggable: true, autoPan: true, keyboard: true, title: 'Drag to where you live', icon: L.divIcon({ className: '', html: '<div class="wya-pin"></div>', iconSize: [22, 22], iconAnchor: [11, 11] }) }).addTo(_wyaMap);
+    _wyaPin.on('dragend', () => { const p = _wyaPin.getLatLng(); _wyaFromPoint(p.lat, p.lng, 'pin', null); });
+  } else _wyaPin.setLatLng([lat, lng]);
+  if (zoom) _wyaMap.setView([lat, lng], zoom); else _wyaMap.panTo([lat, lng]);
 }
-// ---- Use my location (both options): browser geolocation, asks permission ----
+function _wyaDrop(lat, lng, source, accuracy, zoom) { _wyaPinAt(lat, lng, zoom); _wyaFromPoint(lat, lng, source, accuracy); }
+// ---- Use my location: browser geolocation, asks permission ----
 function wyaLocate() {
-  const b = document.getElementById(WYA_OPT === 'A' ? 'wya-gps-a' : 'wya-gps-b');
-  if (!navigator.geolocation) { _wyaShow('Location isn\u2019t available here: ' + (WYA_OPT === 'A' ? 'tap the map' : 'type a zip or city'), 'err'); return; }
+  const b = document.getElementById(_wyaId.gps), alt = WYA_OPT === 'B' ? 'type a zip or city' : WYA_OPT === 'C' ? 'search or tap the map' : 'tap the map instead';
+  if (!navigator.geolocation) { _wyaShow('Location isn\u2019t available here: ' + alt, 'err'); return; }
   b.classList.add('busy'); _wyaShow('Asking for your location\u2026');
   navigator.geolocation.getCurrentPosition(p => {
     b.classList.remove('busy');
     const { latitude: lat, longitude: lng, accuracy } = p.coords;
-    if (WYA_OPT === 'A') _wyaDrop(lat, lng, 'gps', accuracy, 11); else _wyaFromPoint(lat, lng, 'gps', accuracy);
+    if (_wyaId.map) _wyaDrop(lat, lng, 'gps', accuracy, WYA_OPT === 'C' ? 13 : 11); else _wyaFromPoint(lat, lng, 'gps', accuracy);
   }, err => {
     b.classList.remove('busy');
-    _wyaShow((err.code === 1 ? 'Location is off' : 'Couldn\u2019t get your location') + ': ' + (WYA_OPT === 'A' ? 'tap the map instead' : 'type a zip or city'), 'err');
+    _wyaShow((err.code === 1 ? 'Location is off' : 'Couldn\u2019t get your location') + ': ' + alt, 'err');
   }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 });
 }
-// ---- B: zip or city box ----
+// ---- search box with suggestions: B on the screen, C at the top of the sheet ----
+const _wyaQ = WYA_OPT === 'C' ? { q: 'wya-cq', list: 'wya-csug' } : { q: 'wya-q', list: 'wya-sug' };
 let _wyaOpts = [], _wyaAct = 0;
 function _wyaSuggest() {
-  const q = document.getElementById('wya-q'), list = document.getElementById('wya-sug'), t = q.value.trim();
-  if (!t || (state.wya && t === q.dataset.shown)) { list.hidden = true; q.setAttribute('aria-expanded', 'false'); return; }
-  // as many rows as fit between the box and the bottom of the question area (the list overlays; the screen never scrolls)
-  const sc = q.closest('.screen-content'), room = sc ? sc.getBoundingClientRect().bottom - parseFloat(getComputedStyle(sc).paddingBottom) - q.getBoundingClientRect().bottom - 6 : 176;
-  const rows = Math.max(1, Math.min(4, Math.floor(room / 44))), hasZip = /\d/.test(t) ? 1 : 0;
+  const q = document.getElementById(_wyaQ.q), list = document.getElementById(_wyaQ.list), t = q.value.trim();
+  if (!t || (state.wya && WYA_OPT === 'B' && t === q.dataset.shown)) { list.hidden = true; q.setAttribute('aria-expanded', 'false'); return; }
+  // as many rows as fit below the box (B: the question area; C: the map), the list overlays and nothing scrolls
+  const zone = WYA_OPT === 'C' ? document.getElementById('wya-map-c') : q.closest('.screen-content');
+  const zb = zone ? zone.getBoundingClientRect().bottom - (WYA_OPT === 'C' ? 8 : parseFloat(getComputedStyle(zone).paddingBottom)) : 400;
+  const rows = Math.max(1, Math.min(5, Math.floor((zb - q.getBoundingClientRect().bottom - 6) / 44))), hasZip = /\d/.test(t) ? 1 : 0;
   const cities = /[a-z\u00c0-\uffff]/i.test(t) && !hasZip ? _searchPartnerCities(t, rows) : [];
   if (!PARTNER_CITIES.length) loadPartnerCities().then(() => { if (q.value.trim() === t) _wyaSuggest(); });
-  _wyaOpts = (/\d/.test(t) ? [{ zip: t }] : []).concat(cities.map(c => ({ city: c })));
+  _wyaOpts = (hasZip ? [{ zip: t }] : []).concat(cities.map(c => ({ city: c })));
   list.replaceChildren();
   if (!_wyaOpts.length) { const d = document.createElement('div'); d.className = 'wya-opt none'; d.textContent = 'No match yet: try a bigger city nearby'; list.appendChild(d); }
   _wyaOpts.forEach((o, i) => {
@@ -4156,37 +4199,82 @@ function _wyaSuggest() {
   _wyaAct = 0; list.hidden = false; q.setAttribute('aria-expanded', 'true');
 }
 async function _wyaPick(o) {
-  const q = document.getElementById('wya-q'), list = document.getElementById('wya-sug');
+  const q = document.getElementById(_wyaQ.q), list = document.getElementById(_wyaQ.list);
   list.hidden = true; q.setAttribute('aria-expanded', 'false');
   if (!o) return;
-  if (o.city) { const c = o.city; q.dataset.shown = c.label; _wyaSet({ lat: c.lat, lng: c.lng, source: 'city', accuracy: null, label: c.label, cc: c.country, country: null }); q.blur(); return; }
+  _wyaSeq++;
+  if (o.city) {
+    const c = o.city; q.dataset.shown = c.label;
+    if (WYA_OPT === 'C') { q.value = c.label; _wyaPinAt(c.lat, c.lng, 11); }
+    _wyaTake({ lat: c.lat, lng: c.lng, source: 'city', accuracy: null, label: c.label, cc: c.country, country: null }); q.blur(); return;
+  }
   _wyaShow('Looking up ' + o.zip + '\u2026');
   await _doZipLookup(o.zip); // the page's own lookup (US first, then international postcodes)
+  const d = document.getElementById('zip-city-display'); if (d) d.style.display = 'none';
   if (!state.zipCity || !state.zipLatLong) { _wyaShow('Zip / postcode not found', 'err'); return; }
   const [la, ln] = state.zipLatLong.split(',').map(Number), us = state.locationCountry === 'United States';
   const label = us ? state.zipCity : state.zipCity.split(',')[0] + ', ' + state.locationCountry;
-  q.dataset.shown = o.zip; _wyaSet({ lat: la, lng: ln, source: 'zip', accuracy: null, label, cc: us ? 'US' : '', country: state.locationCountry, zip: us ? o.zip.slice(0, 5) : null });
-  const d = document.getElementById('zip-city-display'); if (d) d.style.display = 'none';
+  q.dataset.shown = o.zip;
+  if (WYA_OPT === 'C') _wyaPinAt(la, ln, 12);
+  _wyaTake({ lat: la, lng: ln, source: 'zip', accuracy: null, label, cc: us ? 'US' : '', country: state.locationCountry, zip: us ? o.zip.slice(0, 5) : null });
   q.blur();
 }
+// ---- C: the compact row + the sheet ----
+function _wyaRow() {
+  const v = document.getElementById('wya-row-v'), e = document.getElementById('wya-row-edit'); if (!v) return;
+  if (state.wya) { v.textContent = _wyaTxt(state.wya); v.classList.remove('empty'); e.textContent = 'CHANGE'; }
+  else { v.textContent = 'Tap to set on map'; v.classList.add('empty'); e.textContent = 'SET'; }
+}
+function wyaOpenSheet() {
+  loadPartnerCities();
+  const s = document.getElementById('wya-sheet'), b = document.getElementById('wya-backdrop'), q = document.getElementById('wya-cq');
+  s.hidden = false; b.hidden = false; q.value = ''; document.getElementById('wya-csug').hidden = true;
+  _wyaPend = null;
+  document.getElementById('wya-row').classList.add('active');
+  requestAnimationFrame(() => {
+    _wyaMapInit(); if (!_wyaMap) return; _wyaMap.invalidateSize();
+    if (state.wya) { _wyaPinAt(state.wya.lat, state.wya.lng, 12); _wyaShow('\uD83D\uDCCD ' + _wyaTxt(state.wya), 'set'); }
+    else _wyaShow('Search, use your location, or tap the map');
+  });
+}
+function wyaCloseSheet() { // Done / backdrop / Escape: keep what was picked (like the city picklist) and close
+  const s = document.getElementById('wya-sheet'), b = document.getElementById('wya-backdrop');
+  document.getElementById('wya-cq').blur(); s.hidden = true; b.hidden = true;
+  document.getElementById('wya-row').classList.remove('active');
+  if (_wyaPend) { const p = _wyaPend; _wyaPend = null; _wyaSet(p); }
+}
 window.addEventListener('load', () => {
-  // the Location question: its collapsed row shows the chosen place; EDIT reopens the map / box
-  crDef('who-loc', { partner: 'who-dob', focus: () => WYA_OPT === 'A' ? 'wya-gps-a' : 'wya-q', value: () => state.wya ? state.wya.label : '',
-    onExpand: () => requestAnimationFrame(() => { _wyaMapInit(); if (_wyaMap) _wyaMap.invalidateSize(); }) });
-  document.getElementById('wya-label').htmlFor = WYA_OPT === 'A' ? '' : 'wya-q';
-  const q = document.getElementById('wya-q'), list = document.getElementById('wya-sug');
+  // the Location question: its collapsed row shows the chosen place; EDIT reopens the map / box (C: opens the sheet)
+  crDef('who-loc', { partner: 'who-dob', focus: () => ({ A: 'wya-gps-a', B: 'wya-q', C: 'wya-row' })[WYA_OPT], value: () => state.wya ? state.wya.label : '',
+    onExpand: () => requestAnimationFrame(() => { if (WYA_OPT === 'A') { _wyaMapInit(); if (_wyaMap) _wyaMap.invalidateSize(); } }) });
+  document.getElementById('wya-label').htmlFor = ({ A: '', B: 'wya-q', C: 'wya-row' })[WYA_OPT];
+  const q = document.getElementById(_wyaQ.q), list = document.getElementById(_wyaQ.list);
   q.addEventListener('input', () => { delete q.dataset.shown; _wyaSuggest(); });
   q.addEventListener('keydown', e => {
     if (e.key === 'Enter') { e.preventDefault(); _wyaPick(_wyaOpts[_wyaAct]); }
-    else if (e.key === 'Escape') { list.hidden = true; }
+    else if (e.key === 'Escape') { if (!list.hidden) { e.stopPropagation(); list.hidden = true; } }
     else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); if (_wyaOpts.length) { _wyaAct = (_wyaAct + (e.key === 'ArrowDown' ? 1 : -1) + _wyaOpts.length) % _wyaOpts.length; list.querySelectorAll('.wya-opt').forEach((r, i) => r.classList.toggle('active', i === _wyaAct)); } }
   });
   q.addEventListener('blur', () => setTimeout(() => { list.hidden = true; }, 200));
   list.addEventListener('mousedown', e => e.preventDefault());
   list.addEventListener('click', e => { const r = e.target.closest('.wya-opt[data-i]'); if (r) _wyaPick(_wyaOpts[+r.dataset.i]); });
-  // the map is built once the Location question is on screen (Leaflet needs a size)
-  const u = document.getElementById('who-loc');
-  if (window.ResizeObserver) new ResizeObserver(() => { _wyaMapInit(); if (_wyaMap) _wyaMap.invalidateSize(); }).observe(u);
+  if (WYA_OPT === 'A') {
+    const u = document.getElementById('who-loc'); // the inline map is built once the question is on screen (Leaflet needs a size)
+    if (window.ResizeObserver) new ResizeObserver(() => { _wyaMapInit(); if (_wyaMap) _wyaMap.invalidateSize(); }).observe(u);
+  }
+  if (WYA_OPT === 'C') {
+    _wyaRow();
+    document.getElementById('wya-row').addEventListener('click', e => { e.preventDefault(); wyaOpenSheet(); });
+    document.getElementById('wya-done').addEventListener('click', e => { e.preventDefault(); wyaCloseSheet(); });
+    document.getElementById('wya-backdrop').addEventListener('click', wyaCloseSheet);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.getElementById('wya-sheet').hidden) wyaCloseSheet(); });
+    // EDIT on the folded Location row opens the sheet straight away (the row stays folded, so nothing on the screen moves)
+    const cond = document.querySelector('#who-loc > .who-cond');
+    const open = e => { e.preventDefault(); e.stopImmediatePropagation(); wyaOpenSheet(); };
+    cond.addEventListener('click', open, true);
+    cond.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') open(e); }, true);
+    cond.removeAttribute('onclick'); cond.addEventListener('click', () => {}, false);
+  }
   // ?demo=1: skip onboarding; singles Who You Are with I am a, Name and Date of birth answered, the Location question open.
   if (new URLSearchParams(location.search).has('demo')) {
     try {
@@ -4199,5 +4287,14 @@ window.addEventListener('load', () => {
   }
 });
 </script>
+<!-- MOCKUP_grokbot WYA C: map sheet (same look and behaviour as the city picklist sheet: backdrop, title + DONE, search on top) -->
+<div class="cp-backdrop wya-backdrop" id="wya-backdrop" hidden></div>
+<div class="cp-sheet wya-sheet" id="wya-sheet" role="dialog" aria-modal="true" aria-label="Where you live" hidden>
+  <div class="cp-sheet-head"><span class="cp-sheet-title">Where you live</span><button type="button" class="cp-done" id="wya-done">DONE</button></div>
+  <div class="cp-search-wrap wya-csearch"><input class="field-input" id="wya-cq" type="text" placeholder="Zip, postcode or city" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-autocomplete="list" aria-controls="wya-csug" aria-expanded="false"><div class="wya-sug" id="wya-csug" role="listbox" hidden></div></div>
+  <div class="wya-ctools"><button type="button" class="wya-gps" id="wya-gps-c" onclick="wyaLocate()"><span class="wya-gps-ic" aria-hidden="true"></span>USE MY LOCATION</button><span class="wya-ctip">or tap the map · drag the pin</span></div>
+  <div class="wya-cmap"><div id="wya-map-c" role="application" aria-label="Map: tap or drag the pin to where you live"></div></div>
+  <div class="wya-cfoot"><span class="wya-city" id="wya-city-c">Search, use your location, or tap the map</span></div>
+</div>
 </body>
 </html>
