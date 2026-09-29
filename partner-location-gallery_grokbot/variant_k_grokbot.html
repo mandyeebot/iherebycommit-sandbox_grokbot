@@ -891,6 +891,16 @@
       html.vk #screen-3 #ww-ranges { margin-bottom: calc(var(--vk-g) - 5px); }
     }
     #vk-zip-val.muted { color: var(--muted); }
+    /* Distance block laid out like Age Range / Partner Height: label, readout above the ball, track. Room above the label and
+       from the ball to the checkbox box = G (same as the age / height blocks). */
+    html.vk #screen-3 #vi-dist-label { margin-bottom: 8px; }
+    html.vk.vj #screen-3 #vi-dist .vi-dist-wrap { margin-top: 22.4px; }
+    html.vk.vj #vi-dist, html.vk.vj #ww-loc.vj-folded #vi-dist { margin: var(--vk-g) 0 calc(var(--vk-g) - 21px) !important; } /* 9px under the ball + 12px above the checkbox box */
+    @media (max-height: 720px) {
+      html.vk #screen-3 #vi-dist-label { margin-bottom: 6px; }
+      html.vk.vj #screen-3 #vi-dist .vi-dist-wrap { margin-top: 20px; }
+      html.vk.vj #vi-dist, html.vk.vj #ww-loc.vj-folded #vi-dist { margin: var(--vk-g) 0 calc(var(--vk-g) - 12px) !important; } /* 5px under the ball + 7px above the box */
+    }
     .vk-cb-txt { white-space: nowrap; overflow: hidden; text-overflow: clip; min-width: 0; }
     @media (max-width: 359px) { html.vk #screen-3 .partner-location-anywhere { font-size: 11.5px; gap: 7px; } }
     #vk-other-sum.empty { color: var(--muted); }
@@ -1292,10 +1302,11 @@
           <div class="field-error" id="err-partner_location"></div>
           <!-- MOCKUP_grokbot I: distance from the partner city (0-300 mi, default 300); the label is the live readout. -->
           <div class="field-group vi-dist" id="vi-dist">
-            <label class="field-label" id="vi-dist-label" for="vi_dist_mi">78704 + 300 miles</label>
+            <label class="field-label" id="vi-dist-label" for="vi_dist_mi">Distance from 78704</label>
             <div class="range-slider-wrap vi-dist-wrap">
               <div class="range-track"></div>
               <div class="range-fill" id="vi-dist-fill" style="left:0"></div>
+              <span id="vk-dist-bubble" class="slider-bubble">300 miles</span>
               <input type="range" id="vi_dist_mi" class="range-input" min="0" max="34" step="1" value="34" aria-valuetext="300 miles" aria-label="Distance in miles from your partner city">
             </div>
           </div>
@@ -4827,15 +4838,23 @@ _viOrigin = function () { return _vkZip || _viName(partnerCityPrimary) || 'Dista
 const _VK_STOPS = [1, 3, 5, 10, 15, 20, 25, 30].concat(Array.from({ length: 27 }, (_, i) => 40 + i * 10));
 _viMi = function () { const el = document.getElementById('vi_dist_mi'); return el ? _VK_STOPS[Math.max(0, Math.min(_VK_STOPS.length - 1, parseInt(el.value, 10) || 0))] : 300; };
 _viDistUpdate = function () {
-  const el = document.getElementById('vi_dist_mi'), lab = document.getElementById('vi-dist-label'), fill = document.getElementById('vi-dist-fill');
+  const el = document.getElementById('vi_dist_mi'), lab = document.getElementById('vi-dist-label'), fill = document.getElementById('vi-dist-fill'), bub = document.getElementById('vk-dist-bubble');
   if (!el || !lab) return;
   const mi = _viMi(), txt = mi + (mi === 1 ? ' mile' : ' miles');
   state.partnerDistanceMi = mi;
-  lab.textContent = _viOrigin() + ' + ' + txt;
+  lab.textContent = 'Distance from ' + _viOrigin();   // question label (I AM A style); the zip follows Partner city
   el.setAttribute('aria-valuetext', txt);
-  const w = el.getBoundingClientRect().width, pct = (el.value - el.min) / (el.max - el.min);
-  if (fill) { fill.style.left = '0'; fill.style.width = w ? (pct * (w - SLIDER_THUMB_W) + SLIDER_THUMB_W / 2) + 'px' : (pct * 100) + '%'; }
+  const w = el.offsetWidth, pct = (el.value - el.min) / (el.max - el.min);
+  if (fill) { fill.style.left = '0'; fill.style.width = w ? _sliderThumbX(el, w) + 'px' : (pct * 100) + '%'; }
+  if (bub) { // readout above the ball, placed like the age / height readouts (centred on the thumb, kept inside the track)
+    bub.textContent = txt;
+    if (w) { const bw = bub.getBoundingClientRect().width; bub.style.left = Math.max(0, Math.min(w - bw, _sliderThumbX(el, w) - bw / 2)) + 'px'; }
+  }
 };
+document.addEventListener('DOMContentLoaded', () => { // placed again once the slider gets a width (revealed after Seeking) and on resize
+  const el = document.getElementById('vi_dist_mi');
+  if (el && window.ResizeObserver) new ResizeObserver(() => _viDistUpdate()).observe(el);
+});
 _viExtraRender = function () { const b = document.getElementById('vi-extra'); if (b) b.hidden = true; };
 _viFinish = function () { _renderPartnerLocationChips(); return false; };
 // The picklist edits the other cities only (nothing pinned, can be emptied).
