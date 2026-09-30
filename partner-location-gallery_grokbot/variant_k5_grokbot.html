@@ -1102,6 +1102,9 @@
     html.vk5 #screen-3 #vi-dist .partner-location-anywhere { margin: 2px 0 0 !important; min-height: 32px; }
     html.vk5.k4s-boxed #screen-3 #vi-dist.k4-sl { padding-bottom: 3px !important; }
     @media (max-height: 720px) { html.vk5 #screen-3 #vi-dist .partner-location-anywhere { min-height: 30px; margin-top: 0 !important; } html.vk5.k4s-boxed #screen-3 #vi-dist.k4-sl { padding-bottom: 2px !important; } }
+    /* relocate checkbox label: grey like the I AM A labels while unticked, bright white once ticked (font and size unchanged) */
+    html.vk5 #screen-3 .partner-location-anywhere, html.vk5 #screen-3 .partner-location-anywhere .vk-cb-txt { color: #888; }
+    html.vk5 #screen-3 .partner-location-anywhere:has(input:checked), html.vk5 #screen-3 .partner-location-anywhere:has(input:checked) .vk-cb-txt { color: #fff; }
     /* What Matters Most: values at the input-box value size (13px Space Mono), names in the headline font */
     .k4m-main { min-height: 50px; padding-top: 5px; padding-bottom: 5px; gap: 12px; }
     .k4m-n { font-size: 22px; width: 22px; }
