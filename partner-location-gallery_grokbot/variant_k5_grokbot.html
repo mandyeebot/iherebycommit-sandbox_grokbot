@@ -1149,6 +1149,12 @@
       .k5-sel-in select.field-input { min-height: 44px; height: 44px; padding-left: 130px; }
       #screen-1 .k5-sel select.field-input { min-height: 46px; padding-top: 10px; padding-bottom: 10px; }
     }
+
+    /* ---- MOCKUP_grokbot K5: Partner height unset (never touched): value "Any", track fill and balls muted grey ---- */
+    html.vk5 #screen-3 .k4-sl.k5-unset .k4-val { color: #888; }
+    html.vk5 #screen-3 .k4-sl.k5-unset .range-fill { background: #555; }
+    html.vk5 #screen-3 .k4-sl.k5-unset input[type=range].range-input::-webkit-slider-thumb { background: radial-gradient(circle, #6a6a6a 0 7.5px, transparent 8px); }
+    html.vk5 #screen-3 .k4-sl.k5-unset input[type=range].range-input::-moz-range-thumb { background: radial-gradient(circle, #6a6a6a 0 7.5px, transparent 8px); }
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -2652,8 +2658,8 @@ async function saveLead() {
     age_min: state.status === 'partnered' ? null : (state.ageMin || null),
     age_max: state.status === 'partnered' ? null : (state.ageMax || null),
     gender_seeking: state.status === 'partnered' ? null : (state.genderSeeking || null),
-    height_min_cm: state.status === 'partnered' ? null : (state.heightPrefMinCm || null),
-    height_max_cm: state.status === 'partnered' ? null : (state.heightPrefMaxCm || null),
+    height_min_cm: state.status === 'partnered' || !state.heightPrefTouched ? null : (state.heightPrefMinCm || null), // MOCKUP_grokbot K5: null until touched
+    height_max_cm: state.status === 'partnered' || !state.heightPrefTouched ? null : (state.heightPrefMaxCm || null),
     ...couplePayload(),
     has_children: state.hasChildren,
     children_with: childrenWithPayload(),
@@ -3247,8 +3253,8 @@ async function doSubmit() {
     age_min: state.status === 'partnered' ? null : (state.ageMin || null),
     age_max: state.status === 'partnered' ? null : (state.ageMax || null),
     gender_seeking: state.status === 'partnered' ? null : (state.genderSeeking || null),
-    height_min_cm: state.status === 'partnered' ? null : (state.heightPrefMinCm || null),
-    height_max_cm: state.status === 'partnered' ? null : (state.heightPrefMaxCm || null),
+    height_min_cm: state.status === 'partnered' || !state.heightPrefTouched ? null : (state.heightPrefMinCm || null), // MOCKUP_grokbot K5: null until touched
+    height_max_cm: state.status === 'partnered' || !state.heightPrefTouched ? null : (state.heightPrefMaxCm || null),
     ...couplePayload(),
     status: state.status,
     has_children: state.hasChildren,
@@ -5220,7 +5226,7 @@ function _k4Txt(id) { const e = document.getElementById(id); return e ? e.textCo
 // ---------- condensed sliders ----------
 function _k4Groups() { const a = document.querySelector('#ww-ranges .ww-age-group'); return { dist: document.getElementById('vi-dist'), age: a, height: [...document.querySelectorAll('#ww-ranges > .field-group')].find(e => e !== a) }; }
 function _k4Vals() {
-  return { dist: _k4Txt('vk-dist-bubble'), age: _k4Txt('age_min_label') + '\u2013' + _k4Txt('age_max_label'), height: _k4Txt('height_min_label') + ' \u2013 ' + _k4Txt('height_max_label') };
+  return { dist: _k4Txt('vk-dist-bubble'), age: _k4Txt('age_min_label') + '\u2013' + _k4Txt('age_max_label'), height: (state.heightPrefTouched ? _k4Txt('height_min_label') + ' \u2013 ' + _k4Txt('height_max_label') : 'Any') };
 }
 function k4SyncHeads() { const v = _k4Vals(); for (const k of ['dist', 'age', 'height']) { const e = document.getElementById('k4-v-' + k); if (e && e.textContent !== v[k]) e.textContent = v[k]; } if (_k4.inWmm) k4mRender(); }
 function _k4Condense() {
@@ -5469,6 +5475,24 @@ window.addEventListener('load', () => {
     return rn.apply(this, arguments);
   };
   const pi = document.getElementById('partner_income_min'); if (pi) pi.addEventListener('change', () => { if (_k4.inWmm) k4mRender(); });
+});
+</script>
+<script>
+// ---- MOCKUP_grokbot K5: Partner height is unset until the applicant touches / drags it ----
+function k5HeightState() {
+  const g = _k4Groups().height; if (!g) return;
+  g.classList.toggle('k5-unset', !state.heightPrefTouched);
+  const i = document.getElementById('height_min_in'), j = document.getElementById('height_max_in');
+  [i, j].forEach(e => { if (e) { if (state.heightPrefTouched) e.removeAttribute('aria-valuetext'); else e.setAttribute('aria-valuetext', 'Any height (not set)'); } });
+  k4SyncHeads();
+}
+window.addEventListener('load', () => {
+  const t0 = touchHeightPref;
+  touchHeightPref = function () { const r = t0.apply(this, arguments); k5HeightState(); return r; };
+  const g = _k4Groups().height;
+  if (g) g.querySelector('.range-slider-wrap').addEventListener('pointerdown', () => { if (!state.heightPrefTouched) touchHeightPref(); }); // a tap on the track counts too
+  ['height_min_in', 'height_max_in'].forEach(id => { const e = document.getElementById(id); if (e) e.addEventListener('input', () => { if (!state.heightPrefTouched) touchHeightPref(); else k4SyncHeads(); }); });
+  k5HeightState();
 });
 </script>
 <div class="mock-badge_grokbot">Mockup K5</div>
