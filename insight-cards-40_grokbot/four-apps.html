@@ -1,0 +1,341 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I Hereby Commit · Four apps (mockups)_grokbot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0e0e;--text:#f0ece0;--body:#9a978c;--muted:#888;--dim:#333;--lime:#c8f135;--orange:#FF7A2F;--accent:var(--lime);--radius:4px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace}
+body{padding:24px}
+.sheethead{margin:0 0 18px;max-width:1900px}
+.sheethead h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;letter-spacing:1px}
+.sheethead h1 b{color:var(--accent);font-weight:400}
+.sheethead p{font-size:11px;color:#8a877c;line-height:1.55;max-width:1500px;margin-top:4px}
+.sheethead p b{color:var(--text)}
+.modes{display:flex;gap:6px;margin:12px 0 0}
+.modes button,.nav button{font-family:'Space Mono',monospace;font-size:11px;padding:8px 12px;border:1px solid var(--dim);background:transparent;color:var(--muted);border-radius:var(--radius);cursor:pointer;text-transform:uppercase;letter-spacing:1px}
+.modes button.on,.nav button.nx{border-color:var(--accent);background:var(--accent);color:var(--bg)}
+.nav button:disabled{opacity:.3;cursor:default}
+.sheet{display:grid;grid-template-columns:repeat(5,361px);gap:22px;justify-content:start}
+.wrap{position:relative;cursor:pointer}
+.cid{font-size:10px;color:#666;margin:0 0 5px 2px;letter-spacing:1px}
+.cid b{color:var(--accent)}
+/* single view */
+body.one .sheet{display:block}
+body.one .wrap{display:none;cursor:default;width:361px;margin:0 auto}
+body.one .wrap.cur{display:block}
+.nav{display:none;width:361px;margin:14px auto 0;align-items:center;justify-content:space-between}
+body.one .nav{display:flex}
+.nav .pos{font-size:11px;color:var(--muted);letter-spacing:1px}
+.keyhint{display:none;text-align:center;font-size:9px;color:#555;margin-top:8px}
+body.one .keyhint{display:block}
+/* 9:16 card (old style) */
+.card{width:361px;height:642px;position:relative;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid #222;user-select:none}
+.card .inner{position:absolute;inset:0;padding:26px 22px 18px;display:flex;flex-direction:column}
+.card.hero .inner{background:var(--accent);color:#0e0e0e}
+.tag{position:absolute;top:9px;left:10px;right:10px;font-size:7.5px;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:max-content;max-width:calc(100% - 20px)}
+.tag.real{background:var(--accent);color:#0e0e0e;font-weight:700}
+.tag.ex{border:1px dashed #777;color:#aaa}
+.tag.mix{background:#0e0e0e;color:var(--accent);border:1px solid var(--accent);font-weight:700}
+.hero .tag.mix{border-color:#0e0e0e}
+.kicker{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero .kicker{color:#0e0e0e;opacity:.75}
+.big{font-family:'Bebas Neue',sans-serif;font-size:112px;line-height:.85;color:var(--accent);letter-spacing:1px}
+.big small{font-size:40px}
+.big.txt{font-size:62px;line-height:.9}
+.big.mid{font-size:80px}
+h2.head{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:34px;line-height:.95;letter-spacing:.5px;margin:10px 0 10px;color:var(--text)}
+.sub{font-size:11.5px;line-height:1.5;color:var(--body)}
+.sub b{color:var(--text);font-weight:700}
+.viz{margin:12px 0 8px;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.foot{margin-top:auto;border-top:1px solid #262626;padding-top:7px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.hero .foot{border-top-color:rgba(0,0,0,.25)}
+.src{font-size:7.8px;line-height:1.35;color:var(--muted);max-width:250px;word-break:break-word}
+.hero .src{color:#222}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--text);white-space:nowrap}
+.hero .brand{color:#0e0e0e}
+/* shared viz */
+.bar{width:100%}
+.bar .row{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:9.5px;color:var(--body)}
+.bar .row .lbl{width:112px;text-align:right}
+.bar .track{flex:1;height:13px;background:#1b1b1b;border-radius:2px;position:relative}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:2px}
+.bar .fill.alt{background:#555}
+.bar .val{width:46px;font-weight:700;color:var(--text)}
+.tbl{width:100%;border-collapse:collapse;font-size:10px}
+.tbl td{border-bottom:1px solid #262626;padding:6px 4px;color:var(--body)}
+.tbl tr:first-child td{font-size:9px;letter-spacing:1px;color:#777}
+.tbl td:nth-child(3){color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:21px}
+.tbl tr:first-child td:nth-child(3){font-family:'Space Mono';font-size:9px;color:#777}
+.tbl tr.ex td{color:#666;font-style:italic}.tbl tr.ex td:nth-child(3){color:#777}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.types span{font-size:9.5px;border:1px solid #333;color:#777;padding:7px 6px;border-radius:4px;text-align:center}
+.types span.on{border-color:var(--accent);background:var(--accent);color:#0e0e0e;font-weight:700}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.quick button{font-family:'Bebas Neue',sans-serif;font-size:30px;padding:14px 6px;border:1px solid #444;background:#151515;color:var(--text);border-radius:var(--radius)}
+.cta{display:block;width:100%;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;padding:11px;border-radius:var(--radius);background:var(--accent);color:#0e0e0e;margin:4px 0 10px;text-align:center}
+.vs{display:flex;gap:10px;width:100%}
+.vs div{flex:1;border:1px solid #2a2a2a;border-radius:6px;padding:12px 8px;text-align:center;font-size:10px;color:var(--body);line-height:1.4}
+.vs div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:60px;color:var(--text);font-weight:400;line-height:1}
+.vs div:first-child b{color:var(--accent)}
+.cal{display:flex;gap:6px;width:100%;align-items:center}
+.cal div{flex:1;border:1px solid #333;border-radius:6px;text-align:center;padding:10px 3px;font-size:8px;color:var(--body);letter-spacing:1px}
+.cal div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--text);font-weight:400;letter-spacing:0;margin-top:4px}
+.cal em{font-style:normal;font-family:'Bebas Neue',sans-serif;color:var(--accent);font-size:24px}
+.dots{display:grid;grid-template-columns:repeat(14,1fr);gap:5px;width:100%}
+.dots i{display:block;width:100%;aspect-ratio:1;border-radius:50%}
+.dots i.m{background:var(--accent)}.dots i.x{border:1px solid #333}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips span{font-size:9.5px;border:1px solid var(--accent);color:var(--accent);padding:3px 8px;border-radius:14px}
+/* receipt */
+.rcard .inner{padding:24px 16px 14px}
+.receipt{background:#fbfaf4;color:#111;font-size:9.5px;line-height:1.3;padding:12px 12px 16px;border-radius:2px;flex:1;display:flex;flex-direction:column;justify-content:space-between;margin-bottom:8px;
+ -webkit-mask:radial-gradient(circle 5px at 50% 100%,#0000 98%,#000) 50% 100%/12px 100% repeat-x;mask:radial-gradient(circle 5px at 50% 100%,#0000 98%,#000) 50% 100%/12px 100% repeat-x;box-shadow:0 8px 0 rgba(0,0,0,.12)}
+.rc{text-align:center;font-size:8.5px;letter-spacing:1px;color:#333}
+.rc b{display:block;font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;color:#111;font-weight:400;line-height:1;margin:2px 0}
+.rc.sm{font-size:7.5px;margin-top:4px}
+.rd{border-top:1.5px dashed #999;margin:5px 0}
+.rl{display:flex;justify-content:space-between;align-items:flex-end;gap:6px}
+.rl .ra{font-weight:700}
+.rl .ra em{display:block;font-style:normal;font-weight:400;font-size:7.5px;color:#666;letter-spacing:.3px}
+.rl .rv{font-weight:700;white-space:nowrap}
+.rl sup{font-size:8px;color:#5a7a00;margin-left:1px}
+.rl.tot{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1}
+.rl.tot .ra{font-weight:400}.rl.tot .rv{font-weight:400}
+.rl.sm{font-size:8px;color:#666}.rl.sm .ra,.rl.sm .rv{font-weight:400}
+.rl.vs{background:#111;color:var(--lime);padding:4px 6px;border-radius:2px}
+.rl.vs sup{color:var(--lime)}
+.rb{height:4px;background:#eee;margin:2px 0 4px}.rb i{display:block;height:100%;background:#111;min-width:3px}
+.bc{height:26px;margin:6px 20px 0;background:repeating-linear-gradient(90deg,#111 0 2px,transparent 2px 4px,#111 4px 5px,transparent 5px 8px,#111 8px 11px,transparent 11px 12px)}
+/* swaps */
+.swaps{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.swaps div{border:1px solid #333;border-radius:6px;padding:10px 8px;font-size:9.5px;color:var(--body);text-align:center;line-height:1.35}
+.swaps b{display:block;font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--accent);font-weight:400;line-height:1}
+/* years */
+.yrs{display:flex;align-items:flex-end;gap:8px;height:140px;width:100%}
+.yrs div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;font-size:8.5px;color:#777;text-align:center;gap:3px}
+.yrs i{display:block;background:#444;border-radius:2px 2px 0 0;min-height:2px}
+.yrs div.on i{background:var(--accent)}.yrs div.on{color:var(--accent)}
+.yrs em{font-style:normal;font-size:8px}
+/* era */
+.era{width:100%;position:relative}
+.era .yr{position:relative;height:14px;font-size:8.5px;color:#666}
+.era .yr span{position:absolute}
+.era .ln{position:relative;height:26px;margin:6px 0;border-bottom:1px solid #222}
+.era .ln label{position:absolute;left:0;top:-1px;font-size:8.5px;color:var(--body);letter-spacing:1px;text-transform:uppercase}
+.era .ln i{position:absolute;top:12px;height:10px;background:var(--accent);border-radius:2px;min-width:5px}
+.era .ln.ex i{background:transparent;border:1px dashed #777}
+/* clock */
+.clock{display:flex;align-items:flex-end;gap:2px;height:150px;width:100%}
+.clock div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
+.clock i{display:block;background:#444;border-radius:1px}
+.clock div.on i{background:var(--accent)}
+.clock div.pk i{background:var(--text)}
+.clock span{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);font-size:7px;color:#777;white-space:nowrap}
+/* badge */
+.badge{margin:10px auto 4px;width:190px;height:190px;border-radius:50%;border:3px double var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;outline:1px dashed #444;outline-offset:6px}
+.badge b{font-family:'Bebas Neue',sans-serif;font-size:96px;line-height:.85;color:var(--accent);font-weight:400}
+.badge span{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px}
+.badge em{font-style:normal;font-size:8.5px;letter-spacing:2px;color:var(--body);margin-top:2px}
+/* bingo */
+.bingo{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;width:100%}
+.bingo div{aspect-ratio:1;border:1px solid #2a2a2a;border-radius:3px;font-size:7.3px;line-height:1.15;color:#555;display:flex;align-items:center;justify-content:center;text-align:center;padding:2px}
+.bingo div.on{background:var(--accent);color:#0e0e0e;border-color:var(--accent);font-weight:700}
+.bingo div.q{border:1px dashed var(--accent);color:var(--accent)}
+/* roast */
+.roast{width:100%}
+.roast p{font-size:11.5px;line-height:1.45;color:var(--body);border-left:3px solid var(--accent);padding:5px 0 5px 10px;margin:7px 0;background:#141414}
+.roast p b{color:var(--text)}
+.cmp{width:100%;border-collapse:collapse;font-size:9px;table-layout:fixed}
+.cmp th{text-align:left;font-weight:700;color:var(--text);font-size:8.6px;padding:3px 2px;width:31%;line-height:1.15;border-bottom:1px solid #222}
+.cmp th em{display:block;font-style:normal;font-weight:400;font-size:7px;color:var(--accent);letter-spacing:.3px}
+.cmp th em.nc{color:#555}
+.cmp td{text-align:center;padding:3px 1px;border-bottom:1px solid #222;color:var(--body);font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.3px}
+.cmp tr:first-child td{font-family:'Space Mono',monospace;font-size:7.5px;letter-spacing:1px;color:#777;font-weight:700}
+.cmp td.win{background:var(--accent);color:#0e0e0e}
+.cmp td.ex{color:#555;font-style:italic}
+.card.heat .inner{background:var(--orange);color:#0e0e0e}
+.heat .kicker,.heat .big,.heat h2.head,.heat .sub,.heat .sub b,.heat .brand,.heat .src{color:#0e0e0e}
+.heat .foot{border-top-color:rgba(0,0,0,.3)}
+.heat .tag.real{background:#0e0e0e;color:var(--orange)}
+.heat .vs div{border-color:rgba(0,0,0,.35);color:#1c1c1c}
+.heat .vs div b{color:#0e0e0e;font-size:72px}
+.heat .vs div:first-child{background:#0e0e0e;color:var(--orange)}.heat .vs div:first-child b{color:var(--orange)}
+.legend2{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:10px;color:#8a877c;align-items:center}
+.legend2 .tag{position:static;display:inline-block}
+</style><style>
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.stats div{background:#0e0e0e;color:#f0ece0;border-radius:6px;padding:9px 8px;font-size:9px;letter-spacing:1px;text-transform:uppercase;line-height:1.3}
+.stats b{display:block;font-family:'Bebas Neue',sans-serif;font-size:34px;color:#c8f135;font-weight:400;letter-spacing:.5px;line-height:1}
+.stats em{display:block;font-style:normal;color:#777;font-size:7.5px;letter-spacing:.5px;text-transform:none}
+.tl2{position:relative;width:100%;height:120px}
+.tl2 .ln{position:absolute;left:0;right:0;top:51px;height:2px;background:#333}
+.tl2 .pt{position:absolute;top:0;width:120px;margin-left:-20px;font-size:9.5px;color:var(--body);line-height:1.3}
+.tl2 .pt b{display:block;font-family:'Bebas Neue',sans-serif;font-size:30px;color:#ff5a7a;font-weight:400}
+.tl2 .pt.h b{color:#9b7bff}
+.tl2 .pt span{display:block;margin-top:34px}
+.tl2 .pt::after{content:'';position:absolute;left:14px;top:42px;width:16px;height:16px;border-radius:50%;background:#ff5a7a;border:3px solid #0e0e0e}
+.tl2 .pt.h::after{background:#9b7bff}
+.ygrid{display:grid;grid-template-columns:58px repeat(12,1fr);gap:3px;width:100%;align-items:center}
+.ygrid i{display:block;height:26px;border-radius:3px}
+.ygrid.m i{height:30px}
+.ygrid .yl{font-size:8.5px;color:var(--body);letter-spacing:1px;text-transform:uppercase}
+.ygrid span{font-size:7.5px;color:#777;text-align:center}
+.decade{display:flex;gap:5px;align-items:flex-end;height:230px;width:100%}
+.decade>div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px}
+.decade .stk{width:100%;height:calc(100% - 14px);display:flex;flex-direction:column;justify-content:flex-end}
+.decade .stk i{display:block;width:100%}
+.decade span{font-size:8px;color:#777}
+.appkey{display:flex;gap:10px;font-size:8.5px;color:var(--body);margin:2px 0 8px;letter-spacing:1px;text-transform:uppercase}
+.appkey i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.wbar{display:flex;width:100%;height:30px;margin:6px 0 0;flex:none;border-radius:4px;overflow:hidden}
+.wbar i{display:block;height:100%}
+.agef{width:100%}
+.agef .ax{position:relative;height:14px;font-size:8px;color:#666;margin-bottom:4px}
+.agef .ax span{position:absolute;transform:translateX(-50%)}
+.agef .r{position:relative;height:40px;border-bottom:1px solid #222}
+.agef .r label{position:absolute;left:0;top:2px;font-size:8.5px;color:var(--body);letter-spacing:.5px}
+.agef .r i{position:absolute;top:18px;height:14px;border-radius:3px}
+.yrs11{gap:4px;height:170px}
+.yrs11 em{font-size:7px}
+.tbl td:nth-child(2){color:var(--body);font-family:'Space Mono',monospace;font-size:10px}
+.tbl td:nth-child(3){color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:20px}
+.tbl td:nth-child(4){color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:20px}
+.tbl tr:first-child td{font-family:'Space Mono',monospace!important;font-size:9px!important;color:#777!important}
+.hero .big{color:#0e0e0e}.hero h2.head{color:#0e0e0e}.hero .sub{color:#1c1c1c}
+</style></head><body>
+<div class="sheethead"><h1>I HEREBY <b>COMMIT</b> · FOUR APPS · 15 CARDS THAT ONLY WORK WITH ALL 4 EXPORTS</h1>
+<p>One real person, four real exports: <b>Amanda's League, Hinge, Bumble and Tinder data</b> (totals only). Every personal number on these cards is REAL; outside stats show source, year, n and link on the card. Honest gaps: Tinder's export is thin (4 days of use, 9 swipes, 0 matches, 0 messages, 0 purchases), Bumble swipes have no dates, and exports only include messages you sent, so reply speed can't be measured. Rates describe how you use each app, not how desirable you are. No names, message text, locations, contact info, IPs or ethnicity/race preferences. Static cards: click one to view one at a time; Back / Next or arrow keys. Mockup by grokbot, Sep 29, 2026 PT.</p>
+<div class="legend2"><span class="tag real">✓ Amanda's real data</span> from her exports <span class="tag ex">Cited benchmark / our estimate</span> labeled on the card</div>
+<div class="modes"><button id="mSheet" class="on">All cards</button><button id="mOne">One at a time</button></div></div>
+<div class="sheet" id="sheet"><div class="wrap" data-i="0"><div class="cid"><b>F01</b> · Four Apps, One Person</div><div class="card hero"><div class="inner"><span class="tag real">✓ Amanda's real data · league_, hinge_, bumble_, tinder_ exports</span>
+<div class="kicker" style="margin-top:14px">Lifetime, all four apps</div>
+<div class="big">3,579</div>
+<h2 class="head">PROFILES JUDGED ACROSS 4 APPS. HERE'S THE REST OF THE TAB.</h2>
+<div class="viz"><div class="stats">
+<div><b>1,254</b>matches<em>League + Hinge</em></div><div><b>1,612</b>messages sent<em>3 apps</em></div>
+<div><b>12,416</b>words typed<em>your side only</em></div><div><b>$9,025</b>spent<em>as recorded</em></div>
+<div><b>20½</b>account-years<em>4 accounts added up</em></div><div><b>23</b>Tinder opens<em>the only app that counts them</em></div></div></div>
+<div class="foot"><div class="src">Amanda's exports. Swipes: League 2,733 + Bumble 579 + Hinge 258 + Tinder 9. Matches: League 1,202 + Hinge 52 + Tinder 0 (Bumble has no match count). Messages/words = ones you sent. Account-years = opened → last activity, summed.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="1"><div class="cid"><b>F02</b> · The Great Download Night</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · tinder_profile.tinder_created_at, hinge_profile.signup_at</span>
+<div class="kicker" style="margin-top:14px">Apr 24, 2025 · a Thursday evening</div>
+<div class="big">3<small> MIN</small></div>
+<h2 class="head">BETWEEN OPENING TINDER AND SIGNING UP FOR HINGE. SAME NIGHT. SAME THUMB.</h2>
+<div class="viz"><div class="tl2">
+<div class="pt" style="left:12%"><b>6:48 PM</b><span>Tinder account created</span></div>
+<div class="pt h" style="left:62%"><b>6:52 PM</b><span>Hinge signup</span></div><div class="ln"></div></div></div>
+<p class="sub">Hinge got <b>271 messages</b> out of that night. Tinder got <b>9 swipes</b>. Same night, very different follow-through.</p>
+<div class="foot"><div class="src">Amanda's exports: Tinder created 2025-04-25 01:48:57 UTC, Hinge signup 01:52:15 UTC (3 min 18 s later), shown in Pacific time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="2"><div class="cid"><b>F03</b> · Your App-Hopping Map</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · dated activity, 4 apps</span>
+<div class="kicker" style="margin-top:14px">Which app, which year</div>
+<div class="big">12<small> YRS</small></div>
+<h2 class="head">4 APPS CAME AND WENT. ONE NEVER LEFT: THE LEAGUE.</h2>
+<div class="viz"><div class="ygrid"><div class="yl">League</div><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><div class="yl">Bumble</div><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#ffd23f"></i><i style="background:#1b1b1b"></i><i style="background:#ffd23f"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#ffd23f"></i><i style="background:#ffd23f"></i><div class="yl">Hinge</div><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#9b7bff"></i><i style="background:#1b1b1b"></i><div class="yl">Tinder</div><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#ff5a7a"></i><i style="background:#ff5a7a"></i><div class="yl"></div><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span></div></div>
+<p class="sub">Bumble shows up in 2019, 2021 and again in 2025–26. Hinge and Tinder both arrived in <b>2025</b>. Lit = something recorded that year (account, swipe, message or payment).</p>
+<div class="foot"><div class="src">Amanda's exports: League account 2015 + purchases 2016–19 + swipes 2017–26; Bumble registered 2019, payments 2021/2025, messages 2021/2025–26 (Bumble swipes have no dates, so quiet years may not be empty); Hinge 2025; Tinder usage days 2025–26.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="3"><div class="cid"><b>F04</b> · 2025: The App-Hopping Year</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · monthly activity, 4 apps</span>
+<div class="kicker" style="margin-top:14px">2025, month by month</div>
+<div class="big txt">BUMBLE WINTER.<br>TINDER SPRING.<br>HINGE FALL.</div>
+<p class="sub" style="margin-top:10px">And The League, <b>11 of 12 months</b>. January alone: <b>317</b> Bumble messages.</p>
+<div class="viz"><div class="ygrid m"><div class="yl">League</div><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#c8f135"></i><i style="background:#1b1b1b"></i><i style="background:#c8f135"></i><div class="yl">Bumble</div><i style="background:#ffd23f"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><div class="yl">Tinder</div><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#ff5a7a"></i><i style="background:#ff5a7a"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><div class="yl">Hinge</div><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#1b1b1b"></i><i style="background:#9b7bff"></i><i style="background:#9b7bff"></i><i style="background:#9b7bff"></i><i style="background:#9b7bff"></i><i style="background:#1b1b1b"></i><div class="yl"></div><span>J</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span><span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span></div></div>
+<div class="foot"><div class="src">Amanda's exports, Pacific time: League swipes + messages; Bumble messages + payments; Tinder days with app opens; Hinge likes, skips, removals + messages. Lit = any activity that month.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="4"><div class="cid"><b>F05</b> · Your Dating Decade in One Chart</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · dated swipes + messages, 4 apps</span>
+<div class="kicker" style="margin-top:14px">2017–2026, every dated swipe and message</div>
+<div class="big">10<small> YEARS</small></div>
+<h2 class="head">YOUR DATING DECADE, STACKED. 2025 IS THE SKYSCRAPER.</h2>
+<div class="viz"><div class="decade"><div><div class="stk"><i style="height:29.9%;background:#c8f135"></i></div><span>17</span></div><div><div class="stk"><i style="height:23.2%;background:#c8f135"></i></div><span>18</span></div><div><div class="stk"><i style="height:7.3%;background:#c8f135"></i></div><span>19</span></div><div><div class="stk"><i style="height:8.8%;background:#c8f135"></i></div><span>20</span></div><div><div class="stk"><i style="height:0.1%;background:#ffd23f"></i><i style="height:5.1%;background:#c8f135"></i></div><span>21</span></div><div><div class="stk"><i style="height:42.0%;background:#c8f135"></i></div><span>22</span></div><div><div class="stk"><i style="height:39.3%;background:#c8f135"></i></div><span>23</span></div><div><div class="stk"><i style="height:32.3%;background:#c8f135"></i></div><span>24</span></div><div><div class="stk"><i style="height:0.6%;background:#ff5a7a"></i><i style="height:33.5%;background:#9b7bff"></i><i style="height:20.1%;background:#ffd23f"></i><i style="height:45.9%;background:#c8f135"></i></div><span>25</span></div><div><div class="stk"><i style="height:1.5%;background:#ffd23f"></i><i style="height:2.5%;background:#c8f135"></i></div><span>26</span></div></div></div>
+<div class="appkey"><span><i style="background:#c8f135"></i>League</span><span><i style="background:#9b7bff"></i>Hinge</span><span><i style="background:#ffd23f"></i>Bumble</span><span><i style="background:#ff5a7a"></i>Tinder</span></div>
+<div class="foot"><div class="src">Amanda's exports, Pacific time: League likes/passes (2017–) + messages (Nov 2023–); Hinge likes/roses/skips + messages; Bumble messages (swipes undated, not shown); Tinder swipes. Messages = ones you sent.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="5"><div class="cid"><b>F06</b> · Busiest Year, All Apps</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · dated swipes + messages, 4 apps</span>
+<div class="kicker" style="margin-top:14px">Your busiest dating year</div>
+<div class="big">2025</div>
+<h2 class="head">1,580 SWIPES AND MESSAGES ON 4 APPS. 2.4× YOUR NEXT-BUSIEST YEAR.</h2>
+<div class="viz"><div class="bar">
+<div class="row"><span class="lbl">League</span><div class="track"><div class="fill" style="width:100%;background:#c8f135"></div></div><span class="val">725</span></div>
+<div class="row"><span class="lbl">Hinge</span><div class="track"><div class="fill" style="width:73%;background:#9b7bff"></div></div><span class="val">529</span></div>
+<div class="row"><span class="lbl">Bumble</span><div class="track"><div class="fill" style="width:43.7%;background:#ffd23f"></div></div><span class="val">317</span></div>
+<div class="row"><span class="lbl">Tinder</span><div class="track"><div class="fill" style="width:1.2%;background:#ff5a7a"></div></div><span class="val">9</span></div>
+<div class="row"><span class="lbl">2022, all apps</span><div class="track"><div class="fill alt" style="width:91.6%"></div></div><span class="val">664</span></div></div></div>
+<p class="sub">2022 was a League-only year. 2025 was a group project.</p>
+<div class="foot"><div class="src">Amanda's exports: dated swipes + messages you sent, Pacific time. 2022 = 664 League likes/passes (League messages only exist from Nov 2023). Bumble swipes undated, not counted.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="6"><div class="cid"><b>F07</b> · Where Your Words Go</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · messages you sent · word counts</span>
+<div class="kicker" style="margin-top:14px">Where your words go</div>
+<div class="big">68<small>%</small></div>
+<h2 class="head">OF EVERY WORD YOU'VE TYPED ON A DATING APP WENT TO THE LEAGUE.</h2>
+<div class="wbar"><i style="width:68%;background:#c8f135"></i><i style="width:21%;background:#9b7bff"></i><i style="width:11%;background:#ffd23f"></i></div>
+<div class="viz"><table class="tbl"><tr><td>app</td><td>words</td><td>msgs</td><td>per msg</td></tr>
+<tr><td>League</td><td>8,437</td><td>1,000</td><td>6 med.</td></tr><tr><td>Hinge</td><td>2,606</td><td>271</td><td>7 med.</td></tr>
+<tr><td>Bumble</td><td>1,373</td><td>341</td><td>3 med.</td></tr><tr><td>Tinder</td><td>0</td><td>0</td><td>—</td></tr></table></div>
+<p class="sub"><b>12,416 words</b>: about a 50-page novella, written one "haha" at a time.</p>
+<div class="foot"><div class="src">Amanda's exports: word counts of messages you sent (League from Nov 2023; Hinge 2025; Bumble 2021–26; Tinder none). "50 pages" is our estimate at ~250 words a page. No message text is shown or stored on cards.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="7"><div class="cid"><b>F08</b> · Swipes per Conversation</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · swipes ÷ people you messaged</span>
+<div class="kicker" style="margin-top:14px">How many swipes it takes to start one chat</div>
+<div class="big">14</div>
+<h2 class="head">SWIPES PER CONVERSATION ON BUMBLE. ON THE LEAGUE: 3.</h2>
+<div class="viz"><div class="bar">
+<div class="row"><span class="lbl">League</span><div class="track"><div class="fill" style="width:21.7%;background:#c8f135"></div></div><span class="val">3.0</span></div>
+<div class="row"><span class="lbl">Hinge</span><div class="track"><div class="fill" style="width:36.2%;background:#9b7bff"></div></div><span class="val">5.0</span></div>
+<div class="row"><span class="lbl">Bumble</span><div class="track"><div class="fill" style="width:100%;background:#ffd23f"></div></div><span class="val">13.8</span></div>
+<div class="row"><span class="lbl">Tinder</span><div class="track"><div class="fill alt" style="width:0%"></div></div><span class="val">9 → 0</span></div></div></div>
+<p class="sub">Lower = fewer swipes per chat. That's efficiency, <b>not a verdict</b> on you or them. Tinder: 9 swipes, still waiting.</p>
+<div class="foot"><div class="src">Amanda's exports: League 573 swipes since Nov 13 2023 ÷ 189 people messaged (messages start then); Hinge 258 ÷ 52; Bumble 579 lifetime swipes ÷ 42 chats; Tinder 9 ÷ 0.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="8"><div class="cid"><b>F09</b> · The League Loyalist</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · shares across 4 apps</span>
+<div class="kicker" style="margin-top:14px">Loyalty, in four numbers</div>
+<div class="big">95<small>%</small></div>
+<h2 class="head">OF YOUR DATING-APP MONEY WENT TO ONE APP. GUESS WHICH.</h2>
+<div class="viz"><div class="bar">
+<div class="row"><span class="lbl">spend</span><div class="track"><div class="fill" style="width:95%"></div></div><span class="val">95%</span></div>
+<div class="row"><span class="lbl">swipes</span><div class="track"><div class="fill" style="width:76%"></div></div><span class="val">76%</span></div>
+<div class="row"><span class="lbl">messages</span><div class="track"><div class="fill" style="width:62%"></div></div><span class="val">62%</span></div>
+<div class="row"><span class="lbl">account-years</span><div class="track"><div class="fill" style="width:56%"></div></div><span class="val">56%</span></div></div></div>
+<p class="sub">The League's share of everything. You dated around. Your wallet did not.</p>
+<div class="foot"><div class="src">Amanda's exports: League $8,575.26 of $9,025.14; 2,733 of 3,579 swipes; 1,000 of 1,612 messages sent; 11½ of 20½ account-years. Shares, not a score.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="9"><div class="cid"><b>F10</b> · The Tinder Tourist</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · tinder_usage_daily, tinder_profile</span>
+<div class="kicker" style="margin-top:14px">Your Tinder, in full</div>
+<div class="big">57<small>%</small></div>
+<h2 class="head">OF YOUR TINDER APP OPENS HAPPENED ON THE DAY YOU DOWNLOADED YOUR DATA.</h2>
+<div class="viz"><div class="cal"><div>OPENS<b>23</b></div><div>DAYS USED<b>4</b></div><div>SWIPES<b>9</b></div><div>MATCHES<b>0</b></div></div></div>
+<p class="sub">Most opens in one day: <b>13</b> (Sep 28, 2026, export day). Matches per app open: <b>0</b>. Profile discoverable: <b>off</b>. A tourist with a return ticket.</p>
+<div class="foot"><div class="src">Amanda's Tinder export: tinder_usage_daily app_opens by day (Apr 25, May 3, May 5 2025; Sep 28 2026, UTC dates), swipes_likes 3 + swipes_passes 6, matches 0; tinder_profile.discoverable = false.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="10"><div class="cid"><b>F11</b> · Tinder Match Rate: Not Enough Swipes</div><div class="card"><div class="inner"><span class="tag mix">Real + cited · tinder_usage_daily vs SwipeStats</span>
+<div class="kicker" style="margin-top:14px">Tinder match rate</div>
+<div class="big">0<small> / 3</small></div>
+<h2 class="head">MATCHES FROM YOUR 3 TINDER RIGHT SWIPES. TOO FEW TO MEAN ANYTHING.</h2>
+<div class="viz"><div class="vs"><div><b>0%</b>you<br>0 ÷ 3 likes</div><div><b>41%</b>median woman<br>on Tinder (n=842)</div></div></div>
+<p class="sub">At the median rate, 3 likes would average about <b>1</b> match. Match rate reflects <b>how picky you are as much as how others respond</b>, and 3 swipes can't tell you either.</p>
+<div class="foot"><div class="src">You: Amanda's Tinder export (matches ÷ swipes_likes). Benchmark: median women's match rate 41.27%, SwipeStats, "Tinder Statistics" (company blog, updated Mar 2026): opt-in uploads 2020–25, n=842 women · https://www.swipestats.io/blog/tinder-statistics. Opt-in sample, not random.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="11"><div class="cid"><b>F12</b> · Your Age Filter Has Range</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · age + distance filters, 3 apps</span>
+<div class="kicker" style="margin-top:14px">Same person, three age filters</div>
+<div class="big">26<small>–54</small></div>
+<h2 class="head">EVERY AGE YOU'VE SAID YES TO, ACROSS APPS. TINDER YOU STARTS 7 YEARS YOUNGER.</h2>
+<div class="viz"><div class="agef">
+<div class="ax"><span style="left:12.5%">28</span><span style="left:37.5%">36</span><span style="left:62.5%">44</span><span style="left:87.5%">52</span></div>
+<div class="r"><label>Tinder 26–46 · 28 mi</label><i style="left:6.2%;width:62.5%;background:#ff5a7a"></i></div>
+<div class="r"><label>Hinge 32–54 · 20 mi</label><i style="left:25.0%;width:68.8%;background:#9b7bff"></i></div>
+<div class="r"><label>League 33–52 · 37 mi</label><i style="left:28.1%;width:59.4%;background:#c8f135"></i></div></div></div>
+<p class="sub">Your reach: <b>20</b> miles on Hinge, <b>37</b> on The League. Bumble's export has no filters.</p>
+<div class="foot"><div class="src">Amanda's exports: tinder_profile age_filter_min/max + distance_filter; hinge_preferences age_pref_min/max + max_distance (Hinge unit assumed miles); league_preferences age_min/max + distance_miles.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="12"><div class="cid"><b>F13</b> · Power-Ups: Bought vs. Used</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · purchases + billing, 4 apps</span>
+<div class="kicker" style="margin-top:14px">Paid extras, across 4 apps</div>
+<div class="big">95</div>
+<h2 class="head">BUMBLE SUPERSWIPES THAT EXPIRED UNUSED. TINDER SUPER LIKES SENT: ZERO.</h2>
+<div class="viz"><table class="tbl"><tr><td>app</td><td>extra</td><td>got</td><td>used</td></tr>
+<tr><td>Bumble</td><td>SuperSwipes</td><td>97</td><td>2</td></tr><tr><td>Bumble</td><td>Spotlights</td><td>19</td><td>0</td></tr>
+<tr><td>League</td><td>Boost buys</td><td>7</td><td>$1,126</td></tr><tr><td>Hinge</td><td>Boost / Roses</td><td>1 / 2</td><td>sent 2</td></tr>
+<tr><td>Tinder</td><td>Super Likes / Boosts</td><td>0 / 0</td><td>0</td></tr></table></div>
+<p class="sub">Four apps, and your favorite power-up is still <b>not using the power-up</b>.</p>
+<div class="foot"><div class="src">Amanda's exports: bumble_billing_events credits (promo + subscription grants, expired, spent); league_purchases category Boosts (net); hinge_purchases (1 Boost, $9.99) + hinge_interactions roses; tinder_usage_daily superlikes + empty tinder_purchases.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="13"><div class="cid"><b>F14</b> · Spending Across the Decade</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · purchases, 4 apps</span>
+<div class="kicker" style="margin-top:14px">Dating-app spend by year</div>
+<div class="big">16<small>×</small></div>
+<h2 class="head">MORE SPENT IN 2019 (ONE APP) THAN IN 2025 (FOUR APPS OPEN).</h2>
+<div class="viz"><div class="yrs yrs11"><div class=""><i style="height:8.9%"></i><span>16</span><em>$419</em></div><div class=""><i style="height:13.6%"></i><span>17</span><em>$641</em></div><div class=""><i style="height:59.2%"></i><span>18</span><em>$2,795</em></div><div class="on"><i style="height:100.0%"></i><span>19</span><em>$4,721</em></div><div class=""><i style="height:1.0%"></i><span>20</span><em></em></div><div class=""><i style="height:3.4%"></i><span>21</span><em>$160</em></div><div class=""><i style="height:1.0%"></i><span>22</span><em></em></div><div class=""><i style="height:1.0%"></i><span>23</span><em></em></div><div class=""><i style="height:1.0%"></i><span>24</span><em></em></div><div class=""><i style="height:6.1%"></i><span>25</span><em>$290</em></div><div class=""><i style="height:1.0%"></i><span>26</span><em></em></div></div></div>
+<p class="sub">2019: <b>$4,721</b> on The League. 2025: <b>$290</b> across Hinge ($229.95) and Bumble ($59.97). Tinder: $0, ever. Four apps, cheaper than one.</p>
+<div class="foot"><div class="src">Amanda's exports as recorded: league_purchases (net of refunds; currency assumed USD), bumble_billing_events payments (USD: $159.96 in 2021, $59.97 in 2025), hinge_purchases (USD), tinder_purchases (empty).</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="14"><div class="cid"><b>F15</b> · All-App Texting Clock</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · messages you sent, 3 apps</span>
+<div class="kicker" style="margin-top:14px">When you text, on every app</div>
+<div class="big">8<small>PM</small></div>
+<h2 class="head">YOUR TEXTING HOUR ON THE LEAGUE AND BUMBLE. HINGE YOU TEXTS AT 3PM.</h2>
+<div class="viz"><div class="clock"><div class=""><i style="height:17%"></i><span>12a</span></div><div class=""><i style="height:2%"></i><span></span></div><div class=""><i style="height:2%"></i><span></span></div><div class=""><i style="height:2%"></i><span>3a</span></div><div class=""><i style="height:6%"></i><span></span></div><div class=""><i style="height:2%"></i><span></span></div><div class=""><i style="height:5%"></i><span>6a</span></div><div class=""><i style="height:11%"></i><span></span></div><div class=""><i style="height:16%"></i><span></span></div><div class=""><i style="height:18%"></i><span>9a</span></div><div class=""><i style="height:18%"></i><span></span></div><div class=""><i style="height:21%"></i><span></span></div><div class=""><i style="height:18%"></i><span>12p</span></div><div class=""><i style="height:39%"></i><span></span></div><div class=""><i style="height:28%"></i><span></span></div><div class=""><i style="height:54%"></i><span>3p</span></div><div class=""><i style="height:31%"></i><span></span></div><div class=""><i style="height:37%"></i><span></span></div><div class=""><i style="height:39%"></i><span>6p</span></div><div class=""><i style="height:53%"></i><span></span></div><div class="pk"><i style="height:100%"></i><span>8p</span></div><div class=""><i style="height:33%"></i><span></span></div><div class=""><i style="height:16%"></i><span></span></div><div class=""><i style="height:16%"></i><span></span></div></div></div>
+<p class="sub"><b>276</b> of your 1,612 messages went out in the 8pm hour (17%). The 3am hour: <b>3</b>. Tinder: no messages to clock.</p>
+<div class="foot"><div class="src">Amanda's exports: messages you sent by hour, Pacific time (League 1,000 from Nov 2023; Hinge 271; Bumble 341). Peak hour per app: League 8pm, Bumble 8pm, Hinge 3pm.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div></div>
+<div class="nav"><button id="bk">← Back</button><span class="pos" id="pos"></span><button class="nx" id="nx">Next →</button></div>
+<div class="keyhint">Arrow keys work too · Esc = all cards</div>
+<script>
+const W=[...document.querySelectorAll('.wrap')],N=W.length,qs=new URLSearchParams(location.search);
+let i=Math.min(N-1,Math.max(0,(parseInt(qs.get('card')||'1',10)||1)-1)),one=qs.has('card');
+function show(){document.body.classList.toggle('one',one);document.getElementById('mOne').classList.toggle('on',one);document.getElementById('mSheet').classList.toggle('on',!one);
+ W.forEach((w,k)=>w.classList.toggle('cur',k===i));document.getElementById('pos').textContent=(i+1)+' / '+N;
+ document.getElementById('bk').disabled=i===0;document.getElementById('nx').disabled=i===N-1}
+function go(d){i=Math.min(N-1,Math.max(0,i+d));show()}
+W.forEach((w,k)=>w.onclick=e=>{if(!one){one=true;i=k;show();window.scrollTo(0,0)}else{const r=w.getBoundingClientRect();go(e.clientX<r.left+r.width/3?-1:1)}});
+document.getElementById('bk').onclick=()=>go(-1);document.getElementById('nx').onclick=()=>go(1);
+document.getElementById('mOne').onclick=()=>{one=true;show()};document.getElementById('mSheet').onclick=()=>{one=false;show()};
+document.addEventListener('keydown',e=>{if(!one)return;if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key==='Escape'){one=false;show()}});
+show();
+</script></body></html>
