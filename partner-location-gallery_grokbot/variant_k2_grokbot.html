@@ -940,6 +940,22 @@
     .cp-sheet-head { min-height: 40px; }
     .cp-foot { flex-shrink: 0; height: 112px; position: relative; }
     .cp-foot .cp-done-btm { position: absolute; left: 23px; right: 23px; bottom: 49px; width: auto; }
+
+    /* MOCKUP_grokbot K2 ?align=box (see build7_grokbot.py) */
+    html.vk.vk-al-box { --bx-p: 9px; --bx-g: 12px; }          /* 393: box label sits 9px under the box top; boxes are 12px apart */
+    html.vk.vk-al-box #screen-3 #vi-dist, html.vk.vk-al-box #screen-3 #ww-ranges .field-group, html.vk.vk-al-box #screen-3 #pc-extra { padding-left: 13px; padding-right: 13px; box-sizing: border-box; }
+    html.vk.vk-al-box.vj #screen-3 #vi-dist, html.vk.vk-al-box.vj #screen-3 #ww-loc.vj-folded #vi-dist { margin-top: calc(var(--bx-g) + var(--bx-p)) !important; }
+    html.vk.vk-al-box #screen-3 #ww-loc:not(.collapsed) { margin-bottom: calc(var(--bx-g) + var(--bx-p) - 12px) !important; } /* checkbox box + P, then G */
+    html.vk.vk-al-box #screen-3 #ww-ranges .ww-age-group { margin-bottom: calc(var(--bx-g) + var(--bx-p)) !important; }      /* the track box already has P under the ball */
+    html.vk.vk-al-box #screen-3 #ww-ranges { margin-bottom: 0 !important; }
+    @media (max-height: 720px) {
+      html.vk.vk-al-box { --bx-p: 5px; --bx-g: 8px; }        /* 320x640: the boxes are 44px (label 5px under the top) and 8px apart */
+      html.vk.vk-al-box #screen-3 #ww-loc:not(.collapsed) { margin-bottom: calc(var(--bx-g) + var(--bx-p) - 7px) !important; }
+    }
+    @media (max-width: 359px) {
+      html.vk.vk-al-box #vk-row .cp-field { padding-left: 12px !important; padding-right: 12px !important; } /* Partner city text on the same 13px column as Seeking */
+      html.vk.vk-al-box #screen-3 .partner-location-anywhere { font-size: 10.5px; gap: 7px; }
+    }
 </style>
 </head>
 <body class="landing-active">
@@ -4871,10 +4887,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // city is not pinned there). Ticking relocating shows OTHER CITIES + opens the picklist; Done fills it. Unticking keeps the
 // cities (box stays, still editable); with none chosen, unticking hides the box again.
 let _vkZip = '', _vkName = '';
-// Slider side margins (?align=track|text): track = track and balls span the box edges (24..W-24, ball never overhangs);
+// Slider side margins (?align=track|text|box; box = K2 only, see build7_grokbot.py): track = track and balls span the box edges (24..W-24, ball never overhangs);
 // text = track and balls inset 13px to line up with the boxes' inner text (SEEKING / PARTNER CITY labels and EDIT / CHANGE).
 const _VK_ALIGN_DEFAULT = 'track';
-(function () { const a = new URLSearchParams(location.search).get('align'); document.documentElement.classList.add('vk-al-' + (a === 'text' || a === 'track' ? a : _VK_ALIGN_DEFAULT)); })();
+(function () { const a = new URLSearchParams(location.search).get('align'); document.documentElement.classList.add('vk-al-' + (a === 'text' || a === 'track' || a === 'box' ? a : _VK_ALIGN_DEFAULT)); })();
 (function () { const g = parseInt(new URLSearchParams(location.search).get('gap'), 10); if (g >= 0 && g <= 60) document.documentElement.style.setProperty('--vk-g', g + 'px'); })();
 function _vkFit(el, names, sep, refit) { // whole names that fit, then "+ N more"
   el._cpRefit = refit; el.replaceChildren();
