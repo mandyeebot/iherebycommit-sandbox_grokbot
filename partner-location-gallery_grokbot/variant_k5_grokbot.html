@@ -1629,9 +1629,9 @@
             <input type="range" id="height_max_in" class="range-input" min="58" max="84" step="1" value="78" onpointerdown="touchHeightPref()" onkeydown="touchHeightPref()" oninput="onHeightRangeInput(this,'max')">
           </div>
         </div>
-        <!-- MOCKUP_grokbot K5: PARTNER INCOME (minimum wanted; default No preference), revealed with Age + Height. Production: nullable text column partner_income_min. -->
+        <!-- MOCKUP_grokbot K5: INCOME MINIMUM (like the Degree minimum: "$100k+" = this or higher; default No minimum), revealed with Age + Height. Production: nullable text column partner_income_min (null / 25k / ... / 500k). -->
         <div class="field-group k5-pinc" id="k5-pinc" style="margin-bottom:0;">
-          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_income_min">Partner income</label><select class="field-input" id="partner_income_min" onchange="state.partnerIncomeMin = this.value || null"><option value="">No preference</option><option value="under_25k">Under $25k</option><option value="25k_50k">$25k–50k</option><option value="50k_75k">$50k–75k</option><option value="75k_100k">$75k–100k</option><option value="100k_150k">$100k–150k</option><option value="150k_200k">$150k–200k</option><option value="200k_300k">$200k–300k</option><option value="300k_500k">$300k–500k</option><option value="500k_plus">$500k+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
+          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_income_min">Income minimum</label><select class="field-input" id="partner_income_min" aria-label="Income minimum: partner earns at least" onchange="state.partnerIncomeMin = this.value || null"><option value="">No minimum</option><option value="25k">$25k+</option><option value="50k">$50k+</option><option value="75k">$75k+</option><option value="100k">$100k+</option><option value="150k">$150k+</option><option value="200k">$200k+</option><option value="300k">$300k+</option><option value="500k">$500k+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
         </div>
         </div>
       </div>
@@ -5282,16 +5282,19 @@ function _k4mVal(d) { // [text, "set earlier"?]
   if (d.k === 'age') return [v.age, true];
   if (d.k === 'height') return [v.height, true];
   if (d.k === 'dist') { const el = document.getElementById('vi_dist_mi'); return [(el && +el.value >= 34 ? 'Any distance' : 'Within ' + v.dist), true]; }
-  if (d.k === 'income') { const s = document.getElementById('partner_income_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'No preference', true]; }
+  if (d.k === 'income') { const s = document.getElementById('partner_income_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'No minimum', true]; }
   const x = state.k4Prefs.values[d.k];
   return [x, false];
 }
 function _k4mChips(d) {
   const box = document.createElement('div'); box.className = 'k4m-chips'; box.hidden = true;
   const chip = (txt, on, fn, cls) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'k4m-chip' + (on ? ' on' : '') + (cls ? ' ' + cls : ''); b.textContent = txt; b.setAttribute('aria-pressed', String(!!on)); b.addEventListener('click', e => { e.preventDefault(); fn(); }); return b; };
-  if (d.k === 'age' || d.k === 'height' || d.k === 'income') {
+  if (d.k === 'age' || d.k === 'height') {
     const n = document.createElement('div'); n.className = 'k4m-note'; n.textContent = 'Set on What You Want (' + _k4mVal(d)[0] + ').'; box.appendChild(n);
     box.appendChild(chip('Change on What You Want', false, () => k4Back(), 'k4m-go'));
+  } else if (d.k === 'income') { // minimum chips like Degree ("or higher"); kept in step with INCOME MINIMUM on What You Want
+    const sel = document.getElementById('partner_income_min');
+    [...sel.options].forEach(o => box.appendChild(chip(o.textContent, sel.value === o.value, () => { sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true })); k4mRender(); })));
   } else if (d.k === 'dist') {
     const el = document.getElementById('vi_dist_mi'), cur = el ? +el.value : -1;
     K4M_DIST.forEach(([mi, idx]) => box.appendChild(chip(mi === 'Any' ? 'Any' : _k4mDistTxt(idx), cur === idx, () => { el.value = idx; el.dispatchEvent(new Event('input', { bubbles: true })); _viDistUpdate(); k4mRender(); })));
