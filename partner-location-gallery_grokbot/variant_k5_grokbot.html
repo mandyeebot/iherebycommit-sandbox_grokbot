@@ -1122,6 +1122,33 @@
       .k4m-chips { padding-left: 12px; }
       #screen-k4m .k4m-sub { font-size: 10px; letter-spacing: -0.03em; line-height: 15px; }
     }
+
+    /* ---- MOCKUP_grokbot K5 income selects ---- */
+    .k5-sel { position: relative; }
+    .k5-sel select.field-input { padding-right: 34px; cursor: pointer; font-size: 14px; }
+    .k5-caret { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--muted); pointer-events: none; }
+    /* What You Want: one-line box like the condensed sliders: PARTNER INCOME left (I AM A label style), the choice right */
+    html.vk5 #screen-3 #ww-ranges .k5-pinc { margin-top: var(--bx-g) !important; padding: 0 !important; }
+    .k5-sel-in .field-label { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); margin: 0 !important; pointer-events: none; line-height: 18px; }
+    .k5-sel-in select.field-input { min-height: 50px; height: 50px; padding: 0 30px 0 150px; text-align: right; text-align-last: right; -webkit-text-align-last: right; font-size: 13px; }
+    .k5-sel-in .k5-caret { right: 12px; }
+    /* Who You Are at 320x640 (K5): tightened so the Income question still fits without scrolling (same compact rhythm as What You Want) */
+    @media (max-height: 720px) {
+      html.vk5 #screen-1 .screen-label { margin-bottom: 4px; }
+      html.vk5 #screen-1 .screen-headline { font-size: 40px; margin-bottom: 8px; }
+      html.vk5 #screen-1 .screen-content { padding-top: 16px; }
+      html.vk5 #screen-1 .who-unit.collapsed > .who-cond { min-height: 44px; padding-top: 4px; padding-bottom: 4px; }
+      html.vk5 #screen-1 .who-unit.collapsed .who-cond-k, html.vk5 #screen-1 .who-unit.collapsed .who-cond-v { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; -webkit-line-clamp: unset; }
+      html.vk5 #screen-1 .who-cond-txt { min-width: 0; }
+      html.vk5 #screen-1 .field-group.who-unit { margin-bottom: 8px !important; }
+      html.vk5 #screen-1 .cr-pair { margin-bottom: 8px; gap: 8px; }
+      html.vk5 #screen-1 .cr-pair > .field-group.who-unit { margin-bottom: 0 !important; }
+      html.vk5 #screen-1 .cr-pair .who-unit.collapsed .who-cond-edit { display: none; } /* half boxes: the whole box is the tap target (as on What You Want at 320), so the values fit */
+    }
+    @media (max-height: 720px) {
+      .k5-sel-in select.field-input { min-height: 44px; height: 44px; padding-left: 130px; }
+      #screen-1 .k5-sel select.field-input { min-height: 46px; padding-top: 10px; padding-bottom: 10px; }
+    }
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -1349,6 +1376,12 @@
             <button type="button" class="race-opt" id="btn-race-9" data-race="Prefer not to say" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Prefer not to say</span></button>
             <button type="button" class="race-done" id="race-done" onclick="closeRacePanel()">DONE</button>
           </div>
+        </div>
+        <!-- MOCKUP_grokbot K5: INCOME (own yearly income; optional, "Prefer not to say" first). Production: nullable text column income_range. -->
+        <div class="field-group who-unit" id="who-income" style="margin-bottom:12px;">
+          <div class="who-cond" role="button" tabindex="0" aria-label="Edit Income" onclick="crExpand('who-income')"><span class="who-cond-txt"><span class="who-cond-k">Income</span><span class="who-cond-v" id="who-income-v"></span></span><span class="who-cond-edit">EDIT</span></div>
+          <label class="field-label" for="income_range">Income</label>
+          <div class="k5-sel"><select class="field-input" id="income_range" onchange="state.incomeRange = this.value || null; state.incomeTouched = true; crTap('who-income')"><option value="">Prefer not to say</option><option value="under_25k">Under $25k</option><option value="25k_50k">$25k–50k</option><option value="50k_75k">$50k–75k</option><option value="75k_100k">$75k–100k</option><option value="100k_150k">$100k–150k</option><option value="150k_200k">$150k–200k</option><option value="200k_300k">$200k–300k</option><option value="300k_500k">$300k–500k</option><option value="500k_plus">$500k+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
         </div>
         <div class="field-group who-unit" id="who-email" style="margin-bottom:12px;">
           <div class="who-cond" role="button" tabindex="0" aria-label="Edit Email" onclick="crExpand('who-email')"><span class="who-cond-txt"><span class="who-cond-k">Email</span><span class="who-cond-v" id="who-email-v"></span></span><span class="who-cond-edit">EDIT</span></div>
@@ -1589,6 +1622,10 @@
             <input type="range" id="height_min_in" class="range-input" min="58" max="84" step="1" value="60" onpointerdown="touchHeightPref()" onkeydown="touchHeightPref()" oninput="onHeightRangeInput(this,'min')">
             <input type="range" id="height_max_in" class="range-input" min="58" max="84" step="1" value="78" onpointerdown="touchHeightPref()" onkeydown="touchHeightPref()" oninput="onHeightRangeInput(this,'max')">
           </div>
+        </div>
+        <!-- MOCKUP_grokbot K5: PARTNER INCOME (minimum wanted; default No preference), revealed with Age + Height. Production: nullable text column partner_income_min. -->
+        <div class="field-group k5-pinc" id="k5-pinc" style="margin-bottom:0;">
+          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_income_min">Partner income</label><select class="field-input" id="partner_income_min" onchange="state.partnerIncomeMin = this.value || null"><option value="">No preference</option><option value="under_25k">Under $25k</option><option value="25k_50k">$25k–50k</option><option value="50k_75k">$50k–75k</option><option value="75k_100k">$75k–100k</option><option value="100k_150k">$100k–150k</option><option value="150k_200k">$150k–200k</option><option value="200k_300k">$200k–300k</option><option value="300k_500k">$300k–500k</option><option value="500k_plus">$500k+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
         </div>
         </div>
       </div>
@@ -2605,6 +2642,7 @@ async function saveLead() {
     zip_generated_lat_long: state.zipLatLong || null,
     open_to_city: openToCityPayload(),
     ...wyaPayload(),
+    ...(typeof k5IncomePayload === 'function' ? k5IncomePayload() : {}),
     partner_locations: partnerLocationsPayload(),
     open_to_anywhere: openToAnywherePayload(),
     partner_city_primary: partnerCityPrimaryPayload(),
@@ -3199,6 +3237,7 @@ async function doSubmit() {
     zip_generated_lat_long: state.locationMode === 'zip' ? (state.zipLatLong || null) : null,
     open_to_city: openToCityPayload(),
     ...wyaPayload(),
+    ...(typeof k5IncomePayload === 'function' ? k5IncomePayload() : {}),
     partner_locations: partnerLocationsPayload(),
     open_to_anywhere: openToAnywherePayload(),
     partner_city_primary: partnerCityPrimaryPayload(),
@@ -3424,7 +3463,7 @@ const _crB = {};
 const CR_STEPS = {
   // Date of birth alone; the zip once the birthday is touched (the Jan 1, 1996 default isn't an answer). Height alone;
   // Race once Height is touched (or Next is pressed); Email once Race is done.
-  1: [['who-gender'], ['who-name'], ['who-dob'], ['who-loc'], ['who-height'], ['who-race'], ['who-email']],
+  1: [['who-gender'], ['who-name'], ['who-dob'], ['who-loc'], ['who-height'], ['who-race'], ['who-income'], ['who-email']],
   // Their birthday alone; Their height alone; Their race once height is touched (or Next is pressed) - like Who You Are.
   2: [['pt-gender'], ['pt-name'], ['pt-bday'], ['pt-height'], ['pt-race'], ['pt-email'], ['pt-live'], ['pt-city', 'pt-moved']],
   // What You Want (singles): Seeking alone; Partner Location; then Age Range + Partner Height together (never collapsed).
@@ -5237,13 +5276,14 @@ function _k4mVal(d) { // [text, "set earlier"?]
   if (d.k === 'age') return [v.age, true];
   if (d.k === 'height') return [v.height, true];
   if (d.k === 'dist') { const el = document.getElementById('vi_dist_mi'); return [(el && +el.value >= 34 ? 'Any distance' : 'Within ' + v.dist), true]; }
+  if (d.k === 'income') { const s = document.getElementById('partner_income_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'No preference', true]; }
   const x = state.k4Prefs.values[d.k];
-  return [x, d.k === 'income' && x === 'No preference'];
+  return [x, false];
 }
 function _k4mChips(d) {
   const box = document.createElement('div'); box.className = 'k4m-chips'; box.hidden = true;
   const chip = (txt, on, fn, cls) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'k4m-chip' + (on ? ' on' : '') + (cls ? ' ' + cls : ''); b.textContent = txt; b.setAttribute('aria-pressed', String(!!on)); b.addEventListener('click', e => { e.preventDefault(); fn(); }); return b; };
-  if (d.k === 'age' || d.k === 'height') {
+  if (d.k === 'age' || d.k === 'height' || d.k === 'income') {
     const n = document.createElement('div'); n.className = 'k4m-note'; n.textContent = 'Set on What You Want (' + _k4mVal(d)[0] + ').'; box.appendChild(n);
     box.appendChild(chip('Change on What You Want', false, () => k4Back(), 'k4m-go'));
   } else if (d.k === 'dist') {
@@ -5412,6 +5452,23 @@ window.addEventListener('load', () => {
   any.addEventListener('change', () => { partnerLocationAnywhere = !!any.checked; setTimeout(() => { k5Rows(); _k4Refresh(); }, 0); });
   document.getElementById('cp-backdrop').addEventListener('click', () => setTimeout(() => { window._k5Pending = false; k5Rows(); _k4Refresh(); }, 0)); // X / backdrop close too
   k5Rows();
+});
+</script>
+<script>
+// ---- MOCKUP_grokbot K5 income ----
+crDef('who-income', { focus: 'income_range', value: () => { const s = document.getElementById('income_range'); return s ? s.options[s.selectedIndex].textContent : ''; } });
+function k5IncomePayload() { // production: nullable text columns income_range and partner_income_min
+  const a = document.getElementById('income_range'), b = document.getElementById('partner_income_min');
+  return { income_range: a && a.value ? a.value : null, partner_income_min: b && b.value ? b.value : null };
+}
+window.addEventListener('load', () => {
+  // Next while INCOME is the open question (untouched = "Prefer not to say" is the answer): fold it and show the next question
+  const rn = crRevealNext;
+  crRevealNext = function (screen) {
+    if (screen === 1) { const u = document.getElementById('who-income'); if (u && !u.classList.contains('cr-later') && !u.classList.contains('collapsed') && !_crT['who-income']) crSettle('who-income'); }
+    return rn.apply(this, arguments);
+  };
+  const pi = document.getElementById('partner_income_min'); if (pi) pi.addEventListener('change', () => { if (_k4.inWmm) k4mRender(); });
 });
 </script>
 <div class="mock-badge_grokbot">Mockup K5</div>
