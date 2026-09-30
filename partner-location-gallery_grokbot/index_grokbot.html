@@ -9,8 +9,8 @@
 // ?v=F|G|H|D|E|LIVE opens one variant alone, already past onboarding.
 (function () {
   var q = new URLSearchParams(location.search), v = (q.get('v') || '').toUpperCase();
-  if (/^(K4|K3|K2|K|J|I|H2|F|G|H|D|E|LIVE)$/.test(v)) {
-    location.replace('variant_' + v.toLowerCase() + '_grokbot.html?demo=1&cities=' + (q.get('cities') === '10' ? '10' : '3') + (/^(track|text|box)$/.test(q.get('align') || '') ? '&align=' + q.get('align') : '') + (q.get('pc') ? '&pc=' + encodeURIComponent(q.get('pc').slice(0, 40)) : '') + ['edit', 'screen', 'revisit', 'prefs', 'exhalf', 'slider', 'wmm'].map(function (k) { var x = q.get(k); return x && /^[a-z0-9]{1,10}$/.test(x) ? '&' + k + '=' + x : ''; }).join(''));
+  if (/^(K5|K4|K3|K2|K|J|I|H2|F|G|H|D|E|LIVE)$/.test(v)) {
+    location.replace('variant_' + v.toLowerCase() + '_grokbot.html?demo=1&cities=' + (q.get('cities') === '10' ? '10' : '3') + (/^(track|text|box)$/.test(q.get('align') || '') ? '&align=' + q.get('align') : '') + (q.get('pc') ? '&pc=' + encodeURIComponent(q.get('pc').slice(0, 40)) : '') + ['edit', 'screen', 'revisit', 'prefs', 'exhalf', 'slider', 'wmm', 'seek'].map(function (k) { var x = q.get(k); return x && /^[a-z0-9]{1,10}$/.test(x) ? '&' + k + '=' + x : ''; }).join(''));
   }
 })();
 </script>
@@ -47,7 +47,7 @@
 <body>
 <header>
   <h1>Partner Location mockups: side by side</h1>
-  <p class="sub">Each frame opens on the singles <b>What You Want</b> screen (K4 starts on Who You Are; K3, K2, K, J, I and H2 start before Seeking is answered; the rest have Seeking answered, home zip 78704 = Austin, TX) and is fully interactive. Sample cities are pre-added. Saves are off: nothing leaves this page. Tip: add <code>?v=K4</code> (or K3, K2, K, J, I, H2, F, G, H, D, E, LIVE) to the URL to open one variant alone.</p>
+  <p class="sub">Each frame opens on the singles <b>What You Want</b> screen (K5 and K4 start on Who You Are; K3, K2, K, J, I and H2 start before Seeking is answered; the rest have Seeking answered, home zip 78704 = Austin, TX) and is fully interactive. Sample cities are pre-added. Saves are off: nothing leaves this page. Tip: add <code>?v=K5</code> (or K4, K3, K2, K, J, I, H2, F, G, H, D, E, LIVE) to the URL to open one variant alone.</p>
   <div class="ctl">Sample cities:
     <button id="c3" class="on" onclick="setCities(3)">3 cities</button>
     <button id="c10" onclick="setCities(10)">10 cities</button>
@@ -57,6 +57,7 @@
 <main class="grid" id="grid"></main>
 <script>
 var VARIANTS = [
+  ['K5', 'K4 flow; Seeking first; city boxes only after the relocate tick; bigger What matters most'],
   ['K4', 'Flow: Who You Are map row -> What You Want (condensed sliders) -> What matters most'],
   ['K3', 'K2 box; Next -> More preferences; Back -> collapsed boxes'],
   ['K2', 'K + city name or zip / postcode; international'],
