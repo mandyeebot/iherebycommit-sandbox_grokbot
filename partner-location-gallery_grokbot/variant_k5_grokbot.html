@@ -1166,7 +1166,11 @@
     #screen-k4m .k5-ctl #pc-extra, #screen-k4m .k5-ctl .partner-location-anywhere { display: none !important; } /* other cities stay on What You Want */
     #race-panel, #partner-race-panel { display: none !important; } /* MOCKUP_grokbot K5: race picks happen in #rc-sheet */
     /* MOCKUP_grokbot K5 What Matters Most: every row's value is plain text (normal value colour, never green), no carets */
-    #screen-k4m .k4m-row .k4m-v, #screen-k4m .k4m-row.k4m-early .k4m-v { color: var(--text) !important; }
+    #screen-k4m .k4m-row .k4m-v, #screen-k4m .k4m-row.k4m-early .k4m-v { color: var(--muted) !important; } /* grey #888, as the I AM A labels */
+    #screen-k4m .k4m-txt { flex: 1 1 auto; }
+    #screen-k4m .k4m-vl { display: flex; align-items: center; min-width: 0; }
+    #screen-k4m .k4m-vl .k4m-v { flex: 0 1 auto; min-width: 0; }
+    #screen-k4m .k4m-main .k4m-vl .k4m-edit { margin: -7px 0 -7px 4px; padding: 7px 14px 7px 6px; line-height: 1; } /* 48 x 24 hit box inside the row (the whole row left of the handle also opens it), clear of the handle */
     #screen-k4m .k4m-h .k4m-car, #screen-k4m .k4m-row.open .k4m-h .k4m-car { display: none !important; }
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
@@ -5341,7 +5345,7 @@ function k4mRender() {
     m.innerHTML = '<span class="k4m-n"></span><span class="k4m-txt"><span class="k4m-t"></span><span class="k4m-v"></span></span>';
     m.querySelector('.k4m-n').textContent = String(i + 1).padStart(2, '0'); m.querySelector('.k4m-t').textContent = d.t;
     const v = m.querySelector('.k4m-v'); v.textContent = (txt && !/^(no preference|any distance)$/i.test(txt)) ? txt : 'Any';
-    { const s = document.createElement('span'); s.className = 'who-cond-edit k4m-edit'; s.textContent = 'EDIT'; m.appendChild(s); } // every row: plain value + EDIT, no arrows
+    { const ln = document.createElement('span'); ln.className = 'k4m-vl'; v.replaceWith(ln); ln.appendChild(v); const s = document.createElement('span'); s.className = 'who-cond-edit k4m-edit'; s.textContent = 'EDIT'; ln.appendChild(s); } // every row: grey value with EDIT inline right after it; the right edge holds only the drag handle
     m.addEventListener('click', e => { e.preventDefault(); if (_k4.dragMoved) return; _k4.open = open ? null : k; k4mRender(); });
     const h = document.createElement('span'); h.className = 'k4m-h'; h.innerHTML = K4M_HANDLE; h.setAttribute('role', 'button'); h.tabIndex = 0;
     h.setAttribute('aria-label', open ? 'Close ' + d.t : 'Move ' + d.t + ' (position ' + (i + 1) + ' of 9); use arrow keys or drag');
