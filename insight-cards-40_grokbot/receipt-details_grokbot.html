@@ -171,8 +171,10 @@ tr.ref td,tr.ref s{color:#8a6e6e} tr.np td{color:#666}
 <a class="back" href="grok-favorites.html?card=2" id="back2">← Back to the receipt card</a>
 <script>
 const f=new URLSearchParams(location.search).get('from');
-const map={'v6':'viral-v6.html?card=1','fav':'grok-favorites.html?card=2'};
 const qp=new URLSearchParams(location.search),c=qp.get('c');
+const cn=/^\d{1,2}$/.test(qp.get('card')||'')?qp.get('card'):null;
+const dk=/^(league|hinge|bumble|tinder)$/.test(qp.get('deck')||'')?qp.get('deck'):'league',sn=/^\d{1,2}$/.test(qp.get('s')||'')?qp.get('s'):'1';
+const map={'v6':'viral-v6.html?card='+(cn||'1'),'fav':'grok-favorites.html?card='+(cn||'2'),'fa':'four-apps.html?card='+(cn||'14'),'dw':'dating-wrapped.html?deck='+dk+'&s='+sn};
 if(f==='all'){const h='all-cards_grokbot.html'+(c&&/^ac-[\w-]+$/.test(c)?'#'+c:'');for(const id of ['back','back2']){const e=document.getElementById(id);e.href=h;e.textContent='← Back to all cards';}}
 else if(map[f]){for(const id of ['back','back2'])document.getElementById(id).href=map[f];}
 </script>

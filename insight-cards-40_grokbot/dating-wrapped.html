@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Dating Wrapped · Tinder, Hinge & League decks (example data)_grokbot</title>
+<title>Dating Wrapped · Tinder, Hinge & League decks (real data)_grokbot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -50,6 +50,7 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
 .nav button.nx{background:#f6efe3;color:#111}
 .nav .pos{font:700 11px 'Space Mono',monospace;color:#9a978c;letter-spacing:1px;text-align:center}
 .tapL,.tapR{cursor:pointer}
+.itzd{position:relative;z-index:30;align-self:flex-start;margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1px;border:1.5px solid currentColor;border-radius:999px;padding:3px 9px;text-decoration:none}
 /* spend + relic */
 .rows{margin-top:10px;display:flex;flex-direction:column;gap:4px;position:relative;z-index:2}
 .rows div{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.5px}
@@ -131,18 +132,18 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
 <body>
 <div class="top">
   <div class="brand">I HEREBY <b>COMMIT</b> · DATING WRAPPED</div>
-  <div class="note"><b style="color:#f6efe3">Hinge and League decks use Amanda's REAL exports</b> (totals only: no names, photos, message text or locations). The <b style="color:#f6efe3">Tinder deck is still EXAMPLE DATA</b> for a made-up person ("Maya"), because no real Tinder export was found. Every outside stat shows its source on the screen. Cards are static: nothing moves or advances on its own. Use the Back / Next buttons under the phone, tap the right or left side of the screen, or the arrow keys.</div>
+  <div class="note"><b style="color:#f6efe3">All three decks (Tinder, Hinge, League) use Amanda's REAL exports</b> (totals only: no names, photos, message text or locations). Fields an export doesn't have are marked "not in your export", never guessed. Every outside stat shows its source on the screen. Cards are static: nothing moves or advances on its own. Use the Back / Next buttons under the phone, tap the right or left side of the screen, or the arrow keys.</div>
   <div class="tabs"><button class="tab on" data-deck="start">Start</button><button class="tab" data-deck="tinder">Tinder · 9</button><button class="tab" data-deck="hinge">Hinge · 9</button><button class="tab" data-deck="league">League · 14</button></div>
 </div>
 <div class="phone" id="phone">
   <div class="bars" id="bars"></div>
-  <div class="chrome" id="chrome"><span class="logo">I HEREBY COMMIT</span><span class="ex" id="exTag">Example data</span></div>
+  <div class="chrome" id="chrome"><span class="logo">I HEREBY COMMIT</span><span class="ex" id="exTag">Your real data</span></div>
   <div id="stage"></div>
   <div class="tapL" id="tapL"></div><div class="tapR" id="tapR"></div>
 </div>
 <div class="nav"><button id="bk" onclick="prev()">← Back</button><span class="pos" id="pos"></span><button class="nx" id="nx" onclick="next()">Next →</button></div>
 <div class="legend">
-  <b>How to read this.</b> Solid "✓ YOUR REAL … DATA" tags = numbers computed from Amanda's own export (read-only aggregates, table and column named on the tag). Dashed "EXAMPLE DATA" tags = made-up numbers (Tinder deck only). Every outside stat has a tappable source box with the source name, year and n, and each deck ends with a Sources screen. <b style="color:#e0b64a">League</b>: league_profile, league_interactions, league_matches, league_messages, league_preferences, league_activity, league_purchases. <b style="color:#9b7bff">Hinge</b>: hinge_interactions, hinge_messages, hinge_preferences, hinge_purchases. We never show email, phone, location, IP, message text, or match names or photos. No League company data or League-published stats. Match rate reflects how picky you are as much as how others respond. It is not a desirability score.
+  <b>How to read this.</b> Solid "✓ YOUR REAL … DATA" tags = numbers computed from Amanda's own export (read-only aggregates, table and column named on the tag). There is no example data left. Fields an export doesn't have say "not in your export". Every outside stat has a tappable source box with the source name, year and n, and each deck ends with a Sources screen. <b style="color:#e0b64a">League</b>: league_profile, league_interactions, league_matches, league_messages, league_preferences, league_activity, league_purchases. <b style="color:#9b7bff">Hinge</b>: hinge_interactions, hinge_messages, hinge_preferences, hinge_purchases. <b style="color:#ff2e63">Tinder</b>: tinder_profile, tinder_usage_daily, tinder_matches, tinder_messages, tinder_purchases. We never show email, phone, location, IP, message text, or match names or photos. No League company data or League-published stats. Match rate reflects how picky you are as much as how others respond. It is not a desirability score.
 </div>
 <script>
 const TH={
@@ -155,14 +156,12 @@ const TH={
 };
 const T=TH.tinder,H=TH.hinge,L=TH.league, INK='#0e0e0e', CREAM='#f6efe3';
 const months=['J','F','M','A','M','J','J','A','S','O','N','D'];
-const opens=[118,146,109,96,88,84,79,92,101,110,93,98]; // example data, sums 1214
-function bars12(){const mx=Math.max(...opens);return '<div class="bars12">'+opens.map((v,i)=>`<div class="${v===mx?'hi':''}" style="height:${Math.round(v/mx*100)}%"><span>${months[i]}</span></div>`).join('')+'</div>'}
 function dots(n,f){let s='<div class="dots">';for(let i=0;i<n;i++)s+=`<i class="${i<f?'f':''}"></i>`;return s+'</div>'}
 function blob(sz,x,y,col,op=1){return `<div class="blob" style="width:${sz}px;height:${sz}px;left:${x}px;top:${y}px;background:${col};opacity:${op}"></div>`}
 function foot(src,share=true){return `<div class="foot a a6"><div class="src">${src}</div>${share?'<button class="share">Share ↗</button>':''}</div>`}
 // Big source badge + comparison pill (every deck screen)
 function badge(th,v,cmp){const b=th[v||'b0'];
-  const sub=th===T?'<small>EXAMPLE DATA · data.json</small>':`<small>YOUR REAL ${th.name.toUpperCase()} DATA · Amanda's export, Sep 28 2026</small>`;
+  const sub=`<small>YOUR REAL ${th.name.toUpperCase()} DATA · Amanda's export, Sep 28 2026</small>`;
   const c=cmp==='cite'?`<div class="cmp">Outside stat on this screen · source below ↓</div>`:cmp==='realown'?`<div class="cmp">Compared with: your other real deck (you vs. you)</div>`:cmp==='src'?`<div class="cmp">Every link used in this deck</div>`:`<div class="cmp none">Just your data · no outside stats</div>`;
   return `<div class="srcb" style="background:${b.bg};color:${b.fg}"><span class="ic" style="background:${b.icbg};color:${b.icfg}">${th.letter}</span><span>From your ${th.name} data${sub}</span></div>${c}`}
 // ---- citations (every outside stat gets one, on the screen itself) ----
@@ -183,121 +182,115 @@ const LY={l:['17','18','19','20','21','22','23','24','25','26'],v:[450,67,45,48,
 const LH=[82,77,53,86,37,23,2,3,44,66,46,65,46,69,87,44,87,200,103,35,233,148,116,272];
 function barsN(vals,labels,hi,h){const mx=Math.max(...vals);return `<div class="bars12" style="height:${h||110}px;gap:${vals.length>12?2:5}px">`+vals.map((v,i)=>`<div class="${i===hi?'hi':''}" style="height:${Math.max(2,Math.round(v/mx*100))}%"><span>${labels[i]||''}</span></div>`).join('')+'</div>'}
 function real(th,text){return `<div class="real a a2">✓ YOUR REAL ${th.name.toUpperCase()} DATA · ${text}</div>`}
-function mine(text){return `<div class="mine a a2">EXAMPLE DATA · YOUR NUMBER · ${text}</div>`}
 function sources(th,items,note,extra){
   return `${badge(th,th===L?'b1':'b0','src')}
   <div class="h a a2" style="font-size:26px">Sources for this deck</div>
   <div class="p a a2" style="margin-top:6px;font-size:11.5px">${note}</div>
   <div class="srclist a a3">${items.map((it,i)=>{const s=SRC[it.k];return `<a href="${s.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><b>${i+1}. ${s.name} ↗</b><span>${it.used}</span><span>${s.meta}</span><em>${shortUrl(s.url)}</em></a>`}).join('')}</div>${extra||''}
-  ${foot(th===T?'All personal numbers in this deck are EXAMPLE DATA for a made-up person.':'All personal numbers in this deck are YOUR REAL '+th.name.toUpperCase()+' DATA (totals only).',false)}`}
+  ${foot('All personal numbers in this deck are YOUR REAL '+th.name.toUpperCase()+' DATA (totals only).',false)}`}
 const decks={
 start:[
  {bg:INK,fg:CREAM,noauto:true,html:()=>`${blob(300,170,-90,T.primary,.9)}${blob(260,-120,520,H.primary,.9)}${blob(160,270,560,L.second,.95)}
-  <div class="k a" style="margin-top:6px">Dating Wrapped · 2025 · example</div>
+  <div class="k a" style="margin-top:6px">Dating Wrapped · your real exports</div>
   <div class="h a a2" style="font-size:40px">Your dating year.<br>One deck per app.</div>
-  <div class="p a a3">Pick an app to start. Each deck uses <b>only that app's export</b>, in that app's colors. Tinder is EXAMPLE data. Hinge and League are <b>Amanda's real exports</b>. Every outside stat shows its source on the screen.</div>
+  <div class="p a a3">Pick an app to start. Each deck uses <b>only that app's export</b>, in that app's colors. All three decks use <b>Amanda's real exports</b> (Tinder, Hinge, League). Anything an export doesn't have says <b>"not in your export"</b>. Every outside stat shows its source on the screen.</div>
   <div class="picker a a4">
-   <button style="background:${T.primary};color:#fff" onclick="event.stopPropagation();setDeck('tinder')"><span class="ic" style="background:#fff;color:${T.primary}">T</span><div><b>Your Tinder Wrapped</b><span>EXAMPLE data · 9 screens</span></div></button>
+   <button style="background:${T.primary};color:#fff" onclick="event.stopPropagation();setDeck('tinder')"><span class="ic" style="background:#fff;color:${T.primary}">T</span><div><b>Your Tinder Wrapped</b><span>Amanda's REAL data · 9 screens</span></div></button>
    <button style="background:${H.primary};color:#fff" onclick="event.stopPropagation();setDeck('hinge')"><span class="ic" style="background:#fff;color:${H.primary}">H</span><div><b>Your Hinge Wrapped</b><span>Amanda's REAL data · 9 screens</span></div></button>
    <button style="background:${L.second};color:${L.dark}" onclick="event.stopPropagation();setDeck('league')"><span class="ic" style="background:${L.primary};color:${L.second}">L</span><div><b>Your League Wrapped</b><span>Amanda's REAL data · 14 screens</span></div></button>
   </div>
-  ${foot('All personal numbers on every screen are EXAMPLE DATA for a made-up person.',false)}`}
+  ${foot('All personal numbers on every screen are YOUR REAL DATA (totals only). No email, phone or location.',false)}`}
 ],
 tinder:[
  {bg:T.primary,fg:'#fff',html:()=>`${blob(420,-120,440,T.second)}${blob(170,250,170,T.acc,.95)}
   ${badge(T,'b0',null)}
   <div class="k a" style="margin-top:14px">Deck 1 of 3 · 9 screens</div>
   <div class="divider a a2">Your<br>Tinder<br>Wrapped</div>
-  <div class="h a a3" style="font-size:24px;margin-top:14px">You swiped. You matched.<br>You met people. Here's the proof.</div>
-  <div class="p a a4">Built from the <b>data.json</b> you downloaded from Tinder. Read on your phone, not our servers.</div>
-  ${foot('Maya · 34 · Austin · on Tinder since 2019 · EXAMPLE DATA',false)}`},
+  <div class="h a a3" style="font-size:24px;margin-top:14px">A short visit.<br>Here's what it left behind.</div>
+  <div class="p a a4">Built from <b>Amanda's real Tinder export</b> (data.json, downloaded Sep 28, 2026). Only totals: no names, photos, message text or locations.</div>
+  ${foot('Amanda · on Tinder since April 2025 · YOUR REAL TINDER DATA',false)}`},
  {bg:T.dark,fg:T.light,html:()=>`${blob(260,210,-60,T.primary,.55)}
   ${badge(T,'b1',null)}
-  ${mine('data.json → Usage.app_opens')}
+  ${real(T,'tinder_usage_daily · app_opens by day')}
   <div class="h a a2">You opened Tinder</div>
-  <div class="big a a3" style="color:${T.acc}">1,214</div>
-  <div class="h a a3" style="font-size:22px">times this year.</div>
-  <div class="p a a4">That's <b>3.3 a day</b>. Your busiest month was <b style="color:${T.acc}">February</b>.</div>
-  <div class="a a5" style="color:${T.acc}">${bars12()}</div>
-  ${foot('Usage.app_opens summed by month · EXAMPLE DATA')}`},
+  <div class="big a a3" style="color:${T.acc}">23</div>
+  <div class="h a a3" style="font-size:22px">times, on 4 days.</div>
+  <div class="p a a4"><b style="color:${T.acc}">13</b> of them were on Sep 28, 2026, the day you downloaded your data. Before that: 10 opens on Apr 25, May 3 and May 5, 2025.</div>
+  <div class="a a5" style="color:${T.acc}">${barsN([4,2,4,13],['4/25/25','5/3/25','5/5/25','9/28/26'],3,100)}</div>
+  ${foot('Usage.app_opens by day, dates as recorded in the export · YOUR REAL TINDER DATA')}`},
  {bg:T.light,fg:T.dark,html:()=>`${blob(200,250,560,T.second,.8)}
   ${badge(T,'b0','cite')}
-  ${mine('data.json → Usage.swipes_likes ÷ all swipes')}
-  <div class="h a a2" style="font-size:21px">At signup you guessed you swipe right on 20% of profiles.</div>
-  <div class="vs a a3" style="height:118px">
-   <div class="col"><div class="fill" style="height:80%;background:rgba(43,11,20,.14)">20%</div><label>Your guess</label></div>
-   <div class="col"><div class="fill" style="height:34%;background:${T.primary};color:#fff">5%</div><label>Real: 775 of 15,500</label></div>
-  </div>
-  <div class="h a a4" style="font-size:20px;margin-top:10px">You're pickier than you think.</div>
+  ${real(T,'tinder_usage_daily · swipes_likes ÷ all swipes (3 ÷ 9)')}
+  <div class="big a a2" style="font-size:110px">33<small>%</small></div>
+  <div class="h a a3" style="font-size:21px">of your swipes were right swipes: 3 of 9, all on May 3, 2025.</div>
+  <div class="p a a4" style="margin-top:8px">Nine swipes is far too few to call a pattern. What you guessed at signup is <b>not in your export</b>.</div>
   ${cite('swipestats','Compared with','Women in the middle two tenths for pickiness swiped right on <b>4.3% and 5.7%</b> of profiles. Same measure as yours (right swipes ÷ all swipes).')}
-  ${foot('Guess = your onboarding answer · EXAMPLE DATA')}`},
+  ${foot('YOUR REAL TINDER DATA · 9 swipes total')}`},
  {bg:T.second,fg:T.dark,html:()=>`${blob(230,-80,-40,T.acc,.9)}
   ${badge(T,'b0','cite')}
-  ${mine('data.json → Usage.matches ÷ swipes_likes (341 ÷ 775)')}
-  <div class="big a a2" style="font-size:110px">44<small>%</small></div>
-  <div class="h a a3" style="font-size:21px">of your right swipes turned into matches.</div>
-  <div class="p a a4" style="margin-top:8px"><b>Heads up:</b> match rate is part pickiness, part how people respond. It is <b>not a hotness score.</b></div>
+  ${real(T,'tinder_usage_daily · matches ÷ swipes_likes (0 ÷ 3)')}
+  <div class="big a a2" style="font-size:110px">0<small>%</small></div>
+  <div class="h a a3" style="font-size:21px">of your 3 right swipes turned into matches.</div>
+  <div class="p a a4" style="margin-top:8px">Three likes tell us almost nothing. <b>Heads up:</b> match rate is part pickiness, part how people respond. It is <b>not a hotness score.</b></div>
   ${cite('swipestats','Compared with','Typical (median) match rate: <b>women 41%</b>, <b>men 2%</b>. Same formula as yours (matches ÷ right swipes).')}
-  ${foot('EXAMPLE DATA')}`},
+  ${foot('YOUR REAL TINDER DATA · 0 matches in export')}`},
  {bg:T.primary,fg:'#fff',html:()=>`${blob(200,240,-20,T.second,.9)}
   ${badge(T,'b0',null)}
-  ${mine('like rate 5% + 6.1 of your messages per match')}
-  <div class="h a a2">You're <span style="background:${T.acc};color:${T.dark};padding:0 4px">The Curator</span></div>
-  <div class="p a a3">Picky with swipes. Generous with words. You like few people, then actually talk to them.</div>
+  ${real(T,'9 swipes · 0 messages')}
+  <div class="h a a2">Your type: <span style="background:${T.acc};color:${T.dark};padding:0 4px">not enough data</span></div>
+  <div class="p a a3">Types need your swipe rate and how much you message. With 9 swipes and 0 messages, we don't pick one for you.</div>
   <div class="quad a a4">
-   <div style="background:${T.dark};color:${T.acc};border-color:${T.dark}">Picky + chatty<em>The Curator ← you</em></div>
+   <div>Picky + chatty<em>The Curator</em></div>
    <div>Open + chatty<em>The Social Butterfly</em></div>
    <div>Picky + quiet<em>The Minimalist</em></div>
    <div>Open + quiet<em>The Window Shopper</em></div>
   </div>
   <div class="axis a a4"><span>← pickier swiper</span><span>more open swiper →</span></div>
-  ${foot('Four fun labels from your own numbers, no ranking, not a score · EXAMPLE DATA')}`},
+  ${foot('Four fun labels, no ranking, not a score · none picked: too little data · YOUR REAL TINDER DATA')}`},
  {bg:T.dark,fg:T.light,html:()=>`${blob(260,220,540,T.second,.7)}
-  ${badge(T,'b1','cite')}
-  ${mine('data.json → Messages (only the ones you sent) · first dates = your onboarding answer')}
-  <div class="h a a2" style="font-size:24px">341 matches. 9 first dates.</div>
+  ${badge(T,'b1',null)}
+  ${real(T,'tinder_usage_daily · matches, messages_sent')}
+  <div class="h a a2" style="font-size:24px">0 matches. 0 messages.</div>
   <div class="funnel a a3" style="gap:4px">
-   <div style="background:${T.primary};color:#fff;padding:5px 12px">Matches <b>341</b></div>
-   <div style="background:${T.second};color:${T.dark};margin-right:14%;padding:5px 12px">You sent a message <b>212</b></div>
-   <div style="background:${T.acc};color:${T.dark};margin-right:26%;padding:5px 12px">11+ of your messages <b>64</b></div>
-   <div style="background:${T.light};color:${T.dark};margin-right:50%;padding:5px 12px">First dates <b>9</b></div>
+   <div style="background:${T.primary};color:#fff;padding:5px 12px">Right swipes <b>3</b></div>
+   <div style="background:${T.second};color:${T.dark};margin-right:14%;padding:5px 12px">Matches <b>0</b></div>
+   <div style="background:${T.acc};color:${T.dark};margin-right:26%;padding:5px 12px">Messages you sent <b>0</b></div>
+   <div style="background:${T.light};color:${T.dark};margin-right:36%;padding:5px 12px">First dates <b style="font-size:11px">not in export</b></div>
   </div>
-  <div class="p a a4" style="margin-top:8px"><b style="color:${T.acc}">19%</b> of your matches got 11+ messages from you (64 of 341).</div>
-  ${cite('swipestats','Compared with','Women\'s matches where the uploader sent 11+ messages: <b>13.5%</b>. Also counts only messages the uploader sent, like yours.','background:rgba(255,241,230,.08)')}
-  ${foot('EXAMPLE DATA')}`},
+  <div class="p a a4" style="margin-top:8px">Tinder's export doesn't record dates in real life. Nothing here is guessed.</div>
+  ${foot('YOUR REAL TINDER DATA')}`},
  {bg:T.dark,fg:'#fff',html:()=>`${blob(-60,420,420,T.primary,.55)}
   ${badge(T,'b0',null)}
-  ${mine('data.json → Purchases')}
+  ${real(T,'tinder_purchases · 0 rows')}
   <div class="k" style="color:${T.acc}">What you spent</div>
-  <div class="h" style="font-size:25px">You paid for Tinder <span style="color:${T.acc}">3 times</span>.</div>
+  <div class="big" style="color:${T.acc}"><small>$</small>0</div>
+  <div class="h" style="font-size:22px">You never paid for Tinder.</div>
   <div class="funnel">
-   <div style="background:${T.primary};color:#fff">Gold · 6 months · Jan 2025<b>6 mo</b></div>
-   <div style="background:${T.primary};color:#fff;opacity:.8">Plus · 1 month · Jun 2025<b>1 mo</b></div>
-   <div style="background:${T.primary};color:#fff;opacity:.65">Gold · 1 month · Nov 2025<b>1 mo</b></div>
-   <div style="background:#fff;color:${T.dark}">Boosts used<b>4</b></div>
-   <div style="background:#fff;color:${T.dark}">Super Likes used<b>11</b></div>
+   <div style="background:${T.primary};color:#fff">Subscriptions<b>0</b></div>
+   <div style="background:#fff;color:${T.dark}">Boosts<b>0</b></div>
+   <div style="background:#fff;color:${T.dark}">Super Likes<b>0</b></div>
   </div>
-  <div class="h" style="font-size:19px;margin-top:12px">8 paid months. Total spend: <span style="color:${T.acc}">not in your file.</span></div>
-  <div class="unit">Tinder's export lists each subscription's tier, length, start/end dates and app store, plus boost and Super Like use. <b>It doesn't include prices, so we can't total your spend.</b> Check your App Store or Google Play receipts for the dollar amount.</div>
-  ${foot('Purchases: EXAMPLE DATA (fields match Tinder data.json → Purchases: subscription, boost_tracking, super_like_tracking)')}`},
+  <div class="unit">Every purchase list in your Tinder export is empty. (Tinder's export has no prices anyway, only plan tier, length and dates.)</div>
+  <a class="itzd" href="receipt-details_grokbot.html?from=dw&amp;deck=tinder&amp;s=7#tinder" onclick="event.stopPropagation()" style="color:${T.acc}">ITEMIZE PURCHASES ↗</a>
+  ${foot('Purchases: YOUR REAL TINDER DATA (data.json → Purchases: all empty)')}`},
  {bg:T.primary,fg:'#fff',html:()=>`${blob(260,220,580,T.acc,.9)}
   ${badge(T,'b0',null)}
-  <div class="h a a2" style="font-size:26px">Maya's Tinder 2025, in one screenshot.</div>
-  ${mine('every tile below')}
+  <div class="h a a2" style="font-size:26px">Your Tinder, in one screenshot.</div>
+  ${real(T,'every tile below')}
   <div class="sum a a3">
-   <div style="background:${T.dark}"><label>App opens</label><b style="color:${T.acc}">1,214</b></div>
-   <div style="background:${T.acc};color:${T.dark}"><label>Swipe right</label><b>5%</b></div>
-   <div style="background:${T.second};color:${T.dark}"><label>Match rate</label><b>44%</b></div>
-   <div style="background:${T.light};color:${T.dark}"><label>Type</label><b class="t">The Curator</b></div>
-   <div style="background:${T.dark}"><label>Peak month</label><b style="color:${T.second}">Feb</b></div>
-   <div style="background:${T.dark}"><label>First dates</label><b style="color:${T.acc}">9</b></div>
+   <div style="background:${T.dark}"><label>App opens</label><b style="color:${T.acc}">23</b></div>
+   <div style="background:${T.acc};color:${T.dark}"><label>Swipe right</label><b>33%</b></div>
+   <div style="background:${T.second};color:${T.dark}"><label>Match rate</label><b>0%</b></div>
+   <div style="background:${T.light};color:${T.dark}"><label>Type</label><b class="t">Not enough data</b></div>
+   <div style="background:${T.dark}"><label>Busiest day</label><b class="t" style="color:${T.second}">Sep 28 '26</b></div>
+   <div style="background:${T.dark}"><label>First dates</label><b class="t" style="color:${T.acc}">Not in export</b></div>
   </div>
   <div class="cta a a4"><button style="background:#fff;color:${T.primary}">Share my Wrapped</button><button style="background:${T.dark};color:#fff" onclick="event.stopPropagation();next()">Sources →</button></div>
-  ${foot('IHEREBYCOMMIT.COM · all personal numbers EXAMPLE DATA',false)}`},
+  ${foot('IHEREBYCOMMIT.COM · YOUR REAL TINDER DATA',false)}`},
  {bg:T.light,fg:T.dark,html:()=>sources(T,[
-   {k:'swipestats',used:'Used on: Guess vs. real (screen 3), Match rate (4), Match to real life (6).'},
-   {k:'tinderData',used:'Where your data.json comes from. Every personal number in this deck is from that file (EXAMPLE DATA here). The spending screen (7) uses its Purchases section, which has subscription tier, length and dates but no prices.'}],
-   'Tap any source to open it. SwipeStats numbers are a company analysis of people who chose to upload their data, not a random sample.')}
+   {k:'swipestats',used:'Used on: Swipe right (screen 3) and Match rate (4).'},
+   {k:'tinderData',used:'Where your data.json comes from. Every personal number in this deck is from Amanda\'s real file: 23 opens, 9 swipes, 3 likes, 0 matches, 0 messages, 0 purchases.'}],
+   'Tap any source to open it. SwipeStats numbers are a company analysis of people who chose to upload their data, not a random sample. Your Tinder sample is tiny (9 swipes).')}
 ],
 hinge:[
  {bg:H.primary,fg:'#fff',html:()=>`${blob(400,-150,480,H.second)}${blob(150,275,330,H.acc,.95)}
@@ -372,6 +365,7 @@ hinge:[
   </div>
   <div class="h" style="font-size:19px;margin-top:14px">That's about <span style="color:${H.second};font-size:28px">$4.42</span> for each of the 52 people you messaged in 2025.</div>
   <div class="unit">Charges Aug 13–Nov 13, 2025 PT (plan ran to Dec 13), as recorded in USD in your export. Two more subscription records and a second "boost" entry have no price and aren't counted. Plan names are blank in the file.</div>
+  <a class="itzd" href="receipt-details_grokbot.html?from=dw&amp;deck=hinge&amp;s=7#hinge" onclick="event.stopPropagation()" style="color:${H.acc}">ITEMIZE PURCHASES ↗</a>
   ${foot('Spend: YOUR REAL HINGE DATA (hinge_purchases)')}`},
  {bg:H.primary,fg:'#fff',html:()=>`${blob(260,220,580,H.second,.9)}
   ${badge(H,'b0',null)}
@@ -496,6 +490,7 @@ league:[
   <div class="h" style="font-size:16px;margin-top:10px">Biggest year: <span style="color:${L.second}">2019, $4,721</span>. About <span style="color:${L.acc}">$23.30</span> per match (368 matches, 2017–19).</div>
   <div class="p" style="margin-top:6px;font-size:10.5px;line-height:1.4">No League purchases after Nov 30, 2019. Not counted: 4 refunded purchases worth $5,700, including 2 memberships in Jan 2022.</div>
   <div class="unit">Units to confirm: the export has no currency field. The amounts match U.S. App Store prices ($4.99, $19.99, $199.99, $999.99), so we assume USD. They're the price recorded for each purchase and may not include tax or discounts. Purchases run Apr 2016–Nov 2019, so per match uses only the 368 matches made in those years (the match list starts Mar 2017; 2017–19 spend alone gives $22.16).</div>
+  <a class="itzd" href="receipt-details_grokbot.html?from=dw&amp;deck=league&amp;s=12#league" onclick="event.stopPropagation()" style="color:${L.second}">ITEMIZE PURCHASES ↗</a>
   ${foot('Spend: YOUR REAL LEAGUE DATA (league_purchases)')}`},
  {bg:L.primary,fg:L.light,html:()=>`${blob(260,220,580,L.second,.9)}
   ${badge(L,'b1',null)}
@@ -530,7 +525,7 @@ function render(){
   barsEl.innerHTML=list.map((_,i)=>`<div class="bar ${i<idx?'done':i===idx?'now':''}"><i></i></div>`).join('');
   stage.innerHTML=`<div class="screen" style="background:${s.bg};color:${s.fg}">${s.html()}</div>`;
   chrome.style.color=s.fg;
-  exTag.textContent=deck==='tinder'?'Example data':deck==='start'?'Tinder = example':'Your real data';
+  exTag.textContent='Your real data';
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.deck===deck));
   document.getElementById('pos').textContent=`${NAME[deck]} · ${idx+1} / ${list.length}`;
   document.getElementById('bk').disabled=(deck==='start'&&idx===0);

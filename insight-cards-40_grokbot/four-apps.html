@@ -162,6 +162,7 @@ h2.head{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:34px;line-
 .heat .vs div:first-child{background:#0e0e0e;color:var(--orange)}.heat .vs div:first-child b{color:var(--orange)}
 .legend2{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:10px;color:#8a877c;align-items:center}
 .legend2 .tag{position:static;display:inline-block}
+.itz{display:inline-block;align-self:flex-start;font-size:9px;letter-spacing:1px;color:#c8f135 !important;border:1px solid #c8f135;border-radius:3px;padding:2px 7px;text-decoration:none;margin:4px 0 2px;position:relative;z-index:30;font-family:"Space Mono",monospace;background:#0e0e0e}
 </style><style>
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
 .stats div{background:#0e0e0e;color:#f0ece0;border-radius:6px;padding:9px 8px;font-size:9px;letter-spacing:1px;text-transform:uppercase;line-height:1.3}
@@ -313,12 +314,14 @@ h2.head{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:34px;line-
 <tr><td>League</td><td>Boost buys '16–19</td><td>7</td><td>$1,126</td></tr><tr><td>Hinge</td><td>Boost / Roses</td><td>1 / 2</td><td>sent 2</td></tr>
 <tr><td>Tinder</td><td>Super Likes / Boosts</td><td>0 / 0</td><td>0</td></tr></table></div>
 <p class="sub">Four apps, and your favorite power-up is still <b>not using the power-up</b>.</p>
+<a class="itz" href="receipt-details_grokbot.html?from=fa&amp;card=13#league" onclick="event.stopPropagation()">ITEMIZE PURCHASES ↗</a>
 <div class="foot"><div class="src">Amanda's exports: bumble_billing_events credits (promo + subscription grants, expired, spent); league_purchases category Boosts (net); hinge_purchases (1 Boost, $9.99) + hinge_interactions roses; tinder_usage_daily superlikes + empty tinder_purchases.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="13"><div class="cid"><b>F14</b> · Spending Across the Decade</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · purchases, 4 apps</span>
 <div class="kicker" style="margin-top:14px">Dating-app spend by year</div>
 <div class="big">16<small>×</small></div>
 <h2 class="head">MORE SPENT IN 2019 (ONE APP) THAN IN 2025 (FOUR APPS OPEN).</h2>
 <div class="viz"><div class="yrs yrs11"><div class=""><i style="height:8.9%"></i><span>16</span><em>$419</em></div><div class=""><i style="height:13.6%"></i><span>17</span><em>$641</em></div><div class=""><i style="height:59.2%"></i><span>18</span><em>$2,795</em></div><div class="on"><i style="height:100.0%"></i><span>19</span><em>$4,721</em></div><div class=""><i style="height:1.0%"></i><span>20</span><em></em></div><div class=""><i style="height:3.4%"></i><span>21</span><em>$160</em></div><div class=""><i style="height:1.0%"></i><span>22</span><em></em></div><div class=""><i style="height:1.0%"></i><span>23</span><em></em></div><div class=""><i style="height:1.0%"></i><span>24</span><em></em></div><div class=""><i style="height:6.1%"></i><span>25</span><em>$290</em></div><div class=""><i style="height:1.0%"></i><span>26</span><em></em></div></div></div>
 <p class="sub">2019: <b>$4,721</b> on The League. 2025: <b>$290</b> across Hinge ($229.95) and Bumble ($59.97). Tinder: $0, ever. League: nothing after Nov 2019.</p>
+<a class="itz" href="receipt-details_grokbot.html?from=fa&amp;card=14#league" onclick="event.stopPropagation()">ITEMIZE PURCHASES ↗</a>
 <div class="foot"><div class="src">Amanda's exports as recorded: league_purchases (Apr 2016–Nov 2019, net of refunds incl. 2 refunded web memberships in Jan 2022; currency assumed USD), bumble_billing_events payments (USD: $159.96 in 2021, $59.97 in 2025), hinge_purchases (USD), tinder_purchases (empty).</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="14"><div class="cid"><b>F15</b> · All-App Texting Clock</div><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · messages you sent, 3 apps</span>
 <div class="kicker" style="margin-top:14px">When you text, on every app</div>
 <div class="big">8<small>PM</small></div>
@@ -345,7 +348,7 @@ function show(){document.body.classList.toggle('one',one);document.getElementByI
  W.forEach((w,k)=>w.classList.toggle('cur',k===i));document.getElementById('pos').textContent=(i+1)+' / '+N;
  document.getElementById('bk').disabled=i===0;document.getElementById('nx').disabled=i===N-1}
 function go(d){i=Math.min(N-1,Math.max(0,i+d));show()}
-W.forEach((w,k)=>w.onclick=e=>{if(!one){one=true;i=k;show();window.scrollTo(0,0)}else{const r=w.getBoundingClientRect();go(e.clientX<r.left+r.width/3?-1:1)}});
+W.forEach((w,k)=>w.onclick=e=>{if(e.target.closest('a'))return;if(!one){one=true;i=k;show();window.scrollTo(0,0)}else{const r=w.getBoundingClientRect();go(e.clientX<r.left+r.width/3?-1:1)}});
 document.getElementById('bk').onclick=()=>go(-1);document.getElementById('nx').onclick=()=>go(1);
 document.getElementById('mOne').onclick=()=>{one=true;show()};document.getElementById('mSheet').onclick=()=>{one=false;show()};
 document.addEventListener('keydown',e=>{if(!one)return;if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key==='Escape'){one=false;show()}});
