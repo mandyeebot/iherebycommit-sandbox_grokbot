@@ -180,7 +180,7 @@
     .race-panel { grid-column: 1 / -1; display: none; border: 1px solid var(--dim); border-radius: var(--radius); padding: 6px; }
     .race-panel.open { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 6px; }
     .race-opt { display: flex; align-items: center; gap: 6px; min-width: 0; background: transparent; border: none; color: var(--text); font-family: 'Space Mono', monospace; font-size: 12px; text-align: left; padding: 8px 4px; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
-    /* Option labels wrap instead of being cut off ("Hispanic / Latino", "Prefer not to say" at 320-393px). */
+    /* Option labels wrap instead of being cut off ("Hispanic / Latino", "None Stated" at 320-393px). */
     .race-opt-txt { min-width: 0; overflow-wrap: anywhere; line-height: 1.3; }
     .race-box { flex-shrink: 0; width: 16px; height: 16px; border: 1px solid var(--muted); border-radius: 3px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; color: var(--bg); }
     .race-opt.selected .race-box { background: var(--accent); border-color: var(--accent); }
@@ -1374,7 +1374,7 @@
           </div>
           <div class="field-group who-unit" id="who-race" style="margin-bottom:0;min-width:0;">
             <div class="who-cond" role="button" tabindex="0" aria-label="Edit Race" onclick="crExpand('who-race')"><span class="who-cond-txt"><span class="who-cond-k">Race</span><span class="who-cond-v" id="who-race-v"></span></span><span class="who-cond-edit">EDIT</span></div>
-            <!-- MOCKUP_grokbot K5: Race is a native picker like Height (single choice; Multiracial added so mixed answers are not lost; "None Stated" replaces "Prefer not to say" and is stored as such). Stored as before: race = JSON array, now always one label. -->
+            <!-- MOCKUP_grokbot K5: Race is a native picker like Height (single choice; Multiracial added so mixed answers are not lost; "None Stated" replaces the old opt-out label and is stored as such). Stored as before: race = JSON array, now always one label. -->
             <label class="field-label" for="race">Race</label>
             <select class="field-input is-default" id="race" style="font-size:14px;padding:14px 4px;text-align:center;text-align-last:center;-webkit-text-align-last:center;" onchange="k5RacePick(this)"><option value="">— Select —</option><option value="White">White</option><option value="Black">Black</option><option value="Asian">Asian</option><option value="Hispanic / Latino">Hispanic / Latino</option><option value="South Asian">South Asian</option><option value="MENA">MENA</option><option value="Pacific Islander">Pacific Islander</option><option value="Native American">Native American</option><option value="Multiracial">Multiracial</option><option value="Other">Other</option><option value="None Stated">None Stated</option></select>
             <div class="field-error" id="err-race">Please make a selection</div>
@@ -1388,11 +1388,11 @@
             <label class="field-label" for="religion">Religion</label>
             <select class="field-input is-default" id="religion" style="font-size:14px;padding:14px 4px;text-align:center;text-align-last:center;-webkit-text-align-last:center;" onchange="k5ReligionPick(this)"><option value="">— Select —</option><option value="Agnostic">Agnostic</option><option value="Atheist">Atheist</option><option value="Buddhist">Buddhist</option><option value="Catholic">Catholic</option><option value="Christian">Christian</option><option value="Hindu">Hindu</option><option value="Jewish">Jewish</option><option value="Muslim">Muslim</option><option value="Sikh">Sikh</option><option value="Spiritual">Spiritual</option><option value="Other">Other</option><option value="None Stated">None Stated</option></select>
           </div>
-          <!-- MOCKUP_grokbot K5: INCOME (own yearly income; optional, "Prefer not to say" first). Production: nullable text column income_range. -->
+          <!-- MOCKUP_grokbot K5: INCOME (own yearly income; optional, "None Stated" first). Production: nullable text column income_range. -->
           <div class="field-group who-unit" id="who-income" style="margin-bottom:0;min-width:0;">
             <div class="who-cond" role="button" tabindex="0" aria-label="Edit Income" onclick="crExpand('who-income')"><span class="who-cond-txt"><span class="who-cond-k">Income</span><span class="who-cond-v" id="who-income-v"></span></span><span class="who-cond-edit">EDIT</span></div>
             <label class="field-label" for="income_range">Income</label>
-            <div class="k5-sel"><select class="field-input" id="income_range" onchange="state.incomeRange = this.value || null; state.incomeTouched = true; crTap('who-income')"><option value="">Prefer not to say</option><option value="under_25k">Under $25k</option><option value="25k_50k">$25k–50k</option><option value="50k_75k">$50k–75k</option><option value="75k_100k">$75k–100k</option><option value="100k_150k">$100k–150k</option><option value="150k_200k">$150k–200k</option><option value="200k_300k">$200k–300k</option><option value="300k_500k">$300k–500k</option><option value="500k_1m">$500k–1M</option><option value="1m_2m">$1M–2M</option><option value="2m_3m">$2M–3M</option><option value="3m_plus">$3M+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
+            <div class="k5-sel"><select class="field-input" id="income_range" onchange="state.incomeRange = this.value || null; state.incomeTouched = true; crTap('who-income')"><option value="">None Stated</option><option value="under_25k">Under $25k</option><option value="25k_50k">$25k–50k</option><option value="50k_75k">$50k–75k</option><option value="75k_100k">$75k–100k</option><option value="100k_150k">$100k–150k</option><option value="150k_200k">$150k–200k</option><option value="200k_300k">$200k–300k</option><option value="300k_500k">$300k–500k</option><option value="500k_1m">$500k–1M</option><option value="1m_2m">$1M–2M</option><option value="2m_3m">$2M–3M</option><option value="3m_plus">$3M+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
           </div>
         </div>
         <div class="field-group who-unit" id="who-email" style="margin-bottom:12px;">
@@ -1474,7 +1474,7 @@
           <button type="button" class="race-opt" id="btn-prace-6" data-race="Pacific Islander" aria-pressed="false" onclick="togglePartnerRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Pacific Islander</span></button>
           <button type="button" class="race-opt" id="btn-prace-5" data-race="Native American" aria-pressed="false" onclick="togglePartnerRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Native American</span></button>
           <button type="button" class="race-opt" id="btn-prace-8" data-race="Other" aria-pressed="false" onclick="togglePartnerRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Other</span></button>
-          <button type="button" class="race-opt" id="btn-prace-9" data-race="Prefer not to say" aria-pressed="false" onclick="togglePartnerRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Prefer not to say</span></button>
+          <button type="button" class="race-opt" id="btn-prace-9" data-race="None Stated" aria-pressed="false" onclick="togglePartnerRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">None Stated</span></button>
           <button type="button" class="race-done" id="partner-race-done" onclick="closePartnerRacePanel()">DONE</button>
         </div>
       </div>
@@ -3368,7 +3368,7 @@ function showToast(msg) {
 // ============================================================
 // WHO YOU ARE: race picklist
 // ============================================================
-const RACE_EXCLUSIVE = 'Prefer not to say';
+const RACE_EXCLUSIVE = 'None Stated';
 const _MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 function toggleRace(label) {
@@ -5485,7 +5485,7 @@ function k5IncomePayload() { // production: nullable text columns income_range a
   return { income_range: a && a.value ? a.value : null, partner_income_min: b && b.value ? b.value : null, partner_education_min: e && e.value ? e.value : null }; // production: nullable text partner_education_min too
 }
 window.addEventListener('load', () => {
-  // Next while INCOME is the open question (untouched = "Prefer not to say" is the answer): fold it and show the next question
+  // Next while INCOME is the open question (untouched = "None Stated" is the answer): fold it and show the next question
   const rn = crRevealNext;
   crRevealNext = function (screen) {
     if (screen === 1) { const u = document.getElementById('who-income'); if (u && !u.classList.contains('cr-later') && !u.classList.contains('collapsed') && !_crT['who-income']) crSettle('who-income'); }
