@@ -365,13 +365,13 @@ hinge:[
   ${real(H,'hinge_purchases · usd_price, purchase_type, purchased_at')}
   <div class="k" style="color:${H.acc}">What you spent</div>
   <div class="big" style="color:${H.acc}"><small>$</small>229<small>.95</small></div>
-  <div class="h" style="font-size:22px;margin-top:6px">on Hinge, Aug–Dec 2025.</div>
+  <div class="h" style="font-size:22px;margin-top:6px">on Hinge, Aug–Nov 2025.</div>
   <div class="funnel">
-   <div style="background:${H.primary};color:#fff">6 subscription payments<b>$219.96</b></div>
+   <div style="background:${H.primary};color:#fff">4 subscription payments<b>$219.96</b></div>
    <div style="background:${H.second};color:${H.dark}">1 Boost · Aug 31<b>$9.99</b></div>
   </div>
-  <div class="h" style="font-size:19px;margin-top:14px">That's about <span style="color:${H.second};font-size:28px">$4.42</span> for each of the 52 people you messaged.</div>
-  <div class="unit">Payments Aug 14–Dec 14, 2025, as recorded in USD in your export. A second "boost" entry has no price (likely the Boost being used) and isn't counted. Plan names are blank in the file.</div>
+  <div class="h" style="font-size:19px;margin-top:14px">That's about <span style="color:${H.second};font-size:28px">$4.42</span> for each of the 52 people you messaged in 2025.</div>
+  <div class="unit">Charges Aug 13–Nov 13, 2025 PT (plan ran to Dec 13), as recorded in USD in your export. Two more subscription records and a second "boost" entry have no price and aren't counted. Plan names are blank in the file.</div>
   ${foot('Spend: YOUR REAL HINGE DATA (hinge_purchases)')}`},
  {bg:H.primary,fg:'#fff',html:()=>`${blob(260,220,580,H.second,.9)}
   ${badge(H,'b0',null)}
@@ -493,9 +493,9 @@ league:[
   <div class="big" style="color:${L.second}"><small>$</small>8,575</div>
   <div class="h" style="font-size:20px;margin-top:6px">on The League, 2016–2019. <span style="color:${L.acc}">74 purchases.</span></div>
   <div class="rows"><div><label>Membership</label><i style="width:95px;color:${L.second}"></i><em>$6,600 · 39</em></div><div><label>Boosts</label><i style="width:16px;color:${L.second}"></i><em>$1,126 · 7</em></div><div><label>Tickets</label><i style="width:7px;color:${L.second}"></i><em>$482 · 14</em></div><div><label>Service</label><i style="width:4px;color:${L.second}"></i><em>$200 · 1</em></div><div><label>Extra profiles</label><i style="width:4px;color:${L.second}"></i><em>$168 · 13</em></div></div>
-  <div class="h" style="font-size:16px;margin-top:10px">Biggest year: <span style="color:${L.second}">2019, $4,721</span>. About <span style="color:${L.acc}">$7.13</span> per match (1,202 all-time).</div>
-  <div class="p" style="margin-top:6px;font-size:10.5px;line-height:1.4">Not counted: 4 refunded purchases worth $5,700, including 2 memberships in Jan 2022.</div>
-  <div class="unit">Units to confirm: the export has no currency field. The amounts match U.S. App Store prices ($4.99, $19.99, $199.99, $999.99), so we assume USD. They're the price recorded for each purchase and may not include tax or discounts. Purchases run 2016–2019; matches run 2017–2026.</div>
+  <div class="h" style="font-size:16px;margin-top:10px">Biggest year: <span style="color:${L.second}">2019, $4,721</span>. About <span style="color:${L.acc}">$23.30</span> per match (368 matches, 2017–19).</div>
+  <div class="p" style="margin-top:6px;font-size:10.5px;line-height:1.4">No League purchases after Nov 30, 2019. Not counted: 4 refunded purchases worth $5,700, including 2 memberships in Jan 2022.</div>
+  <div class="unit">Units to confirm: the export has no currency field. The amounts match U.S. App Store prices ($4.99, $19.99, $199.99, $999.99), so we assume USD. They're the price recorded for each purchase and may not include tax or discounts. Purchases run Apr 2016–Nov 2019, so per match uses only the 368 matches made in those years (the match list starts Mar 2017; 2017–19 spend alone gives $22.16).</div>
   ${foot('Spend: YOUR REAL LEAGUE DATA (league_purchases)')}`},
  {bg:L.primary,fg:L.light,html:()=>`${blob(260,220,580,L.second,.9)}
   ${badge(L,'b1',null)}
