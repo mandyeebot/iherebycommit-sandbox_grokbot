@@ -1164,6 +1164,10 @@
     #screen-k4m .k5-ctl[hidden] { display: none; }
     #screen-k4m .k5-ctl > * { margin: 0 !important; }
     #screen-k4m .k5-ctl #pc-extra, #screen-k4m .k5-ctl .partner-location-anywhere { display: none !important; } /* other cities stay on What You Want */
+    #race-panel, #partner-race-panel { display: none !important; } /* MOCKUP_grokbot K5: race picks happen in #rc-sheet */
+    /* MOCKUP_grokbot K5 What Matters Most: every row's value is plain text (normal value colour, never green), no carets */
+    #screen-k4m .k4m-row .k4m-v, #screen-k4m .k4m-row.k4m-early .k4m-v { color: var(--text) !important; }
+    #screen-k4m .k4m-h .k4m-car, #screen-k4m .k4m-row.open .k4m-h .k4m-car { display: none !important; }
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -1374,12 +1378,23 @@
           </div>
           <div class="field-group who-unit" id="who-race" style="margin-bottom:0;min-width:0;">
             <div class="who-cond" role="button" tabindex="0" aria-label="Edit Race" onclick="crExpand('who-race')"><span class="who-cond-txt"><span class="who-cond-k">Race</span><span class="who-cond-v" id="who-race-v"></span></span><span class="who-cond-edit">EDIT</span></div>
-            <!-- MOCKUP_grokbot K5: Race is a native picker like Height (single choice; Multiracial added so mixed answers are not lost; "None Stated" replaces the old opt-out label and is stored as such). Stored as before: race = JSON array, now always one label. -->
             <label class="field-label" for="race">Race</label>
-            <select class="field-input is-default" id="race" style="font-size:14px;padding:14px 4px;text-align:center;text-align-last:center;-webkit-text-align-last:center;" onchange="k5RacePick(this)"><option value="">— Select —</option><option value="White">White</option><option value="Black">Black</option><option value="Asian">Asian</option><option value="Hispanic / Latino">Hispanic / Latino</option><option value="South Asian">South Asian</option><option value="MENA">MENA</option><option value="Pacific Islander">Pacific Islander</option><option value="Native American">Native American</option><option value="Multiracial">Multiracial</option><option value="Other">Other</option><option value="None Stated">None Stated</option></select>
+            <button type="button" class="field-input race-select" id="race" aria-haspopup="true" aria-expanded="false" aria-controls="race-panel" onclick="toggleRacePanel()"><span class="race-select-text empty" id="race-select-text">— Select all —</span><span class="race-caret" aria-hidden="true">&#9662;</span></button>
             <div class="field-error" id="err-race">Please make a selection</div>
           </div>
-          <div class="race-panel" id="race-panel" hidden></div>
+          <div class="race-panel" id="race-panel" role="group" aria-label="Race (select all that apply)">
+            <button type="button" class="race-opt" id="btn-race-7" data-race="White" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">White</span></button>
+            <button type="button" class="race-opt" id="btn-race-2" data-race="Black" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Black</span></button>
+            <button type="button" class="race-opt" id="btn-race-0" data-race="Asian" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Asian</span></button>
+            <button type="button" class="race-opt" id="btn-race-3" data-race="Hispanic / Latino" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Hispanic / Latino</span></button>
+            <button type="button" class="race-opt" id="btn-race-1" data-race="South Asian" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">South Asian</span></button>
+            <button type="button" class="race-opt" id="btn-race-4" data-race="MENA" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">MENA</span></button>
+            <button type="button" class="race-opt" id="btn-race-6" data-race="Pacific Islander" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Pacific Islander</span></button>
+            <button type="button" class="race-opt" id="btn-race-5" data-race="Native American" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Native American</span></button>
+            <button type="button" class="race-opt" id="btn-race-8" data-race="Other" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Other</span></button>
+            <button type="button" class="race-opt" id="btn-race-9" data-race="None Stated" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">None Stated</span></button>
+            <button type="button" class="race-done" id="race-done" onclick="closeRacePanel()">DONE</button>
+          </div>
         </div>
         <div class="cr-pair" id="who-ri-row">
           <!-- MOCKUP_grokbot K5: RELIGION (own; native picker like Height / Race). Production: nullable text column religion; "None Stated" is stored as null. -->
@@ -1663,7 +1678,7 @@
       <div class="k4m-list" id="k4m-list" role="list" aria-label="What matters most, in order"></div>
     </div>
     <div class="bottom-action">
-      <button class="btn btn-primary" id="k4m-next">CONTINUE</button>
+      <button class="btn btn-primary" id="k4m-next">NEXT</button>
       <button class="btn-ghost" id="k4m-back">← BACK</button>
     </div>
   </div>
@@ -3723,7 +3738,7 @@ function _crDefineAll() {
       const cm = _crV('height_cm_input'); return cm ? cm + ' cm' : '';
     },
   });
-  crDef('who-race', { partner: 'who-height', focus: 'race', value: () => Array.isArray(state.race) ? state.race.join(', ') : '' }); // K5: native picker, no panel
+  crDef('who-race', { partner: 'who-height', focus: 'race', busy: isRacePanelOpen, onExpand: f => { if (f) openRacePanel(); }, value: () => (typeof k5RaceSum === 'function' ? k5RaceSum(state.race) : '') });
   crDef('who-email', { focus: 'email', value: () => { const e = _crV('email'); return e && isValidEmail(e) ? e : ''; } });
   // Your Partner
   crDef('pt-gender', { value: () => ({ man: 'Man', woman: 'Woman', 'non-binary': 'Non-binary' })[state.partnerGender] || '' });
@@ -3731,7 +3746,7 @@ function _crDefineAll() {
   // Partner birthday / height: defaults (grey) must be touched ("so they have to check it").
   crDef('pt-bday', { focus: 'partner_birthday', stepDone: () => !!state.partnerBdayTouched, value: () => state.partnerBdayTouched ? _crMdy(_crV('partner_birthday')) : '' });
   crDef('pt-height', { focus: 'partner_height', partner: 'pt-race', stepDone: () => !!state.partnerHeightTouched, nextReveals: true, value: () => state.partnerHeightTouched ? _crOpt('partner_height', _crV('partner_height')) : '' });
-  crDef('pt-race', { partner: 'pt-height', focus: 'partner_race', busy: isPartnerRacePanelOpen, onExpand: f => { if (f) openPartnerRacePanel(); }, value: () => Array.isArray(state.partnerRace) ? state.partnerRace.join(', ') : '' });
+  crDef('pt-race', { partner: 'pt-height', focus: 'partner_race', busy: isPartnerRacePanelOpen, onExpand: f => { if (f) openPartnerRacePanel(); }, value: () => (typeof k5RaceSum === 'function' ? k5RaceSum(state.partnerRace) : '') });
   crDef('pt-email', { focus: 'partner_email', value: () => { const e = _crV('partner_email'); return e && isValidEmail(e) ? e : ''; } });
   crDef('pt-live', { optional: true, partner: () => state.livesWithPartner === 'no' ? 'pt-city' : (state.livesWithPartner === 'yes' ? 'pt-moved' : null), value: () => ({ yes: 'Yes', no: 'No', part_time: 'Part-time' })[state.livesWithPartner] || '' });
   crDef('pt-city', { optional: true, partner: 'pt-live', focus: 'partner_city_input', applies: () => state.livesWithPartner === 'no', value: () => state.livesWithPartner === 'no' ? (partnerCity || '') : '' });
@@ -5277,7 +5292,7 @@ async function _k4PartnerDefault() {
 // ---------- WHAT MATTERS MOST ----------
 const K4M_DEF = [
   { k: 'age', t: 'Age range', early: true }, { k: 'height', t: 'Height', early: true }, { k: 'dist', t: 'Distance', early: true },
-  { k: 'politics', t: 'Politics', o: ['Same as mine', 'Left-leaning', 'Moderate', 'Right-leaning', 'Any'], v: 'Same as mine' },
+  { k: 'politics', t: 'Politics', o: ['Any', 'Same as mine', 'Left-leaning', 'Moderate', 'Right-leaning'], v: 'Any' },
   { k: 'income', t: 'Income', o: ['No preference', '$50k+', '$100k+', '$200k+'], v: 'No preference', early: true },
   { k: 'degree', t: 'Degree', early: true },
   { k: 'religion', t: 'Religion', o: ['Any', 'Same as mine', 'Spiritual', 'Religious', 'Not religious'], v: 'Any' },
@@ -5291,7 +5306,7 @@ function _k4mVal(d) { // [text, "set earlier"?]
   const v = _k4Vals();
   if (d.k === 'age') return [v.age, true];
   if (d.k === 'height') return [v.height, true];
-  if (d.k === 'dist') { const el = document.getElementById('vi_dist_mi'); return [(el && +el.value >= 34 ? 'Any distance' : 'Within ' + v.dist), true]; }
+  if (d.k === 'dist') { const el = document.getElementById('vi_dist_mi'); return [(el && +el.value >= 34 ? 'Any' : 'Within ' + v.dist), true]; }
   if (d.k === 'income') { const s = document.getElementById('partner_income_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'Any', true]; }
   if (d.k === 'degree') { const s = document.getElementById('partner_education_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'Any', true]; }
   const x = state.k4Prefs.values[d.k];
@@ -5325,8 +5340,8 @@ function k4mRender() {
     const m = document.createElement('button'); m.type = 'button'; m.className = 'k4m-main'; m.setAttribute('aria-expanded', String(open));
     m.innerHTML = '<span class="k4m-n"></span><span class="k4m-txt"><span class="k4m-t"></span><span class="k4m-v"></span></span>';
     m.querySelector('.k4m-n').textContent = String(i + 1).padStart(2, '0'); m.querySelector('.k4m-t').textContent = d.t;
-    const v = m.querySelector('.k4m-v'); v.textContent = txt;
-    if (early) { const s = document.createElement('span'); s.className = 'who-cond-edit k4m-edit'; s.textContent = 'EDIT'; m.appendChild(s); } else v.textContent += open ? ' \u25b4' : ' \u25be';
+    const v = m.querySelector('.k4m-v'); v.textContent = (txt && !/^(no preference|any distance)$/i.test(txt)) ? txt : 'Any';
+    { const s = document.createElement('span'); s.className = 'who-cond-edit k4m-edit'; s.textContent = 'EDIT'; m.appendChild(s); } // every row: plain value + EDIT, no arrows
     m.addEventListener('click', e => { e.preventDefault(); if (_k4.dragMoved) return; _k4.open = open ? null : k; k4mRender(); });
     const h = document.createElement('span'); h.className = 'k4m-h'; h.innerHTML = K4M_HANDLE; h.setAttribute('role', 'button'); h.tabIndex = 0;
     h.setAttribute('aria-label', open ? 'Close ' + d.t : 'Move ' + d.t + ' (position ' + (i + 1) + ' of 9); use arrow keys or drag');
@@ -5495,14 +5510,6 @@ window.addEventListener('load', () => {
 });
 </script>
 <script>
-// MOCKUP_grokbot K5: Race picker (single choice, like Height): stored as a one-label array so the race jsonb column keeps its shape
-function k5RacePick(el) {
-  state.race = el.value ? [el.value] : [];
-  el.classList.toggle('is-default', !el.value);
-  if (state.race.length) hideError('race');
-  crRefresh(); if (state.race.length) crTap('who-race');
-}
-(function () { const s0 = _syncRaceButtons; window._syncRaceButtons = function () { s0(); const el = document.getElementById('race'); if (el && el.tagName === 'SELECT') { el.value = (state.race && state.race[0]) || ''; el.classList.toggle('is-default', !el.value); } }; })();
 // Gallery demo: the Who You Are route starts like production after APPLY · SINGLE (big I AM A buttons, nothing prefilled)
 window._k5FreshWya = function () {
   const q = new URLSearchParams(location.search), scr = q.get('screen') || (q.get('revisit') === '1' ? 'wmm' : 'wya');
@@ -5566,9 +5573,64 @@ function k5Borrow() {
 function _k5RowLive() { const r = document.querySelector('#k4m-list .k4m-row.open'); if (!r || !r.classList.contains('k4m-early')) return; const d = _k4mDef(r.dataset.k); r.querySelector('.k4m-v').textContent = _k4mVal(d)[0]; }
 document.addEventListener('input', e => { if (_k4.inWmm && e.target.closest && e.target.closest('.k5-ctl')) requestAnimationFrame(_k5RowLive); }, true);
 document.addEventListener('pointerup', () => { if (_k4.inWmm) setTimeout(_k5RowLive, 30); }, true);
-// leaving What Matters Most (CONTINUE / BACK): controls go home first so What You Want validates and shows them as before
+// leaving What Matters Most (NEXT / BACK): controls go home first so What You Want validates and shows them as before
 document.addEventListener('click', e => { if (e.target.closest && (e.target.closest('#k4m-next') || e.target.closest('#screen-k4m .btn-ghost'))) k5ReturnAll(); }, true);
 (function () { const b0 = window.k4Back; if (b0) window.k4Back = function () { _k4.open = null; k5ReturnAll(); return b0.apply(this, arguments); }; })();
+</script>
+<!-- MOCKUP_grokbot K5: race checklist sheet (own Race on Who You Are and Their race on Your Partner). Same look as the city checklist; the page never moves. -->
+<div class="cp-backdrop" id="rc-backdrop" hidden></div>
+<div class="cp-sheet" id="rc-sheet" role="dialog" aria-modal="true" aria-labelledby="rc-title" hidden>
+  <div class="cp-sheet-head"><span class="cp-sheet-title" id="rc-title">Race · select all that apply</span><button type="button" class="cp-x" id="rc-x" aria-label="Close"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button></div>
+  <div class="cp-list" id="rc-list" role="group" aria-label="Race"></div>
+  <div class="cp-foot"><button type="button" class="btn btn-primary cp-done-btm" id="rc-done">DONE</button></div>
+</div>
+<script>
+// MOCKUP_grokbot K5 race checklist. Options and order as production (None Stated in place of the old opt-out label), None Stated exclusive.
+// Stored exactly as before: race / partner_race = JSON array of every label picked.
+const K5_RACES = ['White', 'Black', 'Asian', 'Hispanic / Latino', 'South Asian', 'MENA', 'Pacific Islander', 'Native American', 'Other', 'None Stated'];
+const _rc = { mode: null, draft: [] };
+function k5RaceSum(a) { if (!Array.isArray(a) || !a.length) return ''; const j = a.join(', '); return a.length === 1 || j.length <= 18 ? j : a[0] + ' + ' + (a.length - 1) + ' more'; }
+function _rcRender() {
+  const l = document.getElementById('rc-list'); l.replaceChildren();
+  K5_RACES.forEach(r => { const b = document.createElement('button'); b.type = 'button'; b.className = 'cp-row'; b.setAttribute('role', 'checkbox'); b.setAttribute('aria-checked', String(_rc.draft.includes(r)));
+    b.innerHTML = '<span class="cp-box"></span><span class="cp-row-label"></span>'; b.querySelector('.cp-row-label').textContent = r;
+    b.addEventListener('click', () => { const i = _rc.draft.indexOf(r); if (i !== -1) _rc.draft.splice(i, 1); else if (r === RACE_EXCLUSIVE) _rc.draft = [r]; else { _rc.draft = _rc.draft.filter(v => v !== RACE_EXCLUSIVE); _rc.draft.push(r); } _rcRender(); });
+    l.appendChild(b); });
+}
+function k5RaceOpen(mode) {
+  _rc.mode = mode; const cur = mode === 'partner' ? state.partnerRace : state.race; _rc.draft = Array.isArray(cur) ? cur.slice() : [];
+  document.getElementById('rc-title').textContent = (mode === 'partner' ? 'Their race' : 'Race') + ' · select all that apply';
+  { const u = mode === 'own' ? 'who-race' : 'pt-race'; clearTimeout(_crT[u]); _crT[u] = null; }
+  _rcRender(); document.getElementById('rc-backdrop').hidden = false; document.getElementById('rc-sheet').hidden = false;
+  if (typeof sheetPinDone === 'function') sheetPinDone('rc-sheet');
+  const c = document.getElementById(mode === 'partner' ? 'partner_race' : 'race'); if (c) c.setAttribute('aria-expanded', 'true');
+}
+function k5RaceClose(commit) {
+  if (!_rc.mode) return; const mode = _rc.mode; _rc.mode = null;
+  document.getElementById('rc-backdrop').hidden = true; document.getElementById('rc-sheet').hidden = true;
+  const c = document.getElementById(mode === 'partner' ? 'partner_race' : 'race'); if (c) c.setAttribute('aria-expanded', 'false');
+  if (!commit) return;
+  if (mode === 'partner') { state.partnerRace = _rc.draft.slice(); _syncPartnerRaceButtons(); if (state.partnerRace.length) hideError('partner_race'); if (typeof saveLead === 'function') saveLead(); crRefresh(); if (state.partnerRace.length) crTap('pt-race'); return; }
+  state.race = _rc.draft.slice(); _syncRaceButtons(); if (state.race.length) hideError('race');
+  crRefresh(); if (state.race.length) crTap('who-race');
+}
+document.getElementById('rc-done').addEventListener('click', () => k5RaceClose(true));
+document.getElementById('rc-x').addEventListener('click', () => k5RaceClose(false));
+document.getElementById('rc-backdrop').addEventListener('click', () => k5RaceClose(false));
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && _rc.mode) k5RaceClose(false); });
+window.addEventListener('resize', () => { if (_rc.mode && typeof sheetPinDone === 'function') sheetPinDone('rc-sheet'); });
+// the old inline panels are never shown; their open / toggle functions open the sheet instead
+window.openRacePanel = () => k5RaceOpen('own'); window.toggleRacePanel = () => k5RaceOpen('own');
+window.isRacePanelOpen = () => _rc.mode === 'own'; window.closeRacePanel = () => {}; // the sheet closes only via its own DONE (commit) or X / backdrop / Escape (discard)
+window.openPartnerRacePanel = () => k5RaceOpen('partner'); window.togglePartnerRacePanel = () => k5RaceOpen('partner');
+window.isPartnerRacePanelOpen = () => _rc.mode === 'partner'; window.closePartnerRacePanel = () => {};
+const _rcDef = () => crDef('who-race', { partner: 'who-height', focus: 'race', busy: () => _rc.mode === 'own', onExpand: f => { if (f) k5RaceOpen('own'); }, value: () => k5RaceSum(state.race) });
+_rcDef();
+(function () {
+  const sum = (id, a) => { const t = document.getElementById(id); if (t && a && a.length) { t.textContent = k5RaceSum(a); t.title = a.join(', '); } };
+  const s0 = _syncRaceButtons; window._syncRaceButtons = function () { s0(); sum('race-select-text', state.race); };
+  const s1 = _syncPartnerRaceButtons; window._syncPartnerRaceButtons = function () { s1(); sum('partner-race-select-text', state.partnerRace); };
+})();
 </script>
 <div class="mock-badge_grokbot">Mockup K5</div>
 
