@@ -5348,7 +5348,7 @@ function k4mRender() {
     m.innerHTML = '<span class="k4m-n"></span><span class="k4m-txt"><span class="k4m-t"></span><span class="k4m-v"></span></span>';
     m.querySelector('.k4m-n').textContent = String(i + 1).padStart(2, '0'); m.querySelector('.k4m-t').textContent = d.t;
     const v = m.querySelector('.k4m-v'); v.textContent = (txt && !/^(no preference|any distance)$/i.test(txt)) ? txt : 'Any';
-    { const ln = document.createElement('span'); ln.className = 'k4m-vl'; v.replaceWith(ln); ln.appendChild(v); const s = document.createElement('span'); s.className = 'who-cond-edit k4m-edit'; s.textContent = 'EDIT'; ln.appendChild(s); } // every row: grey value with EDIT inline right after it; the right edge holds only the drag handle
+    { const ln = document.createElement('span'); ln.className = 'k4m-vl'; v.replaceWith(ln); ln.appendChild(v); } // every row: value only (no EDIT word); tapping the row left of the handle opens it in place; the handle is the only reorder target
     m.addEventListener('click', e => { e.preventDefault(); if (_k4.dragMoved) return; _k4.open = open ? null : k; k4mRender(); });
     const h = document.createElement('span'); h.className = 'k4m-h'; h.innerHTML = K4M_HANDLE; h.setAttribute('role', 'button'); h.tabIndex = 0;
     h.setAttribute('aria-label', open ? 'Close ' + d.t : 'Move ' + d.t + ' (position ' + (i + 1) + ' of 9); use arrow keys or drag');
