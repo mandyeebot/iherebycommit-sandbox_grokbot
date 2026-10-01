@@ -33,6 +33,8 @@
     a.fav h2 { font-size:56px; margin:12px 0 10px; }
     a.fav p { font-size:12px; line-height:1.6; margin:0 0 12px; max-width:560px; }
     a.fav .arrow { color:#0e0e0e; font-weight:700; }
+    a.fav.allc { background:#0e0e0e; color:var(--text); border:2px solid var(--lime); }
+    a.fav.allc .tag, a.fav.allc .arrow { color:var(--lime); opacity:1; }
   </style>
 </head>
 <body>
@@ -45,6 +47,12 @@
       <h2>Grok Favorites · the top 10</h2>
       <p>The 10 cards to review first, picked from all 127 plus 7 new ones built from your real exports and cited research (U.S. time-use diaries, Census, CDC, Columbia speed dating, Pew). 5 new, 5 existing. No example data.</p>
       <div class="arrow">→ View the top 10</div>
+    </a>
+    <a class="fav allc" href="all-cards_grokbot.html">
+      <div class="tag">▦ Everything in one file · All cards · updated Oct 1</div>
+      <h2>All cards · 145 in one page</h2>
+      <p>Every current card from every deck (Grok Favorites, viral v6, four apps, Dating Wrapped, Northwestern, match rate, cards 40) in one scrollable grid with a jump menu and a Sources section. The Receipt cards link to the itemized purchase list. Also as a PDF in Drive.</p>
+      <div class="arrow">→ View all cards</div>
     </a>
     <section class="grid" aria-label="Insight card mockups">
       <a class="card" href="cards40.html">

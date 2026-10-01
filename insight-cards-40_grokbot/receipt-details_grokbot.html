@@ -172,6 +172,8 @@ tr.ref td,tr.ref s{color:#8a6e6e} tr.np td{color:#666}
 <script>
 const f=new URLSearchParams(location.search).get('from');
 const map={'v6':'viral-v6.html?card=1','fav':'grok-favorites.html?card=2'};
-if(map[f]){for(const id of ['back','back2'])document.getElementById(id).href=map[f];}
+const qp=new URLSearchParams(location.search),c=qp.get('c');
+if(f==='all'){const h='all-cards_grokbot.html'+(c&&/^ac-[\w-]+$/.test(c)?'#'+c:'');for(const id of ['back','back2']){const e=document.getElementById(id);e.href=h;e.textContent='← Back to all cards';}}
+else if(map[f]){for(const id of ['back','back2'])document.getElementById(id).href=map[f];}
 </script>
 </body></html>
