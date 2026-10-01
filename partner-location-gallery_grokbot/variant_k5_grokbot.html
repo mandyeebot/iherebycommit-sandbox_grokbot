@@ -5488,7 +5488,7 @@ window.addEventListener('load', () => {
   // Next while INCOME is the open question (untouched = "None Stated" is the answer): fold it and show the next question
   const rn = crRevealNext;
   crRevealNext = function (screen) {
-    if (screen === 1) { const u = document.getElementById('who-income'); if (u && !u.classList.contains('cr-later') && !u.classList.contains('collapsed') && !_crT['who-income']) crSettle('who-income'); }
+    if (screen === 1) { const u = document.getElementById('who-income'); if (u && !u.classList.contains('cr-later') && !u.classList.contains('collapsed') && !_crT['who-income'] && crSettle('who-income')) { crSync(); return true; } } // folded = this Next is used up (no error on the question it reveals)
     return rn.apply(this, arguments);
   };
   ['partner_income_min', 'partner_education_min'].forEach(id => { const e = document.getElementById(id); if (e) e.addEventListener('change', () => { if (_k4.inWmm) k4mRender(); }); });
@@ -5527,7 +5527,7 @@ window.addEventListener('load', () => {
   const rn = crRevealNext;
   crRevealNext = function (screen) {
     if (screen === 1) { const u = document.getElementById('who-religion'), s = document.getElementById('religion');
-      if (u && s && !u.classList.contains('cr-later') && !u.classList.contains('collapsed') && !_crT['who-religion']) { if (!s.value) { s.value = 'None Stated'; s.classList.remove('is-default'); state.religion = 'None Stated'; } crSettle('who-religion'); } }
+      if (u && s && !u.classList.contains('cr-later') && !u.classList.contains('collapsed') && !_crT['who-religion']) { if (!s.value) { s.value = 'None Stated'; s.classList.remove('is-default'); state.religion = 'None Stated'; } if (crSettle('who-religion')) { crSync(); return true; } } }
     return rn.apply(this, arguments);
   };
 });
