@@ -1174,6 +1174,17 @@
     #screen-k4m .k4m-h .k4m-car, #screen-k4m .k4m-row.open .k4m-h .k4m-car { display: none !important; }
     html.wmm-b #screen-k4m .k4m-row .k4m-t { color: var(--muted) !important; } /* B: category names grey #888 (same font / size) */
     html.wmm-b #screen-k4m .k4m-row .k4m-v, html.wmm-b #screen-k4m .k4m-row.k4m-early .k4m-v { color: #fff !important; } /* B: values bright white */
+    /* MOCKUP_grokbot K5 ETHNICITY box: same as the minimum dropdown boxes (label left, value right, caret) */
+    .k5-sel-in button.k5-eth-btn { display: block; width: 100%; min-height: 50px; height: 50px; padding: 0 30px 0 110px; text-align: right; font-family: 'Space Mono', monospace; font-size: 13px; color: var(--text); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    @media (max-width: 359px) { .k5-sel-in button.k5-eth-btn { min-height: 44px; height: 44px; padding-left: 100px; padding-right: 25px; font-size: 12px; } }
+    /* MOCKUP_grokbot K5 What Matters Most EDUCATION: two halves (degree minimum | tier) folded and expanded */
+    #screen-k4m .k4m-vl .k4m-v.k5-two { display: grid; grid-template-columns: minmax(max-content, 1fr) 1fr; gap: 10px; flex: 1 1 auto; width: 100%; }
+    #screen-k4m .k4m-v.k5-two > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #screen-k4m .k5-edu-ed { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+    #screen-k4m .k5-edu-ed[hidden] { display: none !important; }
+    #screen-k4m .k5-half { display: flex; flex-direction: column; align-items: stretch; gap: 6px; min-width: 0; }
+    #screen-k4m .k5-half .k4m-chip { width: 100%; justify-content: center; text-align: center; margin: 0; }
+    #screen-k4m .k5-half-k { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #888; line-height: 1.4; }
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -1656,6 +1667,10 @@
             <input type="range" id="height_min_in" class="range-input" min="58" max="84" step="1" value="60" onpointerdown="touchHeightPref()" onkeydown="touchHeightPref()" oninput="onHeightRangeInput(this,'min')">
             <input type="range" id="height_max_in" class="range-input" min="58" max="84" step="1" value="78" onpointerdown="touchHeightPref()" onkeydown="touchHeightPref()" oninput="onHeightRangeInput(this,'max')">
           </div>
+        </div>
+        <!-- MOCKUP_grokbot K5: ETHNICITY (partner; multi-select checklist sheet, Any = exclusive default). Production: nullable text[] partner_ethnicity (null = Any) + readable text companion. -->
+        <div class="field-group k5-pinc" id="k5-peth" style="margin-bottom:0;">
+          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_ethnicity">Ethnicity</label><button type="button" class="field-input k5-eth-btn" id="partner_ethnicity" aria-haspopup="dialog" aria-label="Ethnicity: partner ethnicity, select all that apply" onclick="k5RaceOpen('eth')"><span id="partner-eth-text">Any</span></button><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
         </div>
         <!-- MOCKUP_grokbot K5: EDUCATION MINIMUM ("Bachelor's+" = this or higher; default Any). Production: nullable text column partner_education_min (null / high_school / ... / doctorate). -->
         <div class="field-group k5-pinc" id="k5-pedu" style="margin-bottom:0;">
@@ -5301,12 +5316,14 @@ const K4M_DEF = [
   { k: 'age', t: 'Age range', early: true }, { k: 'height', t: 'Height', early: true }, { k: 'dist', t: 'Distance', early: true },
   { k: 'politics', t: 'Politics', o: ['Any', 'Same as mine', 'Left-leaning', 'Moderate', 'Right-leaning'], v: [], multi: true },
   { k: 'income', t: 'Income', o: ['No preference', '$50k+', '$100k+', '$200k+'], v: 'No preference', early: true },
-  { k: 'degree', t: 'Degree', early: true },
+  { k: 'education', t: 'Education', edu: true }, /* left: partner_education_min (What You Want EDUCATION MINIMUM); right: tier (k4Prefs.values.edtier) */
+  { k: 'ethnicity', t: 'Ethnicity', o: ['Any', 'White', 'Black', 'Asian', 'Hispanic / Latino', 'South Asian', 'MENA', 'Pacific Islander', 'Native American', 'Other'], v: [], multi: true, bind: 'partnerEthnicity' }, /* synced with ETHNICITY on What You Want */
   { k: 'religion', t: 'Religion', o: ['Any', 'Same as mine', 'Agnostic', 'Atheist', 'Buddhist', 'Catholic', 'Christian', 'Hindu', 'Jewish', 'Muslim', 'Sikh', 'Spiritual', 'Other'], v: [], multi: true } /* same list as Who You Are RELIGION */,
-  { k: 'edtier', t: 'Education tier', o: ['Any', 'Top 100', 'Top 50', 'Ivy+'], v: 'Any' }
 ];
+const K5_TIERS = ['Any', 'Top 100', 'Top 50', 'Ivy+'];
 const K4M_DIST = [[10, 3], [25, 6], [50, 9], [100, 14], ['Any', 34]]; // miles -> slider stop index (_VK_STOPS)
 state.k4Prefs = { order: ['dist', 'age', 'height', 'degree', 'income', 'edtier', 'religion', 'politics'].filter(k => K4M_DEF.some(d => d.k === k)).concat(K4M_DEF.map(d => d.k).filter(k => !['dist', 'age', 'height', 'degree', 'income', 'edtier', 'religion', 'politics'].includes(k))), values: Object.fromEntries(K4M_DEF.filter(d => d.o).map(d => [d.k, d.v])) };
+state.k4Prefs.values.edtier = state.k4Prefs.values.edtier || 'Any'; // tier keeps its own field
 const _k4mDef = k => K4M_DEF.find(d => d.k === k);
 function _k4mVal(d) { // [text, "set earlier"?]
   const v = _k4Vals();
@@ -5315,12 +5332,20 @@ function _k4mVal(d) { // [text, "set earlier"?]
   if (d.k === 'dist') { const el = document.getElementById('vi_dist_mi'); return [(el && +el.value >= 34 ? 'Any' : 'Within ' + v.dist), true]; }
   if (d.k === 'income') { const s = document.getElementById('partner_income_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'Any', true]; }
   if (d.k === 'degree') { const s = document.getElementById('partner_education_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'Any', true]; }
-  const x = state.k4Prefs.values[d.k];
+  const x = d.bind ? state[d.bind] : state.k4Prefs.values[d.k];
   if (d.multi) { const a = Array.isArray(x) ? x : []; if (!a.length) return ['Any', false]; const j = a.join(', '); return [a.length === 1 || j.length <= 22 ? j : a[0] + ' + ' + (a.length - 1) + ' more', false]; }
   return [x, false];
 }
+function _k5EduVals() { const s = document.getElementById('partner_education_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'Any', state.k4Prefs.values.edtier || 'Any']; }
 function _k4mChips(d) {
   const box = document.createElement('div'); box.className = 'k4m-chips'; box.hidden = true;
+  if (d.edu) { // two halves: DEGREE (minimum, same options as What You Want, kept in sync) | TIER
+    box.classList.add('k5-edu-ed'); const sel = document.getElementById('partner_education_min');
+    const half = (lab, opts, on, pick) => { const h = document.createElement('div'); h.className = 'k5-half'; const t = document.createElement('div'); t.className = 'k5-half-k'; t.textContent = lab; h.appendChild(t);
+      opts.forEach(([val, txt]) => { const c = document.createElement('button'); c.type = 'button'; c.className = 'k4m-chip' + (on(val) ? ' on' : ''); c.textContent = txt; c.setAttribute('aria-pressed', String(on(val))); c.addEventListener('click', e => { e.preventDefault(); pick(val); k4mRender(); }); h.appendChild(c); }); return h; };
+    box.appendChild(half('Degree', [...sel.options].map(o => [o.value, o.textContent]), v => sel.value === v, v => { sel.value = v; sel.dispatchEvent(new Event('change', { bubbles: true })); }));
+    box.appendChild(half('Tier', K5_TIERS.map(t => [t, t]), v => (state.k4Prefs.values.edtier || 'Any') === v, v => { state.k4Prefs.values.edtier = v; }));
+    return box; }
   const chip = (txt, on, fn, cls) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'k4m-chip' + (on ? ' on' : '') + (cls ? ' ' + cls : ''); b.textContent = txt; b.setAttribute('aria-pressed', String(!!on)); b.addEventListener('click', e => { e.preventDefault(); fn(); }); return b; };
   if (d.early) { box.classList.add('k5-ctl'); box.dataset.borrow = d.k; return box; } // filled with the What You Want control (k5Borrow)
   if (d.k === 'age' || d.k === 'height') {
@@ -5333,8 +5358,8 @@ function _k4mChips(d) {
     const el = document.getElementById('vi_dist_mi'), cur = el ? +el.value : -1;
     K4M_DIST.forEach(([mi, idx]) => box.appendChild(chip(mi === 'Any' ? 'Any' : _k4mDistTxt(idx), cur === idx, () => { el.value = idx; el.dispatchEvent(new Event('input', { bubbles: true })); _viDistUpdate(); k4mRender(); })));
   } else if (d.multi) { // multi-select: 'Any' (= empty list) clears the rest; picking anything else clears 'Any'
-    const cur = () => Array.isArray(state.k4Prefs.values[d.k]) ? state.k4Prefs.values[d.k] : [];
-    d.o.forEach(o => box.appendChild(chip(o, o === 'Any' ? !cur().length : cur().includes(o), () => { let a = cur().slice(); if (o === 'Any') a = []; else if (a.includes(o)) a = a.filter(x => x !== o); else a.push(o); state.k4Prefs.values[d.k] = a; k4mRender(); })));
+    const cur = () => { const v = d.bind ? state[d.bind] : state.k4Prefs.values[d.k]; return Array.isArray(v) ? v : []; };
+    d.o.forEach(o => box.appendChild(chip(o, o === 'Any' ? !cur().length : cur().includes(o), () => { let a = cur().slice(); if (o === 'Any') a = []; else if (a.includes(o)) a = a.filter(x => x !== o); else a.push(o); if (d.bind) { state[d.bind] = a; if (d.bind === 'partnerEthnicity') k5EthSync(); } else state.k4Prefs.values[d.k] = a; k4mRender(); })));
   } else d.o.forEach(o => box.appendChild(chip(o, state.k4Prefs.values[d.k] === o, () => { state.k4Prefs.values[d.k] = o; k4mRender(); })));
   return box;
 }
@@ -5351,6 +5376,7 @@ function k4mRender() {
     m.innerHTML = '<span class="k4m-n"></span><span class="k4m-txt"><span class="k4m-t"></span><span class="k4m-v"></span></span>';
     m.querySelector('.k4m-n').textContent = String(i + 1).padStart(2, '0'); m.querySelector('.k4m-t').textContent = d.t;
     const v = m.querySelector('.k4m-v'); v.textContent = (txt && !/^(no preference|any distance)$/i.test(txt)) ? txt : 'Any';
+    if (d.edu) { const [l, rr] = _k5EduVals(); v.classList.add('k5-two'); v.innerHTML = '<span></span><span></span>'; v.children[0].textContent = l; v.children[1].textContent = rr; }
     { const ln = document.createElement('span'); ln.className = 'k4m-vl'; v.replaceWith(ln); ln.appendChild(v); } // every row: value only (no EDIT word); tapping the row left of the handle opens it in place; the handle is the only reorder target
     m.addEventListener('click', e => { e.preventDefault(); if (_k4.dragMoved) return; _k4.open = open ? null : k; k4mRender(); if (!open) _k5ShowOpen(k); });
     const h = document.createElement('span'); h.className = 'k4m-h'; h.innerHTML = K4M_HANDLE; h.setAttribute('role', 'button'); h.tabIndex = 0;
@@ -5413,7 +5439,7 @@ function _k4mHeader() {
   document.getElementById('k4m-step').textContent = 'Step ' + n + ' of ' + tot;
   for (const a of ['.screen-label', '.screen-headline', '.screen-content']) { const cs = getComputedStyle(s3.querySelector(a)), t = p.querySelector(a); ['marginBottom', 'fontSize', 'paddingTop', 'paddingBottom'].forEach(k => t.style[k] = cs[k]); }
 }
-const K5_ORDER = { man: ['age', 'dist', 'height', 'degree', 'edtier', 'income', 'religion', 'politics'], other: ['dist', 'age', 'height', 'degree', 'income', 'edtier', 'religion', 'politics'] };
+const K5_ORDER = { man: ['age', 'dist', 'height', 'ethnicity', 'education', 'income', 'religion', 'politics'], other: ['dist', 'age', 'height', 'ethnicity', 'education', 'income', 'religion', 'politics'] };
 function _k5DefaultOrder() { if (_k4.userOrdered) return; const o = K5_ORDER[state.gender === 'man' ? 'man' : 'other'].filter(k => K4M_DEF.some(d => d.k === k)); state.k4Prefs.order = o.concat(K4M_DEF.map(d => d.k).filter(k => !o.includes(k))); }
 function k4ShowWmm() {
   _k5DefaultOrder(); // MOCKUP_grokbot: Woman / other / unset vs Man defaults, until the user reorders
@@ -5512,7 +5538,7 @@ crDef('who-income', { focus: 'income_range', value: () => { const s = document.g
 function k5IncomePayload() { // production: nullable text columns income_range and partner_income_min
   const a = document.getElementById('income_range'), b = document.getElementById('partner_income_min');
   const e = document.getElementById('partner_education_min');
-  return { income_range: a && a.value ? a.value : null, partner_income_min: b && b.value ? b.value : null, partner_education_min: e && e.value ? e.value : null }; // production: nullable text partner_education_min too
+  return { income_range: a && a.value ? a.value : null, partner_income_min: b && b.value ? b.value : null, partner_education_min: e && e.value ? e.value : null, partner_ethnicity: state.partnerEthnicity && state.partnerEthnicity.length ? state.partnerEthnicity.slice() : null, partner_ethnicity_text: state.partnerEthnicity && state.partnerEthnicity.length ? state.partnerEthnicity.join(', ') : 'Any' }; // production: nullable text partner_education_min, text[] partner_ethnicity (+ text companion)
 }
 window.addEventListener('load', () => {
   // Next while INCOME is the open question (untouched = "None Stated" is the answer): fold it and show the next question
@@ -5604,27 +5630,31 @@ document.addEventListener('click', e => { if (e.target.closest && (e.target.clos
 // Stored exactly as before: race / partner_race = JSON array of every label picked.
 const K5_RACES = ['White', 'Black', 'Asian', 'Hispanic / Latino', 'South Asian', 'MENA', 'Pacific Islander', 'Native American', 'Other', 'None Stated'];
 const _rc = { mode: null, draft: [] };
+const K5_ETH = ['Any'].concat(K5_RACES.filter(r => r !== 'None Stated'));
+state.partnerEthnicity = [];
+function k5EthSync() { const t = document.getElementById('partner-eth-text'); if (t) { t.textContent = state.partnerEthnicity.length ? k5RaceSum(state.partnerEthnicity) : 'Any'; t.parentElement.title = state.partnerEthnicity.join(', ') || 'Any'; } if (typeof _k4 !== 'undefined' && _k4.inWmm && typeof k4mRender === 'function') k4mRender(); }
 function k5RaceSum(a) { if (!Array.isArray(a) || !a.length) return ''; const j = a.join(', '); return a.length === 1 || j.length <= 18 ? j : a[0] + ' + ' + (a.length - 1) + ' more'; }
 function _rcRender() {
   const l = document.getElementById('rc-list'); l.replaceChildren();
-  K5_RACES.forEach(r => { const b = document.createElement('button'); b.type = 'button'; b.className = 'cp-row'; b.setAttribute('role', 'checkbox'); b.setAttribute('aria-checked', String(_rc.draft.includes(r)));
+  (_rc.mode === 'eth' ? K5_ETH : K5_RACES).forEach(r => { const b = document.createElement('button'); b.type = 'button'; b.className = 'cp-row'; b.setAttribute('role', 'checkbox'); b.setAttribute('aria-checked', String(r === 'Any' && _rc.mode === 'eth' ? !_rc.draft.length : _rc.draft.includes(r)));
     b.innerHTML = '<span class="cp-box"></span><span class="cp-row-label"></span>'; b.querySelector('.cp-row-label').textContent = r;
-    b.addEventListener('click', () => { const i = _rc.draft.indexOf(r); if (i !== -1) _rc.draft.splice(i, 1); else if (r === RACE_EXCLUSIVE) _rc.draft = [r]; else { _rc.draft = _rc.draft.filter(v => v !== RACE_EXCLUSIVE); _rc.draft.push(r); } _rcRender(); });
+    b.addEventListener('click', () => { if (_rc.mode === 'eth' && r === 'Any') { _rc.draft = []; _rcRender(); return; } const i = _rc.draft.indexOf(r); if (i !== -1) _rc.draft.splice(i, 1); else if (r === RACE_EXCLUSIVE) _rc.draft = [r]; else { _rc.draft = _rc.draft.filter(v => v !== RACE_EXCLUSIVE); _rc.draft.push(r); } _rcRender(); });
     l.appendChild(b); });
 }
 function k5RaceOpen(mode) {
-  _rc.mode = mode; const cur = mode === 'partner' ? state.partnerRace : state.race; _rc.draft = Array.isArray(cur) ? cur.slice() : [];
-  document.getElementById('rc-title').textContent = (mode === 'partner' ? 'Their race' : 'Race') + ' · select all that apply';
+  _rc.mode = mode; const cur = mode === 'eth' ? state.partnerEthnicity : mode === 'partner' ? state.partnerRace : state.race; _rc.draft = Array.isArray(cur) ? cur.slice() : [];
+  document.getElementById('rc-title').textContent = (mode === 'eth' ? 'Ethnicity' : mode === 'partner' ? 'Their race' : 'Race') + ' · select all that apply';
   { const u = mode === 'own' ? 'who-race' : 'pt-race'; clearTimeout(_crT[u]); _crT[u] = null; }
   _rcRender(); document.getElementById('rc-backdrop').hidden = false; document.getElementById('rc-sheet').hidden = false;
   if (typeof sheetPinDone === 'function') sheetPinDone('rc-sheet');
-  const c = document.getElementById(mode === 'partner' ? 'partner_race' : 'race'); if (c) c.setAttribute('aria-expanded', 'true');
+  const c = document.getElementById(mode === 'eth' ? 'partner_ethnicity' : mode === 'partner' ? 'partner_race' : 'race'); if (c) c.setAttribute('aria-expanded', 'true');
 }
 function k5RaceClose(commit) {
   if (!_rc.mode) return; const mode = _rc.mode; _rc.mode = null;
   document.getElementById('rc-backdrop').hidden = true; document.getElementById('rc-sheet').hidden = true;
-  const c = document.getElementById(mode === 'partner' ? 'partner_race' : 'race'); if (c) c.setAttribute('aria-expanded', 'false');
+  const c = document.getElementById(mode === 'eth' ? 'partner_ethnicity' : mode === 'partner' ? 'partner_race' : 'race'); if (c) c.setAttribute('aria-expanded', 'false');
   if (!commit) return;
+  if (mode === 'eth') { state.partnerEthnicity = _rc.draft.filter(r => r !== 'Any'); k5EthSync(); if (typeof saveLead === 'function') saveLead(); return; }
   if (mode === 'partner') { state.partnerRace = _rc.draft.slice(); _syncPartnerRaceButtons(); if (state.partnerRace.length) hideError('partner_race'); if (typeof saveLead === 'function') saveLead(); crRefresh(); if (state.partnerRace.length) crTap('pt-race'); return; }
   state.race = _rc.draft.slice(); _syncRaceButtons(); if (state.race.length) hideError('race');
   crRefresh(); if (state.race.length) crTap('who-race');
