@@ -1172,9 +1172,12 @@
     #screen-k4m .k4m-vl .k4m-v { flex: 0 1 auto; min-width: 0; }
     #screen-k4m .k4m-main .k4m-vl .k4m-edit { margin: -7px 0 -7px 4px; padding: 7px 14px 7px 6px; line-height: 1; } /* 48 x 24 hit box inside the row (the whole row left of the handle also opens it), clear of the handle */
     #screen-k4m .k4m-h .k4m-car, #screen-k4m .k4m-row.open .k4m-h .k4m-car { display: none !important; }
+    html.wmm-b #screen-k4m .k4m-row .k4m-t { color: var(--muted) !important; } /* B: category names grey #888 (same font / size) */
+    html.wmm-b #screen-k4m .k4m-row .k4m-v, html.wmm-b #screen-k4m .k4m-row.k4m-early .k4m-v { color: var(--text) !important; } /* B: values white */
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>/* MOCKUP_grokbot K5: &wmmcolor=b */ if (new URLSearchParams(location.search).get('wmmcolor') === 'b') document.documentElement.classList.add('wmm-b');</script>
 </head>
 <body class="landing-active">
 

@@ -10,7 +10,7 @@
 (function () {
   var q = new URLSearchParams(location.search), v = (q.get('v') || '').toUpperCase();
   if (/^(K5|K4|K3|K2|K|J|I|H2|F|G|H|D|E|LIVE)$/.test(v)) {
-    location.replace('variant_' + v.toLowerCase() + '_grokbot.html?demo=1&cities=' + (q.get('cities') === '10' ? '10' : '3') + (/^(track|text|box)$/.test(q.get('align') || '') ? '&align=' + q.get('align') : '') + (q.get('pc') ? '&pc=' + encodeURIComponent(q.get('pc').slice(0, 40)) : '') + ['edit', 'screen', 'revisit', 'prefs', 'exhalf', 'slider', 'wmm', 'seek'].map(function (k) { var x = q.get(k); return x && /^[a-z0-9]{1,10}$/.test(x) ? '&' + k + '=' + x : ''; }).join(''));
+    location.replace('variant_' + v.toLowerCase() + '_grokbot.html?demo=1&cities=' + (q.get('cities') === '10' ? '10' : '3') + (/^(track|text|box)$/.test(q.get('align') || '') ? '&align=' + q.get('align') : '') + (q.get('pc') ? '&pc=' + encodeURIComponent(q.get('pc').slice(0, 40)) : '') + ['edit', 'screen', 'revisit', 'prefs', 'exhalf', 'slider', 'wmm', 'seek', 'wmmcolor'].map(function (k) { var x = q.get(k); return x && /^[a-z0-9]{1,10}$/.test(x) ? '&' + k + '=' + x : ''; }).join(''));
   }
 })();
 </script>
