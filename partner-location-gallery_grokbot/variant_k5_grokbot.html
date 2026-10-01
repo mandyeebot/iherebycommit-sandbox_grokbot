@@ -5299,12 +5299,11 @@ async function _k4PartnerDefault() {
 // ---------- WHAT MATTERS MOST ----------
 const K4M_DEF = [
   { k: 'age', t: 'Age range', early: true }, { k: 'height', t: 'Height', early: true }, { k: 'dist', t: 'Distance', early: true },
-  { k: 'politics', t: 'Politics', o: ['Any', 'Same as mine', 'Left-leaning', 'Moderate', 'Right-leaning'], v: 'Any' },
+  { k: 'politics', t: 'Politics', o: ['Any', 'Same as mine', 'Left-leaning', 'Moderate', 'Right-leaning'], v: [], multi: true },
   { k: 'income', t: 'Income', o: ['No preference', '$50k+', '$100k+', '$200k+'], v: 'No preference', early: true },
   { k: 'degree', t: 'Degree', early: true },
-  { k: 'religion', t: 'Religion', o: ['Any', 'Same as mine', 'Spiritual', 'Religious', 'Not religious'], v: 'Any' },
-  { k: 'edtier', t: 'Education tier', o: ['Any', 'Top 100', 'Top 50', 'Ivy+'], v: 'Any' },
-  { k: 'profession', t: 'Profession', o: ['Any', 'Similar field', 'Tech', 'Creative', 'Medicine', 'Law', 'Finance'], v: 'Any' }
+  { k: 'religion', t: 'Religion', o: ['Any', 'Same as mine', 'Agnostic', 'Atheist', 'Buddhist', 'Catholic', 'Christian', 'Hindu', 'Jewish', 'Muslim', 'Sikh', 'Spiritual', 'Other'], v: [], multi: true } /* same list as Who You Are RELIGION */,
+  { k: 'edtier', t: 'Education tier', o: ['Any', 'Top 100', 'Top 50', 'Ivy+'], v: 'Any' }
 ];
 const K4M_DIST = [[10, 3], [25, 6], [50, 9], [100, 14], ['Any', 34]]; // miles -> slider stop index (_VK_STOPS)
 state.k4Prefs = { order: K4M_DEF.map(d => d.k), values: Object.fromEntries(K4M_DEF.filter(d => d.o).map(d => [d.k, d.v])) };
@@ -5317,6 +5316,7 @@ function _k4mVal(d) { // [text, "set earlier"?]
   if (d.k === 'income') { const s = document.getElementById('partner_income_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'Any', true]; }
   if (d.k === 'degree') { const s = document.getElementById('partner_education_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'Any', true]; }
   const x = state.k4Prefs.values[d.k];
+  if (d.multi) { const a = Array.isArray(x) ? x : []; if (!a.length) return ['Any', false]; const j = a.join(', '); return [a.length === 1 || j.length <= 22 ? j : a[0] + ' + ' + (a.length - 1) + ' more', false]; }
   return [x, false];
 }
 function _k4mChips(d) {
@@ -5332,6 +5332,9 @@ function _k4mChips(d) {
   } else if (d.k === 'dist') {
     const el = document.getElementById('vi_dist_mi'), cur = el ? +el.value : -1;
     K4M_DIST.forEach(([mi, idx]) => box.appendChild(chip(mi === 'Any' ? 'Any' : _k4mDistTxt(idx), cur === idx, () => { el.value = idx; el.dispatchEvent(new Event('input', { bubbles: true })); _viDistUpdate(); k4mRender(); })));
+  } else if (d.multi) { // multi-select: 'Any' (= empty list) clears the rest; picking anything else clears 'Any'
+    const cur = () => Array.isArray(state.k4Prefs.values[d.k]) ? state.k4Prefs.values[d.k] : [];
+    d.o.forEach(o => box.appendChild(chip(o, o === 'Any' ? !cur().length : cur().includes(o), () => { let a = cur().slice(); if (o === 'Any') a = []; else if (a.includes(o)) a = a.filter(x => x !== o); else a.push(o); state.k4Prefs.values[d.k] = a; k4mRender(); })));
   } else d.o.forEach(o => box.appendChild(chip(o, state.k4Prefs.values[d.k] === o, () => { state.k4Prefs.values[d.k] = o; k4mRender(); })));
   return box;
 }
@@ -5349,9 +5352,9 @@ function k4mRender() {
     m.querySelector('.k4m-n').textContent = String(i + 1).padStart(2, '0'); m.querySelector('.k4m-t').textContent = d.t;
     const v = m.querySelector('.k4m-v'); v.textContent = (txt && !/^(no preference|any distance)$/i.test(txt)) ? txt : 'Any';
     { const ln = document.createElement('span'); ln.className = 'k4m-vl'; v.replaceWith(ln); ln.appendChild(v); } // every row: value only (no EDIT word); tapping the row left of the handle opens it in place; the handle is the only reorder target
-    m.addEventListener('click', e => { e.preventDefault(); if (_k4.dragMoved) return; _k4.open = open ? null : k; k4mRender(); });
+    m.addEventListener('click', e => { e.preventDefault(); if (_k4.dragMoved) return; _k4.open = open ? null : k; k4mRender(); if (!open) _k5ShowOpen(k); });
     const h = document.createElement('span'); h.className = 'k4m-h'; h.innerHTML = K4M_HANDLE; h.setAttribute('role', 'button'); h.tabIndex = 0;
-    h.setAttribute('aria-label', open ? 'Close ' + d.t : 'Move ' + d.t + ' (position ' + (i + 1) + ' of 9); use arrow keys or drag');
+    h.setAttribute('aria-label', open ? 'Close ' + d.t : 'Move ' + d.t + ' (position ' + (i + 1) + ' of ' + state.k4Prefs.order.length + '); use arrow keys or drag');
     h.addEventListener('pointerdown', e => _k4mDown(e, r));
     h.addEventListener('keydown', e => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); k4mMove(k, e.key === 'ArrowUp' ? -1 : 1, true); } else if ((e.key === 'Enter' || e.key === ' ') && open) { e.preventDefault(); _k4.open = null; k4mRender(); } });
     h.addEventListener('click', e => { if (open && !_k4.dragMoved) { _k4.open = null; k4mRender(); } });
@@ -5361,6 +5364,7 @@ function k4mRender() {
   list.scrollTop = st; if (window.k5Borrow) k5Borrow(); _k4mFade();
   document.documentElement.dataset.k4Order = state.k4Prefs.order.join(',');
 }
+function _k5ShowOpen(k) { const l = document.getElementById('k4m-list'), r = l && l.querySelector('.k4m-row[data-k="' + k + '"]'); if (!r) return; const lb = l.getBoundingClientRect(), rb = r.getBoundingClientRect(); if (rb.bottom > lb.bottom) l.scrollTop += Math.min(rb.bottom - lb.bottom + 2, rb.top - lb.top); else if (rb.top < lb.top) l.scrollTop -= lb.top - rb.top; _k4mFade(); }
 function _k4mFade() { const l = document.getElementById('k4m-list'); if (!l) return; const s = l.scrollHeight > l.clientHeight + 1; l.classList.toggle('k4m-scrolls', s); l.classList.toggle('k4m-end', !s || l.scrollTop + l.clientHeight >= l.scrollHeight - 2); }
 function k4mMove(k, dir, focus) {
   const o = state.k4Prefs.order, i = o.indexOf(k), j = i + dir; if (j < 0 || j >= o.length) return;
