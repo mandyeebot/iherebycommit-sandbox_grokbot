@@ -1,0 +1,363 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grok Favorites · top 10 insight cards_grokbot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0e0e;--text:#f0ece0;--body:#9a978c;--muted:#888;--dim:#333;--lime:#c8f135;--orange:#FF7A2F;--accent:var(--lime);--radius:4px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace}
+body{padding:24px}
+.sheethead{margin:0 0 18px;max-width:1900px}
+.sheethead h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;letter-spacing:1px}
+.sheethead h1 b{color:var(--accent);font-weight:400}
+.sheethead p{font-size:11px;color:#8a877c;line-height:1.55;max-width:1500px;margin-top:4px}
+.sheethead p b{color:var(--text)}
+.modes{display:flex;gap:6px;margin:12px 0 0}
+.modes button,.nav button{font-family:'Space Mono',monospace;font-size:11px;padding:8px 12px;border:1px solid var(--dim);background:transparent;color:var(--muted);border-radius:var(--radius);cursor:pointer;text-transform:uppercase;letter-spacing:1px}
+.modes button.on,.nav button.nx{border-color:var(--accent);background:var(--accent);color:var(--bg)}
+.nav button:disabled{opacity:.3;cursor:default}
+.sheet{display:grid;grid-template-columns:repeat(5,361px);gap:22px;justify-content:start}
+.wrap{position:relative;cursor:pointer}
+.cid{font-size:10px;color:#666;margin:0 0 5px 2px;letter-spacing:1px}
+.cid b{color:var(--accent)}
+/* single view */
+body.one .sheet{display:block}
+body.one .wrap{display:none;cursor:default;width:361px;margin:0 auto}
+body.one .wrap.cur{display:block}
+.nav{display:none;width:361px;margin:14px auto 0;align-items:center;justify-content:space-between}
+body.one .nav{display:flex}
+.nav .pos{font-size:11px;color:var(--muted);letter-spacing:1px}
+.keyhint{display:none;text-align:center;font-size:9px;color:#555;margin-top:8px}
+body.one .keyhint{display:block}
+/* 9:16 card (old style) */
+.card{width:361px;height:642px;position:relative;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid #222;user-select:none}
+.card .inner{position:absolute;inset:0;padding:26px 22px 18px;display:flex;flex-direction:column}
+.card.hero .inner{background:var(--accent);color:#0e0e0e}
+.tag{position:absolute;top:9px;left:10px;right:10px;font-size:7.5px;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:max-content;max-width:calc(100% - 20px)}
+.tag.real{background:var(--accent);color:#0e0e0e;font-weight:700}
+.tag.ex{border:1px dashed #777;color:#aaa}
+.tag.mix{background:#0e0e0e;color:var(--accent);border:1px solid var(--accent);font-weight:700}
+.hero .tag.mix{border-color:#0e0e0e}
+.kicker{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero .kicker{color:#0e0e0e;opacity:.75}
+.big{font-family:'Bebas Neue',sans-serif;font-size:112px;line-height:.85;color:var(--accent);letter-spacing:1px}
+.big small{font-size:40px}
+.big.txt{font-size:62px;line-height:.9}
+.big.mid{font-size:80px}
+h2.head{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:34px;line-height:.95;letter-spacing:.5px;margin:10px 0 10px;color:var(--text)}
+.sub{font-size:11.5px;line-height:1.5;color:var(--body)}
+.sub b{color:var(--text);font-weight:700}
+.viz{margin:12px 0 8px;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.foot{margin-top:auto;border-top:1px solid #262626;padding-top:7px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.hero .foot{border-top-color:rgba(0,0,0,.25)}
+.src{font-size:7.8px;line-height:1.35;color:var(--muted);max-width:250px;word-break:break-word}
+.hero .src{color:#222}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--text);white-space:nowrap}
+.hero .brand{color:#0e0e0e}
+/* shared viz */
+.bar{width:100%}
+.bar .row{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:9.5px;color:var(--body)}
+.bar .row .lbl{width:112px;text-align:right}
+.bar .track{flex:1;height:13px;background:#1b1b1b;border-radius:2px;position:relative}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:2px}
+.bar .fill.alt{background:#555}
+.bar .val{width:46px;font-weight:700;color:var(--text)}
+.tbl{width:100%;border-collapse:collapse;font-size:10px}
+.tbl td{border-bottom:1px solid #262626;padding:6px 4px;color:var(--body)}
+.tbl tr:first-child td{font-size:9px;letter-spacing:1px;color:#777}
+.tbl td:nth-child(3){color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:21px}
+.tbl tr:first-child td:nth-child(3){font-family:'Space Mono';font-size:9px;color:#777}
+.tbl tr.ex td{color:#666;font-style:italic}.tbl tr.ex td:nth-child(3){color:#777}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.types span{font-size:9.5px;border:1px solid #333;color:#777;padding:7px 6px;border-radius:4px;text-align:center}
+.types span.on{border-color:var(--accent);background:var(--accent);color:#0e0e0e;font-weight:700}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.quick button{font-family:'Bebas Neue',sans-serif;font-size:30px;padding:14px 6px;border:1px solid #444;background:#151515;color:var(--text);border-radius:var(--radius)}
+.cta{display:block;width:100%;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;padding:11px;border-radius:var(--radius);background:var(--accent);color:#0e0e0e;margin:4px 0 10px;text-align:center}
+.vs{display:flex;gap:10px;width:100%}
+.vs div{flex:1;border:1px solid #2a2a2a;border-radius:6px;padding:12px 8px;text-align:center;font-size:10px;color:var(--body);line-height:1.4}
+.vs div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:60px;color:var(--text);font-weight:400;line-height:1}
+.vs div:first-child b{color:var(--accent)}
+.cal{display:flex;gap:6px;width:100%;align-items:center}
+.cal div{flex:1;border:1px solid #333;border-radius:6px;text-align:center;padding:10px 3px;font-size:8px;color:var(--body);letter-spacing:1px}
+.cal div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--text);font-weight:400;letter-spacing:0;margin-top:4px}
+.cal em{font-style:normal;font-family:'Bebas Neue',sans-serif;color:var(--accent);font-size:24px}
+.dots{display:grid;grid-template-columns:repeat(14,1fr);gap:5px;width:100%}
+.dots i{display:block;width:100%;aspect-ratio:1;border-radius:50%}
+.dots i.m{background:var(--accent)}.dots i.x{border:1px solid #333}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips span{font-size:9.5px;border:1px solid var(--accent);color:var(--accent);padding:3px 8px;border-radius:14px}
+/* receipt */
+.rcard .inner{padding:24px 16px 14px}
+.receipt{background:#fbfaf4;color:#111;font-size:9.5px;line-height:1.3;padding:12px 12px 16px;border-radius:2px;flex:1;display:flex;flex-direction:column;justify-content:space-between;margin-bottom:8px;
+ -webkit-mask:radial-gradient(circle 5px at 50% 100%,#0000 98%,#000) 50% 100%/12px 100% repeat-x;mask:radial-gradient(circle 5px at 50% 100%,#0000 98%,#000) 50% 100%/12px 100% repeat-x;box-shadow:0 8px 0 rgba(0,0,0,.12)}
+.rc{text-align:center;font-size:8.5px;letter-spacing:1px;color:#333}
+.rc b{display:block;font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;color:#111;font-weight:400;line-height:1;margin:2px 0}
+.rc.sm{font-size:7.5px;margin-top:4px}
+.rd{border-top:1.5px dashed #999;margin:5px 0}
+.rl{display:flex;justify-content:space-between;align-items:flex-end;gap:6px}
+.rl .ra{font-weight:700}
+.rl .ra em{display:block;font-style:normal;font-weight:400;font-size:7.5px;color:#666;letter-spacing:.3px}
+.rl .rv{font-weight:700;white-space:nowrap}
+.rl sup{font-size:8px;color:#5a7a00;margin-left:1px}
+.rl.tot{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1}
+.rl.tot .ra{font-weight:400}.rl.tot .rv{font-weight:400}
+.rl.sm{font-size:8px;color:#666}.rl.sm .ra,.rl.sm .rv{font-weight:400}
+.rl.vs{background:#111;color:var(--lime);padding:4px 6px;border-radius:2px}
+.rl.vs sup{color:var(--lime)}
+.rb{height:4px;background:#eee;margin:2px 0 4px}.rb i{display:block;height:100%;background:#111;min-width:3px}
+.bc{height:26px;margin:6px 20px 0;background:repeating-linear-gradient(90deg,#111 0 2px,transparent 2px 4px,#111 4px 5px,transparent 5px 8px,#111 8px 11px,transparent 11px 12px)}
+/* swaps */
+.swaps{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.swaps div{border:1px solid #333;border-radius:6px;padding:10px 8px;font-size:9.5px;color:var(--body);text-align:center;line-height:1.35}
+.swaps b{display:block;font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--accent);font-weight:400;line-height:1}
+/* years */
+.yrs{display:flex;align-items:flex-end;gap:8px;height:140px;width:100%}
+.yrs div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;font-size:8.5px;color:#777;text-align:center;gap:3px}
+.yrs i{display:block;background:#444;border-radius:2px 2px 0 0;min-height:2px}
+.yrs div.on i{background:var(--accent)}.yrs div.on{color:var(--accent)}
+.yrs em{font-style:normal;font-size:8px}
+/* era */
+.era{width:100%;position:relative}
+.era .yr{position:relative;height:14px;font-size:8.5px;color:#666}
+.era .yr span{position:absolute}
+.era .ln{position:relative;height:26px;margin:6px 0;border-bottom:1px solid #222}
+.era .ln label{position:absolute;left:0;top:-1px;font-size:8.5px;color:var(--body);letter-spacing:1px;text-transform:uppercase}
+.era .ln i{position:absolute;top:12px;height:10px;background:var(--accent);border-radius:2px;min-width:5px}
+.era .ln.ex i{background:transparent;border:1px dashed #777}
+/* clock */
+.clock{display:flex;align-items:flex-end;gap:2px;height:150px;width:100%}
+.clock div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
+.clock i{display:block;background:#444;border-radius:1px}
+.clock div.on i{background:var(--accent)}
+.clock div.pk i{background:var(--text)}
+.clock span{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);font-size:7px;color:#777;white-space:nowrap}
+/* badge */
+.badge{margin:10px auto 4px;width:190px;height:190px;border-radius:50%;border:3px double var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;outline:1px dashed #444;outline-offset:6px}
+.badge b{font-family:'Bebas Neue',sans-serif;font-size:96px;line-height:.85;color:var(--accent);font-weight:400}
+.badge span{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px}
+.badge em{font-style:normal;font-size:8.5px;letter-spacing:2px;color:var(--body);margin-top:2px}
+/* bingo */
+.bingo{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;width:100%}
+.bingo div{aspect-ratio:1;border:1px solid #2a2a2a;border-radius:3px;font-size:7.3px;line-height:1.15;color:#555;display:flex;align-items:center;justify-content:center;text-align:center;padding:2px}
+.bingo div.on{background:var(--accent);color:#0e0e0e;border-color:var(--accent);font-weight:700}
+.bingo div.q{border:1px dashed var(--accent);color:var(--accent)}
+/* roast */
+.roast{width:100%}
+.roast p{font-size:11.5px;line-height:1.45;color:var(--body);border-left:3px solid var(--accent);padding:5px 0 5px 10px;margin:7px 0;background:#141414}
+.roast p b{color:var(--text)}
+.cmp{width:100%;border-collapse:collapse;font-size:9px;table-layout:fixed}
+.cmp th{text-align:left;font-weight:700;color:var(--text);font-size:8.6px;padding:3px 2px;width:31%;line-height:1.15;border-bottom:1px solid #222}
+.cmp th em{display:block;font-style:normal;font-weight:400;font-size:7px;color:var(--accent);letter-spacing:.3px}
+.cmp th em.nc{color:#555}
+.cmp td{text-align:center;padding:3px 1px;border-bottom:1px solid #222;color:var(--body);font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.3px}
+.cmp tr:first-child td{font-family:'Space Mono',monospace;font-size:7.5px;letter-spacing:1px;color:#777;font-weight:700}
+.cmp td.win{background:var(--accent);color:#0e0e0e}
+.cmp td.ex{color:#555;font-style:italic}
+.card.heat .inner{background:var(--orange);color:#0e0e0e}
+.heat .kicker,.heat .big,.heat h2.head,.heat .sub,.heat .sub b,.heat .brand,.heat .src{color:#0e0e0e}
+.heat .foot{border-top-color:rgba(0,0,0,.3)}
+.heat .tag.real{background:#0e0e0e;color:var(--orange)}
+.heat .vs div{border-color:rgba(0,0,0,.35);color:#1c1c1c}
+.heat .vs div b{color:#0e0e0e;font-size:72px}
+.heat .vs div:first-child{background:#0e0e0e;color:var(--orange)}.heat .vs div:first-child b{color:var(--orange)}
+.legend2{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:10px;color:#8a877c;align-items:center}
+.legend2 .tag{position:static;display:inline-block}
+.tag.est{background:#ff9f1c;color:#0e0e0e;font-weight:700}
+
+.tl2{position:relative;width:100%;height:120px}
+.tl2 .ln{position:absolute;left:0;right:0;top:51px;height:2px;background:#333}
+.tl2 .pt{position:absolute;top:0;width:120px;margin-left:-20px;font-size:9.5px;color:var(--body);line-height:1.3}
+.tl2 .pt b{display:block;font-family:'Bebas Neue',sans-serif;font-size:30px;color:#ff5a7a;font-weight:400}
+.tl2 .pt.h b{color:#9b7bff}
+.tl2 .pt span{display:block;margin-top:34px}
+.tl2 .pt::after{content:'';position:absolute;left:14px;top:42px;width:16px;height:16px;border-radius:50%;background:#ff5a7a;border:3px solid #0e0e0e}
+.tl2 .pt.h::after{background:#9b7bff}
+
+.why{font-size:9.5px;color:#9a978c;margin:0 0 7px 2px;line-height:1.45;max-width:361px}
+.why b{color:var(--accent);font-weight:700}
+.badge2{display:inline-block;font-size:8px;letter-spacing:1px;padding:1px 5px;border-radius:3px;margin-right:4px;vertical-align:1px;font-weight:700}
+.badge2.new{background:var(--accent);color:#0e0e0e}.badge2.old{border:1px solid #777;color:#bbb}.badge2.bonus{border:1px dashed var(--accent);color:var(--accent)}
+.hb{display:flex;align-items:flex-end;gap:2px;height:118px;width:100%;position:relative}
+.hb div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
+.hb i{display:block;background:#3a3a3a;border-radius:1px}
+.hb div.z i{background:var(--accent)}
+.hb span{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);font-size:7px;color:#777;white-space:nowrap}
+.hbkey{display:flex;gap:12px;font-size:8.5px;color:var(--body);margin-top:18px;letter-spacing:.5px}
+.hbkey i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px;background:#3a3a3a}
+.hbkey i.z{background:var(--accent)}
+.mt{width:100%;border-collapse:collapse;font-size:9.5px}
+.mt td{border-bottom:1px solid #262626;padding:2px 4px;color:var(--body);text-align:center}
+.mt td:first-child{text-align:left}
+.mt tr:first-child td{font-size:8px;letter-spacing:1px;color:#777;text-transform:uppercase}
+.mt td.a{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#999}
+.mt td.b{font-family:'Bebas Neue',sans-serif;font-size:21px;color:var(--accent)}
+.mt tr:first-child td{line-height:1.2}
+.mt tr.tot td{border-top:1px solid #555;color:var(--text)}
+.wk .row .lbl{width:58px}
+.wk .row.on .lbl{color:var(--accent);font-weight:700}
+.wk .val{width:78px}
+.wk .val em{font-style:normal;font-weight:400;color:#777;font-size:8.5px}
+.yrs.yr10{height:150px;gap:4px}
+.yrs.yr10 div{font-size:8px}
+.yrs.yr10 em{font-size:7.5px;color:#999}
+.srcl{width:100%;font-size:8.6px;line-height:1.38;color:var(--body)}
+.srcl li{margin:0 0 8px 14px;padding-left:2px}
+.srcl b{color:var(--text)}
+.srcl a{color:var(--accent);word-break:break-all;text-decoration:none}
+.srcl em{font-style:normal;color:#888}
+.cover p.sub{font-size:11px}
+.legendc{display:flex;flex-direction:column;gap:7px;margin:12px 0}
+.legendc .tag{position:static;display:inline-block;width:max-content}
+.legendc div{font-size:9.5px;color:#222;line-height:1.35}
+.agem .row .lbl{width:118px}
+.agem .track{display:flex;background:transparent}
+.agem .l,.agem .r{height:13px;border-radius:2px;position:relative}
+.agem .l{background:#555;margin-left:auto}
+.agem .r{background:var(--accent)}
+.agem .half{flex:1;display:flex}
+.agem .half.lft{justify-content:flex-end;border-right:2px solid var(--text)}
+.agem .val{width:56px;font-size:9px}
+.topnav{font-size:10px;margin:0 0 6px}
+.topnav a{color:var(--accent);text-decoration:none}
+</style></head><body class="one">
+<div class="sheethead"><div class="topnav"><a href="index.html">← All insight card sets</a> · <a href="card-review_grokbot.html">Full review scores (all 127 cards) →</a></div>
+<h1>GROK <b>FAVORITES</b> · THE 10 CARDS TO REVIEW FIRST</h1>
+<p>Picked by grokbot from every card on this site (127) plus 7 new ones built from <b>Amanda's real League, Hinge, Bumble and Tinder exports</b> and cited research. Top 10 = 5 new + 5 existing, then 2 bonus new cards and a Sources screen. No example data. Static cards: tap the right side for next, left side for back, or use the arrow keys. Updated Sep 30, 2026 PT.</p>
+<div class="modes"><button id="mSheet">All cards</button><button id="mOne" class="on">One at a time</button></div></div>
+<div class="sheet" id="sheet"><div class="wrap" data-i="0"><div class="cid"><b>Cover</b> · Start here</div><p class="why"><b>Why:</b> How to read this deck.</p><div class="card hero cover"><div class="inner"><span class="tag mix">Read me first · Grok's picks</span>
+<div class="kicker" style="margin-top:14px">Grok Favorites · review these first</div>
+<div class="big txt" style="color:#0e0e0e;font-size:84px">GROK<br>FAVORITES</div>
+<p class="sub" style="color:#0e0e0e;margin-top:12px">The <b style="color:#0e0e0e">10 cards</b> most likely to get screenshotted, picked from the <b style="color:#0e0e0e">127</b> we've built plus <b style="color:#0e0e0e">7 new ones</b>. 5 of the 10 are new. Two bonus new cards and a Sources screen follow.</p>
+<div class="legendc">
+<div><span class="tag real" style="background:#0e0e0e;color:var(--lime)">✓ Amanda's real data</span><br>From her own League, Hinge, Bumble or Tinder export.</div>
+<div><span class="tag mix">✓ Real + cited</span><br>Her real number next to a cited outside stat (source on the card).</div>
+<div><span class="tag est">≈ Estimate</span><br>Our math on cited data. Assumptions are written on the card.</div></div>
+<p class="sub" style="color:#0e0e0e;font-size:10px">Tap the right side (or →) for next, left side (or ←) for back. Nothing moves on its own.</p>
+<div class="foot"><div class="src">No example data in this deck. No League company data or League-published stats. No email, phone, location, names, photos or message text. Match and yes-rates describe pickiness as much as anything; they are never desirability scores.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="1"><div class="cid"><b>#1</b> · <span class="badge2 old">EXISTING</span>Your Dating App Receipt (V01, tightened)</div><p class="why"><b>Why:</b> The hero card: one giant real number in a format everyone screenshots (Spotify-Wrapped energy). Tightened: the two EXAMPLE lines (per first date, waitlist rank) are gone, replaced by a cited Pew benchmark, so every line is real or sourced.</p><div class="card hero rcard"><div class="inner"><span class="tag mix">✓ Real + cited · 4 apps: purchases vs Pew 2022</span>
+<div class="kicker" style="margin-top:14px">The hero card · spend per app</div>
+<div class="receipt">
+ <div class="rc">I HEREBY COMMIT<br><b>DATING APP RECEIPT</b><br>CUSTOMER: AMANDA · ALL-TIME<br>PRINTED 09/29/2026</div>
+ <div class="rd"></div>
+ <div class="rl"><span class="ra">THE LEAGUE<em>74 purchases · 2016–19</em></span><span class="rv">$8,575.26<sup>✓</sup></span></div><div class="rb"><i style="width:100%"></i></div>
+ <div class="rl"><span class="ra">HINGE<em>7 payments · 2025</em></span><span class="rv">$229.95<sup>✓</sup></span></div><div class="rb"><i style="width:2.7%"></i></div>
+ <div class="rl"><span class="ra">BUMBLE<em>7 Boost payments · 2021 + 2025</em></span><span class="rv">$219.93<sup>✓</sup></span></div><div class="rb"><i style="width:2.6%"></i></div>
+ <div class="rl"><span class="ra">TINDER<em>0 subscriptions · 0 boosts in export</em></span><span class="rv">$0.00<sup>✓</sup></span></div><div class="rb"><i style="width:0%"></i></div>
+ <div class="rd"></div>
+ <div class="rl tot"><span class="ra">TOTAL</span><span class="rv">$9,025.14</span></div>
+ <div class="rl sm"><span class="ra">4 apps, all from your exports · refunds not counted</span><span class="rv">−$5,699.96 back</span></div>
+ <div class="rd"></div>
+ <div class="rl"><span class="ra">PER MATCH<em>League + Hinge, 1,254 matches</em></span><span class="rv">$7.02<sup>✓</sup></span></div>
+ <div class="rl"><span class="ra">PER CONVERSATION<em>Hinge + Bumble, 94 chats</em></span><span class="rv">$4.79<sup>✓</sup></span></div>
+ <div class="rd"></div>
+ <div class="rl vs"><span class="ra">WOMEN WHO DATE ONLINE<em style="color:#c8f135">who have EVER paid · Pew 2022</em></span><span class="rv">29%<sup>‡</sup></span></div>
+ <div class="bc"></div>
+ <div class="rc sm">✓ = from your exports · ‡ = Pew Research Center<br>88 payments: League 74 · Hinge 7 · Bumble 7</div>
+</div>
+<div class="foot"><div class="src">✓ Amanda's 4 exports as recorded (League currency assumed USD). Per match = League + Hinge (Bumble has no match count). ‡ Pew Research Center, Jul 2022 survey, n=6,034 U.S. adults; of online daters, 35% ever paid, women 29% · pewresearch.org/short-reads/2023/02/02/key-findings-about-online-dating-in-the-u-s</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="2"><div class="cid"><b>#2</b> · <span class="badge2 new">NEW</span>While America Sleeps</div><p class="why"><b>Why:</b> Personal pattern × a population benchmark nobody else has computed: her real like timestamps against the government&#x27;s own time-use diaries. A single big number, a funny frame, and a twist (night likes matched less).</p><div class="card"><div class="inner"><span class="tag mix">✓ Real + cited · League likes × U.S. time-use diaries</span>
+<div class="kicker" style="margin-top:14px">While America sleeps</div>
+<div class="big">748</div>
+<h2 class="head">LEAGUE LIKES SENT WHILE MOST OF AMERICA WAS ASLEEP. AT 11:30PM, 79% ARE.</h2>
+<div class="viz" style="flex-direction:column;align-items:stretch"><div class="hb"><div class="z"><i style="height:30%"></i><span>12a</span></div><div class="z"><i style="height:28%"></i><span></span></div><div class="z"><i style="height:19%"></i><span></span></div><div class="z"><i style="height:32%"></i><span>3a</span></div><div class="z"><i style="height:14%"></i><span></span></div><div class="z"><i style="height:8%"></i><span></span></div><div class="z"><i style="height:1%"></i><span>6a</span></div><div class=""><i style="height:1%"></i><span></span></div><div class=""><i style="height:16%"></i><span></span></div><div class=""><i style="height:24%"></i><span>9a</span></div><div class=""><i style="height:17%"></i><span></span></div><div class=""><i style="height:24%"></i><span></span></div><div class=""><i style="height:17%"></i><span>12p</span></div><div class=""><i style="height:25%"></i><span></span></div><div class=""><i style="height:32%"></i><span></span></div><div class=""><i style="height:16%"></i><span>3p</span></div><div class=""><i style="height:32%"></i><span></span></div><div class=""><i style="height:74%"></i><span></span></div><div class=""><i style="height:38%"></i><span>6p</span></div><div class=""><i style="height:13%"></i><span></span></div><div class=""><i style="height:86%"></i><span></span></div><div class=""><i style="height:54%"></i><span>9p</span></div><div class="z"><i style="height:43%"></i><span></span></div><div class="z"><i style="height:100%"></i><span></span></div></div>
+<div class="hbkey"><span><i class="z"></i>over half of Americans asleep</span><span><i></i>most awake</span></div></div>
+<p class="sub"><b>37%</b> of your 2,024 likes went out between 10pm and 7am. Peak: <b>272</b> in the 11pm hour. The twist: your daytime likes matched more often (<b>62%</b> vs <b>56%</b> at night).</p>
+<div class="foot"><div class="src">✓ Amanda's League likes Feb 2017–Sep 2026, Pacific time (shift if you were elsewhere). Asleep = weighted share of Americans 15+ sleeping at each half-hour: BLS American Time Use Survey 2024, n=7,669 diaries · bls.gov/tus/data/datafiles-0324.htm. Our calculation. Match rates: 897 day vs 1,127 night likes, an association only.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="3"><div class="cid"><b>#3</b> · <span class="badge2 new">NEW</span>The Tall-Single Math</div><p class="why"><b>Why:</b> The most &quot;you couldn&#x27;t find this anywhere else&quot; card: her real League height filter run through Census marital data and CDC measured heights. Big reversal (men outnumber women... until the tape measure) makes it debate-bait.</p><div class="card"><div class="inner"><span class="tag est">≈ Estimate · your League filter × Census + CDC</span>
+<div class="kicker" style="margin-top:14px">The tall-single math</div>
+<div class="big mid">≈35</div>
+<h2 class="head" style="font-size:29px">NEVER-MARRIED MEN 5′11″+ PER 100 NEVER-MARRIED WOMEN AT 35–54. NO HEIGHT RULE: 123.</h2>
+<div class="viz"><table class="mt"><tr><td>ages</td><td>men per 100 women</td><td>share 5′11″+</td><td>5′11″+ men per 100</td></tr><tr><td>35–39</td><td class="a">127</td><td>28%</td><td class="b">36</td></tr><tr><td>40–44</td><td class="a">123</td><td>34%</td><td class="b">42</td></tr><tr><td>45–49</td><td class="a">119</td><td>34%</td><td class="b">40</td></tr><tr><td>50–54</td><td class="a">121</td><td>19%</td><td class="b">23</td></tr>
+<tr class="tot"><td>average</td><td class="a" style="color:var(--text)">123</td><td></td><td class="b">35</td></tr></table></div>
+<p class="sub">Never-married men outnumber never-married women at your age. Your <b>5′11″</b> League minimum flips it to roughly <b>3 women per qualifying man</b>. A filter is a filter.</p>
+<div class="foot"><div class="src">✓ league_preferences: ages 33–52, 5′11″ min (nearest Census bands used). Census ACS 5-yr 2020–24 B12002, U.S. · data.census.gov/table/ACSDT5Y2024.B12002. CDC NHANES 2021–23 measured heights, n=385/348/417 men 30s/40s/50s · doi.org/10.15620/cdc/174595. OUR ESTIMATE: assumes height is unrelated to marital status; divorced men not counted.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="4"><div class="cid"><b>#4</b> · <span class="badge2 new">NEW</span>More Open Than 94% of Women Speed Daters</div><p class="why"><b>Why:</b> Her real yes-rate dropped into a famous experiment (Columbia speed dating). Percentile framing (&quot;more open than 94%&quot;) is the most shareable comparison format, and it flips the &quot;picky founder&quot; stereotype.</p><div class="card"><div class="inner"><span class="tag mix">✓ Real + cited · League × Columbia speed dating</span>
+<div class="kicker" style="margin-top:14px">Your yes-rate vs. 274 women at real speed dates</div>
+<div class="big">94<small>%</small></div>
+<h2 class="head">OF WOMEN SPEED DATERS SAID YES LESS OFTEN THAN YOU DO ON THE LEAGUE.</h2>
+<div class="viz"><div class="bar">
+<div class="row"><span class="lbl">You, League ✓</span><div class="track"><div class="fill" style="width:74%"></div></div><span class="val">74%</span></div>
+<div class="row"><span class="lbl">You, Hinge ✓</span><div class="track"><div class="fill" style="width:55%"></div></div><span class="val">55%</span></div>
+<div class="row"><span class="lbl">Median man, speed dating</span><div class="track"><div class="fill alt" style="width:44%"></div></div><span class="val">44%</span></div>
+<div class="row"><span class="lbl">Median woman, speed dating</span><div class="track"><div class="fill alt" style="width:37%"></div></div><span class="val">37%</span></div></div></div>
+<p class="sub">Only 17 of 274 women said yes as often as you. And <b>59%</b> of your League likes became matches; <b>45%</b> of women's yeses did at speed dating. Yes-rate is pickiness, <b>not desirability</b>.</p>
+<div class="foot"><div class="src">✓ League 2,024 yes ÷ 2,733 decisions (2017–26), 1,189 matches from likes; Hinge 142 likes ÷ 256. Columbia speed dating 2002–04 (Fisman, Iyengar, Kamenica & Simonson 2006, QJE): 274 women, 4,184 decisions; 551 people overall. Our reanalysis · doi.org/10.1162/qjec.2006.121.2.673. 4-minute in-person dates ≠ app profiles.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="5"><div class="cid"><b>#5</b> · <span class="badge2 new">NEW</span>The Pickiness Rollercoaster</div><p class="why"><b>Why:</b> A hidden pattern only a decade of exports can show: yes-rate swung from 95% to 18% to 97%. Identity-revealing (&quot;which era are you in?&quot;), invites friends to compare their own arcs, and it&#x27;s all her real data.</p><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · league_interactions by year</span>
+<div class="kicker" style="margin-top:14px">Your pickiness, year by year</div>
+<div class="big">18<small>%</small></div>
+<h2 class="head">YOUR LEAGUE YES-RATE IN 2018, THE YEAR OF THE GREAT PURGE. BY 2025: 97%.</h2>
+<div class="viz"><div class="yrs yr10"><div class=""><em>95%</em><i style="height:95%"></i><span>17</span></div><div class="on"><em>18%</em><i style="height:18%"></i><span>18</span></div><div class=""><em>39%</em><i style="height:39%"></i><span>19</span></div><div class=""><em>35%</em><i style="height:34%"></i><span>20</span></div><div class=""><em>66%</em><i style="height:66%"></i><span>21</span></div><div class=""><em>80%</em><i style="height:80%"></i><span>22</span></div><div class=""><em>94%</em><i style="height:94%"></i><span>23</span></div><div class=""><em>87%</em><i style="height:87%"></i><span>24</span></div><div class="on"><em>97%</em><i style="height:96%"></i><span>25</span></div><div class=""><em>96%</em><i style="height:96%"></i><span>26</span></div></div></div>
+<p class="sub">2017: yes to almost everyone. 2018: <b>299 passes</b>, 67 likes. Since 2023 you've passed on just <b>63 people</b>. Picky is a season, not a personality.</p>
+<div class="foot"><div class="src">Amanda's League export: likes ÷ (likes + passes) per calendar year, Pacific time, 2,733 decisions Feb 2017–Sep 2026. Small years: 2019 (116), 2021 (80), 2026 (24). The app's design changed over the decade too, so this is you + the app. Pickiness, not desirability.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="6"><div class="cid"><b>#6</b> · <span class="badge2 new">NEW</span>Friday Is Your Best Day</div><p class="why"><b>Why:</b> The &quot;hidden in the export&quot; pattern that feels like a secret: the day she likes the fewest people is the day her likes land best. Actionable-sounding, surprising, and honest about being an association.</p><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · league_interactions</span>
+<div class="kicker" style="margin-top:14px">Hidden pattern · match rate by weekday</div>
+<div class="big">69<small>%</small></div>
+<h2 class="head">OF YOUR FRIDAY LIKES BECAME MATCHES. MONDAY LIKES: 54%.</h2>
+<div class="viz"><div class="bar wk"><div class="row"><span class="lbl">Mon</span><div class="track"><div class="fill alt" style="width:54%"></div></div><span class="val">54% <em>of 266</em></span></div><div class="row"><span class="lbl">Tue</span><div class="track"><div class="fill alt" style="width:61%"></div></div><span class="val">61% <em>of 174</em></span></div><div class="row"><span class="lbl">Wed</span><div class="track"><div class="fill alt" style="width:56%"></div></div><span class="val">56% <em>of 411</em></span></div><div class="row"><span class="lbl">Thu</span><div class="track"><div class="fill alt" style="width:59%"></div></div><span class="val">59% <em>of 227</em></span></div><div class="row on"><span class="lbl">Fri</span><div class="track"><div class="fill" style="width:69%"></div></div><span class="val">69% <em>of 177</em></span></div><div class="row"><span class="lbl">Sat</span><div class="track"><div class="fill alt" style="width:56%"></div></div><span class="val">56% <em>of 331</em></span></div><div class="row"><span class="lbl">Sun</span><div class="track"><div class="fill alt" style="width:62%"></div></div><span class="val">62% <em>of 438</em></span></div></div></div>
+<p class="sub">Friday is one of your quietest liking days and your best-matching one. Fewer likes, better hit rate. An association, not a guarantee: it also depends on who was online.</p>
+<div class="foot"><div class="src">Amanda's League export: likes that became matches ÷ likes, by weekday, Pacific time, 2,024 likes Feb 2017–Sep 2026 (likes per day shown). A match needs their yes too, so this mixes your picks with their responses. Not a desirability score.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="7"><div class="cid"><b>#7</b> · <span class="badge2 old">EXISTING</span>The Great Download Night (F02, wording tightened)</div><p class="why"><b>Why:</b> Funniest true story in the exports: Tinder and Hinge downloaded 3 minutes apart, then wildly different follow-through. Relatable &quot;same thumb&quot; chaos, zero stats required.</p><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · tinder_ + hinge_profile</span>
+<div class="kicker" style="margin-top:14px">Apr 24, 2025 · a Thursday evening</div>
+<div class="big">3<small> MIN</small></div>
+<h2 class="head">BETWEEN CREATING A TINDER ACCOUNT AND SIGNING UP FOR HINGE. SAME NIGHT. SAME THUMB.</h2>
+<div class="viz"><div class="tl2">
+<div class="pt" style="left:12%"><b>6:48 PM</b><span>Tinder account created</span></div>
+<div class="pt h" style="left:62%"><b>6:52 PM</b><span>Hinge signup</span></div><div class="ln"></div></div></div>
+<p class="sub">Hinge got <b>271 messages</b> out of that night. Tinder got <b>9 swipes</b>. Same night, very different follow-through.</p>
+<div class="foot"><div class="src">Amanda's exports: Tinder created 2025-04-25 01:48:57 UTC, Hinge signup 01:52:15 UTC (3 min 18 s later), shown in Pacific time.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="8"><div class="cid"><b>#8</b> · <span class="badge2 old">EXISTING</span>The July 2019 Splurge (V05, wording tightened)</div><p class="why"><b>Why:</b> One absurd, specific, true number ($999.99 for a boost) is peak screenshot material. Wording tightened: July also had a $999.99 membership, which the original skipped.</p><div class="card "><div class="inner"><span class="tag real">✓ Amanda's real data · league_purchases</span>
+<div class="kicker" style="margin-top:14px">Your most expensive month</div>
+<div class="big">$2,320</div>
+<h2 class="head">JULY 2019. NINE PURCHASES, INCLUDING A $999.99 BOOST.</h2>
+<p class="sub">A boost. For <b>$999.99</b>. Same month: a <b>$999.99</b> one-month membership. August: another one. 2019 was your biggest year: <b>$4,721</b>.</p>
+<div class="viz"><div class="yrs">
+<div><i style="height:9%"></i><span>2016</span><em>$419</em></div><div><i style="height:14%"></i><span>2017</span><em>$641</em></div><div><i style="height:59%"></i><span>2018</span><em>$2,795</em></div><div class="on"><i style="height:100%"></i><span>2019</span><em>$4,721</em></div><div><i style="height:1%"></i><span>2022</span><em>$0 (refunded)</em></div></div></div>
+<div class="foot"><div class="src">Amanda's League export, league_purchases: amount by month and year, refunded purchases excluded. Currency not in export; amounts match U.S. App Store prices, assumed USD.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="9"><div class="cid"><b>#9</b> · <span class="badge2 old">EXISTING</span>The Match-to-Message Gap (V12)</div><p class="why"><b>Why:</b> Ghosting confession everyone relates to (200 matches never got a first message), with the careful caveat that the export only shows her side.</p><div class="card "><div class="inner"><span class="tag real">✓ Amanda's real data · league_matches, hinge_matches</span>
+<div class="kicker" style="margin-top:14px">Swipe-to-message ratio</div>
+<div class="big">58<small>%</small></div>
+<h2 class="head">OF YOUR LEAGUE MATCHES SINCE NOV 2023 NEVER GOT A FIRST MESSAGE FROM YOU.</h2>
+<div class="viz"><div class="vs"><div><b>200</b>of 342 League matches: no message from you</div><div><b>0</b>of 52 Hinge matches listed: no message from you</div></div></div>
+<p class="sub">Hinge you: messages everyone. League you: collects matches like Soho House keycards. Maybe they didn't write either. Your export only shows your side.</p>
+<div class="foot"><div class="src">Amanda's exports. League messages exist only from Nov 13 2023, so only matches since then are counted (342; 142 messaged). Hinge: 52 matches listed, all messaged (Hinge may list only matches with chats). Bumble lists only chats you wrote in, so no gap can be computed.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="10"><div class="cid"><b>#10</b> · <span class="badge2 old">EXISTING</span>Receipts, Roasted (V21)</div><p class="why"><b>Why:</b> Self-aware humor is the most-shared frame in the viral research (OkTrends asides, Spotify roasts). Four real lines, all about behavior, never looks.</p><div class="card "><div class="inner"><span class="tag real">✓ Amanda's real data · purchases + interactions</span>
+<div class="kicker" style="margin-top:14px">Roast me (gently)</div>
+<div class="big txt">YOUR DATA<br>HAS JOKES.</div>
+<div class="viz"><div class="roast">
+<p><b>$199.99 a month</b> for 19 months on The League. The velvet rope has a car payment.</p>
+<p>Tinder: <b>23 opens, 9 swipes, 0 matches</b>. Window-shopping, but make it a whole account.</p>
+<p>Your Hinge subscription outlived your last Hinge like by <b>62 days</b>.</p>
+<p>Bumble gave you <b>97 SuperSwipes</b>. You used <b>2</b>. The other 95 expired of loneliness.</p></div></div>
+<p class="sub" style="font-size:10px">Roasts are about behavior only. Never looks, never who you matched with.</p>
+<div class="foot"><div class="src">Amanda's exports: League sub1Month_199 ×19 kept (2018–19); Tinder usage 23 opens / 9 swipes / 0 matches; Hinge last like Oct 13 2025, last subscription payment Dec 14 2025; Bumble billing: 97 SuperSwipes granted (promo + subscription), 95 expired, 2 spent.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="11"><div class="cid"><b>B1</b> · <span class="badge2 bonus">BONUS · NEW</span>The Slow Burn (bonus, new)</div><p class="why"><b>Why:</b> New, real, and quotable (&quot;record: 300 days&quot;), but personal-only with no benchmark, so it sits just outside the top 10. Also corrects the Wrapped deck&#x27;s 6½-day figure (see caveats).</p><div class="card"><div class="inner"><span class="tag real">✓ Amanda's real data · league_matches</span>
+<div class="kicker" style="margin-top:14px">Bonus · first-message speed</div>
+<div class="big">4½<small> DAYS</small></div>
+<h2 class="head">YOUR TYPICAL WAIT TO SEND A FIRST LEAGUE MESSAGE. RECORD: 300 DAYS.</h2>
+<div class="viz"><div class="cal"><div>WITHIN AN HOUR<b>14</b></div><div>WITHIN A DAY<b>45</b></div><div>30+ DAYS<b>3</b></div></div></div>
+<p class="sub">Of the <b>142</b> matches you messaged since Nov 2023, 14 heard from you within the hour. One waited <b>300 days</b>. Fashionably late, then very late.</p>
+<div class="foot"><div class="src">Amanda's League export: time from match to your first message, for matches made since Nov 13 2023 (when message history starts) that you messaged: n=142, median 108 hours. Matches made earlier are left out because their first messages may be missing.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="12"><div class="cid"><b>B2</b> · <span class="badge2 bonus">BONUS · NEW</span>Your Age Range, Mirrored (bonus, new)</div><p class="why"><b>Why:</b> Clever identity card (she&#x27;s the mirror image of the median OkCupid man), but the benchmark is a 2010 company blog with no sample size, so it&#x27;s a bonus rather than a favorite.</p><div class="card"><div class="inner"><span class="tag mix">✓ Real + cited · your age filters × OkTrends 2010</span>
+<div class="kicker" style="margin-top:14px">Bonus · your age range, mirrored</div>
+<div class="big">+18</div>
+<h2 class="head">YEARS OLDER YOU'LL GO ON HINGE. YOUNGER: JUST 4. THE MEDIAN 42-YEAR-OLD MAN: THE EXACT OPPOSITE.</h2>
+<div class="viz"><div class="bar agem">
+<div class="row"><span class="lbl">You, Hinge ✓</span><div class="track"><div class="half lft"><i class="l" style="width:20%"></i></div><div class="half"><i class="r" style="width:90%;"></i></div></div><span class="val">−4 / +18</span></div><div class="row"><span class="lbl">You, Tinder ✓</span><div class="track"><div class="half lft"><i class="l" style="width:55%"></i></div><div class="half"><i class="r" style="width:45%;"></i></div></div><span class="val">−11 / +9</span></div><div class="row"><span class="lbl">Median man, 31 (OkCupid)</span><div class="track"><div class="half lft"><i class="l" style="width:45%"></i></div><div class="half"><i class="r" style="width:20%;background:#777"></i></div></div><span class="val">−9 / +4</span></div><div class="row"><span class="lbl">Median man, 42 (OkCupid)</span><div class="track"><div class="half lft"><i class="l" style="width:75%"></i></div><div class="half"><i class="r" style="width:15%;background:#777"></i></div></div><span class="val">−15 / +3</span></div>
+<div class="row" style="font-size:8px;color:#777"><span class="lbl"></span><span style="flex:1;text-align:center;white-space:nowrap">← younger | older →</span><span class="val"></span></div></div></div>
+<p class="sub">Hinge-you leans older; Tinder-you is the most even. OkCupid's median men lean younger, more so with age.</p>
+<div class="foot"><div class="src">Amanda's exports: hinge_preferences 32–54 and tinder_profile 26–46, each vs. her age in that export. League (33–52) left out: no birth date in that export. Benchmark: OkCupid OkTrends, 'The Case for an Older Woman', Feb 2010 (company blog, OkCupid users, sample size not given) · gwern.net/doc/psychology/okcupid/thecaseforanolderwoman.html</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" data-i="13"><div class="cid"><b>S1</b> · Sources</div><p class="why"><b>Why:</b> Every outside stat in this deck, with year, sample size and link.</p><div class="card"><div class="inner"><span class="tag real">Sources · every outside stat in this deck</span>
+<div class="kicker" style="margin-top:14px">Sources</div>
+<h2 class="head" style="margin-top:0">WHERE EVERY OUTSIDE NUMBER CAME FROM</h2>
+<ol class="srcl">
+<li><b>Pew Research Center</b>, "Key findings about online dating in the U.S." (survey Jul 2022, n=6,034 U.S. adults). Used on card 1. <a href="https://www.pewresearch.org/short-reads/2023/02/02/key-findings-about-online-dating-in-the-u-s/">pewresearch.org/short-reads/2023/02/02/key-findings-about-online-dating-in-the-u-s</a></li>
+<li><b>BLS American Time Use Survey</b>, 2024 diaries (n=7,669, weighted; our calculation). Card 2. <a href="https://www.bls.gov/tus/data/datafiles-0324.htm">bls.gov/tus/data/datafiles-0324.htm</a></li>
+<li><b>U.S. Census Bureau ACS 5-year 2020–24</b>, table B12002 (never-married men per 100 never-married women, national). Card 3. <a href="https://data.census.gov/table/ACSDT5Y2024.B12002">data.census.gov/table/ACSDT5Y2024.B12002</a></li>
+<li><b>CDC NHANES body measurements</b>, Aug 2021–Aug 2023 (NCHS Series 3 No. 50, pub. 2025; measured; n=385, 348, 417 men 30–39, 40–49, 50–59). Card 3. <a href="https://doi.org/10.15620/cdc/174595">doi.org/10.15620/cdc/174595</a></li>
+<li><b>Columbia speed dating</b>, 2002–04 (Fisman, Iyengar, Kamenica &amp; Simonson 2006, QJE; 551 people, 8,378 decisions; our reanalysis). Card 4. <a href="https://doi.org/10.1162/qjec.2006.121.2.673">doi.org/10.1162/qjec.2006.121.2.673</a></li>
+<li><b>OkCupid OkTrends</b>, "The Case for an Older Woman", Feb 2010 (company blog; sample size not given; archived copy). Bonus card B2. <a href="https://gwern.net/doc/psychology/okcupid/thecaseforanolderwoman.html">gwern.net/doc/psychology/okcupid/thecaseforanolderwoman.html</a></li>
+</ol>
+<p class="sub" style="font-size:9.5px"><b>Personal numbers</b>: Amanda's own League, Hinge, Bumble and Tinder exports (Sep 28, 2026), read-only totals. No League company data or League-published stats. Findings are associations from one person's data, with counts shown.</p>
+<div class="foot"><div class="src">Tap a link to open it. Times in Pacific time. Estimates are labeled ≈ on their cards.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div></div>
+<div class="nav"><button id="bk">← Back</button><span class="pos" id="pos"></span><button class="nx" id="nx">Next →</button></div>
+<div class="keyhint">Tap right side = next · left side = back · arrow keys work · Esc = all cards</div>
+<script>
+const W=[...document.querySelectorAll('.wrap')],N=W.length,qs=new URLSearchParams(location.search);
+let i=Math.min(N-1,Math.max(0,(parseInt(qs.get('card')||'1',10)||1)-1)),one=!qs.has('all');
+function show(){document.body.classList.toggle('one',one);document.getElementById('mOne').classList.toggle('on',one);document.getElementById('mSheet').classList.toggle('on',!one);
+ W.forEach((w,k)=>w.classList.toggle('cur',k===i));document.getElementById('pos').textContent=(i+1)+' / '+N;
+ document.getElementById('bk').disabled=i===0;document.getElementById('nx').disabled=i===N-1}
+function go(d){i=Math.min(N-1,Math.max(0,i+d));show()}
+W.forEach((w,k)=>w.onclick=e=>{if(e.target.closest('a'))return;if(!one){one=true;i=k;show();window.scrollTo(0,0)}else{const c=w.querySelector('.card').getBoundingClientRect();go(e.clientX<c.left+c.width/3?-1:1)}});
+document.getElementById('bk').onclick=()=>go(-1);document.getElementById('nx').onclick=()=>go(1);
+document.getElementById('mOne').onclick=()=>{one=true;show()};document.getElementById('mSheet').onclick=()=>{one=false;show()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){one=false;show();return}if(!one)return;if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1)});
+show();
+</script></body></html>

@@ -27,6 +27,12 @@
     .arrow { color:var(--lime); font-size:18px; }
     a.card:nth-child(2) .arrow, a.card:nth-child(3) .arrow { color:var(--orange); }
     footer { border-top:1px solid #262626; color:#666; font-size:10px; line-height:1.6; margin-top:50px; padding-top:14px; }
+    a.fav { display:block; text-decoration:none; color:#0e0e0e; background:var(--lime); border-radius:4px; padding:26px 24px 22px; margin:0 0 30px; }
+    a.fav:hover, a.fav:focus-visible { outline:2px solid var(--text); outline-offset:3px; }
+    a.fav .tag { color:#0e0e0e; opacity:.75; }
+    a.fav h2 { font-size:56px; margin:12px 0 10px; }
+    a.fav p { font-size:12px; line-height:1.6; margin:0 0 12px; max-width:560px; }
+    a.fav .arrow { color:#0e0e0e; font-weight:700; }
   </style>
 </head>
 <body>
@@ -34,6 +40,12 @@
     <div class="eyebrow">I Hereby Commit / Research mockups</div>
     <h1>Insight <span>cards</span></h1>
     <p class="intro">A viewable collection of data-informed card concepts. Open a set below to explore the interactive mockup.</p>
+    <a class="fav" href="grok-favorites.html">
+      <div class="tag">★ Start here · Grok Favorites · new Sep 30</div>
+      <h2>Grok Favorites · the top 10</h2>
+      <p>The 10 cards to review first, picked from all 127 plus 7 new ones built from your real exports and cited research (U.S. time-use diaries, Census, CDC, Columbia speed dating, Pew). 5 new, 5 existing. No example data.</p>
+      <div class="arrow">→ View the top 10</div>
+    </a>
     <section class="grid" aria-label="Insight card mockups">
       <a class="card" href="cards40.html">
         <div class="tag">01 / Core set</div>
