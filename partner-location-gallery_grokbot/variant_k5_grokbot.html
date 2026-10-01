@@ -5368,7 +5368,7 @@ function _k5ShowOpen(k) { const l = document.getElementById('k4m-list'), r = l &
 function _k4mFade() { const l = document.getElementById('k4m-list'); if (!l) return; const s = l.scrollHeight > l.clientHeight + 1; l.classList.toggle('k4m-scrolls', s); l.classList.toggle('k4m-end', !s || l.scrollTop + l.clientHeight >= l.scrollHeight - 2); }
 function k4mMove(k, dir, focus) {
   const o = state.k4Prefs.order, i = o.indexOf(k), j = i + dir; if (j < 0 || j >= o.length) return;
-  o.splice(i, 1); o.splice(j, 0, k); k4mRender();
+  o.splice(i, 1); o.splice(j, 0, k); _k4.userOrdered = true; k4mRender();
   if (focus) { const h = document.querySelector('.k4m-row[data-k="' + k + '"] .k4m-h'); if (h) { h.focus(); h.scrollIntoView({ block: 'nearest' }); } }
 }
 function _k4mRenumber() { document.querySelectorAll('#k4m-list .k4m-row').forEach((r, i) => { r.querySelector('.k4m-n').textContent = String(i + 1).padStart(2, '0'); }); }
@@ -5383,7 +5383,7 @@ function _k4mDown(e, r) {
   const up = ev => {
     if (!_k4.drag || ev.pointerId !== _k4.drag.id) return; window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
     clearInterval(_k4.drag.timer); r.style.transform = ''; r.classList.remove('dragging');
-    state.k4Prefs.order = [...list.querySelectorAll('.k4m-row')].map(x => x.dataset.k); _k4.drag = null;
+    { const no = [...list.querySelectorAll('.k4m-row')].map(x => x.dataset.k); if (no.join() !== state.k4Prefs.order.join()) _k4.userOrdered = true; state.k4Prefs.order = no; } _k4.drag = null;
     setTimeout(() => { _k4.dragMoved = false; }, 50); k4mRender();
   };
   window.addEventListener('pointermove', move, { passive: false }); window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
@@ -5413,7 +5413,10 @@ function _k4mHeader() {
   document.getElementById('k4m-step').textContent = 'Step ' + n + ' of ' + tot;
   for (const a of ['.screen-label', '.screen-headline', '.screen-content']) { const cs = getComputedStyle(s3.querySelector(a)), t = p.querySelector(a); ['marginBottom', 'fontSize', 'paddingTop', 'paddingBottom'].forEach(k => t.style[k] = cs[k]); }
 }
+const K5_ORDER = { man: ['age', 'dist', 'height', 'degree', 'edtier', 'income', 'religion', 'politics'], other: ['dist', 'age', 'height', 'degree', 'income', 'edtier', 'religion', 'politics'] };
+function _k5DefaultOrder() { if (_k4.userOrdered) return; const o = K5_ORDER[state.gender === 'man' ? 'man' : 'other'].filter(k => K4M_DEF.some(d => d.k === k)); state.k4Prefs.order = o.concat(K4M_DEF.map(d => d.k).filter(k => !o.includes(k))); }
 function k4ShowWmm() {
+  _k5DefaultOrder(); // MOCKUP_grokbot: Woman / other / unset vs Man defaults, until the user reorders
   if (typeof _commitPartnerLocationTyped === 'function') _commitPartnerLocationTyped();
   showScreen(3, 'forward'); _k4mHeader();
   const s3 = document.getElementById('screen-3'), p = document.getElementById('screen-k4m');
@@ -5456,6 +5459,7 @@ window._k4Boot = function () { // called by the ?demo=1 boot (singles, name / DO
   state.wya = { lat: 30.24, lng: -97.77, accuracy: null, source: 'zip', label: 'Austin, TX', cc: 'US', zip: '78704' };
   _wyaRow(); state.genderSeeking = null;
   ['men', 'women', 'both'].forEach(v => { const b = document.getElementById('btn-seek-' + v); if (b) b.classList.remove('selected'); });
+  { const g = K4Q.get('iam'); if ((g === 'man' || g === 'woman') && typeof setGender === 'function') setGender(g); } // demo link: &iam=man / &iam=woman
   showScreen(3, 'forward');
   const go = () => {
     const sb = document.getElementById('btn-seek-both'); if (sb && sb.offsetParent) sb.click();
