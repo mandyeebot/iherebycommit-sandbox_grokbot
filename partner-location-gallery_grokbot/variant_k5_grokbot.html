@@ -1132,18 +1132,19 @@
     .k5-sel-in .field-label { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); margin: 0 !important; pointer-events: none; line-height: 18px; }
     .k5-sel-in select.field-input { min-height: 50px; height: 50px; padding: 0 30px 0 150px; text-align: right; text-align-last: right; -webkit-text-align-last: right; font-size: 13px; }
     .k5-sel-in .k5-caret { right: 12px; }
-    /* Who You Are on 320-wide phones only (K5): production itself scrolls here from Race on; tightened so the extra Location + Income rows fit without scrolling. 393-wide phones of any height look exactly like production. */
-    @media (max-width: 340px) and (max-height: 720px) {
-      html.vk5 #screen-1 .screen-label { margin-bottom: 4px; }
-      html.vk5 #screen-1 .screen-headline { font-size: 40px; margin-bottom: 8px; }
-      html.vk5 #screen-1 .screen-content { padding-top: 16px; }
-      html.vk5 #screen-1 .who-unit.collapsed > .who-cond { min-height: 44px; padding-top: 4px; padding-bottom: 4px; }
-      html.vk5 #screen-1 .who-unit.collapsed .who-cond-k, html.vk5 #screen-1 .who-unit.collapsed .who-cond-v { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; -webkit-line-clamp: unset; }
-      html.vk5 #screen-1 .who-cond-txt { min-width: 0; }
-      html.vk5 #screen-1 .field-group.who-unit { margin-bottom: 8px !important; }
-      html.vk5 #screen-1 .cr-pair { margin-bottom: 8px; gap: 8px; }
-      html.vk5 #screen-1 .cr-pair > .field-group.who-unit { margin-bottom: 0 !important; }
-      html.vk5 #screen-1 .cr-pair .who-unit.collapsed .who-cond-edit { display: none; } /* half boxes: the whole box is the tap target (as on What You Want at 320), so the values fit */
+    /* Who You Are (K5): identical to production until the answers no longer fit (production itself scrolls there, e.g. at 320x640 from Race on);
+       only then #screen-1 gets .k5-tight (set by k5Fit) so the extra Location / Religion / Income rows fit without scrolling. Never triggers at 393x852. */
+    @media all {
+      html.vk5 #screen-1.k5-tight .screen-label { margin-bottom: 4px; }
+      html.vk5 #screen-1.k5-tight .screen-headline { font-size: 40px; margin-bottom: 8px; }
+      html.vk5 #screen-1.k5-tight .screen-content { padding-top: 16px; }
+      html.vk5 #screen-1.k5-tight .who-unit.collapsed > .who-cond { min-height: 44px; padding-top: 4px; padding-bottom: 4px; }
+      html.vk5 #screen-1.k5-tight .who-unit.collapsed .who-cond-k, html.vk5 #screen-1.k5-tight .who-unit.collapsed .who-cond-v { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; -webkit-line-clamp: unset; }
+      html.vk5 #screen-1.k5-tight .who-cond-txt { min-width: 0; }
+      html.vk5 #screen-1.k5-tight .field-group.who-unit { margin-bottom: 8px !important; }
+      html.vk5 #screen-1.k5-tight .cr-pair { margin-bottom: 8px; gap: 8px; }
+      html.vk5 #screen-1.k5-tight .cr-pair > .field-group.who-unit { margin-bottom: 0 !important; }
+      html.vk5 #screen-1.k5-tight .cr-pair .who-unit.collapsed .who-cond-edit { display: none; } /* half boxes: the whole box is the tap target (as on What You Want at 320), so the values fit */
     }
     @media (max-height: 720px) {
       .k5-sel-in select.field-input { min-height: 44px; height: 44px; padding-left: 147px; padding-right: 25px; font-size: 12px; }
@@ -5517,6 +5518,11 @@ crDef('who-religion', { focus: 'religion', value: () => { const s = document.get
 function k5ReligionPick(el) { state.religion = el.value || null; el.classList.toggle('is-default', !el.value); crRefresh(); if (el.value) crTap('who-religion'); }
 function k5ReligionPayload() { const s = document.getElementById('religion'); return { religion: s && s.value && s.value !== 'None Stated' ? s.value : null }; }
 (function () { const p0 = k5IncomePayload; window.k5IncomePayload = function () { return Object.assign(p0(), k5ReligionPayload()); }; })();
+// Tighten Who You Are only when the open questions would otherwise scroll
+function k5Fit() { const sc = document.getElementById('screen-1'), c = sc && sc.querySelector('.screen-content'); if (!c || !sc.classList.contains('active')) return;
+  sc.classList.remove('k5-tight'); if (c.scrollHeight > c.clientHeight + 1) sc.classList.add('k5-tight'); }
+(function () { const s0 = crSync; window.crSync = function () { const r = s0.apply(this, arguments); try { k5Fit(); } catch (e) {} return r; }; })();
+window.addEventListener('resize', () => { try { k5Fit(); } catch (e) {} });
 window.addEventListener('load', () => {
   const rn = crRevealNext;
   crRevealNext = function (screen) {
