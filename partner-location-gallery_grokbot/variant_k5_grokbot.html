@@ -1146,7 +1146,13 @@
       html.vk5 #screen-1 .cr-pair .who-unit.collapsed .who-cond-edit { display: none; } /* half boxes: the whole box is the tap target (as on What You Want at 320), so the values fit */
     }
     @media (max-height: 720px) {
-      .k5-sel-in select.field-input { min-height: 44px; height: 44px; padding-left: 130px; }
+      .k5-sel-in select.field-input { min-height: 44px; height: 44px; padding-left: 147px; padding-right: 25px; font-size: 12px; }
+      /* 320x640 with Education + Income minimums: 6px between boxes (was 8) and slightly shorter slider boxes (label line 16, track row 20) */
+      html.vk5.vk.vk-al-box { --bx-g: 6px; }
+      html.vk5 #screen-3 .k4-head { height: 16px; }
+      html.vk5 #screen-3 .k4-head .field-label, html.vk5 .k4-val { line-height: 16px !important; }
+      html.vk5 #screen-3 .k4-sl .range-slider-wrap { height: 20px !important; margin-top: 1px !important; }
+      html.vk5 #screen-3 #vi-dist .partner-location-anywhere { min-height: 28px; }
       #screen-1 .k5-sel select.field-input { min-height: 46px; padding-top: 10px; padding-bottom: 10px; }
     }
 </style>
@@ -1381,7 +1387,7 @@
         <div class="field-group who-unit" id="who-income" style="margin-bottom:12px;">
           <div class="who-cond" role="button" tabindex="0" aria-label="Edit Income" onclick="crExpand('who-income')"><span class="who-cond-txt"><span class="who-cond-k">Income</span><span class="who-cond-v" id="who-income-v"></span></span><span class="who-cond-edit">EDIT</span></div>
           <label class="field-label" for="income_range">Income</label>
-          <div class="k5-sel"><select class="field-input" id="income_range" onchange="state.incomeRange = this.value || null; state.incomeTouched = true; crTap('who-income')"><option value="">Prefer not to say</option><option value="under_25k">Under $25k</option><option value="25k_50k">$25k–50k</option><option value="50k_75k">$50k–75k</option><option value="75k_100k">$75k–100k</option><option value="100k_150k">$100k–150k</option><option value="150k_200k">$150k–200k</option><option value="200k_300k">$200k–300k</option><option value="300k_500k">$300k–500k</option><option value="500k_plus">$500k+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
+          <div class="k5-sel"><select class="field-input" id="income_range" onchange="state.incomeRange = this.value || null; state.incomeTouched = true; crTap('who-income')"><option value="">Prefer not to say</option><option value="under_25k">Under $25k</option><option value="25k_50k">$25k–50k</option><option value="50k_75k">$50k–75k</option><option value="75k_100k">$75k–100k</option><option value="100k_150k">$100k–150k</option><option value="150k_200k">$150k–200k</option><option value="200k_300k">$200k–300k</option><option value="300k_500k">$300k–500k</option><option value="500k_1m">$500k–1M</option><option value="1m_2m">$1M–2M</option><option value="2m_3m">$2M–3M</option><option value="3m_plus">$3M+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
         </div>
         <div class="field-group who-unit" id="who-email" style="margin-bottom:12px;">
           <div class="who-cond" role="button" tabindex="0" aria-label="Edit Email" onclick="crExpand('who-email')"><span class="who-cond-txt"><span class="who-cond-k">Email</span><span class="who-cond-v" id="who-email-v"></span></span><span class="who-cond-edit">EDIT</span></div>
@@ -1623,9 +1629,13 @@
             <input type="range" id="height_max_in" class="range-input" min="58" max="84" step="1" value="78" onpointerdown="touchHeightPref()" onkeydown="touchHeightPref()" oninput="onHeightRangeInput(this,'max')">
           </div>
         </div>
-        <!-- MOCKUP_grokbot K5: INCOME MINIMUM (like the Degree minimum: "$100k+" = this or higher; default No minimum), revealed with Age + Height. Production: nullable text column partner_income_min (null / 25k / ... / 500k). -->
+        <!-- MOCKUP_grokbot K5: EDUCATION MINIMUM ("Bachelor's+" = this or higher; default Any). Production: nullable text column partner_education_min (null / high_school / ... / doctorate). -->
+        <div class="field-group k5-pinc" id="k5-pedu" style="margin-bottom:0;">
+          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_education_min">Education minimum</label><select class="field-input" id="partner_education_min" aria-label="Education minimum: partner has at least" onchange="state.partnerEducationMin = this.value || null"><option value="">Any</option><option value="high_school">High school+</option><option value="some_college">Some college+</option><option value="associates">Associate's+</option><option value="bachelors">Bachelor's+</option><option value="masters">Master's+</option><option value="doctorate">Doctorate+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
+        </div>
+        <!-- MOCKUP_grokbot K5: INCOME MINIMUM (like the Degree minimum: "$100k+" = this or higher; default Any), revealed with Age + Height. Production: nullable text column partner_income_min (null / 25k / ... / 500k). -->
         <div class="field-group k5-pinc" id="k5-pinc" style="margin-bottom:0;">
-          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_income_min">Income minimum</label><select class="field-input" id="partner_income_min" aria-label="Income minimum: partner earns at least" onchange="state.partnerIncomeMin = this.value || null"><option value="">No minimum</option><option value="25k">$25k+</option><option value="50k">$50k+</option><option value="75k">$75k+</option><option value="100k">$100k+</option><option value="150k">$150k+</option><option value="200k">$200k+</option><option value="300k">$300k+</option><option value="500k">$500k+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
+          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_income_min">Income minimum</label><select class="field-input" id="partner_income_min" aria-label="Income minimum: partner earns at least" onchange="state.partnerIncomeMin = this.value || null"><option value="">Any</option><option value="25k">$25k+</option><option value="50k">$50k+</option><option value="75k">$75k+</option><option value="100k">$100k+</option><option value="150k">$150k+</option><option value="200k">$200k+</option><option value="300k">$300k+</option><option value="500k">$500k+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
         </div>
         </div>
       </div>
@@ -5263,7 +5273,7 @@ const K4M_DEF = [
   { k: 'age', t: 'Age range', early: true }, { k: 'height', t: 'Height', early: true }, { k: 'dist', t: 'Distance', early: true },
   { k: 'politics', t: 'Politics', o: ['Same as mine', 'Left-leaning', 'Moderate', 'Right-leaning', 'Any'], v: 'Same as mine' },
   { k: 'income', t: 'Income', o: ['No preference', '$50k+', '$100k+', '$200k+'], v: 'No preference', early: true },
-  { k: 'degree', t: 'Degree', o: ['Any', "Bachelor's or higher", "Master's or higher", 'Doctorate'], v: "Bachelor's or higher" },
+  { k: 'degree', t: 'Degree', early: true },
   { k: 'religion', t: 'Religion', o: ['Any', 'Same as mine', 'Spiritual', 'Religious', 'Not religious'], v: 'Any' },
   { k: 'edtier', t: 'Education tier', o: ['Any', 'Top 100', 'Top 50', 'Ivy+'], v: 'Any' },
   { k: 'profession', t: 'Profession', o: ['Any', 'Similar field', 'Tech', 'Creative', 'Medicine', 'Law', 'Finance'], v: 'Any' }
@@ -5276,7 +5286,8 @@ function _k4mVal(d) { // [text, "set earlier"?]
   if (d.k === 'age') return [v.age, true];
   if (d.k === 'height') return [v.height, true];
   if (d.k === 'dist') { const el = document.getElementById('vi_dist_mi'); return [(el && +el.value >= 34 ? 'Any distance' : 'Within ' + v.dist), true]; }
-  if (d.k === 'income') { const s = document.getElementById('partner_income_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'No minimum', true]; }
+  if (d.k === 'income') { const s = document.getElementById('partner_income_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'Any', true]; }
+  if (d.k === 'degree') { const s = document.getElementById('partner_education_min'); return [s && s.value ? s.options[s.selectedIndex].textContent : 'Any', true]; }
   const x = state.k4Prefs.values[d.k];
   return [x, false];
 }
@@ -5286,8 +5297,8 @@ function _k4mChips(d) {
   if (d.k === 'age' || d.k === 'height') {
     const n = document.createElement('div'); n.className = 'k4m-note'; n.textContent = 'Set on What You Want (' + _k4mVal(d)[0] + ').'; box.appendChild(n);
     box.appendChild(chip('Change on What You Want', false, () => k4Back(), 'k4m-go'));
-  } else if (d.k === 'income') { // minimum chips like Degree ("or higher"); kept in step with INCOME MINIMUM on What You Want
-    const sel = document.getElementById('partner_income_min');
+  } else if (d.k === 'income' || d.k === 'degree') { // minimum chips ("+" = or higher); kept in step with INCOME / EDUCATION MINIMUM on What You Want
+    const sel = document.getElementById(d.k === 'income' ? 'partner_income_min' : 'partner_education_min');
     [...sel.options].forEach(o => box.appendChild(chip(o.textContent, sel.value === o.value, () => { sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true })); k4mRender(); })));
   } else if (d.k === 'dist') {
     const el = document.getElementById('vi_dist_mi'), cur = el ? +el.value : -1;
@@ -5462,7 +5473,8 @@ window.addEventListener('load', () => {
 crDef('who-income', { focus: 'income_range', value: () => { const s = document.getElementById('income_range'); return s ? s.options[s.selectedIndex].textContent : ''; } });
 function k5IncomePayload() { // production: nullable text columns income_range and partner_income_min
   const a = document.getElementById('income_range'), b = document.getElementById('partner_income_min');
-  return { income_range: a && a.value ? a.value : null, partner_income_min: b && b.value ? b.value : null };
+  const e = document.getElementById('partner_education_min');
+  return { income_range: a && a.value ? a.value : null, partner_income_min: b && b.value ? b.value : null, partner_education_min: e && e.value ? e.value : null }; // production: nullable text partner_education_min too
 }
 window.addEventListener('load', () => {
   // Next while INCOME is the open question (untouched = "Prefer not to say" is the answer): fold it and show the next question
@@ -5471,7 +5483,7 @@ window.addEventListener('load', () => {
     if (screen === 1) { const u = document.getElementById('who-income'); if (u && !u.classList.contains('cr-later') && !u.classList.contains('collapsed') && !_crT['who-income']) crSettle('who-income'); }
     return rn.apply(this, arguments);
   };
-  const pi = document.getElementById('partner_income_min'); if (pi) pi.addEventListener('change', () => { if (_k4.inWmm) k4mRender(); });
+  ['partner_income_min', 'partner_education_min'].forEach(id => { const e = document.getElementById(id); if (e) e.addEventListener('change', () => { if (_k4.inWmm) k4mRender(); }); });
 });
 </script>
 <div class="mock-badge_grokbot">Mockup K5</div>
