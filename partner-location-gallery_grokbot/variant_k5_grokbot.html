@@ -5306,7 +5306,7 @@ const K4M_DEF = [
   { k: 'edtier', t: 'Education tier', o: ['Any', 'Top 100', 'Top 50', 'Ivy+'], v: 'Any' }
 ];
 const K4M_DIST = [[10, 3], [25, 6], [50, 9], [100, 14], ['Any', 34]]; // miles -> slider stop index (_VK_STOPS)
-state.k4Prefs = { order: K4M_DEF.map(d => d.k), values: Object.fromEntries(K4M_DEF.filter(d => d.o).map(d => [d.k, d.v])) };
+state.k4Prefs = { order: ['dist', 'age', 'height', 'degree', 'income', 'edtier', 'religion', 'politics'].filter(k => K4M_DEF.some(d => d.k === k)).concat(K4M_DEF.map(d => d.k).filter(k => !['dist', 'age', 'height', 'degree', 'income', 'edtier', 'religion', 'politics'].includes(k))), values: Object.fromEntries(K4M_DEF.filter(d => d.o).map(d => [d.k, d.v])) };
 const _k4mDef = k => K4M_DEF.find(d => d.k === k);
 function _k4mVal(d) { // [text, "set earlier"?]
   const v = _k4Vals();
