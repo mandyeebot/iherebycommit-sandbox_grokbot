@@ -1132,8 +1132,8 @@
     .k5-sel-in .field-label { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); margin: 0 !important; pointer-events: none; line-height: 18px; }
     .k5-sel-in select.field-input { min-height: 50px; height: 50px; padding: 0 30px 0 150px; text-align: right; text-align-last: right; -webkit-text-align-last: right; font-size: 13px; }
     .k5-sel-in .k5-caret { right: 12px; }
-    /* Who You Are at 320x640 (K5): tightened so the Income question still fits without scrolling (same compact rhythm as What You Want) */
-    @media (max-height: 720px) {
+    /* Who You Are on 320-wide phones only (K5): production itself scrolls here from Race on; tightened so the extra Location + Income rows fit without scrolling. 393-wide phones of any height look exactly like production. */
+    @media (max-width: 340px) and (max-height: 720px) {
       html.vk5 #screen-1 .screen-label { margin-bottom: 4px; }
       html.vk5 #screen-1 .screen-headline { font-size: 40px; margin-bottom: 8px; }
       html.vk5 #screen-1 .screen-content { padding-top: 16px; }
@@ -1365,23 +1365,12 @@
           </div>
           <div class="field-group who-unit" id="who-race" style="margin-bottom:0;min-width:0;">
             <div class="who-cond" role="button" tabindex="0" aria-label="Edit Race" onclick="crExpand('who-race')"><span class="who-cond-txt"><span class="who-cond-k">Race</span><span class="who-cond-v" id="who-race-v"></span></span><span class="who-cond-edit">EDIT</span></div>
+            <!-- MOCKUP_grokbot K5: Race is a native picker like Height (single choice; Multiracial added so mixed answers are not lost; "None Stated" replaces "Prefer not to say" and is stored as such). Stored as before: race = JSON array, now always one label. -->
             <label class="field-label" for="race">Race</label>
-            <button type="button" class="field-input race-select" id="race" aria-haspopup="true" aria-expanded="false" aria-controls="race-panel" onclick="toggleRacePanel()"><span class="race-select-text empty" id="race-select-text">— Select all —</span><span class="race-caret" aria-hidden="true">&#9662;</span></button>
+            <select class="field-input is-default" id="race" style="font-size:14px;padding:14px 4px;text-align:center;text-align-last:center;-webkit-text-align-last:center;" onchange="k5RacePick(this)"><option value="">— Select —</option><option value="White">White</option><option value="Black">Black</option><option value="Asian">Asian</option><option value="Hispanic / Latino">Hispanic / Latino</option><option value="South Asian">South Asian</option><option value="MENA">MENA</option><option value="Pacific Islander">Pacific Islander</option><option value="Native American">Native American</option><option value="Multiracial">Multiracial</option><option value="Other">Other</option><option value="None Stated">None Stated</option></select>
             <div class="field-error" id="err-race">Please make a selection</div>
           </div>
-          <div class="race-panel" id="race-panel" role="group" aria-label="Race (select all that apply)">
-            <button type="button" class="race-opt" id="btn-race-7" data-race="White" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">White</span></button>
-            <button type="button" class="race-opt" id="btn-race-2" data-race="Black" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Black</span></button>
-            <button type="button" class="race-opt" id="btn-race-0" data-race="Asian" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Asian</span></button>
-            <button type="button" class="race-opt" id="btn-race-3" data-race="Hispanic / Latino" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Hispanic / Latino</span></button>
-            <button type="button" class="race-opt" id="btn-race-1" data-race="South Asian" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">South Asian</span></button>
-            <button type="button" class="race-opt" id="btn-race-4" data-race="MENA" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">MENA</span></button>
-            <button type="button" class="race-opt" id="btn-race-6" data-race="Pacific Islander" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Pacific Islander</span></button>
-            <button type="button" class="race-opt" id="btn-race-5" data-race="Native American" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Native American</span></button>
-            <button type="button" class="race-opt" id="btn-race-8" data-race="Other" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Other</span></button>
-            <button type="button" class="race-opt" id="btn-race-9" data-race="Prefer not to say" aria-pressed="false" onclick="toggleRace(this.dataset.race)"><span class="race-box"></span><span class="race-opt-txt">Prefer not to say</span></button>
-            <button type="button" class="race-done" id="race-done" onclick="closeRacePanel()">DONE</button>
-          </div>
+          <div class="race-panel" id="race-panel" hidden></div>
         </div>
         <!-- MOCKUP_grokbot K5: INCOME (own yearly income; optional, "Prefer not to say" first). Production: nullable text column income_range. -->
         <div class="field-group who-unit" id="who-income" style="margin-bottom:12px;">
@@ -3717,7 +3706,7 @@ function _crDefineAll() {
       const cm = _crV('height_cm_input'); return cm ? cm + ' cm' : '';
     },
   });
-  crDef('who-race', { partner: 'who-height', focus: 'race', busy: isRacePanelOpen, onExpand: f => { if (f) openRacePanel(); }, value: () => Array.isArray(state.race) ? state.race.join(', ') : '' });
+  crDef('who-race', { partner: 'who-height', focus: 'race', value: () => Array.isArray(state.race) ? state.race.join(', ') : '' }); // K5: native picker, no panel
   crDef('who-email', { focus: 'email', value: () => { const e = _crV('email'); return e && isValidEmail(e) ? e : ''; } });
   // Your Partner
   crDef('pt-gender', { value: () => ({ man: 'Man', woman: 'Woman', 'non-binary': 'Non-binary' })[state.partnerGender] || '' });
@@ -5486,6 +5475,24 @@ window.addEventListener('load', () => {
   ['partner_income_min', 'partner_education_min'].forEach(id => { const e = document.getElementById(id); if (e) e.addEventListener('change', () => { if (_k4.inWmm) k4mRender(); }); });
 });
 </script>
+<script>
+// MOCKUP_grokbot K5: Race picker (single choice, like Height): stored as a one-label array so the race jsonb column keeps its shape
+function k5RacePick(el) {
+  state.race = el.value ? [el.value] : [];
+  el.classList.toggle('is-default', !el.value);
+  if (state.race.length) hideError('race');
+  crRefresh(); if (state.race.length) crTap('who-race');
+}
+(function () { const s0 = _syncRaceButtons; window._syncRaceButtons = function () { s0(); const el = document.getElementById('race'); if (el && el.tagName === 'SELECT') { el.value = (state.race && state.race[0]) || ''; el.classList.toggle('is-default', !el.value); } }; })();
+// Gallery demo: the Who You Are route starts like production after APPLY · SINGLE (big I AM A buttons, nothing prefilled)
+window._k5FreshWya = function () {
+  const q = new URLSearchParams(location.search), scr = q.get('screen') || (q.get('revisit') === '1' ? 'wmm' : 'wya');
+  if (scr !== 'wya') return false;
+  startAs('single');
+  setTimeout(() => { document.documentElement.setAttribute('data-demo-ready', '1'); document.documentElement.setAttribute('data-k4-ready', '1'); }, 700);
+  return true;
+};
+</script>
 <div class="mock-badge_grokbot">Mockup K5</div>
 
 <!-- MOCKUP_grokbot variant I behaviour -->
@@ -5950,13 +5957,14 @@ function _vk2Wire() {
   function set(id, v) { var e = document.getElementById(id); if (e) e.value = v; }
   window.addEventListener('load', function () {
     try {
+      if (window._k5FreshWya && _k5FreshWya()) return; // K5: Who You Are starts exactly like production (nothing answered)
       state.status = 'single'; state.gender = 'woman';
       set('first_name', 'Demo'); set('last_name', 'User'); set('email', 'demo@example.com');
       set('birthdate', '1994-05-05'); state.birthdateTouched = true;
       set('postal_code', '78704'); state.locationMode = 'zip'; state.zipCity = 'Austin, TX'; state.zipLatLong = '30.2422,-97.7694'; state.locationCountry = 'United States';
       if (typeof _buildHeightSelect === 'function') _buildHeightSelect();
       set('height_ftin', '165'); state.heightCm = 165; state.heightTouched = true;
-      state.race = ['Prefer not to say'];
+      state.race = ['None Stated'];
       state.genderSeeking = null;
       if (window._k4Boot) { _k4Boot(); return; }
       showScreen(3, 'forward');
