@@ -1185,10 +1185,34 @@
     #screen-k4m .k5-half { display: flex; flex-direction: column; align-items: stretch; gap: 6px; min-width: 0; }
     #screen-k4m .k5-half .k4m-chip { width: 100%; justify-content: center; text-align: center; margin: 0; }
     #screen-k4m .k5-half-k { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #888; line-height: 1.4; }
+    /* MOCKUP_grokbot K5 &map=google: keyless Google Maps embed (iframe) + our own pin / radius overlays */
+    .gm-wrap { position: absolute; inset: 0; overflow: hidden; background: #1a1a1a; touch-action: none; }
+    .gm-frames { position: absolute; inset: 0; will-change: transform; }
+    .gm-frames iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; }
+    html.gmap:not(.gmap-plain) .gm-frames iframe { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.6); } /* dark, like the Leaflet map */
+    .gm-cap { position: absolute; inset: 0; z-index: 2; cursor: grab; }
+    .gm-cap.dragging { cursor: grabbing; }
+    .gm-pin { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; pointer-events: none; }
+    .gm-pin[hidden] { display: none; }
+    .gm-zoom { position: absolute; top: 10px; right: 10px; z-index: 4; display: flex; flex-direction: column; gap: 6px; }
+    .gm-zoom button { width: 40px; height: 40px; border: 1px solid var(--dim); border-radius: var(--radius); background: rgba(17,17,17,0.92); color: var(--text); font-family: 'Space Mono', monospace; font-size: 22px; line-height: 1; cursor: pointer; padding: 0; }
+    .gm-zoom button:active { background: #222; color: var(--accent); }
+    .gm-note { position: absolute; left: 6px; top: 6px; z-index: 4; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #888; background: rgba(17,17,17,0.8); padding: 2px 6px; border-radius: 3px; pointer-events: none; }
+    /* What You Want: radius map behind the Distance box (layout unchanged; the label, slider and checkbox stay on top) */
+    html.gmap #screen-3 #vi-dist, html.gmap #screen-k4m #vi-dist { position: relative; overflow: hidden; isolation: isolate; }
+    html.gmap #vi-dist > :not(.gm-dist) { position: relative; z-index: 2; }
+    .gm-dist { position: absolute; inset: 0; z-index: 0; pointer-events: none; border-radius: inherit; overflow: hidden; }
+    .gm-dist .gm-frames iframe { width: 100%; height: 100%; }
+    .gm-dist::after { content: ''; position: absolute; inset: 0; z-index: 2; background: linear-gradient(90deg, rgba(17,17,17,0.80) 0%, rgba(17,17,17,0.45) 50%, rgba(17,17,17,0.80) 100%); } /* scrim so the label and slider stay readable */
+    html.gmap-plain .gm-dist::after { background: linear-gradient(90deg, rgba(17,17,17,0.78) 0%, rgba(17,17,17,0.35) 50%, rgba(17,17,17,0.78) 100%); }
+    .gm-ring { position: absolute; left: 50%; top: 50%; z-index: 3; transform: translate(-50%, -50%); border: 2px solid var(--accent); background: rgba(200,241,53,0.14); border-radius: 50%; box-sizing: border-box; transition: width 0.12s, height 0.12s; }
+    .gm-ring[hidden] { display: none; }
+    .gm-dot { position: absolute; left: 50%; top: 50%; z-index: 3; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px #111; }
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>/* MOCKUP_grokbot K5: What Matters Most colours */ if (new URLSearchParams(location.search).get('wmmcolor') !== 'a') document.documentElement.classList.add('wmm-b'); /* B is the default; &wmmcolor=a = look A */</script>
+<script>/* MOCKUP_grokbot K5: &map=google (keyless Google Maps embed); &gmapstyle=plain = undarkened */ (function () { const q = new URLSearchParams(location.search); if (q.get('map') === 'google') { document.documentElement.classList.add('gmap'); if (q.get('gmapstyle') === 'plain') document.documentElement.classList.add('gmap-plain'); } })();</script>
 </head>
 <body class="landing-active">
 
@@ -2774,14 +2798,15 @@ function setGender(val) {
   // Singles and couples share this screen. Defaults apply only while the
   // user has not set the field. Switching gender later must not clobber a choice.
   if (!state.heightTouched) {
-    const defaultCm = val === 'man' ? 175 : val === 'woman' ? 160 : null;
+    const defaultCm = val === 'man' ? 175 : val === 'woman' ? 160 : 168; // MOCKUP_grokbot K5: non-binary gets a default too (5'6")
     if (defaultCm) {
-      state.heightCm = defaultCm;
+      state.heightCm = defaultCm; state.heightDefault = true; // the default is an answer (like the What You Want age / height defaults)
       const sel = document.getElementById('height_ftin');
       if (sel) sel.value = defaultCm;
       const cmInput = document.getElementById('height_cm_input');
       if (cmInput && state.locationMode !== 'zip') cmInput.value = defaultCm;
     }
+    if (typeof _syncDefaultStyles === 'function') _syncDefaultStyles();
   }
   if (!state.birthdateTouched) {
     const bd = document.getElementById('birthdate');
@@ -2801,7 +2826,7 @@ function onBirthdateInput() {
 // Defaulted pickers (date of birth, height, partner birthday/height) show the default in grey and only count once
 // touched. Untouched = not answered (saved as null, Next blocked with "Please confirm ...").
 function birthdatePayload() { return state.birthdateTouched ? (document.getElementById('birthdate')?.value || null) : null; }
-function heightPayload() { return state.heightTouched ? (state.heightCm || null) : null; }
+function heightPayload() { return (state.heightTouched || state.heightDefault) ? (state.heightCm || null) : null; } // MOCKUP_grokbot K5: untouched default is saved
 // Touched = a change, or an explicit tap/keypress on the control followed by closing it. So someone whose true answer
 // equals the default confirms it by opening the picker and choosing it (a native picker fires no change for the same value).
 // Just tabbing through does not count.
@@ -2819,8 +2844,8 @@ function _bindDefaultPicker(id, touch) {
 function _syncDefaultStyles() {
   const set = (id, def) => { const el = document.getElementById(id); if (el) el.classList.toggle('is-default', !!def); };
   set('birthdate', !state.birthdateTouched);
-  set('height_ftin', !state.heightTouched);
-  set('height_cm_input', !state.heightTouched);
+  set('height_ftin', !(state.heightTouched || state.heightDefault));
+  set('height_cm_input', !(state.heightTouched || state.heightDefault));
   set('partner_birthday', !state.partnerBdayTouched);
   set('partner_height', !state.partnerHeightTouched);
 }
@@ -3753,9 +3778,9 @@ function _crDefineAll() {
   });
   crDef('who-height', {
     partner: 'who-race', focus: () => state.locationMode === 'zip' ? 'height_ftin' : 'height_cm_input',
-    stepDone: () => !!state.heightTouched, nextReveals: true,
+    stepDone: () => !!(state.heightTouched || state.heightDefault), nextReveals: true,
     value: () => {
-      if (!state.heightTouched) return ''; // the gender-based default isn't an answer until touched
+      if (!(state.heightTouched || state.heightDefault)) return ''; // MOCKUP_grokbot K5: the gender default counts as the answer
       if (state.locationMode === 'zip') return _crOpt('height_ftin', _crV('height_ftin'));
       const cm = _crV('height_cm_input'); return cm ? cm + ' cm' : '';
     },
@@ -5675,6 +5700,91 @@ _rcDef();
   const sum = (id, a) => { const t = document.getElementById(id); if (t && a && a.length) { t.textContent = k5RaceSum(a); t.title = a.join(', '); } };
   const s0 = _syncRaceButtons; window._syncRaceButtons = function () { s0(); sum('race-select-text', state.race); };
   const s1 = _syncPartnerRaceButtons; window._syncPartnerRaceButtons = function () { s1(); sum('partner-race-select-text', state.partnerRace); };
+})();
+</script>
+<script>/* MOCKUP_grokbot K5: Next on an untouched Height default = fold it (it is the answer), no errors in that tap */
+window.addEventListener('load', () => { const g0 = goNext; goNext = async function (id) {
+  if (id === 1 && state.heightDefault && !state.heightTouched && typeof crSettle === 'function' && crApplies('who-height') && !crIsCollapsed('who-height') && !_crHidden('who-height') && crSettle('who-height')) {
+    crSync(); _crClearErrors(1); if (!(Array.isArray(state.race) && state.race.length)) return; }
+  return g0.apply(this, arguments); }; });</script>
+<script>
+// ---- MOCKUP_grokbot K5 &map=google: keyless Google Maps embed (no API key). Pan / zoom are ours: the iframe is re-centred (a new embed URL) ----
+(function () {
+  if (!document.documentElement.classList.contains('gmap')) return;
+  const R = 6378137, TILE = 256, MPP0 = 2 * Math.PI * R / TILE; // metres per pixel at zoom 0 (equator)
+  const gmUrl = (lat, lng, z) => 'https://maps.google.com/maps?ll=' + lat.toFixed(5) + ',' + lng.toFixed(5) + '&z=' + z + '&t=m&hl=en&output=embed';
+  const W = z => TILE * Math.pow(2, z);
+  const toPx = (lat, lng, z) => { const s = Math.sin(lat * Math.PI / 180); return { x: (lng + 180) / 360 * W(z), y: (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * W(z) }; };
+  const toLL = (x, y, z) => { const n = Math.PI - 2 * Math.PI * y / W(z); return { lat: 180 / Math.PI * Math.atan(Math.sinh(n)), lng: x / W(z) * 360 - 180 }; };
+  // one map view: iframe double-buffered (the old frame stays until the new one has loaded, so re-centring does not flash)
+  function GMap(host, opt) {
+    this.host = host; this.z = opt.z || 3; this.lat = opt.lat || 39.5; this.lng = opt.lng || -98.35;
+    const w = document.createElement('div'); w.className = 'gm-wrap'; w.innerHTML = '<div class="gm-frames"></div>'; host.appendChild(w); this.wrap = w; this.frames = w.firstChild; this.src = '';
+    this.scale = opt.scale || 1; this.base = this.scale === 1 ? '' : 'scale(' + this.scale + ')';
+    if (this.scale !== 1) { const f = this.frames.style; f.width = (100 / this.scale) + '%'; f.height = (100 / this.scale) + '%'; f.right = 'auto'; f.bottom = 'auto'; f.transformOrigin = '0 0'; f.transform = this.base; } // drawn at 1/scale size and shrunk: a mini-map (Google's own attribution stays, just smaller)
+  }
+  GMap.prototype.set = function (lat, lng, z) {
+    this.lat = lat; this.lng = lng; if (z != null) this.z = Math.max(2, Math.min(19, z));
+    const u = gmUrl(this.lat, this.lng, this.z); this.frames.style.transform = this.base; if (u === this.src) return; this.src = u;
+    const f = document.createElement('iframe'); f.setAttribute('title', 'Google map'); f.setAttribute('loading', 'eager'); f.setAttribute('referrerpolicy', 'no-referrer-when-downgrade'); f.tabIndex = -1; f.style.opacity = '0';
+    f.addEventListener('load', () => { f.style.opacity = '1'; [...this.frames.children].forEach(o => { if (o !== f) o.remove(); }); });
+    this.frames.appendChild(f); f.src = u;
+  };
+  GMap.prototype.pointAt = function (dx, dy) { const c = toPx(this.lat, this.lng, this.z); return toLL(c.x + dx, c.y + dy, this.z); }; // lat/lng of the pixel at (centre + dx, dy)
+  window.K5GMap = GMap;
+
+  // ---- Who You Are: the location sheet map ----
+  let gm = null, pin = null;
+  _wyaMapInit = function () {
+    if (gm || !_wyaId.map) return; const el = document.getElementById(_wyaId.map); if (!el || !el.offsetWidth) return;
+    gm = new GMap(el, { lat: 39.5, lng: -98.35, z: 3 });
+    const cap = document.createElement('div'); cap.className = 'gm-cap'; cap.setAttribute('aria-hidden', 'true'); gm.wrap.appendChild(cap);
+    pin = document.createElement('div'); pin.className = 'gm-pin'; pin.innerHTML = '<div class="wya-pin"></div>'; pin.hidden = true; gm.wrap.appendChild(pin);
+    const zb = document.createElement('div'); zb.className = 'gm-zoom'; zb.innerHTML = '<button type="button" aria-label="Zoom in">+</button><button type="button" aria-label="Zoom out">\u2212</button>'; gm.wrap.appendChild(zb);
+    zb.children[0].addEventListener('click', e => { e.preventDefault(); gm.set(gm.lat, gm.lng, gm.z + 1); });
+    zb.children[1].addEventListener('click', e => { e.preventDefault(); gm.set(gm.lat, gm.lng, gm.z - 1); });
+    // tap = put the pin there (the map re-centres on it); drag = move the map under the pin, the pin's new spot is the answer
+    let d = null;
+    cap.addEventListener('pointerdown', e => { d = { x: e.clientX, y: e.clientY, id: e.pointerId, moved: false }; try { cap.setPointerCapture(e.pointerId); } catch (x) {} });
+    cap.addEventListener('pointermove', e => { if (!d || e.pointerId !== d.id) return; const dx = e.clientX - d.x, dy = e.clientY - d.y; if (Math.abs(dx) + Math.abs(dy) > 6) { d.moved = true; cap.classList.add('dragging'); } if (d.moved) gm.frames.style.transform = 'translate(' + dx + 'px,' + dy + 'px)'; });
+    const up = e => { if (!d || e.pointerId !== d.id) return; const dd = d; d = null; cap.classList.remove('dragging');
+      const r = cap.getBoundingClientRect();
+      const p = dd.moved ? gm.pointAt(-(e.clientX - dd.x), -(e.clientY - dd.y)) : gm.pointAt(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
+      _wyaDrop(p.lat, p.lng, 'pin', null, Math.max(gm.z, dd.moved ? gm.z : 11)); };
+    cap.addEventListener('pointerup', up); cap.addEventListener('pointercancel', e => { d = null; gm.frames.style.transform = ''; cap.classList.remove('dragging'); });
+    cap.addEventListener('wheel', e => { e.preventDefault(); gm.set(gm.lat, gm.lng, gm.z + (e.deltaY < 0 ? 1 : -1)); }, { passive: false });
+    _wyaMap = { invalidateSize() {} }; // the rest of the Who You Are code only checks / resizes the map
+    const tip = document.querySelector('.wya-ctip'); if (tip) tip.textContent = 'Use + / \u2212 to zoom \u00b7 tap or drag the map to move the pin';
+    if (state.wya && state.wya.lat != null) _wyaPinAt(state.wya.lat, state.wya.lng, 12); else gm.set(39.5, -98.35, 3);
+  };
+  _wyaPinAt = function (lat, lng, zoom) { if (!gm) return; pin.hidden = false; gm.set(lat, lng, zoom || gm.z); };
+
+  // ---- What You Want: radius map behind the Distance box (circle sized to the miles; zoom picked so it fits) ----
+  let dm = null, ring = null, dTimer = null;
+  const origin = () => {
+    const e = typeof partnerCityPrimary !== 'undefined' ? partnerCityPrimary : null;
+    try { if (typeof _viOrigin === 'function' && /^\d{5}$/.test(_viOrigin()) && state.wya && state.wya.lat != null) return { lat: state.wya.lat, lng: state.wya.lng }; } catch (x) {} // "Distance from 78704": centre on the zip
+    if (e && e.lat != null && e.lng != null) return { lat: +e.lat, lng: +e.lng };
+    if (state.wya && state.wya.lat != null) return { lat: state.wya.lat, lng: state.wya.lng };
+    if (e && typeof PARTNER_CITIES !== 'undefined') { const c = PARTNER_CITIES.find(c => c.label === e.label || c.city === e.city); if (c) return { lat: c.lat, lng: c.lng }; }
+    return { lat: 30.2672, lng: -97.7431 };
+  };
+  function distMap() {
+    const box = document.getElementById('vi-dist'); if (!box) return;
+    if (!dm) { const h = document.createElement('div'); h.className = 'gm-dist'; h.setAttribute('aria-hidden', 'true'); box.insertBefore(h, box.firstChild); dm = new GMap(h, { z: 10, scale: 0.5 });
+      ring = document.createElement('div'); ring.className = 'gm-ring'; dm.wrap.appendChild(ring); const dot = document.createElement('div'); dot.className = 'gm-dot'; dm.wrap.appendChild(dot); }
+    const el = document.getElementById('vi_dist_mi'), H = box.clientHeight || 80, o = origin();
+    const any = el && +el.value >= +el.max, mi = any ? 0 : _viMi(), m = mi * 1609.344, cos = Math.cos(o.lat * Math.PI / 180);
+    let z = 4;
+    if (!any) { z = Math.floor(Math.log2(MPP0 * cos * (0.42 * H) / (m * dm.scale))); z = Math.max(3, Math.min(16, z)); }
+    const rpx = any ? 0 : m / (MPP0 * cos / Math.pow(2, z)) * dm.scale;
+    ring.hidden = any; ring.style.width = ring.style.height = Math.round(2 * rpx) + 'px';
+    clearTimeout(dTimer); dTimer = setTimeout(() => dm.set(o.lat, o.lng, z), dm.src ? 250 : 0); // the circle follows the thumb at once; the map only re-loads when the zoom / centre changes
+  }
+  window.k5GmDist = distMap;
+  window.addEventListener('load', () => { setTimeout(() => { if (typeof _viDistUpdate === 'function') { const du = _viDistUpdate; _viDistUpdate = function () { const r = du.apply(this, arguments); try { distMap(); } catch (e) {} return r; }; } }, 0);
+    const el = document.getElementById('vi_dist_mi'); if (el) el.addEventListener('input', () => { try { distMap(); } catch (e) {} });
+    if (window.ResizeObserver) { const b = document.getElementById('vi-dist'); if (b) new ResizeObserver(() => { if (b.offsetParent) try { distMap(); } catch (e) {} }).observe(b); } });
 })();
 </script>
 <div class="mock-badge_grokbot">Mockup K5</div>
