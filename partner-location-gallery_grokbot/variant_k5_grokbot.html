@@ -1189,16 +1189,7 @@
     .gm-host { position: absolute; inset: 0; background: #1a1a1a; }
     html.gmap-plain .gm-host { background: #e5e3df; }
     .gm-host .gm-style .gm-style-cc, .gm-host .gm-style a[href*="maps.google"] { opacity: 0.85; }
-    /* What You Want: Distance mini-map behind the box (no Google UI; attribution kept); label, slider and checkbox stay on top */
-    html.gmap #screen-3 #vi-dist, html.gmap #screen-k4m #vi-dist { position: relative; overflow: hidden; isolation: isolate; }
-    html.gmap #vi-dist > :not(.gm-dist) { position: relative; z-index: 2; }
-    .gm-dist { position: absolute; inset: 0; z-index: 0; pointer-events: none; border-radius: inherit; overflow: hidden; }
-    .gm-dist::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(90deg, rgba(17,17,17,0.80) 0%, rgba(17,17,17,0.40) 50%, rgba(17,17,17,0.80) 100%); }
-    html.gmap-plain .gm-dist::after { background: linear-gradient(90deg, rgba(17,17,17,0.82) 0%, rgba(17,17,17,0.50) 50%, rgba(17,17,17,0.82) 100%); }
-    /* the map stops above the checkbox row: a thin strip under the track holds the Google logo + attribution, nothing sits on top of them */
-    html.gmap #screen-3 #vi-dist .partner-location-anywhere { margin-top: 16px !important; }
-    @media (max-height: 720px) { html.gmap #screen-3 #vi-dist .partner-location-anywhere { margin-top: 10px !important; min-height: 20px !important; } } /* 320x640 has no slack: the strip comes out of the checkbox row */
-    .gm-dist .gm-style-cc, .gm-dist a[href*="maps.google"] img { position: relative; z-index: 3; }
+    /* (k5gmap8) What You Want has no map: the Distance box is the plain K5 box; Google Maps is only in the Who You Are sheet */
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -5735,8 +5726,7 @@ window.addEventListener('load', () => {
     { featureType: 'landscape.natural', elementType: 'geometry', stylers: [{ color: '#202420' }] }, { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#444444' }] }
   ];
   const QUIET = [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }];
-  const MINI = [{ elementType: 'labels', stylers: [{ visibility: 'off' }] }]; // no place / road text under the label and slider
-  const styleFor = mini => (PLAIN ? QUIET : DARK).concat(mini ? MINI : []);
+  const styleFor = () => (PLAIN ? QUIET : DARK);
   const PIN = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"><circle cx="13" cy="13" r="10" fill="#c8f135" stroke="#111" stroke-width="3"/><circle cx="13" cy="13" r="12" fill="none" stroke="#c8f135" stroke-width="1.5"/></svg>');
 
   // ---- Who You Are: location sheet map ----
@@ -5781,42 +5771,6 @@ window.addEventListener('load', () => {
   const tip = () => { const t = document.querySelector('.wya-ctip'); if (t) t.textContent = 'Pinch or use + / \u2212 to zoom \u00b7 tap the map or drag the pin'; };
   window.addEventListener('load', tip);
 
-  // ---- What You Want: Distance mini-map (a real Circle, fit to its bounds; no Google UI, attribution stays) ----
-  let dm = null, circ = null, dLoading = false, dT = null;
-  const origin = () => {
-    const e = typeof partnerCityPrimary !== 'undefined' ? partnerCityPrimary : null;
-    try { if (typeof _viOrigin === 'function' && /^\d{5}$/.test(_viOrigin()) && state.wya && state.wya.lat != null) return { lat: state.wya.lat, lng: state.wya.lng }; } catch (x) {}
-    if (e && e.lat != null && e.lng != null) return { lat: +e.lat, lng: +e.lng };
-    if (state.wya && state.wya.lat != null) return { lat: state.wya.lat, lng: state.wya.lng };
-    if (e && typeof PARTNER_CITIES !== 'undefined') { const c = PARTNER_CITIES.find(c => c.label === e.label || c.city === e.city); if (c) return { lat: c.lat, lng: c.lng }; }
-    return { lat: 30.2672, lng: -97.7431 };
-  };
-  function fitHost() { const box = document.getElementById('vi-dist'), h = box && box.querySelector('.gm-dist'), a = box && box.querySelector('.partner-location-anywhere'); if (h) h.style.bottom = a && a.offsetParent ? Math.max(0, box.clientHeight - a.offsetTop + 2) + 'px' : '0px'; }
-  function distApply() {
-    if (!dm) return; fitHost(); const el = document.getElementById('vi_dist_mi'), o = origin(), any = el && +el.value >= +el.max;
-    circ.setCenter(o); circ.setRadius(any ? 1 : _viMi() * 1609.344); circ.setVisible(!any);
-    if (any) { dm.setCenter(o); dm.setZoom(4); } else dm.fitBounds(circ.getBounds(), { top: 6, bottom: 6, left: 6, right: 6 });
-  }
-  function distMap() {
-    const box = document.getElementById('vi-dist'); if (!box || !box.offsetParent || !box.clientWidth) return;
-    if (dm) { clearTimeout(dT); dT = setTimeout(distApply, 60); return; }
-    if (dLoading) return; dLoading = true;
-    gmLoad().then(g => {
-      const h = document.createElement('div'); h.className = 'gm-dist'; h.setAttribute('aria-hidden', 'true'); box.insertBefore(h, box.firstChild); fitHost();
-      const host = document.createElement('div'); host.className = 'gm-host'; h.appendChild(host);
-      const o = origin();
-      dm = new g.Map(host, { center: o, zoom: 8, styles: styleFor(true), disableDefaultUI: true, gestureHandling: 'none', keyboardShortcuts: false, clickableIcons: false, draggable: false, backgroundColor: PLAIN ? '#e5e3df' : '#1a1a1a' });
-      K5GM.loads++;
-      circ = new g.Circle({ map: dm, center: o, radius: 1, strokeColor: '#c8f135', strokeOpacity: 1, strokeWeight: 2, fillColor: '#c8f135', fillOpacity: 0.14, clickable: false });
-      distApply();
-    }).catch(e => { K5GM.errors.push(String(e)); dLoading = false; });
-  }
-  window.k5GmDist = distMap;
-  window.addEventListener('load', () => {
-    setTimeout(() => { if (typeof _viDistUpdate === 'function') { const du = _viDistUpdate; _viDistUpdate = function () { const r = du.apply(this, arguments); try { distMap(); } catch (e) {} return r; }; } }, 0);
-    const el = document.getElementById('vi_dist_mi'); if (el) el.addEventListener('input', () => { try { distMap(); } catch (e) {} });
-    const b = document.getElementById('vi-dist'); if (b && window.ResizeObserver) new ResizeObserver(() => { if (b.offsetParent && b.clientWidth) try { if (dm) google.maps.event.trigger(dm, 'resize'); distMap(); } catch (e) {} }).observe(b);
-  });
 })();
 </script>
 <div class="mock-badge_grokbot">Mockup K5</div>
