@@ -5075,9 +5075,9 @@ const _WYA_CC = { GB: 'UK', US: 'US', AE: 'UAE' };
 const _wyaId = { A: { city: 'wya-city-a', gps: 'wya-gps-a', map: 'wya-map' }, B: { city: 'wya-city-b', gps: 'wya-gps-b' }, C: { city: 'wya-city-c', gps: 'wya-gps-c', map: 'wya-map-c' } }[WYA_OPT];
 function wyaPayload() {
   const w = state.wya; if (!w) return {};
-  return { location_lat: w.lat, location_lng: w.lng, location_accuracy_m: w.accuracy, location_source: w.source, location_label: w.label, location_country_code: w.cc || null };
+  return { location_lat: w.lat, location_lng: w.lng, location_accuracy_m: w.accuracy, location_source: w.source, location_label: w.label, location_country_code: w.cc || null, ...(document.documentElement.classList.contains('gmap') ? { location_neighborhood: w.hood || null } : {}) };
 }
-const _wyaTxt = o => (o.cc === 'US' && o.zip ? o.zip + ' \u00b7 ' : '') + o.label;
+const _wyaTxt = o => (o.cc === 'US' && o.zip ? o.zip + ' \u00b7 ' : '') + (o.hood ? o.hood + ' \u00b7 ' : '') + o.label;
 function _wyaShow(txt, cls) {
   const el = document.getElementById(_wyaId.city); if (!el) return;
   el.textContent = txt; el.className = 'wya-city' + (cls ? ' ' + cls : ''); el.title = txt;
@@ -5085,7 +5085,7 @@ function _wyaShow(txt, cls) {
 // One place that records a location and keeps the page's existing fields in step (height units, payload, collapsed row).
 function _wyaSet(o) {
   const lat = _wyaR2(o.lat), lng = _wyaR2(o.lng), cc = (o.cc || '').toUpperCase();
-  state.wya = { lat, lng, accuracy: o.accuracy == null ? null : Math.round(o.accuracy), source: o.source, label: o.label, cc, zip: o.zip || null };
+  state.wya = { lat, lng, accuracy: o.accuracy == null ? null : Math.round(o.accuracy), source: o.source, label: o.label, cc, zip: o.zip || null, hood: o.hood || null };
   const us = cc === 'US';
   state.locationMode = us ? 'zip' : 'city';
   document.getElementById('postal_code').value = us && o.zip ? o.zip : '';
@@ -5764,7 +5764,9 @@ window.addEventListener('load', () => { const g0 = goNext; goNext = async functi
       const r = await new g.Geocoder().geocode({ location: { lat, lng }, language: 'en' });
       const res = (r && r.results) || [], comp = t => { for (const x of res) for (const c of x.address_components) if (c.types.includes(t)) return c; return null; };
       const city = comp('locality') || comp('postal_town') || comp('sublocality') || comp('administrative_area_level_2'), cc = comp('country'), st = comp('administrative_area_level_1'), pc = comp('postal_code');
-      if (city && cc) { const C = cc.short_name.toUpperCase(); return { label: city.long_name + ', ' + (C === 'US' && st ? st.short_name : cc.long_name), cc: C, country: cc.long_name, zip: C === 'US' && pc ? pc.short_name.slice(0, 5) : null }; }
+      // neighbourhood (e.g. West Village); falls back to the borough-level sublocality (e.g. Brooklyn); left out when missing or the same as the city
+      const nb = comp('neighborhood') || comp('sublocality_level_1') || comp('sublocality'), hood = nb && city && nb.long_name !== city.long_name ? nb.long_name : null;
+      if (city && cc) { const C = cc.short_name.toUpperCase(); return { label: city.long_name + ', ' + (C === 'US' && st ? st.short_name : cc.long_name), cc: C, country: cc.long_name, zip: C === 'US' && pc ? pc.short_name.slice(0, 5) : null, hood }; }
     } catch (e) { K5GM.errors.push('geocode: ' + (e && (e.code || e.message) || e)); }
     return name0(lat, lng);
   };
