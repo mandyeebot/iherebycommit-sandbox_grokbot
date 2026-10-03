@@ -1185,6 +1185,23 @@
     #screen-k4m .k5-half { display: flex; flex-direction: column; align-items: stretch; gap: 6px; min-width: 0; }
     #screen-k4m .k5-half .k4m-chip { width: 100%; justify-content: center; text-align: center; margin: 0; }
     #screen-k4m .k5-half-k { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #888; line-height: 1.4; }
+    /* MOCKUP_grokbot K5 (k5gmap9): Next before a height is picked = a gentle focus on the Height box (no red text) */
+    #who-height.k5-hfocus .field-input { border-color: #c8f135 !important; box-shadow: 0 0 0 3px rgba(200,241,53,0.18); transition: box-shadow .2s, border-color .2s; }
+    /* MOCKUP_grokbot K5 (k5gmap9): What You Want half-width pairs (Education min | Income min, Politics | Religion): label over value */
+    html.vk5 #screen-3 #ww-ranges .k5-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; margin-top: var(--bx-g) !important; }
+    html.vk5 #screen-3 #ww-ranges .k5-pair > .k5-pinc { margin-top: 0 !important; min-width: 0; }
+    .k5-pair .k5-sel-in .field-label { top: 8px; transform: none; left: 12px; right: 24px; line-height: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .k5-pair .k5-sel-in select.field-input, .k5-pair .k5-sel-in button.k5-eth-btn { height: 50px; min-height: 50px; padding: 21px 24px 0 12px; text-align: left; text-align-last: left; -webkit-text-align-last: left; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .k5-pair .k5-sel-in button.k5-eth-btn span { display: block; overflow: hidden; text-overflow: ellipsis; }
+    .k5-pair .k5-sel-in .k5-caret { right: 10px; }
+    .k5-min-s { display: none; }
+    @media (max-width: 359px) { #screen-3 .k5-pair .k5-min-l { display: none; } #screen-3 .k5-pair .k5-min-s { display: inline; } #screen-3 .k5-pair .k5-sel-in .field-label { right: 6px; letter-spacing: 0.12em; } } /* 320: the half boxes are 132px wide */
+    @media (max-height: 720px), (max-width: 359px) {
+      .k5-pair .k5-sel-in select.field-input, .k5-pair .k5-sel-in button.k5-eth-btn { height: 44px; min-height: 44px; padding-top: 18px; font-size: 12px; }
+      .k5-pair .k5-sel-in .field-label { top: 6px; }
+      html.vk5 #screen-3 .k5-sel-in button.k5-eth-btn { min-height: 44px; height: 44px; } /* Ethnicity row 44 on short screens too (iPhone Safari visible area ~393x660) */
+      html.vk5 #screen-3 .k5-pair .k5-sel-in button.k5-eth-btn { padding-left: 12px; }
+    }
     /* MOCKUP_grokbot K5 &map=google: Maps JavaScript API */
     .gm-host { position: absolute; inset: 0; background: #1a1a1a; }
     html.gmap-plain .gm-host { background: #e5e3df; }
@@ -1679,12 +1696,24 @@
           <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_ethnicity">Ethnicity</label><button type="button" class="field-input k5-eth-btn" id="partner_ethnicity" aria-haspopup="dialog" aria-label="Ethnicity: partner ethnicity, select all that apply" onclick="k5RaceOpen('eth')"><span id="partner-eth-text">Any</span></button><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
         </div>
         <!-- MOCKUP_grokbot K5: EDUCATION MINIMUM ("Bachelor's+" = this or higher; default Any). Production: nullable text column partner_education_min (null / high_school / ... / doctorate). -->
+        <div class="k5-pair" id="k5-pair-ei"><!-- MOCKUP_grokbot K5 (k5gmap9): Education | Income side by side -->
         <div class="field-group k5-pinc" id="k5-pedu" style="margin-bottom:0;">
-          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_education_min">Education minimum</label><select class="field-input" id="partner_education_min" aria-label="Education minimum: partner has at least" onchange="state.partnerEducationMin = this.value || null"><option value="">Any</option><option value="high_school">High school+</option><option value="some_college">Some college+</option><option value="associates">Associate's+</option><option value="bachelors">Bachelor's+</option><option value="masters">Master's+</option><option value="doctorate">Doctorate+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
+          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_education_min">Education <span class="k5-min-l">minimum</span><span class="k5-min-s">min</span></label><select class="field-input" id="partner_education_min" aria-label="Education minimum: partner has at least" onchange="state.partnerEducationMin = this.value || null"><option value="">Any</option><option value="high_school">High school+</option><option value="some_college">Some college+</option><option value="associates">Associate's+</option><option value="bachelors">Bachelor's+</option><option value="masters">Master's+</option><option value="doctorate">Doctorate+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
         </div>
         <!-- MOCKUP_grokbot K5: INCOME MINIMUM (like the Degree minimum: "$100k+" = this or higher; default Any), revealed with Age + Height. Production: nullable text column partner_income_min (null / 25k / ... / 500k). -->
         <div class="field-group k5-pinc" id="k5-pinc" style="margin-bottom:0;">
-          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_income_min">Income minimum</label><select class="field-input" id="partner_income_min" aria-label="Income minimum: partner earns at least" onchange="state.partnerIncomeMin = this.value || null"><option value="">Any</option><option value="25k">$25k+</option><option value="50k">$50k+</option><option value="75k">$75k+</option><option value="100k">$100k+</option><option value="150k">$150k+</option><option value="200k">$200k+</option><option value="300k">$300k+</option><option value="500k">$500k+</option><option value="1m">$1M+</option><option value="2m">$2M+</option><option value="3m">$3M+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
+          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_income_min">Income <span class="k5-min-l">minimum</span><span class="k5-min-s">min</span></label><select class="field-input" id="partner_income_min" aria-label="Income minimum: partner earns at least" onchange="state.partnerIncomeMin = this.value || null"><option value="">Any</option><option value="25k">$25k+</option><option value="50k">$50k+</option><option value="75k">$75k+</option><option value="100k">$100k+</option><option value="150k">$150k+</option><option value="200k">$200k+</option><option value="300k">$300k+</option><option value="500k">$500k+</option><option value="1m">$1M+</option><option value="2m">$2M+</option><option value="3m">$3M+</option></select><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
+        </div>
+        </div>
+        <!-- MOCKUP_grokbot K5 (k5gmap9): POLITICS | RELIGION (partner; multi-select sheets, Any = exclusive default; same values as What Matters Most).
+             Production: nullable text[] partner_politics / partner_religion (null = Any) + readable partner_politics_text / partner_religion_text. -->
+        <div class="k5-pair" id="k5-pair-pr">
+        <div class="field-group k5-pinc" id="k5-ppol" style="margin-bottom:0;">
+          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_politics">Politics</label><button type="button" class="field-input k5-eth-btn" id="partner_politics" aria-haspopup="dialog" aria-label="Politics: partner politics, select all that apply" onclick="k5RaceOpen('pol')"><span id="partner-pol-text">Any</span></button><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
+        </div>
+        <div class="field-group k5-pinc" id="k5-prel" style="margin-bottom:0;">
+          <div class="k5-sel k5-sel-in"><label class="field-label" for="partner_religion">Religion</label><button type="button" class="field-input k5-eth-btn" id="partner_religion" aria-haspopup="dialog" aria-label="Religion: partner religion, select all that apply" onclick="k5RaceOpen('rel')"><span id="partner-rel-text">Any</span></button><span class="k5-caret" aria-hidden="true">&#9662;</span></div>
+        </div>
         </div>
         </div>
       </div>
@@ -5638,29 +5667,44 @@ document.addEventListener('click', e => { if (e.target.closest && (e.target.clos
 const K5_RACES = ['White', 'Black', 'Asian', 'Hispanic / Latino', 'South Asian', 'MENA', 'Pacific Islander', 'Native American', 'Other', 'None Stated'];
 const _rc = { mode: null, draft: [] };
 const K5_ETH = ['Any'].concat(K5_RACES.filter(r => r !== 'None Stated'));
+// MOCKUP_grokbot K5 (k5gmap9): Politics = the What Matters Most options; Religion = the Who You Are list (without its None Stated opt-out) plus Any and Same as mine
+const K5_PREFM = m => m === 'eth' || m === 'pol' || m === 'rel';
+const K5_POL = _k4mDef('politics').o.slice();
+const K5_REL = ['Any', 'Same as mine'].concat([...document.querySelectorAll('#religion option')].map(o => o.value).filter(v => v && v !== 'None Stated'));
+function k5PrefSync() {
+  [['partner-pol-text', 'politics'], ['partner-rel-text', 'religion']].forEach(([id, k]) => { const t = document.getElementById(id), a = Array.isArray(state.k4Prefs.values[k]) ? state.k4Prefs.values[k] : [];
+    if (t) { t.textContent = a.length ? k5RaceSum(a) : 'Any'; t.parentElement.title = a.join(', ') || 'Any'; } });
+}
+window.addEventListener('load', () => {
+  const r0 = k4mRender; k4mRender = function () { const r = r0.apply(this, arguments); k5PrefSync(); return r; }; // What Matters Most chips -> What You Want boxes
+  const p0 = k5IncomePayload; k5IncomePayload = function () { const o = p0.apply(this, arguments), v = state.k4Prefs.values, A = k => Array.isArray(v[k]) && v[k].length ? v[k].slice() : null;
+    return Object.assign(o, { partner_politics: A('politics'), partner_politics_text: A('politics') ? A('politics').join(', ') : 'Any', partner_religion: A('religion'), partner_religion_text: A('religion') ? A('religion').join(', ') : 'Any' }); };
+  k5PrefSync();
+});
 state.partnerEthnicity = [];
 function k5EthSync() { const t = document.getElementById('partner-eth-text'); if (t) { t.textContent = state.partnerEthnicity.length ? k5RaceSum(state.partnerEthnicity) : 'Any'; t.parentElement.title = state.partnerEthnicity.join(', ') || 'Any'; } if (typeof _k4 !== 'undefined' && _k4.inWmm && typeof k4mRender === 'function') k4mRender(); }
 function k5RaceSum(a) { if (!Array.isArray(a) || !a.length) return ''; const j = a.join(', '); return a.length === 1 || j.length <= 18 ? j : a[0] + ' + ' + (a.length - 1) + ' more'; }
 function _rcRender() {
   const l = document.getElementById('rc-list'); l.replaceChildren();
-  (_rc.mode === 'eth' ? K5_ETH : K5_RACES).forEach(r => { const b = document.createElement('button'); b.type = 'button'; b.className = 'cp-row'; b.setAttribute('role', 'checkbox'); b.setAttribute('aria-checked', String(r === 'Any' && _rc.mode === 'eth' ? !_rc.draft.length : _rc.draft.includes(r)));
+  (_rc.mode === 'eth' ? K5_ETH : _rc.mode === 'pol' ? K5_POL : _rc.mode === 'rel' ? K5_REL : K5_RACES).forEach(r => { const b = document.createElement('button'); b.type = 'button'; b.className = 'cp-row'; b.setAttribute('role', 'checkbox'); b.setAttribute('aria-checked', String(r === 'Any' && K5_PREFM(_rc.mode) ? !_rc.draft.length : _rc.draft.includes(r)));
     b.innerHTML = '<span class="cp-box"></span><span class="cp-row-label"></span>'; b.querySelector('.cp-row-label').textContent = r;
-    b.addEventListener('click', () => { if (_rc.mode === 'eth' && r === 'Any') { _rc.draft = []; _rcRender(); return; } const i = _rc.draft.indexOf(r); if (i !== -1) _rc.draft.splice(i, 1); else if (r === RACE_EXCLUSIVE) _rc.draft = [r]; else { _rc.draft = _rc.draft.filter(v => v !== RACE_EXCLUSIVE); _rc.draft.push(r); } _rcRender(); });
+    b.addEventListener('click', () => { if (K5_PREFM(_rc.mode) && r === 'Any') { _rc.draft = []; _rcRender(); return; } const i = _rc.draft.indexOf(r); if (i !== -1) _rc.draft.splice(i, 1); else if (r === RACE_EXCLUSIVE) _rc.draft = [r]; else { _rc.draft = _rc.draft.filter(v => v !== RACE_EXCLUSIVE); _rc.draft.push(r); } _rcRender(); });
     l.appendChild(b); });
 }
 function k5RaceOpen(mode) {
-  _rc.mode = mode; const cur = mode === 'eth' ? state.partnerEthnicity : mode === 'partner' ? state.partnerRace : state.race; _rc.draft = Array.isArray(cur) ? cur.slice() : [];
-  document.getElementById('rc-title').textContent = (mode === 'eth' ? 'Ethnicity' : mode === 'partner' ? 'Their race' : 'Race') + ' · select all that apply';
+  _rc.mode = mode; const cur = mode === 'pol' ? state.k4Prefs.values.politics : mode === 'rel' ? state.k4Prefs.values.religion : mode === 'eth' ? state.partnerEthnicity : mode === 'partner' ? state.partnerRace : state.race; _rc.draft = Array.isArray(cur) ? cur.slice() : [];
+  document.getElementById('rc-title').textContent = (mode === 'pol' ? 'Politics' : mode === 'rel' ? 'Religion' : mode === 'eth' ? 'Ethnicity' : mode === 'partner' ? 'Their race' : 'Race') + ' · select all that apply';
   { const u = mode === 'own' ? 'who-race' : 'pt-race'; clearTimeout(_crT[u]); _crT[u] = null; }
   _rcRender(); document.getElementById('rc-backdrop').hidden = false; document.getElementById('rc-sheet').hidden = false;
   if (typeof sheetPinDone === 'function') sheetPinDone('rc-sheet');
-  const c = document.getElementById(mode === 'eth' ? 'partner_ethnicity' : mode === 'partner' ? 'partner_race' : 'race'); if (c) c.setAttribute('aria-expanded', 'true');
+  const c = document.getElementById(mode === 'pol' ? 'partner_politics' : mode === 'rel' ? 'partner_religion' : mode === 'eth' ? 'partner_ethnicity' : mode === 'partner' ? 'partner_race' : 'race'); if (c) c.setAttribute('aria-expanded', 'true');
 }
 function k5RaceClose(commit) {
   if (!_rc.mode) return; const mode = _rc.mode; _rc.mode = null;
   document.getElementById('rc-backdrop').hidden = true; document.getElementById('rc-sheet').hidden = true;
-  const c = document.getElementById(mode === 'eth' ? 'partner_ethnicity' : mode === 'partner' ? 'partner_race' : 'race'); if (c) c.setAttribute('aria-expanded', 'false');
+  const c = document.getElementById(mode === 'pol' ? 'partner_politics' : mode === 'rel' ? 'partner_religion' : mode === 'eth' ? 'partner_ethnicity' : mode === 'partner' ? 'partner_race' : 'race'); if (c) c.setAttribute('aria-expanded', 'false');
   if (!commit) return;
+  if (mode === 'pol' || mode === 'rel') { state.k4Prefs.values[mode === 'pol' ? 'politics' : 'religion'] = _rc.draft.filter(r => r !== 'Any'); k5PrefSync(); if (_k4.inWmm) k4mRender(); if (typeof saveLead === 'function') saveLead(); return; }
   if (mode === 'eth') { state.partnerEthnicity = _rc.draft.filter(r => r !== 'Any'); k5EthSync(); if (typeof saveLead === 'function') saveLead(); return; }
   if (mode === 'partner') { state.partnerRace = _rc.draft.slice(); _syncPartnerRaceButtons(); if (state.partnerRace.length) hideError('partner_race'); if (typeof saveLead === 'function') saveLead(); crRefresh(); if (state.partnerRace.length) crTap('pt-race'); return; }
   state.race = _rc.draft.slice(); _syncRaceButtons(); if (state.race.length) hideError('race');
@@ -5684,18 +5728,29 @@ _rcDef();
   const s1 = _syncPartnerRaceButtons; window._syncPartnerRaceButtons = function () { s1(); sum('partner-race-select-text', state.partnerRace); };
 })();
 </script>
-<script>/* MOCKUP_grokbot K5 (k5gmap7): Race stays hidden until the user opens or changes Height; Next on the untouched default accepts it (lit, saved, folded), then Race shows, with no errors in that tap */
-function k5HeightEngaged() { return !!(state.heightTouched || state.heightOpened || state.heightAccepted); }
+<script>/* MOCKUP_grokbot K5 (k5gmap9) strict: Race stays hidden until a height is actually PICKED in the Height picker
+   (production's touch rule: a change, or a tap that opens the picker followed by closing it = confirming the shown value, even the default).
+   Next before that: no Race, no advance, no red error; the Height box gets a gentle accent highlight (the user then taps it). Both map modes. */
+function k5HeightEngaged() { return !!state.heightTouched; }
 window.addEventListener('load', () => {
+  const H = () => crApplies('who-height');
+  // every reveal path (Next / crNextReveals / crRevealNext / sheet close / gender switch / refresh) goes through crReveal: hold the front at Height
+  const _sd = _crStepDone; _crStepDone = function (ids) { if (ids.includes('who-height') && H() && !k5HeightEngaged()) return false; return _sd.apply(this, arguments); };
+  const _rv = crReveal; crReveal = function (screen) {
+    if (+screen === 1 && H() && !k5HeightEngaged()) { const h = CR_STEPS[1].findIndex(a => a.includes('who-height')); if (h >= 0 && _crFront[1] > h) _crFront[1] = h; }
+    return _rv.apply(this, arguments); };
+  const hl = on => { const u = document.getElementById('who-height'); if (u) u.classList.toggle('k5-hfocus', on); };
   ['height_ftin', 'height_cm_input'].forEach(id => { const el = document.getElementById(id); if (!el) return;
-    const mark = () => { if (!state.heightOpened) { state.heightOpened = true; crSync(); } }; // opening the picker counts as interacting
-    el.addEventListener('pointerdown', mark); el.addEventListener('focus', mark); el.addEventListener('change', mark); });
-  const _sd = _crStepDone; _crStepDone = function (ids) { if (ids.includes('who-height') && crApplies('who-height') && !k5HeightEngaged()) return false; return _sd.apply(this, arguments); };
+    el.addEventListener('change', () => hl(false)); });
+  const _th = _touchHeight; _touchHeight = function () { hl(false); const r = _th.apply(this, arguments); crSync(); return r; };
   const g0 = goNext; goNext = async function (id) {
-    if (id === 1 && crApplies('who-height') && !_crHidden('who-height') && !k5HeightEngaged() && state.heightDefault) {
-      state.heightAccepted = true; // Next = the gender default is the answer
-      crSettle('who-height'); crSync(); _crClearErrors(1);
-      if (!(Array.isArray(state.race) && state.race.length)) return; }
+    if (id === 1 && H() && !_crHidden('who-height') && !k5HeightEngaged()) {
+      if (crIsCollapsed('who-height')) crExpand('who-height', false);
+      _crClearErrors(1); crSync();
+      const el = document.getElementById(state.locationMode === 'zip' ? 'height_ftin' : 'height_cm_input');
+      hl(true); clearTimeout(window._k5HlT); window._k5HlT = setTimeout(() => hl(false), 2400);
+      const u = document.getElementById('who-height'); if (u) { try { u.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {} } // highlight only: a programmatic open/focus would make the next tap's blur look like a pick
+      return; } // no advance, no Race
     return g0.apply(this, arguments); }; });</script>
 <script>
 // ---- MOCKUP_grokbot K5 &map=google: Google Maps JavaScript API, loaded once, lazily (first map that needs it) ----
@@ -5773,7 +5828,7 @@ window.addEventListener('load', () => {
 
 })();
 </script>
-<div class="mock-badge_grokbot">Mockup K5</div>
+<div class="mock-badge_grokbot">Mockup K5 · k5gmap9</div>
 
 <!-- MOCKUP_grokbot variant I behaviour -->
 <script>
