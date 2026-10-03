@@ -1185,34 +1185,22 @@
     #screen-k4m .k5-half { display: flex; flex-direction: column; align-items: stretch; gap: 6px; min-width: 0; }
     #screen-k4m .k5-half .k4m-chip { width: 100%; justify-content: center; text-align: center; margin: 0; }
     #screen-k4m .k5-half-k { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #888; line-height: 1.4; }
-    /* MOCKUP_grokbot K5 &map=google: keyless Google Maps embed (iframe) + our own pin / radius overlays */
-    .gm-wrap { position: absolute; inset: 0; overflow: hidden; background: #1a1a1a; touch-action: none; }
-    .gm-frames { position: absolute; inset: 0; will-change: transform; }
-    .gm-frames iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; }
-    html.gmap:not(.gmap-plain) .gm-frames iframe { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.6); } /* dark, like the Leaflet map */
-    .gm-cap { position: absolute; inset: 0; z-index: 2; cursor: grab; }
-    .gm-cap.dragging { cursor: grabbing; }
-    .gm-pin { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; pointer-events: none; }
-    .gm-pin[hidden] { display: none; }
-    .gm-zoom { position: absolute; top: 10px; right: 10px; z-index: 4; display: flex; flex-direction: column; gap: 6px; }
-    .gm-zoom button { width: 40px; height: 40px; border: 1px solid var(--dim); border-radius: var(--radius); background: rgba(17,17,17,0.92); color: var(--text); font-family: 'Space Mono', monospace; font-size: 22px; line-height: 1; cursor: pointer; padding: 0; }
-    .gm-zoom button:active { background: #222; color: var(--accent); }
-    .gm-note { position: absolute; left: 6px; top: 6px; z-index: 4; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #888; background: rgba(17,17,17,0.8); padding: 2px 6px; border-radius: 3px; pointer-events: none; }
-    /* What You Want: radius map behind the Distance box (layout unchanged; the label, slider and checkbox stay on top) */
+    /* MOCKUP_grokbot K5 &map=google: Maps JavaScript API */
+    .gm-host { position: absolute; inset: 0; background: #1a1a1a; }
+    html.gmap-plain .gm-host { background: #e5e3df; }
+    .gm-host .gm-style .gm-style-cc, .gm-host .gm-style a[href*="maps.google"] { opacity: 0.85; }
+    /* What You Want: Distance mini-map behind the box (no Google UI; attribution kept); label, slider and checkbox stay on top */
     html.gmap #screen-3 #vi-dist, html.gmap #screen-k4m #vi-dist { position: relative; overflow: hidden; isolation: isolate; }
     html.gmap #vi-dist > :not(.gm-dist) { position: relative; z-index: 2; }
     .gm-dist { position: absolute; inset: 0; z-index: 0; pointer-events: none; border-radius: inherit; overflow: hidden; }
-    .gm-dist .gm-frames iframe { width: 100%; height: 100%; }
-    .gm-dist::after { content: ''; position: absolute; inset: 0; z-index: 2; background: linear-gradient(90deg, rgba(17,17,17,0.80) 0%, rgba(17,17,17,0.45) 50%, rgba(17,17,17,0.80) 100%); } /* scrim so the label and slider stay readable */
-    html.gmap-plain .gm-dist::after { background: linear-gradient(90deg, rgba(17,17,17,0.78) 0%, rgba(17,17,17,0.35) 50%, rgba(17,17,17,0.78) 100%); }
-    .gm-ring { position: absolute; left: 50%; top: 50%; z-index: 3; transform: translate(-50%, -50%); border: 2px solid var(--accent); background: rgba(200,241,53,0.14); border-radius: 50%; box-sizing: border-box; transition: width 0.12s, height 0.12s; }
-    .gm-ring[hidden] { display: none; }
-    .gm-dot { position: absolute; left: 50%; top: 50%; z-index: 3; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px #111; }
+    .gm-dist::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(90deg, rgba(17,17,17,0.80) 0%, rgba(17,17,17,0.40) 50%, rgba(17,17,17,0.80) 100%); }
+    html.gmap-plain .gm-dist::after { background: linear-gradient(90deg, rgba(17,17,17,0.78) 0%, rgba(17,17,17,0.30) 50%, rgba(17,17,17,0.78) 100%); }
+    .gm-dist .gm-style-cc, .gm-dist a[href*="maps.google"] img { position: relative; z-index: 3; }
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>/* MOCKUP_grokbot K5: What Matters Most colours */ if (new URLSearchParams(location.search).get('wmmcolor') !== 'a') document.documentElement.classList.add('wmm-b'); /* B is the default; &wmmcolor=a = look A */</script>
-<script>/* MOCKUP_grokbot K5: &map=google (keyless Google Maps embed); &gmapstyle=plain = undarkened */ (function () { const q = new URLSearchParams(location.search); if (q.get('map') === 'google') { document.documentElement.classList.add('gmap'); if (q.get('gmapstyle') === 'plain') document.documentElement.classList.add('gmap-plain'); } })();</script>
+<script>/* MOCKUP_grokbot K5: &map=google (Maps JavaScript API); &gmapstyle=plain = undarkened */ (function () { const q = new URLSearchParams(location.search); if (q.get('map') === 'google') { document.documentElement.classList.add('gmap'); if (q.get('gmapstyle') === 'plain') document.documentElement.classList.add('gmap-plain'); } })();</script>
 </head>
 <body class="landing-active">
 
@@ -5708,83 +5696,113 @@ window.addEventListener('load', () => { const g0 = goNext; goNext = async functi
     crSync(); _crClearErrors(1); if (!(Array.isArray(state.race) && state.race.length)) return; }
   return g0.apply(this, arguments); }; });</script>
 <script>
-// ---- MOCKUP_grokbot K5 &map=google: keyless Google Maps embed (no API key). Pan / zoom are ours: the iframe is re-centred (a new embed URL) ----
+// ---- MOCKUP_grokbot K5 &map=google: Google Maps JavaScript API, loaded once, lazily (first map that needs it) ----
 (function () {
   if (!document.documentElement.classList.contains('gmap')) return;
-  const R = 6378137, TILE = 256, MPP0 = 2 * Math.PI * R / TILE; // metres per pixel at zoom 0 (equator)
-  const gmUrl = (lat, lng, z) => 'https://maps.google.com/maps?ll=' + lat.toFixed(5) + ',' + lng.toFixed(5) + '&z=' + z + '&t=m&hl=en&output=embed';
-  const W = z => TILE * Math.pow(2, z);
-  const toPx = (lat, lng, z) => { const s = Math.sin(lat * Math.PI / 180); return { x: (lng + 180) / 360 * W(z), y: (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * W(z) }; };
-  const toLL = (x, y, z) => { const n = Math.PI - 2 * Math.PI * y / W(z); return { lat: 180 / Math.PI * Math.atan(Math.sinh(n)), lng: x / W(z) * 360 - 180 }; };
-  // one map view: iframe double-buffered (the old frame stays until the new one has loaded, so re-centring does not flash)
-  function GMap(host, opt) {
-    this.host = host; this.z = opt.z || 3; this.lat = opt.lat || 39.5; this.lng = opt.lng || -98.35;
-    const w = document.createElement('div'); w.className = 'gm-wrap'; w.innerHTML = '<div class="gm-frames"></div>'; host.appendChild(w); this.wrap = w; this.frames = w.firstChild; this.src = '';
-    this.scale = opt.scale || 1; this.base = this.scale === 1 ? '' : 'scale(' + this.scale + ')';
-    if (this.scale !== 1) { const f = this.frames.style; f.width = (100 / this.scale) + '%'; f.height = (100 / this.scale) + '%'; f.right = 'auto'; f.bottom = 'auto'; f.transformOrigin = '0 0'; f.transform = this.base; } // drawn at 1/scale size and shrunk: a mini-map (Google's own attribution stays, just smaller)
+  const KEY = 'AIzaSyDjLBLVK4DvYrrVSNp4nLh3tOXT6HVf-Uc', PLAIN = document.documentElement.classList.contains('gmap-plain');
+  window.K5GM = { loads: 0, geocodes: 0, errors: [] }; // counters for the mockup walk (map loads = Map objects created; geocodes = requests)
+  window.gm_authFailure = function () { K5GM.errors.push('gm_authFailure'); console.error('MOCKUP_grokbot: Google Maps auth failure (key / referrer / billing)'); };
+  let _p = null;
+  function gmLoad() {
+    if (_p) return _p;
+    _p = new Promise((res, rej) => {
+      window.__k5gmReady = () => res(window.google.maps);
+      const s = document.createElement('script'); s.async = true; s.onerror = () => rej(new Error('maps script failed'));
+      s.src = 'https://maps.googleapis.com/maps/api/js?key=' + KEY + '&v=weekly&loading=async&callback=__k5gmReady';
+      document.head.appendChild(s);
+    });
+    return _p;
   }
-  GMap.prototype.set = function (lat, lng, z) {
-    this.lat = lat; this.lng = lng; if (z != null) this.z = Math.max(2, Math.min(19, z));
-    const u = gmUrl(this.lat, this.lng, this.z); this.frames.style.transform = this.base; if (u === this.src) return; this.src = u;
-    const f = document.createElement('iframe'); f.setAttribute('title', 'Google map'); f.setAttribute('loading', 'eager'); f.setAttribute('referrerpolicy', 'no-referrer-when-downgrade'); f.tabIndex = -1; f.style.opacity = '0';
-    f.addEventListener('load', () => { f.style.opacity = '1'; [...this.frames.children].forEach(o => { if (o !== f) o.remove(); }); });
-    this.frames.appendChild(f); f.src = u;
-  };
-  GMap.prototype.pointAt = function (dx, dy) { const c = toPx(this.lat, this.lng, this.z); return toLL(c.x + dx, c.y + dy, this.z); }; // lat/lng of the pixel at (centre + dx, dy)
-  window.K5GMap = GMap;
+  // dark styling (classic styles array; works without a Map ID)
+  const DARK = [
+    { elementType: 'geometry', stylers: [{ color: '#1d1d1d' }] }, { elementType: 'labels.text.stroke', stylers: [{ color: '#111111' }] }, { elementType: 'labels.text.fill', stylers: [{ color: '#8a8a8a' }] },
+    { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#d0d0d0' }] },
+    { featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+    { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#2e2e2e' }] }, { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#212121' }] },
+    { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#3c3c3c' }] }, { featureType: 'road', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#0e1a22' }] }, { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#4e6d70' }] },
+    { featureType: 'landscape.natural', elementType: 'geometry', stylers: [{ color: '#202420' }] }, { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#444444' }] }
+  ];
+  const QUIET = [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }];
+  const MINI = [{ featureType: 'road', elementType: 'labels', stylers: [{ visibility: 'off' }] }, { featureType: 'administrative.neighborhood', stylers: [{ visibility: 'off' }] }];
+  const styleFor = mini => (PLAIN ? QUIET : DARK).concat(mini ? MINI : []);
+  const PIN = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"><circle cx="13" cy="13" r="10" fill="#c8f135" stroke="#111" stroke-width="3"/><circle cx="13" cy="13" r="12" fill="none" stroke="#c8f135" stroke-width="1.5"/></svg>');
 
-  // ---- Who You Are: the location sheet map ----
-  let gm = null, pin = null;
+  // ---- Who You Are: location sheet map ----
+  let wm = null, mk = null, wPend = null, wLoading = false;
   _wyaMapInit = function () {
-    if (gm || !_wyaId.map) return; const el = document.getElementById(_wyaId.map); if (!el || !el.offsetWidth) return;
-    gm = new GMap(el, { lat: 39.5, lng: -98.35, z: 3 });
-    const cap = document.createElement('div'); cap.className = 'gm-cap'; cap.setAttribute('aria-hidden', 'true'); gm.wrap.appendChild(cap);
-    pin = document.createElement('div'); pin.className = 'gm-pin'; pin.innerHTML = '<div class="wya-pin"></div>'; pin.hidden = true; gm.wrap.appendChild(pin);
-    const zb = document.createElement('div'); zb.className = 'gm-zoom'; zb.innerHTML = '<button type="button" aria-label="Zoom in">+</button><button type="button" aria-label="Zoom out">\u2212</button>'; gm.wrap.appendChild(zb);
-    zb.children[0].addEventListener('click', e => { e.preventDefault(); gm.set(gm.lat, gm.lng, gm.z + 1); });
-    zb.children[1].addEventListener('click', e => { e.preventDefault(); gm.set(gm.lat, gm.lng, gm.z - 1); });
-    // tap = put the pin there (the map re-centres on it); drag = move the map under the pin, the pin's new spot is the answer
-    let d = null;
-    cap.addEventListener('pointerdown', e => { d = { x: e.clientX, y: e.clientY, id: e.pointerId, moved: false }; try { cap.setPointerCapture(e.pointerId); } catch (x) {} });
-    cap.addEventListener('pointermove', e => { if (!d || e.pointerId !== d.id) return; const dx = e.clientX - d.x, dy = e.clientY - d.y; if (Math.abs(dx) + Math.abs(dy) > 6) { d.moved = true; cap.classList.add('dragging'); } if (d.moved) gm.frames.style.transform = 'translate(' + dx + 'px,' + dy + 'px)'; });
-    const up = e => { if (!d || e.pointerId !== d.id) return; const dd = d; d = null; cap.classList.remove('dragging');
-      const r = cap.getBoundingClientRect();
-      const p = dd.moved ? gm.pointAt(-(e.clientX - dd.x), -(e.clientY - dd.y)) : gm.pointAt(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
-      _wyaDrop(p.lat, p.lng, 'pin', null, Math.max(gm.z, dd.moved ? gm.z : 11)); };
-    cap.addEventListener('pointerup', up); cap.addEventListener('pointercancel', e => { d = null; gm.frames.style.transform = ''; cap.classList.remove('dragging'); });
-    cap.addEventListener('wheel', e => { e.preventDefault(); gm.set(gm.lat, gm.lng, gm.z + (e.deltaY < 0 ? 1 : -1)); }, { passive: false });
-    _wyaMap = { invalidateSize() {} }; // the rest of the Who You Are code only checks / resizes the map
-    const tip = document.querySelector('.wya-ctip'); if (tip) tip.textContent = 'Use + / \u2212 to zoom \u00b7 tap or drag the map to move the pin';
-    if (state.wya && state.wya.lat != null) _wyaPinAt(state.wya.lat, state.wya.lng, 12); else gm.set(39.5, -98.35, 3);
+    if (wm || !_wyaId.map) return; const el = document.getElementById(_wyaId.map); if (!el || !el.offsetWidth) return;
+    if (!_wyaMap) _wyaMap = { invalidateSize() { if (wm) google.maps.event.trigger(wm, 'resize'); } }; // the rest of the Who You Are code only checks / resizes it
+    if (wLoading) return; wLoading = true;
+    gmLoad().then(g => {
+      const host = document.createElement('div'); host.className = 'gm-host'; el.appendChild(host);
+      const st = state.wya && state.wya.lat != null ? { center: { lat: state.wya.lat, lng: state.wya.lng }, zoom: 12 } : { center: { lat: 39.5, lng: -98.35 }, zoom: 3 };
+      wm = new g.Map(host, Object.assign(st, { styles: styleFor(false), disableDefaultUI: true, zoomControl: true, zoomControlOptions: { position: g.ControlPosition.RIGHT_TOP }, gestureHandling: 'greedy', clickableIcons: false, keyboardShortcuts: false, backgroundColor: PLAIN ? '#e5e3df' : '#1a1a1a' }));
+      K5GM.loads++;
+      wm.addListener('click', e => _wyaDrop(e.latLng.lat(), e.latLng.lng(), 'pin')); // tap = put the pin there (one geocode)
+      if (state.wya && state.wya.lat != null) _wyaPinAt(state.wya.lat, state.wya.lng, 12);
+      if (wPend && wPend.lat != null) { const p = wPend; _wyaPinAt(p.lat, p.lng, p.zoom); }
+      wPend = null;
+    }).catch(e => { K5GM.errors.push(String(e)); wLoading = false; });
   };
-  _wyaPinAt = function (lat, lng, zoom) { if (!gm) return; pin.hidden = false; gm.set(lat, lng, zoom || gm.z); };
+  _wyaPinAt = function (lat, lng, zoom) {
+    if (!wm) { wPend = { lat, lng, zoom }; _wyaMapInit(); return; }
+    const pos = { lat, lng };
+    if (!mk) { mk = new google.maps.Marker({ position: pos, map: wm, draggable: true, title: 'Drag to where you live', icon: { url: PIN, scaledSize: new google.maps.Size(26, 26), anchor: new google.maps.Point(13, 13) } });
+      mk.addListener('dragend', () => { const p = mk.getPosition(); _wyaFromPoint(p.lat(), p.lng(), 'pin', null); }); } // geocode on drag END only
+    else mk.setPosition(pos);
+    if (zoom) { wm.setZoom(zoom); wm.setCenter(pos); } else wm.panTo(pos);
+  };
+  // city / zip for a point: Google reverse geocoding (falls back to the previous lookup on any error)
+  const name0 = _wyaName;
+  _wyaName = async function (lat, lng) {
+    try {
+      const g = await gmLoad(); K5GM.geocodes++;
+      const r = await new g.Geocoder().geocode({ location: { lat, lng }, language: 'en' });
+      const res = (r && r.results) || [], comp = t => { for (const x of res) for (const c of x.address_components) if (c.types.includes(t)) return c; return null; };
+      const city = comp('locality') || comp('postal_town') || comp('sublocality') || comp('administrative_area_level_2'), cc = comp('country'), st = comp('administrative_area_level_1'), pc = comp('postal_code');
+      if (city && cc) { const C = cc.short_name.toUpperCase(); return { label: city.long_name + ', ' + (C === 'US' && st ? st.short_name : cc.long_name), cc: C, country: cc.long_name, zip: C === 'US' && pc ? pc.short_name.slice(0, 5) : null }; }
+    } catch (e) { K5GM.errors.push('geocode: ' + (e && (e.code || e.message) || e)); }
+    return name0(lat, lng);
+  };
+  const tip = () => { const t = document.querySelector('.wya-ctip'); if (t) t.textContent = 'Pinch or use + / \u2212 to zoom \u00b7 tap the map or drag the pin'; };
+  window.addEventListener('load', tip);
 
-  // ---- What You Want: radius map behind the Distance box (circle sized to the miles; zoom picked so it fits) ----
-  let dm = null, ring = null, dTimer = null;
+  // ---- What You Want: Distance mini-map (a real Circle, fit to its bounds; no Google UI, attribution stays) ----
+  let dm = null, circ = null, dLoading = false, dT = null;
   const origin = () => {
     const e = typeof partnerCityPrimary !== 'undefined' ? partnerCityPrimary : null;
-    try { if (typeof _viOrigin === 'function' && /^\d{5}$/.test(_viOrigin()) && state.wya && state.wya.lat != null) return { lat: state.wya.lat, lng: state.wya.lng }; } catch (x) {} // "Distance from 78704": centre on the zip
+    try { if (typeof _viOrigin === 'function' && /^\d{5}$/.test(_viOrigin()) && state.wya && state.wya.lat != null) return { lat: state.wya.lat, lng: state.wya.lng }; } catch (x) {}
     if (e && e.lat != null && e.lng != null) return { lat: +e.lat, lng: +e.lng };
     if (state.wya && state.wya.lat != null) return { lat: state.wya.lat, lng: state.wya.lng };
     if (e && typeof PARTNER_CITIES !== 'undefined') { const c = PARTNER_CITIES.find(c => c.label === e.label || c.city === e.city); if (c) return { lat: c.lat, lng: c.lng }; }
     return { lat: 30.2672, lng: -97.7431 };
   };
+  function distApply() {
+    if (!dm) return; const el = document.getElementById('vi_dist_mi'), o = origin(), any = el && +el.value >= +el.max;
+    circ.setCenter(o); circ.setRadius(any ? 1 : _viMi() * 1609.344); circ.setVisible(!any);
+    if (any) { dm.setCenter(o); dm.setZoom(4); } else dm.fitBounds(circ.getBounds(), { top: 6, bottom: 6, left: 6, right: 6 });
+  }
   function distMap() {
-    const box = document.getElementById('vi-dist'); if (!box) return;
-    if (!dm) { const h = document.createElement('div'); h.className = 'gm-dist'; h.setAttribute('aria-hidden', 'true'); box.insertBefore(h, box.firstChild); dm = new GMap(h, { z: 10, scale: 0.5 });
-      ring = document.createElement('div'); ring.className = 'gm-ring'; dm.wrap.appendChild(ring); const dot = document.createElement('div'); dot.className = 'gm-dot'; dm.wrap.appendChild(dot); }
-    const el = document.getElementById('vi_dist_mi'), H = box.clientHeight || 80, o = origin();
-    const any = el && +el.value >= +el.max, mi = any ? 0 : _viMi(), m = mi * 1609.344, cos = Math.cos(o.lat * Math.PI / 180);
-    let z = 4;
-    if (!any) { z = Math.floor(Math.log2(MPP0 * cos * (0.42 * H) / (m * dm.scale))); z = Math.max(3, Math.min(16, z)); }
-    const rpx = any ? 0 : m / (MPP0 * cos / Math.pow(2, z)) * dm.scale;
-    ring.hidden = any; ring.style.width = ring.style.height = Math.round(2 * rpx) + 'px';
-    clearTimeout(dTimer); dTimer = setTimeout(() => dm.set(o.lat, o.lng, z), dm.src ? 250 : 0); // the circle follows the thumb at once; the map only re-loads when the zoom / centre changes
+    const box = document.getElementById('vi-dist'); if (!box || !box.offsetParent || !box.clientWidth) return;
+    if (dm) { clearTimeout(dT); dT = setTimeout(distApply, 60); return; }
+    if (dLoading) return; dLoading = true;
+    gmLoad().then(g => {
+      const h = document.createElement('div'); h.className = 'gm-dist'; h.setAttribute('aria-hidden', 'true'); box.insertBefore(h, box.firstChild);
+      const host = document.createElement('div'); host.className = 'gm-host'; h.appendChild(host);
+      const o = origin();
+      dm = new g.Map(host, { center: o, zoom: 8, styles: styleFor(true), disableDefaultUI: true, gestureHandling: 'none', keyboardShortcuts: false, clickableIcons: false, draggable: false, backgroundColor: PLAIN ? '#e5e3df' : '#1a1a1a' });
+      K5GM.loads++;
+      circ = new g.Circle({ map: dm, center: o, radius: 1, strokeColor: '#c8f135', strokeOpacity: 1, strokeWeight: 2, fillColor: '#c8f135', fillOpacity: 0.14, clickable: false });
+      distApply();
+    }).catch(e => { K5GM.errors.push(String(e)); dLoading = false; });
   }
   window.k5GmDist = distMap;
-  window.addEventListener('load', () => { setTimeout(() => { if (typeof _viDistUpdate === 'function') { const du = _viDistUpdate; _viDistUpdate = function () { const r = du.apply(this, arguments); try { distMap(); } catch (e) {} return r; }; } }, 0);
+  window.addEventListener('load', () => {
+    setTimeout(() => { if (typeof _viDistUpdate === 'function') { const du = _viDistUpdate; _viDistUpdate = function () { const r = du.apply(this, arguments); try { distMap(); } catch (e) {} return r; }; } }, 0);
     const el = document.getElementById('vi_dist_mi'); if (el) el.addEventListener('input', () => { try { distMap(); } catch (e) {} });
-    if (window.ResizeObserver) { const b = document.getElementById('vi-dist'); if (b) new ResizeObserver(() => { if (b.offsetParent) try { distMap(); } catch (e) {} }).observe(b); } });
+    const b = document.getElementById('vi-dist'); if (b && window.ResizeObserver) new ResizeObserver(() => { if (b.offsetParent && b.clientWidth) try { if (dm) google.maps.event.trigger(dm, 'resize'); distMap(); } catch (e) {} }).observe(b);
+  });
 })();
 </script>
 <div class="mock-badge_grokbot">Mockup K5</div>
