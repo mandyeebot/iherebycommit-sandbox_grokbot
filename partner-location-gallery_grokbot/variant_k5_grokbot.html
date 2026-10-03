@@ -5765,7 +5765,8 @@ window.addEventListener('load', () => { const g0 = goNext; goNext = async functi
       const res = (r && r.results) || [], comp = t => { for (const x of res) for (const c of x.address_components) if (c.types.includes(t)) return c; return null; };
       const city = comp('locality') || comp('postal_town') || comp('sublocality') || comp('administrative_area_level_2'), cc = comp('country'), st = comp('administrative_area_level_1'), pc = comp('postal_code');
       // neighbourhood (e.g. West Village); falls back to the borough-level sublocality (e.g. Brooklyn); left out when missing or the same as the city
-      const nb = comp('neighborhood') || comp('sublocality_level_1') || comp('sublocality'), hood = nb && city && nb.long_name !== city.long_name ? nb.long_name : null;
+      const ADM = /park district|school district|township|county|unincorporated|census/i, okc = t => { for (const x of res) for (const c of x.address_components) if (c.types.includes(t) && !ADM.test(c.long_name)) return c; return null; }; // skip admin-area names posing as neighbourhoods
+      const nb = okc('neighborhood') || okc('sublocality_level_1') || okc('sublocality'), hood = nb && city && nb.long_name !== city.long_name ? nb.long_name : null;
       if (city && cc) { const C = cc.short_name.toUpperCase(); return { label: city.long_name + ', ' + (C === 'US' && st ? st.short_name : cc.long_name), cc: C, country: cc.long_name, zip: C === 'US' && pc ? pc.short_name.slice(0, 5) : null, hood }; }
     } catch (e) { K5GM.errors.push('geocode: ' + (e && (e.code || e.message) || e)); }
     return name0(lat, lng);
