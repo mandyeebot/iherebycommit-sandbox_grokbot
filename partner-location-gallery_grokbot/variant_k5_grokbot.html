@@ -5077,7 +5077,7 @@ function wyaPayload() {
   const w = state.wya; if (!w) return {};
   return { location_lat: w.lat, location_lng: w.lng, location_accuracy_m: w.accuracy, location_source: w.source, location_label: w.label, location_country_code: w.cc || null, ...(document.documentElement.classList.contains('gmap') ? { location_neighborhood: w.hood || null } : {}) };
 }
-const _wyaTxt = o => (o.cc === 'US' && o.zip ? o.zip + ' \u00b7 ' : '') + (o.hood ? o.hood + ' \u00b7 ' : '') + o.label;
+const _wyaTxt = o => (o.cc === 'US' && o.zip ? o.zip + ' \u00b7 ' : '') + o.label;
 function _wyaShow(txt, cls) {
   const el = document.getElementById(_wyaId.city); if (!el) return;
   el.textContent = txt; el.className = 'wya-city' + (cls ? ' ' + cls : ''); el.title = txt;
