@@ -1197,6 +1197,7 @@
     html.gmap-plain .gm-dist::after { background: linear-gradient(90deg, rgba(17,17,17,0.82) 0%, rgba(17,17,17,0.50) 50%, rgba(17,17,17,0.82) 100%); }
     /* the map stops above the checkbox row: a thin strip under the track holds the Google logo + attribution, nothing sits on top of them */
     html.gmap #screen-3 #vi-dist .partner-location-anywhere { margin-top: 16px !important; }
+    @media (max-height: 720px) { html.gmap #screen-3 #vi-dist .partner-location-anywhere { margin-top: 10px !important; min-height: 20px !important; } } /* 320x640 has no slack: the strip comes out of the checkbox row */
     .gm-dist .gm-style-cc, .gm-dist a[href*="maps.google"] img { position: relative; z-index: 3; }
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
