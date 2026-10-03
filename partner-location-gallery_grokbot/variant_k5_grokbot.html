@@ -1194,7 +1194,9 @@
     html.gmap #vi-dist > :not(.gm-dist) { position: relative; z-index: 2; }
     .gm-dist { position: absolute; inset: 0; z-index: 0; pointer-events: none; border-radius: inherit; overflow: hidden; }
     .gm-dist::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(90deg, rgba(17,17,17,0.80) 0%, rgba(17,17,17,0.40) 50%, rgba(17,17,17,0.80) 100%); }
-    html.gmap-plain .gm-dist::after { background: linear-gradient(90deg, rgba(17,17,17,0.78) 0%, rgba(17,17,17,0.30) 50%, rgba(17,17,17,0.78) 100%); }
+    html.gmap-plain .gm-dist::after { background: linear-gradient(90deg, rgba(17,17,17,0.82) 0%, rgba(17,17,17,0.50) 50%, rgba(17,17,17,0.82) 100%); }
+    /* the map stops above the checkbox row: a thin strip under the track holds the Google logo + attribution, nothing sits on top of them */
+    html.gmap #screen-3 #vi-dist .partner-location-anywhere { margin-top: 16px !important; }
     .gm-dist .gm-style-cc, .gm-dist a[href*="maps.google"] img { position: relative; z-index: 3; }
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
@@ -5724,7 +5726,7 @@ window.addEventListener('load', () => { const g0 = goNext; goNext = async functi
     { featureType: 'landscape.natural', elementType: 'geometry', stylers: [{ color: '#202420' }] }, { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#444444' }] }
   ];
   const QUIET = [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }];
-  const MINI = [{ featureType: 'road', elementType: 'labels', stylers: [{ visibility: 'off' }] }, { featureType: 'administrative.neighborhood', stylers: [{ visibility: 'off' }] }];
+  const MINI = [{ elementType: 'labels', stylers: [{ visibility: 'off' }] }]; // no place / road text under the label and slider
   const styleFor = mini => (PLAIN ? QUIET : DARK).concat(mini ? MINI : []);
   const PIN = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"><circle cx="13" cy="13" r="10" fill="#c8f135" stroke="#111" stroke-width="3"/><circle cx="13" cy="13" r="12" fill="none" stroke="#c8f135" stroke-width="1.5"/></svg>');
 
@@ -5778,8 +5780,9 @@ window.addEventListener('load', () => { const g0 = goNext; goNext = async functi
     if (e && typeof PARTNER_CITIES !== 'undefined') { const c = PARTNER_CITIES.find(c => c.label === e.label || c.city === e.city); if (c) return { lat: c.lat, lng: c.lng }; }
     return { lat: 30.2672, lng: -97.7431 };
   };
+  function fitHost() { const box = document.getElementById('vi-dist'), h = box && box.querySelector('.gm-dist'), a = box && box.querySelector('.partner-location-anywhere'); if (h) h.style.bottom = a && a.offsetParent ? Math.max(0, box.clientHeight - a.offsetTop + 2) + 'px' : '0px'; }
   function distApply() {
-    if (!dm) return; const el = document.getElementById('vi_dist_mi'), o = origin(), any = el && +el.value >= +el.max;
+    if (!dm) return; fitHost(); const el = document.getElementById('vi_dist_mi'), o = origin(), any = el && +el.value >= +el.max;
     circ.setCenter(o); circ.setRadius(any ? 1 : _viMi() * 1609.344); circ.setVisible(!any);
     if (any) { dm.setCenter(o); dm.setZoom(4); } else dm.fitBounds(circ.getBounds(), { top: 6, bottom: 6, left: 6, right: 6 });
   }
@@ -5788,7 +5791,7 @@ window.addEventListener('load', () => { const g0 = goNext; goNext = async functi
     if (dm) { clearTimeout(dT); dT = setTimeout(distApply, 60); return; }
     if (dLoading) return; dLoading = true;
     gmLoad().then(g => {
-      const h = document.createElement('div'); h.className = 'gm-dist'; h.setAttribute('aria-hidden', 'true'); box.insertBefore(h, box.firstChild);
+      const h = document.createElement('div'); h.className = 'gm-dist'; h.setAttribute('aria-hidden', 'true'); box.insertBefore(h, box.firstChild); fitHost();
       const host = document.createElement('div'); host.className = 'gm-host'; h.appendChild(host);
       const o = origin();
       dm = new g.Map(host, { center: o, zoom: 8, styles: styleFor(true), disableDefaultUI: true, gestureHandling: 'none', keyboardShortcuts: false, clickableIcons: false, draggable: false, backgroundColor: PLAIN ? '#e5e3df' : '#1a1a1a' });
