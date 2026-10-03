@@ -3769,7 +3769,7 @@ function _crDefineAll() {
   });
   crDef('who-height', {
     partner: 'who-race', focus: () => state.locationMode === 'zip' ? 'height_ftin' : 'height_cm_input',
-    stepDone: () => !!(state.heightTouched || state.heightDefault), nextReveals: true,
+    stepDone: () => k5HeightEngaged(), nextReveals: true, busy: () => !k5HeightEngaged(), // MOCKUP_grokbot K5 (k5gmap7): Race waits until Height is opened / changed, or Next accepts the default
     value: () => {
       if (!(state.heightTouched || state.heightDefault)) return ''; // MOCKUP_grokbot K5: the gender default counts as the answer
       if (state.locationMode === 'zip') return _crOpt('height_ftin', _crV('height_ftin'));
@@ -5693,11 +5693,19 @@ _rcDef();
   const s1 = _syncPartnerRaceButtons; window._syncPartnerRaceButtons = function () { s1(); sum('partner-race-select-text', state.partnerRace); };
 })();
 </script>
-<script>/* MOCKUP_grokbot K5: Next on an untouched Height default = fold it (it is the answer), no errors in that tap */
-window.addEventListener('load', () => { const g0 = goNext; goNext = async function (id) {
-  if (id === 1 && state.heightDefault && !state.heightTouched && typeof crSettle === 'function' && crApplies('who-height') && !crIsCollapsed('who-height') && !_crHidden('who-height') && crSettle('who-height')) {
-    crSync(); _crClearErrors(1); if (!(Array.isArray(state.race) && state.race.length)) return; }
-  return g0.apply(this, arguments); }; });</script>
+<script>/* MOCKUP_grokbot K5 (k5gmap7): Race stays hidden until the user opens or changes Height; Next on the untouched default accepts it (lit, saved, folded), then Race shows, with no errors in that tap */
+function k5HeightEngaged() { return !!(state.heightTouched || state.heightOpened || state.heightAccepted); }
+window.addEventListener('load', () => {
+  ['height_ftin', 'height_cm_input'].forEach(id => { const el = document.getElementById(id); if (!el) return;
+    const mark = () => { if (!state.heightOpened) { state.heightOpened = true; crSync(); } }; // opening the picker counts as interacting
+    el.addEventListener('pointerdown', mark); el.addEventListener('focus', mark); el.addEventListener('change', mark); });
+  const _sd = _crStepDone; _crStepDone = function (ids) { if (ids.includes('who-height') && crApplies('who-height') && !k5HeightEngaged()) return false; return _sd.apply(this, arguments); };
+  const g0 = goNext; goNext = async function (id) {
+    if (id === 1 && crApplies('who-height') && !_crHidden('who-height') && !k5HeightEngaged() && state.heightDefault) {
+      state.heightAccepted = true; // Next = the gender default is the answer
+      crSettle('who-height'); crSync(); _crClearErrors(1);
+      if (!(Array.isArray(state.race) && state.race.length)) return; }
+    return g0.apply(this, arguments); }; });</script>
 <script>
 // ---- MOCKUP_grokbot K5 &map=google: Google Maps JavaScript API, loaded once, lazily (first map that needs it) ----
 (function () {
