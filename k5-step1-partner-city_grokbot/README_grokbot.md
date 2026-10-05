@@ -1,14 +1,12 @@
-# K5 step 1 — Partner city + miles radius (sandbox only)
+# K5 step 1b — What You Want partner-city UI (sandbox only)
 
-Production `2026-09-27r` What You Want, with the K5 **on-page miles radius slider** added to Partner city.
+K5 (k12) What You Want **form components**: Seeking, Partner City | Other Cities half-row, Distance box (slider + “I'm open to dating in other cities” inside), boxed Age Range, boxed Partner Height.
 
-- Primary Partner city still defaults from the applicant's zip
-- `+ Add city` chips with X unchanged
-- "I'm open to relocating for love" unchanged
-- Miles slider on the page (K5 discrete stops, default 30 mi) — not a popup
-- Age Range and Partner Height unchanged
-- No ranked preferences / no other K5 fields
-- `PAGE_VERSION = '2026-09-27r-s1'`
-- save-lead / submit-application are **faked** (same fields as live 2026-09-27r; distance is UI-only for now)
+- **Headline stays production size** (52px Bebas, same as 2026-09-27r / every other screen) — not K5’s compact 40px header
+- Nothing under Partner Height (no Ethnicity / Education / Income / kids / Politics / Religion)
+- No ranked preferences screen
+- Intentions & Family still collects have/want kids
+- `PAGE_VERSION = '2026-09-27r-s1b'`
+- Saves faked; distance is UI-only (not sent)
 
 Sandbox only. Does not change iherebycommit.com.
