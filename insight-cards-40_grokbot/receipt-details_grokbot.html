@@ -35,9 +35,9 @@ tr.ref td,tr.ref s{color:#8a6e6e} tr.np td{color:#666}
 <a class="back" id="back" href="grok-favorites.html?card=2">← Back to the receipt card</a>
 <h1>YOUR RECEIPT, <b>ITEMIZED</b></h1>
 <span class="tag">✓ AMANDA'S REAL DATA · league_purchases, hinge_purchases, bumble_billing_events, tinder_purchases</span>
-<p>Every purchase in your four exports, one row each, sorted by date. Times are Pacific (PT). Amounts are the price recorded in each export: <b>League has no currency field (assumed USD; prices match U.S. App Store tiers)</b>; Hinge and Bumble say USD. Prices may not include tax. No card numbers, emails, payment methods or locations are shown. Each app is labeled with its own date range; they don't overlap.</p>
-<div class="sum"><div><b>$8,575.26</b>The League · 74 purchases<br>Apr 2016 – Nov 2019</div><div><b>$229.95</b>Hinge · 5 charges<br>Aug – Nov 2025</div><div><b>$219.93</b>Bumble · 7 payments<br>Jul–Oct 2021 + Jan 2025</div><div><b>$0.00</b>Tinder · 0 purchases<br>none in export</div></div>
-<div class="jump"><a href="#league">The League</a><a href="#refunds">Refunded</a><a href="#hinge">Hinge</a><a href="#bumble">Bumble</a><a href="#tinder">Tinder</a></div>
+<p>Every purchase in your five exports, one row each, sorted by date. Times are Pacific (PT). Amounts are the price recorded in each export: <b>League has no currency field (assumed USD; prices match U.S. App Store tiers)</b>; Hinge and Bumble say USD. Prices may not include tax. No card numbers, emails, payment methods or locations are shown. Each app is labeled with its own date range; they don't overlap.</p>
+<div class="sum"><div><b>$8,575.26</b>The League · 74 purchases<br>Apr 2016 – Nov 2019</div><div><b>$229.95</b>Hinge · 5 charges<br>Aug – Nov 2025</div><div><b>$219.93</b>Bumble · 7 payments<br>Jul–Oct 2021 + Jan 2025</div><div><b>$0.00</b>Tinder · 0 purchases<br>none in export</div><div><b>—</b>Raya · not in your export<br>no purchase records</div></div>
+<div class="jump"><a href="#league">The League</a><a href="#refunds">Refunded</a><a href="#hinge">Hinge</a><a href="#bumble">Bumble</a><a href="#tinder">Tinder</a><a href="#raya">Raya</a></div>
 
 <h2 id="league">The League · 74 purchases, 2016–2019</h2>
 <p>Your last League purchase was <b>Nov 30, 2019</b>. Nothing was kept after that: the only later charges are two January 2022 web memberships, both <b>refunded</b> (below).</p>
@@ -167,13 +167,16 @@ tr.ref td,tr.ref s{color:#8a6e6e} tr.np td{color:#666}
 
 <h2 id="tinder">Tinder · 0 purchases</h2>
 <p>Your Tinder export's purchase lists are empty: no subscriptions, boosts or Super Likes bought. Total: <b>$0.00</b>.</p>
+
+<h2 id="raya">Raya · not in your export</h2>
+<p>Your Raya export (latest record Sep 30, 2026) has no purchases: its consumables file is empty and there's no billing or subscription file. So Raya spend is <b>not in your export</b>, and it isn't counted in any total. That doesn't mean Raya was free; the export just doesn't say.</p>
 <p style="margin-top:22px">Built by grokbot from Amanda's own exports (read-only), Oct 1, 2026 PT. Sandbox mockup.</p>
 <a class="back" href="grok-favorites.html?card=2" id="back2">← Back to the receipt card</a>
 <script>
 const f=new URLSearchParams(location.search).get('from');
 const qp=new URLSearchParams(location.search),c=qp.get('c');
 const cn=/^\d{1,2}$/.test(qp.get('card')||'')?qp.get('card'):null;
-const dk=/^(league|hinge|bumble|tinder)$/.test(qp.get('deck')||'')?qp.get('deck'):'league',sn=/^\d{1,2}$/.test(qp.get('s')||'')?qp.get('s'):'1';
+const dk=/^(league|hinge|bumble|tinder|raya)$/.test(qp.get('deck')||'')?qp.get('deck'):'league',sn=/^\d{1,2}$/.test(qp.get('s')||'')?qp.get('s'):'1';
 const map={'v6':'viral-v6.html?card='+(cn||'1'),'fav':'grok-favorites.html?card='+(cn||'2'),'fa':'four-apps.html?card='+(cn||'14'),'dw':'dating-wrapped.html?deck='+dk+'&s='+sn};
 if(f==='all'){const h='all-cards_grokbot.html'+(c&&/^ac-[\w-]+$/.test(c)?'#'+c:'');for(const id of ['back','back2']){const e=document.getElementById(id);e.href=h;e.textContent='← Back to all cards';}}
 else if(map[f]){for(const id of ['back','back2'])document.getElementById(id).href=map[f];}

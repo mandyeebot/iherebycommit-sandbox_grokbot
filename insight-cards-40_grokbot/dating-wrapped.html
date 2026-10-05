@@ -132,8 +132,8 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
 <body>
 <div class="top">
   <div class="brand">I HEREBY <b>COMMIT</b> · DATING WRAPPED</div>
-  <div class="note"><b style="color:#f6efe3">All three decks (Tinder, Hinge, League) use Amanda's REAL exports</b> (totals only: no names, photos, message text or locations). Fields an export doesn't have are marked "not in your export", never guessed. Every outside stat shows its source on the screen. Cards are static: nothing moves or advances on its own. Use the Back / Next buttons under the phone, tap the right or left side of the screen, or the arrow keys.</div>
-  <div class="tabs"><button class="tab on" data-deck="start">Start</button><button class="tab" data-deck="tinder">Tinder · 9</button><button class="tab" data-deck="hinge">Hinge · 9</button><button class="tab" data-deck="league">League · 14</button></div>
+  <div class="note"><b style="color:#f6efe3">All four decks (Tinder, Hinge, League, Raya) use Amanda's REAL exports</b> (totals only: no names, photos, message text or locations). Fields an export doesn't have are marked "not in your export", never guessed. Every outside stat shows its source on the screen. Cards are static: nothing moves or advances on its own. Use the Back / Next buttons under the phone, tap the right or left side of the screen, or the arrow keys.</div>
+  <div class="tabs"><button class="tab on" data-deck="start">Start</button><button class="tab" data-deck="tinder">Tinder · 9</button><button class="tab" data-deck="hinge">Hinge · 9</button><button class="tab" data-deck="league">League · 14</button><button class="tab" data-deck="raya">Raya · 9</button></div>
 </div>
 <div class="phone" id="phone">
   <div class="bars" id="bars"></div>
@@ -143,7 +143,7 @@ body{display:flex;flex-direction:column;align-items:center;padding:18px 10px 40p
 </div>
 <div class="nav"><button id="bk" onclick="prev()">← Back</button><span class="pos" id="pos"></span><button class="nx" id="nx" onclick="next()">Next →</button></div>
 <div class="legend">
-  <b>How to read this.</b> Solid "✓ YOUR REAL … DATA" tags = numbers computed from Amanda's own export (read-only aggregates, table and column named on the tag). There is no example data left. Fields an export doesn't have say "not in your export". Every outside stat has a tappable source box with the source name, year and n, and each deck ends with a Sources screen. <b style="color:#e0b64a">League</b>: league_profile, league_interactions, league_matches, league_messages, league_preferences, league_activity, league_purchases. <b style="color:#9b7bff">Hinge</b>: hinge_interactions, hinge_messages, hinge_preferences, hinge_purchases. <b style="color:#ff2e63">Tinder</b>: tinder_profile, tinder_usage_daily, tinder_matches, tinder_messages, tinder_purchases. We never show email, phone, location, IP, message text, or match names or photos. No League company data or League-published stats. Match rate reflects how picky you are as much as how others respond. It is not a desirability score.
+  <b>How to read this.</b> Solid "✓ YOUR REAL … DATA" tags = numbers computed from Amanda's own export (read-only aggregates, table and column named on the tag). There is no example data left. Fields an export doesn't have say "not in your export". Every outside stat has a tappable source box with the source name, year and n, and each deck ends with a Sources screen. <b style="color:#e0b64a">League</b>: league_profile, league_interactions, league_matches, league_messages, league_preferences, league_activity, league_purchases. <b style="color:#9b7bff">Hinge</b>: hinge_interactions, hinge_messages, hinge_preferences, hinge_purchases. <b style="color:#ff2e63">Tinder</b>: tinder_profile, tinder_usage_daily, tinder_matches, tinder_messages, tinder_purchases. <b style="color:#c8f135">Raya</b>: raya_profile, raya_swipes (counted once), raya_matches, raya_messages, raya_media (count only); contacts and locations are never used. We never show email, phone, location, IP, message text, or match names or photos. No League company data or League-published stats. Match rate reflects how picky you are as much as how others respond. It is not a desirability score.
 </div>
 <script>
 const TH={
@@ -151,17 +151,19 @@ const TH={
    b0:{bg:'#2b0b14',fg:'#fff',icbg:'#ff2e63',icfg:'#fff'}, b1:{bg:'#fff',fg:'#2b0b14',icbg:'#ff2e63',icfg:'#fff'}},
  hinge:{name:'Hinge',letter:'H',primary:'#6c3bff',second:'#00c2a8',dark:'#150d33',light:'#efeaff',acc:'#c8f135',
    b0:{bg:'#150d33',fg:'#fff',icbg:'#6c3bff',icfg:'#fff'}, b1:{bg:'#fff',fg:'#150d33',icbg:'#6c3bff',icfg:'#fff'}},
+ raya:{name:'Raya',letter:'R',exp:'Sep 30 2026',primary:'#0e0e0e',second:'#c8f135',dark:'#0e0e0e',light:'#f6efe3',acc:'#c8f135',
+   b0:{bg:'#0e0e0e',fg:'#f6efe3',icbg:'#c8f135',icfg:'#0e0e0e'}, b1:{bg:'#c8f135',fg:'#0e0e0e',icbg:'#0e0e0e',icfg:'#c8f135'}},
  league:{name:'League',letter:'L',primary:'#0b2545',second:'#e0b64a',dark:'#06121f',light:'#f7f3e8',acc:'#7fd3ff',
    b0:{bg:'#0b2545',fg:'#e0b64a',icbg:'#e0b64a',icfg:'#0b2545'}, b1:{bg:'#e0b64a',fg:'#06121f',icbg:'#0b2545',icfg:'#e0b64a'}}
 };
-const T=TH.tinder,H=TH.hinge,L=TH.league, INK='#0e0e0e', CREAM='#f6efe3';
+const T=TH.tinder,H=TH.hinge,L=TH.league,R=TH.raya, INK='#0e0e0e', CREAM='#f6efe3';
 const months=['J','F','M','A','M','J','J','A','S','O','N','D'];
 function dots(n,f){let s='<div class="dots">';for(let i=0;i<n;i++)s+=`<i class="${i<f?'f':''}"></i>`;return s+'</div>'}
 function blob(sz,x,y,col,op=1){return `<div class="blob" style="width:${sz}px;height:${sz}px;left:${x}px;top:${y}px;background:${col};opacity:${op}"></div>`}
 function foot(src,share=true){return `<div class="foot a a6"><div class="src">${src}</div>${share?'<button class="share">Share ↗</button>':''}</div>`}
 // Big source badge + comparison pill (every deck screen)
 function badge(th,v,cmp){const b=th[v||'b0'];
-  const sub=`<small>YOUR REAL ${th.name.toUpperCase()} DATA · Amanda's export, Sep 28 2026</small>`;
+  const sub=`<small>YOUR REAL ${th.name.toUpperCase()} DATA · Amanda's export, ${th.exp||'Sep 28 2026'}</small>`;
   const c=cmp==='cite'?`<div class="cmp">Outside stat on this screen · source below ↓</div>`:cmp==='realown'?`<div class="cmp">Compared with: your other real deck (you vs. you)</div>`:cmp==='src'?`<div class="cmp">Every link used in this deck</div>`:`<div class="cmp none">Just your data · no outside stats</div>`;
   return `<div class="srcb" style="background:${b.bg};color:${b.fg}"><span class="ic" style="background:${b.icbg};color:${b.icfg}">${th.letter}</span><span>From your ${th.name} data${sub}</span></div>${c}`}
 // ---- citations (every outside stat gets one, on the screen itself) ----
@@ -172,6 +174,8 @@ const SRC={
  tinderData:{name:'Tinder · download your data (data.json)',meta:'Official Tinder data request page',url:'https://account.gotinder.com/data'},
  hingeData:{name:'Hinge · How can I make a Privacy Request?',meta:'Official Hinge help page (request your export)',url:'https://help.hinge.co/hc/en-us/articles/360004792234-How-can-I-make-a-Privacy-Request'},
  tc2016:{name:'TechCrunch · "The League launches a rebuilt, event-centric dating app"',meta:'News article, Apr 28 2016',url:'https://techcrunch.com/2016/04/28/the-league-launches-a-rebuilt-event-centric-dating-app/'},
+ columbia:{name:'Columbia speed dating (Fisman, Iyengar, Kamenica & Simonson 2006, QJE)',meta:'Speed-dating events 2002–04 · 551 people, 8,378 yes/no decisions (274 women) · our reanalysis',url:'https://doi.org/10.1162/qjec.2006.121.2.673'},
+ rayaPriv:{name:'Raya · Privacy Policy',meta:'Official Raya page, updated May 6 2020 · how to request a copy of your data; a mutual like opens a chat; messages you received need the sender\'s written consent',url:'https://rayatheapp.com/privacy'},
  leagueData:{name:'The League · How do I request a copy of my personal data?',meta:'Official League help page ("Email Me My Data")',url:'https://theleague-help.zendesk.com/hc/en-us/articles/47047296772763-How-do-I-request-a-copy-of-my-personal-data-on-The-League'}
 };
 function shortUrl(u){return u.replace(/^https?:\/\/(www\.)?/,'')}
@@ -193,18 +197,19 @@ start:[
  {bg:INK,fg:CREAM,noauto:true,html:()=>`${blob(300,170,-90,T.primary,.9)}${blob(260,-120,520,H.primary,.9)}${blob(160,270,560,L.second,.95)}
   <div class="k a" style="margin-top:6px">Dating Wrapped · your real exports</div>
   <div class="h a a2" style="font-size:40px">Your dating year.<br>One deck per app.</div>
-  <div class="p a a3">Pick an app to start. Each deck uses <b>only that app's export</b>, in that app's colors. All three decks use <b>Amanda's real exports</b> (Tinder, Hinge, League). Anything an export doesn't have says <b>"not in your export"</b>. Every outside stat shows its source on the screen.</div>
+  <div class="p a a3">Pick an app to start. Each deck uses <b>only that app's export</b>, in that app's colors. All four decks use <b>Amanda's real exports</b> (Tinder, Hinge, League, Raya). Anything an export doesn't have says <b>"not in your export"</b>. Every outside stat shows its source on the screen.</div>
   <div class="picker a a4">
    <button style="background:${T.primary};color:#fff" onclick="event.stopPropagation();setDeck('tinder')"><span class="ic" style="background:#fff;color:${T.primary}">T</span><div><b>Your Tinder Wrapped</b><span>Amanda's REAL data · 9 screens</span></div></button>
    <button style="background:${H.primary};color:#fff" onclick="event.stopPropagation();setDeck('hinge')"><span class="ic" style="background:#fff;color:${H.primary}">H</span><div><b>Your Hinge Wrapped</b><span>Amanda's REAL data · 9 screens</span></div></button>
    <button style="background:${L.second};color:${L.dark}" onclick="event.stopPropagation();setDeck('league')"><span class="ic" style="background:${L.primary};color:${L.second}">L</span><div><b>Your League Wrapped</b><span>Amanda's REAL data · 14 screens</span></div></button>
+   <button style="background:#0e0e0e;color:#f6efe3;border:1.5px solid #c8f135" onclick="event.stopPropagation();setDeck('raya')"><span class="ic" style="background:#c8f135;color:#0e0e0e">R</span><div><b>Your Raya Wrapped</b><span>Amanda's REAL data · 9 screens</span></div></button>
   </div>
   ${foot('All personal numbers on every screen are YOUR REAL DATA (totals only). No email, phone or location.',false)}`}
 ],
 tinder:[
  {bg:T.primary,fg:'#fff',html:()=>`${blob(420,-120,440,T.second)}${blob(170,250,170,T.acc,.95)}
   ${badge(T,'b0',null)}
-  <div class="k a" style="margin-top:14px">Deck 1 of 3 · 9 screens</div>
+  <div class="k a" style="margin-top:14px">Deck 1 of 4 · 9 screens</div>
   <div class="divider a a2">Your<br>Tinder<br>Wrapped</div>
   <div class="h a a3" style="font-size:24px;margin-top:14px">A short visit.<br>Here's what it left behind.</div>
   <div class="p a a4">Built from <b>Amanda's real Tinder export</b> (data.json, downloaded Sep 28, 2026). Only totals: no names, photos, message text or locations.</div>
@@ -295,7 +300,7 @@ tinder:[
 hinge:[
  {bg:H.primary,fg:'#fff',html:()=>`${blob(400,-150,480,H.second)}${blob(150,275,330,H.acc,.95)}
   ${badge(H,'b0',null)}
-  <div class="k a" style="margin-top:14px">Deck 2 of 3 · 9 screens</div>
+  <div class="k a" style="margin-top:14px">Deck 2 of 4 · 9 screens</div>
   <div class="divider a a2">Your<br>Hinge<br>Wrapped</div>
   <div class="p a a3" style="font-size:14px">Built from <b>Amanda's real Hinge export</b> (CSV files, exported Sep 28, 2026). Only totals: no names, photos, message text or locations.</div>
   ${foot('Amanda · on Hinge since April 2025 · YOUR REAL HINGE DATA',false)}`},
@@ -388,7 +393,7 @@ hinge:[
 league:[
  {bg:L.primary,fg:L.light,html:()=>`${blob(380,-140,540,L.second,.9)}${blob(120,300,180,L.acc,.9)}
   ${badge(L,'b1',null)}
-  <div class="k a" style="margin-top:12px;color:${L.second}">Deck 3 of 3 · 14 screens</div>
+  <div class="k a" style="margin-top:12px;color:${L.second}">Deck 3 of 4 · 14 screens</div>
   <div class="divider a a2" style="color:${L.second}">Your<br>League<br>Wrapped</div>
   <div class="p a a3" style="font-size:13px">Built from <b>Amanda's real League export</b> ("Email Me My Data", exported Sep 28, 2026). Only totals: <b style="color:${L.second}">no names, photos, message text or locations.</b></div>
   ${foot('Amanda · on The League since 2015 · YOUR REAL LEAGUE DATA',false)}`},
@@ -511,15 +516,111 @@ league:[
    {k:'tc2016',used:'Used on: A League relic (10). Launch of groups and events. "No longer in the app" is per Amanda.'},
    {k:'leagueData',used:'Where your League file comes from. Every other number in this deck is computed from it (7 league_ tables: profile, interactions, matches, messages, preferences, activity, purchases).'}],
    'Tap any source to open it. <b>No League company data or League-published stats are used.</b> Messages cover only ones you sent (from Nov 2023); likes/passes start Feb 2017.',`<div class="cta" style="margin-top:10px"><button style="background:${L.primary};color:${L.second}" onclick="event.stopPropagation();setDeck('start')">All decks ↺</button></div>`)}
+],
+raya:[
+ {bg:R.dark,fg:R.light,html:()=>`${blob(360,-170,610,R.acc,.9)}${blob(140,280,190,'#f6efe3',.15)}
+  ${badge(R,'b0',null)}
+  <div class="k a" style="margin-top:14px;color:${R.acc}">Deck 4 of 4 · 9 screens</div>
+  <div class="divider a a2">Your<br>Raya<br>Wrapped</div>
+  <div class="h a a3" style="font-size:22px;margin-top:14px">The invite-only app.<br>Here's what you did with the invite.</div>
+  <div class="p a a4">Built from <b>Amanda's real Raya export</b> (my-raya-data JSON files, latest record Sep 30, 2026). Only totals: no names, photos, message text, contacts, Instagram or locations.</div>
+  ${foot('Accepted Raya member · swipes Apr 2025–Sep 2026 · YOUR REAL RAYA DATA',false)}`},
+ {bg:R.light,fg:R.dark,html:()=>`${blob(220,240,-60,R.acc,.9)}
+  ${badge(R,'b0','cite')}
+  ${real(R,'social_likes_dislikes · 735 likes ÷ 843 swipes')}
+  <div class="big a a2" style="font-size:112px">87<small>%</small></div>
+  <div class="h a a3" style="font-size:21px">of the 843 profiles you swiped on Raya got a yes.</div>
+  <div class="vs a a3" style="height:100px">
+   <div class="col"><div class="fill" style="height:100%;background:${R.dark};color:${R.acc};font-size:28px">735</div><label>Likes</label></div>
+   <div class="col"><div class="fill" style="height:40%;background:rgba(14,14,14,.18);font-size:28px">108</div><label>Passes</label></div>
+  </div>
+  <div class="p a a4" style="margin-top:8px;font-size:11.5px">Your other real decks: League 74%, Bumble 75%, Hinge 55%. <b>Raya is where you're least picky.</b></div>
+  ${cite('columbia','Compared with','Only <b>10 of 274 women</b> at Columbia speed dates said yes this often. The median woman: <b>37%</b>. In-person 4-minute dates, not app profiles.')}
+  ${foot('Yes-rate is pickiness, not desirability · YOUR REAL RAYA DATA')}`},
+ {bg:R.dark,fg:R.light,html:()=>`${blob(240,230,560,R.acc,.6)}
+  ${badge(R,'b0','cite')}
+  ${real(R,'matches.json · match_type for 810 people')}
+  <div class="h a a2" style="font-size:23px">Where your 705 likes landed</div>
+  <div class="funnel a a3" style="gap:5px">
+   <div style="background:${R.acc};color:${R.dark}">Matched · you both liked<b>199</b></div>
+   <div style="background:#f6efe3;color:${R.dark}">Waiting · no answer yet<b>469</b></div>
+   <div style="background:#2a2a2a;color:#f6efe3">Passed on you<b>37</b></div>
+  </div>
+  <div class="p a a4" style="font-size:11.5px">Of the <b style="color:${R.acc}">236</b> who answered, <b style="color:${R.acc}">84%</b> liked you back. Of the 105 you passed on, 42 are labeled REJECTED (our reading: they had liked you).</div>
+  <div class="unit a a4">Raya's labels: MATCHED · POSSIBLE · UNREQUITED · REJECTED 42 · IMPOSSIBLE 59 · DOUBLE_DISLIKE 4. The plain-English meanings are our reading; the export doesn't define them. Status as of your export.</div>
+  ${cite('rayaPriv','Why "matched" = both liked','Raya\'s privacy policy: a mutual like is what lets you chat.','background:rgba(255,255,255,.06)')}
+  ${foot('A match is two yeses, not a score · YOUR REAL RAYA DATA')}`},
+ {bg:R.acc,fg:R.dark,html:()=>`${blob(260,-90,-60,'#f6efe3',.5)}
+  ${badge(R,'b1',null)}
+  ${real(R,'swipes by month, Pacific time')}
+  <div class="h a a2" style="font-size:24px">August 2025 was your Raya summer.</div>
+  <div class="big a a3" style="font-size:110px">394</div>
+  <div class="h a a3" style="font-size:20px">swipes that month, almost half your Raya total, on 13 days.</div>
+  <div class="a a4">${barsN([106,50,65,78,394,0,118,25,7],['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Sep 26'],4,110)}</div>
+  <div class="p a a5" style="margin-top:22px">August also had your most messages (125) and 97 of your 199 matches are stamped August. Then it went quiet: <b>7 swipes in all of 2026</b>.</div>
+  ${foot('Match dates look batched in the export, so read them by month, not day · YOUR REAL RAYA DATA')}`},
+ {bg:R.light,fg:R.dark,html:()=>`${blob(200,250,560,R.acc,.9)}
+  ${badge(R,'b0','cite')}
+  ${real(R,'messages.json · 290 messages you sent')}
+  <div class="h a a2" style="font-size:25px">290 messages. 1,787 words.</div>
+  <div class="sum a a3">
+   <div style="background:${R.dark};color:#f6efe3"><label>Typical message</label><b style="color:${R.acc}">5 <span style="font-size:16px">words</span></b></div>
+   <div style="background:${R.acc};color:${R.dark}"><label>Busiest month</label><b class="t">Aug 2025 · 125</b></div>
+   <div style="background:#e8e0d0;color:${R.dark}"><label>Busiest texting hour</label><b class="t">Mon, 11pm</b></div>
+   <div style="background:${R.dark};color:#f6efe3"><label>Last message</label><b class="t" style="color:${R.acc}">Oct 29, 2025</b></div>
+  </div>
+  <div class="p a a4" style="font-size:11px">Who each message went to and anything sent to you are <b>not in your export</b>, so chats, reply speed and who texted first can't be counted. We never show the text.</div>
+  ${cite('rayaPriv','Why only your side','Raya releases messages you received only with the sender\'s written consent.')}
+  ${foot('Apr 16–Oct 29, 2025 · YOUR REAL RAYA DATA')}`},
+ {bg:R.dark,fg:R.light,html:()=>`${blob(220,-70,560,R.acc,.5)}
+  ${badge(R,'b0','realown')}
+  ${real(R,'message + swipe timestamps, Pacific time')}
+  <div class="h a a2">Your Raya hour:</div>
+  <div class="big a a3" style="color:${R.acc}">11<small>PM</small></div>
+  <div class="h a a3" style="font-size:20px">62 of your 290 Raya messages went out in the 11pm hour. Noon was next (53).</div>
+  <div class="a a4" style="color:${R.acc}">${barsN([9,7,3,0,0,0,4,0,0,24,1,10,53,14,7,6,17,18,17,14,8,11,5,62],["12a", "", "", "3a", "", "", "6a", "", "", "9a", "", "", "12p", "", "", "3p", "", "", "6p", "", "", "9p", "", "11p"],23,90)}</div>
+  <div class="p a a5" style="margin-top:22px;font-size:11.5px">On The League (also your real data) your texting hour is 8pm. Raya swiping peaked at 7pm (134 swipes), and 29% of your swipes happened between 10pm and 7am.</div>
+  ${foot('Times shown in Pacific time; the export doesn\'t say where you were · YOUR REAL RAYA DATA')}`},
+ {bg:R.acc,fg:R.dark,html:()=>`${blob(240,240,-70,'#f6efe3',.5)}
+  ${badge(R,'b1',null)}
+  ${real(R,'user.json · status, slideshow_images · consumables.json')}
+  <div class="h a a2" style="font-size:24px">Membership: accepted.</div>
+  <div class="big a a3">27</div>
+  <div class="h a a3" style="font-size:20px">photos in your Raya slideshow.</div>
+  <div class="funnel a a4">
+   <div style="background:${R.dark};color:#f6efe3">What you spent<b style="color:${R.acc};font-size:16px;font-family:'Space Mono';font-weight:700">Not in your export</b></div>
+   <div style="background:#f6efe3;color:${R.dark}">Time on Raya · our estimate<b>~7 h</b></div>
+  </div>
+  <div class="unit a a4">Spend: your purchase file (consumables.json) is empty and there's no billing file, so we can't say what Raya cost. Time: 80 sessions from swipe + message times (new session after 10+ min idle); browsing without acting isn't logged.</div>
+  <a class="itzd" href="receipt-details_grokbot.html?from=dw&amp;deck=raya&amp;s=7#raya" onclick="event.stopPropagation()" style="color:${R.dark}">ITEMIZE PURCHASES ↗</a>
+  ${foot('No email, phone, Instagram, location or contacts on any card · YOUR REAL RAYA DATA')}`},
+ {bg:R.dark,fg:R.light,html:()=>`${blob(260,220,580,R.acc,.8)}
+  ${badge(R,'b0',null)}
+  <div class="h a a2" style="font-size:26px">Amanda's Raya, in one screenshot.</div>
+  ${real(R,'every tile below')}
+  <div class="sum a a3">
+   <div style="background:${R.acc};color:${R.dark}"><label>Swiped</label><b>843</b></div>
+   <div style="background:#f6efe3;color:${R.dark}"><label>Liked</label><b>87%</b></div>
+   <div style="background:#1e1e1e"><label>Matched</label><b style="color:${R.acc}">199</b></div>
+   <div style="background:#f6efe3;color:${R.dark}"><label>Still waiting</label><b>469</b></div>
+   <div style="background:#1e1e1e"><label>Messages sent</label><b style="color:${R.acc}">290</b></div>
+   <div style="background:${R.acc};color:${R.dark}"><label>Texting hour</label><b>11 pm</b></div>
+  </div>
+  <div class="cta a a4"><button style="background:${R.acc};color:${R.dark}">Share my Wrapped</button><button style="background:#f6efe3;color:${R.dark}" onclick="event.stopPropagation();next()">Sources →</button></div>
+  ${foot('IHEREBYCOMMIT.COM · YOUR REAL RAYA DATA',false)}`},
+ {bg:R.light,fg:R.dark,html:()=>sources(R,[
+   {k:'columbia',used:'Used on: Your yes-rate (screen 2). Share of women whose speed-dating yes-rate was at least yours; our reanalysis of the public data.'},
+   {k:'rayaPriv',used:'Used on: the match ledger (3) and messages (5). Also where your Raya export comes from. Every other number is computed from it (user, social_likes_dislikes, matches, messages, consumables).'}],
+   'Tap any source to open it. Your export lists the same 843 swipes in two files (social and work); we count them once. Matches = mutual likes (MATCHED). No purchases, received messages or filters are in the export.',`<div class="cta" style="margin-top:10px"><button style="background:${R.dark};color:${R.acc}" onclick="event.stopPropagation();setDeck('start')">All decks ↺</button></div>`)}
 ]};
 
 
-const ORDER=['start','tinder','hinge','league'];
+const ORDER=['start','tinder','hinge','league','raya'];
 const qs=new URLSearchParams(location.search);
 let deck=ORDER.includes(qs.get('deck'))?qs.get('deck'):'start', idx=Math.max(0,(parseInt(qs.get('s')||'1',10)||1)-1);
 const isStatic=qs.has('static'); if(isStatic)document.body.classList.add('static');
 const phone=document.getElementById('phone'),stage=document.getElementById('stage'),barsEl=document.getElementById('bars'),chrome=document.getElementById('chrome'),exTag=document.getElementById('exTag');
-const NAME={start:'Start',tinder:'Tinder',hinge:'Hinge',league:'League'};
+const NAME={start:'Start',tinder:'Tinder',hinge:'Hinge',league:'League',raya:'Raya'};
 function render(){
   const list=decks[deck]; idx=Math.min(Math.max(idx,0),list.length-1); const s=list[idx];
   barsEl.innerHTML=list.map((_,i)=>`<div class="bar ${i<idx?'done':i===idx?'now':''}"><i></i></div>`).join('');
