@@ -1,12 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- SANDBOX_grokbot (pre-k5): archive of pre-K5 production onboarding. Every save / submit / event is
+       answered locally with a fake OK; nothing reaches the production database. Not indexed. -->
+  <meta name="robots" content="noindex,nofollow">
+  <script>
+  (function () {
+    var BLOCK = /supabase\.co|challenges\.cloudflare\.com/i;
+    var realFetch = window.fetch.bind(window);
+    window.fetch = function (input, init) {
+      var url = typeof input === 'string' ? input : (input && input.url) || '';
+      if (BLOCK.test(url)) {
+        var body = /application-count/.test(url) ? { count: 0 } : { ok: true, id: 'sandbox', lead_id: 'sandbox', subject_number: 0, priority_number: 0 };
+        return Promise.resolve(new Response(JSON.stringify(body), { status: 200, headers: { 'Content-Type': 'application/json' } }));
+      }
+      return realFetch(input, init);
+    };
+    if (navigator.sendBeacon) { var rb = navigator.sendBeacon.bind(navigator); navigator.sendBeacon = function (u, d) { return BLOCK.test(String(u)) ? true : rb(u, d); }; }
+    var rx = XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open = function (m, u) { if (BLOCK.test(String(u))) { arguments[1] = 'data:application/json,{}'; } return rx.apply(this, arguments); };
+  })();
+  </script>
   <meta charset="UTF-8">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>I Hereby Commit</title>
+  <title>I Hereby Commit (sandbox pre-k5)</title>
 
   <meta property="og:title" content="I Hereby Commit">
   <meta property="og:description" content="It's the biggest decision of your life. It's never been studied like one.">
@@ -4267,5 +4286,6 @@ async function _doZipLookup(zip) {
   showError('postal_code', 'ZIP code not found');
 }
 </script>
+<div style="position:fixed;right:6px;bottom:4px;z-index:50;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#555;pointer-events:none;text-transform:uppercase;">Sandbox · Pre-K5 production · saves faked</div>
 </body>
 </html>
