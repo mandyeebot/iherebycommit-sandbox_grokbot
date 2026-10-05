@@ -2809,7 +2809,7 @@ function setGender(val) {
   // Singles and couples share this screen. Defaults apply only while the
   // user has not set the field. Switching gender later must not clobber a choice.
   if (!state.heightTouched) {
-    const defaultCm = val === 'man' ? 175 : val === 'woman' ? 160 : null; // MOCKUP_grokbot K5 (k5gmap11): production default restored (non-binary: none)
+    const defaultCm = val === 'man' ? 175 : val === 'woman' ? 160 : 165; // MOCKUP_grokbot K5 (k5gmap12): non-binary preset 5'5" (intentional difference from live, which has none); same grey / not-saved-until-picked rule
     if (defaultCm) {
       state.heightCm = defaultCm; // MOCKUP_grokbot K5 (k5gmap11): production rule: grey, not an answer until picked, saved null untouched
       const sel = document.getElementById('height_ftin');
@@ -5752,7 +5752,7 @@ window.addEventListener('load', () => {
       const u = document.getElementById('who-height'); if (u) { try { u.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {} } // highlight only: a programmatic open/focus would make the next tap's blur look like a pick
       return; } // no advance, no Race
     return g0.apply(this, arguments); }; });</script>
-<script>/* MOCKUP_grokbot K5 (k5gmap11): a woman's PARTNER HEIGHT minimum defaults to her own height + 1" (5'4" -> 5'5"); the max keeps the
+<script>/* MOCKUP_grokbot K5 (k5gmap12): a woman's PARTNER HEIGHT minimum defaults to her own height + 1" (5'4" -> 5'5"); the max keeps the
    production default top (seeking men 7'0"; both 6'6"). Woman seeking women and everyone else keep production's defaults (seeking men: own - 3" to 7'0";
    seeking women: 4'10" to own + 3"; otherwise 5'0"-6'6"). Recomputed whenever her height is set or changed, until she moves the slider herself. */
 window.addEventListener('load', () => {
@@ -5847,7 +5847,7 @@ window.addEventListener('load', () => {
 
 })();
 </script>
-<div class="mock-badge_grokbot">Mockup K5 · k5gmap11</div>
+<div class="mock-badge_grokbot">Mockup K5 · k5gmap12</div>
 
 <!-- MOCKUP_grokbot variant I behaviour -->
 <script>
