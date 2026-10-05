@@ -5360,11 +5360,11 @@ async function _k4PartnerDefault() {
 // ---------- WHAT MATTERS MOST ----------
 const K4M_DEF = [
   { k: 'age', t: 'Age range', early: true }, { k: 'height', t: 'Height', early: true }, { k: 'dist', t: 'Distance', early: true },
-  { k: 'politics', t: 'Politics', o: ['Any', 'Same as mine', 'Left-leaning', 'Moderate', 'Right-leaning'], v: [], multi: true },
+  { k: 'politics', t: 'Politics', o: ['Any', 'Left-leaning', 'Moderate', 'Right-leaning'], v: [], multi: true },
   { k: 'income', t: 'Income', o: ['No preference', '$50k+', '$100k+', '$200k+'], v: 'No preference', early: true },
   { k: 'education', t: 'Education', edu: true }, /* left: partner_education_min (What You Want EDUCATION MINIMUM); right: tier (k4Prefs.values.edtier) */
   { k: 'ethnicity', t: 'Ethnicity', o: ['Any', 'White', 'Black', 'Asian', 'Hispanic / Latino', 'South Asian', 'MENA', 'Pacific Islander', 'Native American', 'Other'], v: [], multi: true, bind: 'partnerEthnicity' }, /* synced with ETHNICITY on What You Want */
-  { k: 'religion', t: 'Religion', o: ['Any', 'Same as mine', 'Agnostic', 'Atheist', 'Buddhist', 'Catholic', 'Christian', 'Hindu', 'Jewish', 'Muslim', 'Sikh', 'Spiritual', 'Other'], v: [], multi: true } /* same list as Who You Are RELIGION */,
+  { k: 'religion', t: 'Religion', o: ['Any', 'Agnostic', 'Atheist', 'Buddhist', 'Catholic', 'Christian', 'Hindu', 'Jewish', 'Muslim', 'Sikh', 'Spiritual', 'Other'], v: [], multi: true } /* same list as Who You Are RELIGION */,
 ];
 const K5_TIERS = ['Any', 'Top 100', 'Top 50', 'Ivy+'];
 const K4M_DIST = [[10, 3], [25, 6], [50, 9], [100, 14], ['Any', 34]]; // miles -> slider stop index (_VK_STOPS)
@@ -5632,9 +5632,6 @@ crDef('who-politics', { focus: 'politics', value: () => { const s = document.get
 function k5PoliticsPick(el) { state.politics = el.value || null; el.classList.toggle('is-default', !el.value); crRefresh(); if (el.value) crTap('who-politics'); try { k5PrefSync(); if (typeof _k4 !== 'undefined' && _k4.inWmm) k4mRender(); } catch (e) {} }
 function k5OwnPol() { const s = document.getElementById('politics'); return s && s.value && s.value !== 'None Stated' ? s.value : null; }
 function k5PoliticsPayload() { return { politics: k5OwnPol() }; }
-// 'Same as mine' -> the applicant's own politics. Own not stated -> 'Same as mine' is dropped (nothing to match on); an empty list = Any.
-function k5PolResolve(a) { const o = k5OwnPol(), r = []; (Array.isArray(a) ? a : []).forEach(x => { const y = x === 'Same as mine' ? o : x; if (y && !r.includes(y)) r.push(y); }); return r; }
-function k5PolShow(x) { return x === 'Same as mine' ? 'Same as mine (' + (k5OwnPol() || 'not stated') + ')' : x; }
 window.addEventListener('load', () => {
   const rn = crRevealNext;
   crRevealNext = function (screen) {
@@ -5643,33 +5640,18 @@ window.addEventListener('load', () => {
     return rn.apply(this, arguments);
   };
   // payload: own politics + resolved partner politics (runs after the k5gmap9 politics / religion payload wrapper)
-  setTimeout(() => { const p0 = k5IncomePayload; k5IncomePayload = function () { const o = Object.assign(p0.apply(this, arguments), k5PoliticsPayload()), r = k5PolResolve(state.k4Prefs.values.politics);
-    o.partner_politics = r.length ? r : null; o.partner_politics_text = r.length ? r.join(', ') : 'Any'; return o; }; }, 0); // after every load-time wrapper
-  // display: What You Want box, What Matters Most row + chips, picker sheet show what 'Same as mine' means
-  const s0 = k5PrefSync; k5PrefSync = function () { const r = s0.apply(this, arguments), t = document.getElementById('partner-pol-text'), a = state.k4Prefs.values.politics;
-    if (t && Array.isArray(a) && a.includes('Same as mine')) { const sh = a.map(k5PolShow); t.textContent = sh.length === 1 ? sh[0] : k5RaceSum(sh); t.parentElement.title = sh.join(', '); } return r; };
-  const v0 = _k4mVal; _k4mVal = function (d) { const r = v0.apply(this, arguments); if (d && d.k === 'politics') { const a = state.k4Prefs.values.politics; if (Array.isArray(a) && a.includes('Same as mine')) { const sh = a.map(k5PolShow), j = sh.join(', '); return [sh.length === 1 || j.length <= 22 ? j : sh[0] + ' + ' + (sh.length - 1) + ' more', r[1]]; } } return r; };
-  const lbl = root => { if (!root) return; const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) if (n.nodeValue.trim() === 'Same as mine') n.nodeValue = k5PolShow('Same as mine'); };
-  const k0 = k4mRender; k4mRender = function () { const r = k0.apply(this, arguments); lbl(document.querySelector('#k4m-list .k4m-row[data-k="politics"]')); return r; };
-  const c0 = _rcRender; _rcRender = function () { const r = c0.apply(this, arguments); if (_rc.mode === 'pol') lbl(document.getElementById('rc-list')); return r; };
+  setTimeout(() => { const p0 = k5IncomePayload; k5IncomePayload = function () { return Object.assign(p0.apply(this, arguments), k5PoliticsPayload()); }; }, 0); // after every load-time wrapper
   k5PrefSync();
 });
 </script>
 <script>
-// MOCKUP_grokbot K5 (k5gmap14): partner Religion 'Same as mine' -> own Who You Are religion (None Stated / unanswered -> dropped; empty = Any)
-function k5OwnRel() { const s = document.getElementById('religion'); return s && s.value && s.value !== 'None Stated' ? s.value : null; }
-function k5RelResolve(a) { const o = k5OwnRel(), r = []; (Array.isArray(a) ? a : []).forEach(x => { const y = x === 'Same as mine' ? o : x; if (y && !r.includes(y)) r.push(y); }); return r; }
-function k5RelShow(x) { return x === 'Same as mine' ? 'Same as mine (' + (k5OwnRel() || 'not stated') + ')' : x; }
-(function () { const p0 = k5ReligionPick; window.k5ReligionPick = function () { const r = p0.apply(this, arguments); try { k5PrefSync(); if (typeof _k4 !== 'undefined' && _k4.inWmm) k4mRender(); } catch (e) {} return r; }; })();
+// MOCKUP_grokbot K5 (k5gmap15): partner Politics / Religion show 'No preference' where the value is Any (stored value unchanged: [] / null / 'Any')
 window.addEventListener('load', () => {
-  setTimeout(() => { const p0 = k5IncomePayload; k5IncomePayload = function () { const o = p0.apply(this, arguments), r = k5RelResolve(state.k4Prefs.values.religion);
-    o.partner_religion = r.length ? r : null; o.partner_religion_text = r.length ? r.join(', ') : 'Any'; return o; }; }, 0); // after every load-time wrapper
-  const s0 = k5PrefSync; k5PrefSync = function () { const r = s0.apply(this, arguments), t = document.getElementById('partner-rel-text'), a = state.k4Prefs.values.religion;
-    if (t && Array.isArray(a) && a.includes('Same as mine')) { const sh = a.map(k5RelShow); t.textContent = sh.length === 1 ? sh[0] : k5RaceSum(sh); t.parentElement.title = sh.join(', '); } return r; };
-  const v0 = _k4mVal; _k4mVal = function (d) { const r = v0.apply(this, arguments); if (d && d.k === 'religion') { const a = state.k4Prefs.values.religion; if (Array.isArray(a) && a.includes('Same as mine')) { const sh = a.map(k5RelShow), j = sh.join(', '); return [sh.length === 1 || j.length <= 22 ? j : sh[0] + ' + ' + (sh.length - 1) + ' more', r[1]]; } } return r; };
-  const lbl = root => { if (!root) return; const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) if (n.nodeValue.trim() === 'Same as mine') n.nodeValue = k5RelShow('Same as mine'); };
-  const k0 = k4mRender; k4mRender = function () { const r = k0.apply(this, arguments); lbl(document.querySelector('#k4m-list .k4m-row[data-k="religion"]')); return r; };
-  const c0 = _rcRender; _rcRender = function () { const r = c0.apply(this, arguments); if (_rc.mode === 'rel') lbl(document.getElementById('rc-list')); return r; };
+  const NP = 'No preference', sw = root => { if (!root) return; const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) if (n.nodeValue.trim() === 'Any') n.nodeValue = NP; };
+  const s0 = k5PrefSync; k5PrefSync = function () { const r = s0.apply(this, arguments); ['partner-pol-text', 'partner-rel-text'].forEach(id => { const t = document.getElementById(id); if (t && t.textContent === 'Any') { t.textContent = NP; t.parentElement.title = NP; } }); return r; };
+  const v0 = _k4mVal; _k4mVal = function (d) { const r = v0.apply(this, arguments); return d && (d.k === 'politics' || d.k === 'religion') && r[0] === 'Any' ? [NP, r[1]] : r; };
+  const k0 = k4mRender; k4mRender = function () { const r = k0.apply(this, arguments); sw(document.querySelector('#k4m-list .k4m-row[data-k="politics"]')); sw(document.querySelector('#k4m-list .k4m-row[data-k="religion"]')); return r; };
+  const c0 = _rcRender; _rcRender = function () { const r = c0.apply(this, arguments); if (_rc.mode === 'pol' || _rc.mode === 'rel') sw(document.getElementById('rc-list')); return r; };
   k5PrefSync();
 });
 </script>
@@ -5724,10 +5706,10 @@ document.addEventListener('click', e => { if (e.target.closest && (e.target.clos
 const K5_RACES = ['White', 'Black', 'Asian', 'Hispanic / Latino', 'South Asian', 'MENA', 'Pacific Islander', 'Native American', 'Other', 'None Stated'];
 const _rc = { mode: null, draft: [] };
 const K5_ETH = ['Any'].concat(K5_RACES.filter(r => r !== 'None Stated'));
-// MOCKUP_grokbot K5 (k5gmap9): Politics = the What Matters Most options; Religion = the Who You Are list (without its None Stated opt-out) plus Any and Same as mine
+// MOCKUP_grokbot K5 (k5gmap9): Politics = the What Matters Most options; Religion = the Who You Are list (without its None Stated opt-out) plus Any (shown as No preference, k5gmap15)
 const K5_PREFM = m => m === 'eth' || m === 'pol' || m === 'rel';
 const K5_POL = _k4mDef('politics').o.slice();
-const K5_REL = ['Any', 'Same as mine'].concat([...document.querySelectorAll('#religion option')].map(o => o.value).filter(v => v && v !== 'None Stated'));
+const K5_REL = ['Any'].concat([...document.querySelectorAll('#religion option')].map(o => o.value).filter(v => v && v !== 'None Stated'));
 function k5PrefSync() {
   [['partner-pol-text', 'politics'], ['partner-rel-text', 'religion']].forEach(([id, k]) => { const t = document.getElementById(id), a = Array.isArray(state.k4Prefs.values[k]) ? state.k4Prefs.values[k] : [];
     if (t) { t.textContent = a.length ? k5RaceSum(a) : 'Any'; t.parentElement.title = a.join(', ') || 'Any'; } });
@@ -5809,7 +5791,7 @@ window.addEventListener('load', () => {
       const u = document.getElementById('who-height'); if (u) { try { u.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {} } // highlight only: a programmatic open/focus would make the next tap's blur look like a pick
       return; } // no advance, no Race
     return g0.apply(this, arguments); }; });</script>
-<script>/* MOCKUP_grokbot K5 (k5gmap14): a woman's PARTNER HEIGHT minimum defaults to her own height + 1" (5'4" -> 5'5"); the max keeps the
+<script>/* MOCKUP_grokbot K5 (k5gmap15): a woman's PARTNER HEIGHT minimum defaults to her own height + 1" (5'4" -> 5'5"); the max keeps the
    production default top (seeking men 7'0"; both 6'6"). Woman seeking women and everyone else keep production's defaults (seeking men: own - 3" to 7'0";
    seeking women: 4'10" to own + 3"; otherwise 5'0"-6'6"). Recomputed whenever her height is set or changed, until she moves the slider herself. */
 window.addEventListener('load', () => {
@@ -5904,7 +5886,7 @@ window.addEventListener('load', () => {
 
 })();
 </script>
-<div class="mock-badge_grokbot">Mockup K5 · k5gmap14</div>
+<div class="mock-badge_grokbot">Mockup K5 · k5gmap15</div>
 
 <!-- MOCKUP_grokbot variant I behaviour -->
 <script>
