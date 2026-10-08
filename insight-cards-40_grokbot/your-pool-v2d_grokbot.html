@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Your pool · V2D Arcade scoreboard · sandbox mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05030c;--text:#f2f0ff;--muted:#8e88b5;--lime:#c8f135}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;font-size:14px;line-height:1.45}
+body{min-height:100vh;background:linear-gradient(transparent 0 60%,rgba(255,61,242,.08)),repeating-linear-gradient(90deg,rgba(46,242,255,.05) 0 1px,transparent 1px 28px),repeating-linear-gradient(0deg,rgba(46,242,255,.05) 0 1px,transparent 1px 28px),var(--bg)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:40;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px)}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+.px{font-family:'Press Start 2P',monospace;font-weight:400}
+#app{max-width:430px;margin:0 auto;padding:0 18px;min-height:100vh;display:flex;flex-direction:column}
+.prog{display:flex;gap:4px;padding:18px 0 0}.prog i{flex:1;height:6px;background:#1d1838}.prog i.d{background:#ff3df2;box-shadow:0 0 6px #ff3df2}.prog i.a{background:var(--text)}
+.appl{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding:10px 0 0}.appl b{color:var(--lime)}
+.lbl{display:inline-block;margin:14px 0 8px;padding:5px 8px;font-size:7.5px;line-height:1.5;color:var(--bg);background:var(--lime);box-shadow:0 0 10px rgba(200,241,53,.7)}
+.hud{border:3px solid #2ef2ff;box-shadow:0 0 12px #2ef2ff,inset 0 0 12px rgba(46,242,255,.35);padding:12px 12px 10px;position:relative;margin-bottom:6px}
+.hud .row{display:flex;justify-content:space-between;font-size:8px;color:#2ef2ff;line-height:1.6}
+.hud .row b{color:#ffe600;font-weight:400}
+.hud .score{font-family:'Bebas Neue',sans-serif;font-size:88px;line-height:.85;color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.9),0 0 34px rgba(200,241,53,.45);margin:10px 0 2px;white-space:nowrap}
+.hud .score small{font-size:40px;color:#ff3df2;text-shadow:0 0 12px #ff3df2;margin-left:6px}
+.hud p{font-size:11px;color:var(--text)}
+.blink{animation:bl 1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+.leg{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+.bdg{display:inline-block;font-family:'Press Start 2P',monospace;font-size:6.5px;line-height:1.6;padding:2px 5px;border:2px solid currentColor;white-space:nowrap;vertical-align:middle}
+.src-acs{color:#5fb8ff}.src-nhanes{color:#6dff7a}.src-pew{color:#ff7ad9}.src-nsfg{color:#ffd23f}
+.cap{display:flex;align-items:center;gap:8px;margin:12px 0 6px;min-height:40px}
+.cap .lv{flex-shrink:0;font-size:7.5px;line-height:1.5;text-align:center;width:40px;padding:4px 0;border:2px solid currentColor}
+.cap .tx{flex:1;min-width:0;font-size:12px;line-height:1.35}
+.cap .tx small{display:block;font-size:9.5px;color:var(--muted)}
+.cap .tx small em{font-style:normal;color:#ff4d6d}
+.cap .ed{flex-shrink:0;min-height:38px;padding:0 9px;font-size:8px;color:var(--bg);background:#ffe600;box-shadow:3px 3px 0 #ff3df2}
+.cap .ed:active{transform:translate(3px,3px);box-shadow:none}
+.lvl{margin:0 auto;height:56px;display:flex;align-items:center;justify-content:center;border:3px solid;background:rgba(255,255,255,.03);position:relative}
+.lvl::before,.lvl::after{content:'';position:absolute;bottom:-9px;width:9px;height:9px;background:currentColor}
+.lvl::before{left:-3px}.lvl::after{right:-3px}
+.lvl .cnt{font-family:'Bebas Neue',sans-serif;font-size:34px;line-height:1;color:#fff;text-shadow:0 0 8px currentColor}
+.nocut{display:flex;gap:8px;align-items:center;margin:14px 0 2px;font-size:10.5px;color:var(--muted)}
+.nocut .lv{font-size:7px;width:40px;text-align:center;color:#4c4778}
+.nocut i{flex:1;border-top:2px dotted #2c2750}
+.down{text-align:center;font-size:9px;color:#ff3df2;margin:10px 0 -4px;text-shadow:0 0 6px #ff3df2}
+.clear{text-align:center;margin:18px 0 4px;padding:14px 10px;border:3px solid #ff3df2;box-shadow:0 0 14px #ff3df2,inset 0 0 14px rgba(255,61,242,.3)}
+.clear .px{font-size:11px;color:#ffe600;line-height:1.6;text-shadow:0 0 8px #ffe600}
+.clear .big{font-family:'Bebas Neue',sans-serif;font-size:74px;line-height:.9;color:var(--lime);text-shadow:0 0 16px rgba(200,241,53,.85);margin:6px 0 2px}
+.clear p{font-size:11.5px}
+.src{font-size:9.5px;color:#827ca8;line-height:1.45;margin:14px 0 8px}.src b{color:#d6d2f5}
+.bottom{position:sticky;bottom:0;margin:0 -18px;padding:10px 18px 8px;background:linear-gradient(to top,var(--bg) 75%,transparent);display:flex;flex-direction:column;gap:2px;z-index:30}
+.next{width:100%;padding:15px;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.14em;color:var(--bg);background:var(--lime);box-shadow:0 0 16px rgba(200,241,53,.7),4px 4px 0 #ff3df2}
+.back{min-height:44px;display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.mock{position:fixed;right:6px;bottom:2px;font-size:8.5px;letter-spacing:.12em;color:#3b3663;text-transform:uppercase;pointer-events:none;z-index:31}
+.pe-sheet{position:fixed;inset:0;z-index:50}.pe-back{position:absolute;inset:0;background:rgba(0,0,0,.75)}
+.pe-panel{position:absolute;left:0;right:0;bottom:0;max-width:430px;margin:0 auto;background:#0d0a1f;border:3px solid #ffe600;border-bottom:none;box-shadow:0 0 18px #ffe600;padding:16px 18px 18px;transform:translateY(100%);transition:transform .2s steps(4)}
+.pe-sheet.show .pe-panel{transform:none}
+.pe-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.pe-k{font-family:'Press Start 2P',monospace;font-size:8px;line-height:1.6;color:#ffe600;text-transform:uppercase}
+.pe-badge{font-size:6.5px;padding:2px 5px;border:2px solid currentColor;margin-left:4px}
+.pe-x{min-height:44px;font-family:'Press Start 2P',monospace;color:var(--lime);font-size:8px}
+.pe-opts{display:flex;flex-direction:column;gap:7px}
+.pe-opt{min-height:46px;display:flex;justify-content:space-between;align-items:center;padding:0 12px;border:2px solid #3a3470;text-align:left;font-size:13px}
+.pe-opt b{color:var(--lime);font-family:'Bebas Neue',sans-serif;font-size:22px;font-weight:400}
+.pe-opt.on{border-color:#2ef2ff;box-shadow:0 0 10px #2ef2ff;background:rgba(46,242,255,.08)}
+.pe-opt.on span::before{content:'▶ ';color:#2ef2ff}
+.pe-note{font-size:10px;color:var(--muted);margin:10px 0}
+.pe-done{width:100%;min-height:46px;background:var(--lime);color:var(--bg);font-family:'Press Start 2P',monospace;font-size:9px;box-shadow:4px 4px 0 #ff3df2}
+</style></head>
+<body><!-- SANDBOX MOCKUP V2D (arcade scoreboard). Amanda's real preferences x public data; counts estimated. No location shown. -->
+<div id="app">
+  <div class="prog"><i class="d"></i><i class="d"></i><i class="d"></i><i class="a"></i><i></i><i></i></div>
+  <div class="appl">Applying as: <b>Single</b> · <u>Edit</u></div>
+  <div><span class="lbl px">YOUR REAL PREFERENCES · COUNTS ESTIMATED</span></div>
+  <div class="hud">
+    <div class="row px"><span>1UP · YOUR POOL</span><span>START <b id="startN"></b></span></div>
+    <div class="score" id="big"></div>
+    <p>single men match everything you picked<span class="blink">_</span></p>
+  </div>
+  <div class="leg"><span class="bdg src-acs">ACS</span><span class="bdg src-nhanes">NHANES</span><span class="bdg src-pew">PEW EST</span><span class="bdg src-nsfg">NSFG EST</span></div>
+  <div id="funnel"></div>
+  <div class="clear"><div class="px">★ STAGE CLEAR ★</div><div class="big" id="big2"></div><p>single men left after all 10 levels</p></div>
+  <p class="src" id="src"></p>
+  <div class="bottom"><button class="next" type="button">NEXT ▶</button><a class="back" href="all-cards_grokbot.html#sec-pool" target="_top">&larr; BACK</a></div>
+</div>
+<div class="mock">HTML mockup · V2D arcade</div>
+<script src="your-pool-real-data_grokbot.js"></script>
+<script src="your-pool-engine_grokbot.js"></script>
+<script>
+const E=PoolEngine, $=s=>document.querySelector(s);
+const NEON=['#2ef2ff','#ff3df2','#ffe600','#c8f135','#ff8c1a','#9d6bff'];
+function render(){
+  const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0, lv=0;
+  h+=`<div class="cap"><span class="lv px" style="color:${NEON[0]}">P1</span><span class="tx">Single men 31–54 within 30 mi of you <span class="bdg src-acs">ACS</span><small>incl. LV 03 Distance + LV 04 Age</small></span></div>
+      <div class="lvl" style="width:100%;color:${NEON[0]};border-color:${NEON[0]};box-shadow:0 0 10px ${NEON[0]},inset 0 0 10px ${NEON[0]}55"><span class="cnt">${E.fmt(start)}</span></div>`;
+  ci=1;
+  steps.forEach(s=>{const r=s.r;
+    if(r.fixed==='start') return;
+    if(r.fixed==='nocut'){h+=`<div class="nocut"><span class="lv px">LV${+r.rk}</span>${r.label()} · free pass<i></i></div>`;return}
+    const w=Math.min(prevW-6,E.width(s.n,start,40)), c=NEON[ci%NEON.length];
+    h+=`<div class="down px">▼</div><div class="cap"><span class="lv px" style="color:${c}">LV${+r.rk}</span><span class="tx">${r.label()} <span class="bdg src-${r.src}">${E.SRC[r.src]}</span><small><em>−${Math.round((1-s.keep)*100)}%</em> · keeps ${Math.round(s.keep*100)}%</small></span><button class="ed px" type="button" data-k="${r.k}">EDIT</button></div>
+        <div class="lvl" style="width:${w}%;color:${c};border-color:${c};box-shadow:0 0 10px ${c},inset 0 0 10px ${c}55"><span class="cnt">${E.fmt(s.n)}</span></div>`;
+    prevW=w; ci++;
+  });
+  $('#funnel').innerHTML=h;
+  $('#big').innerHTML=E.fmt(final)+'<small>LEFT</small>'; $('#big2').textContent='≈ '+E.fmt(final)+' LEFT'; $('#startN').textContent=E.fmt(start);
+  document.querySelectorAll('.ed').forEach(b=>b.onclick=()=>E.openEdit(b.dataset.k,render));
+}
+$('#src').innerHTML=E.SOURCES; render();
+</script>
+</body></html>

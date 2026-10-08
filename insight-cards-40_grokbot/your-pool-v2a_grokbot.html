@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Your pool · V2A Neon gradient · sandbox mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0614;--text:#fff6fb;--muted:#a99bb8;--lime:#c8f135}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;font-size:14px;line-height:1.45}
+body{background:radial-gradient(120% 60% at 0% 0%,rgba(255,45,149,.28),transparent 60%),radial-gradient(120% 60% at 100% 40%,rgba(34,229,255,.18),transparent 60%),radial-gradient(100% 50% at 50% 100%,rgba(155,92,255,.25),transparent 60%),var(--bg);min-height:100vh}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+#app{max-width:430px;margin:0 auto;padding:0 20px;min-height:100vh;display:flex;flex-direction:column}
+.prog{display:flex;gap:4px;padding:18px 0 0}.prog i{flex:1;height:3px;background:#2a2238}.prog i.d{background:linear-gradient(90deg,#ff2d95,#ff7a2f)}.prog i.a{background:var(--text)}
+.appl{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding:10px 0 0}.appl b{color:var(--lime)}
+.lbl{display:inline-block;margin:14px 0 4px;padding:3px 9px;border-radius:999px;font-size:9.5px;letter-spacing:.14em;font-weight:700;color:#0b0614;background:linear-gradient(90deg,#ff2d95,#ffd60a,#c8f135,#22e5ff)}
+h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:64px;line-height:.9;letter-spacing:.5px;background:linear-gradient(90deg,#ff2d95,#ff7a2f 35%,#ffd60a 60%,#c8f135 80%,#22e5ff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(255,45,149,.35))}
+.sub{font-size:11.5px;color:var(--muted);margin:6px 0 10px}.sub b{color:var(--text)}
+.leg{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+.bdg{display:inline-block;font-size:8.5px;letter-spacing:.12em;font-weight:700;padding:1px 6px;border-radius:999px;border:1px solid currentColor;white-space:nowrap;vertical-align:middle}
+.src-acs{color:#7ec8ff}.src-nhanes{color:#9dff8a}.src-pew{color:#ff9bd6}.src-nsfg{color:#ffd35c}
+#funnel{filter:drop-shadow(0 0 10px rgba(255,45,149,.35)) drop-shadow(0 0 22px rgba(34,229,255,.18))}
+.cap{display:flex;align-items:center;gap:7px;margin:10px 0 5px;min-height:36px}
+.cap .rk{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1;width:28px;flex-shrink:0}
+.cap .tx{flex:1;min-width:0;font-size:12px;line-height:1.3}
+.cap .tx small{display:block;font-size:9.5px;color:var(--muted)}
+.cap .ed{flex-shrink:0;min-height:36px;padding:0 13px;border-radius:999px;font-size:10px;letter-spacing:.12em;font-weight:700;color:#0b0614}
+.band{position:relative;height:62px;display:flex;align-items:center;justify-content:center}
+.band .cnt{position:relative;font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1;color:#12081f;letter-spacing:.5px}
+.nocut{display:flex;gap:7px;align-items:center;margin:8px 0;font-size:10.5px;color:var(--muted)}
+.nocut .rk{font-family:'Bebas Neue',sans-serif;font-size:20px;width:28px;color:#5c5070}
+.nocut i{flex:1;border-top:1px dashed #3c3150}
+.neck{height:34px;margin:0 auto;background:linear-gradient(180deg,#9b5cff,#c8f135);clip-path:polygon(0 0,100% 0,62% 100%,38% 100%)}
+.spout{text-align:center;margin:4px 0 6px}
+.spout .big{font-family:'Bebas Neue',sans-serif;font-size:96px;line-height:.9;color:var(--lime);text-shadow:0 0 18px rgba(200,241,53,.85),0 0 42px rgba(200,241,53,.5),0 0 80px rgba(34,229,255,.35)}
+.spout p{font-size:12px;color:var(--text)}
+.spout .drop{width:16px;height:16px;margin:0 auto 8px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--lime);box-shadow:0 0 16px var(--lime);animation:drip 1.6s ease-in infinite}
+@keyframes drip{0%{transform:translateY(-8px) rotate(-45deg);opacity:0}30%{opacity:1}100%{transform:translateY(10px) rotate(-45deg);opacity:0}}
+.src{font-size:9.5px;color:#8f84a0;line-height:1.45;margin:14px 0 8px}.src b{color:#d9cfe6}
+.bottom{position:sticky;bottom:0;margin:0 -20px;padding:10px 20px 8px;background:linear-gradient(to top,var(--bg) 75%,transparent);display:flex;flex-direction:column;gap:2px}
+.next{width:100%;padding:17px;font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.12em;color:#0b0614;background:linear-gradient(90deg,#ff2d95,#ff7a2f,#ffd60a,#c8f135);border-radius:6px;box-shadow:0 0 22px rgba(255,45,149,.45)}
+.back{min-height:44px;display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.mock{position:fixed;right:6px;bottom:2px;font-size:8.5px;letter-spacing:.12em;color:#4a405a;text-transform:uppercase;pointer-events:none;z-index:2}
+/* edit sheet */
+.pe-sheet{position:fixed;inset:0;z-index:50}.pe-back{position:absolute;inset:0;background:rgba(5,2,10,.7)}
+.pe-panel{position:absolute;left:0;right:0;bottom:0;max-width:430px;margin:0 auto;background:#160c26;border-top:2px solid #ff2d95;border-radius:18px 18px 0 0;padding:16px 20px 18px;box-shadow:0 -10px 40px rgba(255,45,149,.35);transform:translateY(100%);transition:transform .25s}
+.pe-sheet.show .pe-panel{transform:none}
+.pe-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.pe-k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pe-badge{font-size:8.5px;letter-spacing:.12em;font-weight:700;padding:1px 6px;border-radius:999px;border:1px solid currentColor;margin-left:4px}
+.pe-x{min-height:44px;color:var(--lime);font-size:11px;letter-spacing:.12em}
+.pe-opts{display:flex;flex-direction:column;gap:7px}
+.pe-opt{min-height:46px;display:flex;justify-content:space-between;align-items:center;padding:0 14px;border-radius:10px;border:1px solid #3a2c52;text-align:left;font-size:13px}
+.pe-opt b{color:var(--lime)}.pe-opt.on{border-color:transparent;background:linear-gradient(90deg,rgba(255,45,149,.35),rgba(34,229,255,.25));box-shadow:0 0 0 1px #ff2d95 inset}
+.pe-note{font-size:10px;color:var(--muted);margin:10px 0}
+.pe-done{width:100%;min-height:46px;border-radius:10px;background:var(--lime);color:#0b0614;font-weight:700;letter-spacing:.1em;font-size:12px;text-transform:uppercase}
+</style></head>
+<body><!-- SANDBOX MOCKUP V2A (neon gradient funnel). Amanda's real preferences x public data; counts estimated. No location shown. -->
+<div id="app">
+  <div class="prog"><i class="d"></i><i class="d"></i><i class="d"></i><i class="a"></i><i></i><i></i></div>
+  <div class="appl">Applying as: <b>Single</b> · <u>Edit</u></div>
+  <div><span class="lbl">YOUR REAL PREFERENCES · COUNTS ESTIMATED</span></div>
+  <h1>YOUR POOL</h1>
+  <p class="sub">Every pick in your ranked order, squeezing <b id="startN"></b> single men down to your matches.</p>
+  <div class="leg"><span class="bdg src-acs">ACS</span><span class="bdg src-nhanes">NHANES</span><span class="bdg src-pew">PEW EST</span><span class="bdg src-nsfg">NSFG EST</span></div>
+  <div id="funnel"></div>
+  <div class="neck" id="neck"></div>
+  <div class="spout"><div class="drop"></div><div class="big" id="big"></div><p>single men match everything you picked</p></div>
+  <p class="src" id="src"></p>
+  <div class="bottom"><button class="next" type="button">NEXT</button><a class="back" href="all-cards_grokbot.html#sec-pool" target="_top">&larr; BACK</a></div>
+</div>
+<div class="mock">HTML mockup · V2A neon gradient</div>
+<script src="your-pool-real-data_grokbot.js"></script>
+<script src="your-pool-engine_grokbot.js"></script>
+<script>
+const E=PoolEngine, $=s=>document.querySelector(s);
+const HUES=[['#ff2d95','#ff6ab8'],['#ff7a2f','#ffa45c'],['#ffd60a','#ffe866'],['#c8f135','#e2ff7a'],['#22e5ff','#8ff3ff'],['#9b5cff','#c39bff']];
+function trap(top,bot){const a=(100-top)/2,b=(100-bot)/2;return `polygon(${a}% 0,${100-a}% 0,${100-b}% 100%,${b}% 100%)`}
+function render(){
+  const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0;
+  const w0=96;
+  h+=`<div class="cap"><span class="rk" style="color:${HUES[0][0]}">GO</span><span class="tx">Single men 31–54 within 30 mi of you <span class="bdg src-acs">ACS</span><small>incl. 03 Distance 30 mi + 04 Age 31–54</small></span></div>
+      <div class="band" style="clip-path:${trap(100,w0)};background:linear-gradient(90deg,${HUES[0][0]},${HUES[0][1]})"><span class="cnt">${E.fmt(start)}</span></div>`;
+  prevW=w0; ci=1;
+  steps.forEach(s=>{const r=s.r;
+    if(r.fixed==='start') return;
+    if(r.fixed==='nocut'){h+=`<div class="nocut"><span class="rk">${r.rk}</span>${r.label()} · no cut<i></i></div>`;return}
+    const w=Math.min(prevW-4,E.width(s.n,start,30)), c=HUES[ci%HUES.length];
+    h+=`<div class="cap"><span class="rk" style="color:${c[0]}">${r.rk}</span><span class="tx">${r.label()} <span class="bdg src-${r.src}">${E.SRC[r.src]}</span><small>keeps ${Math.round(s.keep*100)}% of the men above</small></span><button class="ed" type="button" data-k="${r.k}" style="background:${c[0]};box-shadow:0 0 12px ${c[0]}">EDIT</button></div>
+        <div class="band" style="clip-path:${trap(prevW,w)};background:linear-gradient(90deg,${c[0]},${c[1]})"><span class="cnt">${E.fmt(s.n)}</span></div>`;
+    prevW=w; ci++;
+  });
+  $('#funnel').innerHTML=h; $('#neck').style.width=prevW+'%';
+  $('#big').textContent='≈ '+E.fmt(final); $('#startN').textContent=E.fmt(start);
+  document.querySelectorAll('.ed').forEach(b=>b.onclick=()=>E.openEdit(b.dataset.k,render));
+}
+$('#src').innerHTML=E.SOURCES; render();
+</script>
+</body></html>
