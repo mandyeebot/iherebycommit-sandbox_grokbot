@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Your pool · preference funnel (EXAMPLE data) · sandbox mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0e0e;--text:#f0ece0;--body:#9a978c;--accent:#c8f135;--orange:#FF7A2F;--muted:#888;--dim:#333;--radius:4px;--tap:44px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;font-size:14px;line-height:1.5;height:100%;overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;pointer-events:none;z-index:9999;opacity:.04;
+ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:256px 256px}
+#app{max-width:430px;margin:0 auto;height:100vh;height:100dvh;display:flex;flex-direction:column;padding:0 24px}
+.progress-container{padding:20px 0 0}.progress-steps{display:flex;gap:4px}.progress-step{flex:1;height:3px;background:var(--dim)}
+.progress-step.done{background:var(--accent)}.progress-step.active{background:var(--text)}
+.applying-badge{display:flex;align-items:center;gap:8px;padding:12px 0 0;font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.applying-badge strong{color:var(--accent);font-weight:700}.applying-badge u{color:var(--muted)}
+.screen-content{flex:1;min-height:0;display:flex;flex-direction:column;padding:10px 0 0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.screen-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.screen-headline{font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:.95;letter-spacing:0;margin-bottom:6px;white-space:nowrap}
+.screen-headline .accent{color:var(--accent)}
+.bottom-action{flex-shrink:0;margin:0 -24px;padding:8px 24px calc(env(safe-area-inset-bottom,12px)+4px);display:flex;flex-direction:column;gap:4px;background:linear-gradient(to top,var(--bg) 80%,transparent)}
+.btn{width:100%;padding:18px 24px;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.1em;text-align:center;display:block}
+.btn-primary{background:var(--accent);color:var(--bg)}
+.btn-ghost{color:var(--muted);font-size:12px;letter-spacing:.08em;min-height:var(--tap);display:flex;align-items:center;justify-content:center}
+.mock-tag{position:fixed;right:6px;bottom:2px;font-size:9px;letter-spacing:.12em;color:#555;text-transform:uppercase;pointer-events:none;z-index:2}
+.tag{display:inline-block;border-radius:var(--radius);padding:0 5px;margin-left:6px;letter-spacing:.12em;font-size:9px;vertical-align:middle}
+.tag.acs{color:#7eb8ff;border:1px solid #7eb8ff}
+.tag.nhanes{color:#9ad67a;border:1px solid #9ad67a}
+.tag.est{color:var(--orange);border:1px solid var(--orange)}
+.bigrow{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+#big{font-family:'Bebas Neue',sans-serif;font-size:44px;line-height:.9;color:var(--accent)}
+.bigrow .bs{font-size:11px;color:var(--body);line-height:1.3}
+.bars{display:flex;flex-direction:column;gap:0}
+.st{position:relative;display:flex;align-items:center;justify-content:space-between;padding:0 8px;gap:6px;width:100%;text-align:left;border-radius:var(--radius)}
+.st.start{min-height:28px;cursor:default}
+.st.edit{min-height:var(--tap)}
+.st .bar{position:absolute;left:0;top:50%;transform:translateY(-50%);height:18px;background:#26281f;border-left:2px solid #5c6b2a;border-radius:0 var(--radius) var(--radius) 0;transition:width .25s;pointer-events:none}
+.st.start .bar{background:#2d2d2a;border-left-color:var(--muted)}
+.st.last .bar{background:rgba(200,241,53,.22);border-left-color:var(--accent)}
+.st.open{outline:1px solid var(--accent)}
+.st .sl,.st .sn,.st .ed{position:relative;pointer-events:none}
+.st .sl{font-size:11px;color:var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}.st.start .sl{color:var(--text)}
+.st .sn{font-size:11px;color:var(--text);flex-shrink:0}.st.last .sn{color:var(--accent);font-weight:700}
+.st .ed{font-size:9px;letter-spacing:.1em;color:var(--accent);flex-shrink:0}
+.src{font-size:9px;color:#6f6d66;line-height:1.35;margin:8px 0 4px}
+.leg{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:9px;color:var(--body);margin:0 0 6px;letter-spacing:.04em}
+.leg span{display:inline-flex;align-items:center;gap:4px}
+#ed{display:none;flex-direction:column;gap:6px;margin:4px 0 8px}
+body.editing #ed{display:flex}body.editing .bars{display:none}
+.ed-top{display:flex;align-items:center;justify-content:space-between}
+.ed-top .k{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.ed-top .x{min-height:var(--tap);padding:0 4px 0 12px;color:var(--accent);font-size:11px;letter-spacing:.1em}
+.ed-opts{display:flex;flex-direction:column;gap:6px}
+.ed-opt{min-height:var(--tap);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 14px;border:1px solid var(--dim);border-radius:var(--radius);text-align:left;font-size:13px}
+.ed-opt.on{border-color:var(--accent);background:rgba(200,241,53,.08)}
+.ed-opt .n{color:var(--accent);font-size:12px;flex-shrink:0}
+.ed-range{padding:2px}
+.ed-range .rv{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.ed-range .rv b{color:var(--accent)}
+.ed-range .rk{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:4px 0 0}
+.ed-range input[type=range]{-webkit-appearance:none;width:100%;height:28px;background:transparent}
+.ed-range input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--dim);border-radius:2px}
+.ed-range input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--accent);margin-top:-11px}
+.ed-done{min-height:var(--tap);border:1px solid var(--accent);border-radius:var(--radius);color:var(--accent);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.ed-note{font-size:10px;color:var(--body);line-height:1.35}
+.ex-tag{display:inline-block;margin-left:8px;padding:0 6px;border:1px solid var(--orange);color:var(--orange);border-radius:var(--radius);font-size:9px;letter-spacing:.14em;vertical-align:middle}
+</style></head>
+<body><!-- HTML-ONLY MOCKUP (copied from Coder wmm_pool_grokbot.html, Oct 6 2026): pool with source tags. EXAMPLE data: numbers are illustrative, not live Census pulls. -->
+<div id="app">
+  <div class="progress-container"><div class="progress-steps"><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step active"></div><div class="progress-step"></div><div class="progress-step"></div></div></div>
+  <div class="applying-badge">Applying as: <strong>Single</strong> · <u>Edit</u></div>
+  <div class="screen-content" id="sc">
+    <div class="screen-label">Your pool <span class="ex-tag">EXAMPLE DATA</span></div>
+    <div class="screen-headline">YOUR <span class="accent">POOL</span></div>
+    <div class="bigrow"><span id="big">≈ 180</span><span class="bs">men match everything<br>you picked</span></div>
+    <div class="leg">
+      <span><span class="tag acs">ACS</span> Census</span>
+      <span><span class="tag nhanes">NHANES</span> CDC height</span>
+      <span><span class="tag est">ESTIMATE</span> Pew / modeled</span>
+    </div>
+    <div class="bars" id="bars"></div>
+    <div id="ed" aria-live="polite"></div>
+    <p class="src"><b style="color:var(--orange)">EXAMPLE DATA.</b> Illustrative funnel — not a live Census query; ZIP 94103, 30 mi and every preference are example inputs. ACS = American Community Survey (Census); NHANES = CDC height; ESTIMATE = Pew (religion/politics) or internal model (chemistry, intentions, kids). Tap a step to change it.</p>
+  </div>
+  <div class="bottom-action">
+    <button class="btn btn-primary" type="button">NEXT</button>
+    <a class="btn-ghost" href="all-cards_grokbot.html#sec-pool" target="_top">&larr; BACK TO ALL CARDS</a>
+  </div>
+</div>
+<div class="mock-tag">HTML mockup · Your pool · example data</div>
+<script>
+const $=s=>document.querySelector(s);
+const fmt=n=>Math.round(n).toLocaleString('en-US');
+const BASE=46800;
+// ALL preferences. source: acs | nhanes | est
+const FILTERS=[
+  {k:'age', name:'Age', src:'acs', kind:'range', min:25, max:65,
+    label:()=>'Age '+S.age.lo+'–'+S.age.hi, rate:()=>Math.min(0.85, Math.max(0.16, (S.age.hi-S.age.lo)/37.2))},
+  {k:'ht', name:'Height', src:'nhanes', kind:'select',
+    opts:[{id:'58-64',l:'5′8″–6′4″',r:0.58},{id:'510-64',l:'5′10″–6′4″',r:0.47},{id:'510-66',l:'5′10″–6′6″',r:0.55},{id:'any',l:'Any height',r:0.95}],
+    label:()=>'Height '+(opt('ht').id==='any'?'Any':opt('ht').l), rate:()=>opt('ht').r},
+  {k:'race', name:'Race', src:'acs', kind:'select',
+    opts:[{id:'awl',l:'Asian, White, Latino',r:0.83},{id:'white',l:'White',r:0.55},{id:'any',l:'Any race',r:1}],
+    label:()=>'Race: '+(opt('race').id==='any'?'Any':opt('race').l), rate:()=>opt('race').r},
+  {k:'deg', name:'Degree', src:'acs', kind:'select',
+    opts:[{id:'ma',l:'Master’s+',r:0.36},{id:'ba',l:'BA/BS+',r:0.55},{id:'any',l:'Any degree',r:0.92}],
+    label:()=>'Degree: '+(opt('deg').id==='any'?'Any':opt('deg').l), rate:()=>opt('deg').r},
+  {k:'inc', name:'Income', src:'acs', kind:'select',
+    opts:[{id:'150',l:'$150k+',r:0.42},{id:'100',l:'$100k+',r:0.58},{id:'any',l:'Any income',r:0.95}],
+    label:()=>'Income: '+(opt('inc').id==='any'?'Any':opt('inc').l), rate:()=>opt('inc').r},
+  {k:'rel', name:'Religion', src:'est', kind:'select',
+    opts:[{id:'nc',l:'None, Christian',r:0.61},{id:'none',l:'None',r:0.35},{id:'any',l:'Any religion',r:0.95}],
+    label:()=>'Religion: '+(opt('rel').id==='any'?'Any':opt('rel').l), rate:()=>opt('rel').r},
+  {k:'pol', name:'Politics', src:'est', kind:'select',
+    opts:[{id:'lm',l:'Liberal, Moderate',r:0.59},{id:'lib',l:'Liberal',r:0.32},{id:'any',l:'Any politics',r:0.95}],
+    label:()=>'Politics: '+(opt('pol').id==='any'?'Any':opt('pol').l), rate:()=>opt('pol').r},
+  {k:'hk', name:'Have kids', src:'est', kind:'select',
+    opts:[{id:'no',l:'No kids',r:0.72},{id:'yes',l:'Has kids',r:0.28},{id:'any',l:'Any',r:1}],
+    label:()=>'Have kids: '+opt('hk').l, rate:()=>opt('hk').r},
+  {k:'wk', name:'Want kids', src:'est', kind:'select',
+    opts:[{id:'yes',l:'Wants kids',r:0.55},{id:'no',l:'Doesn’t want',r:0.25},{id:'any',l:'Any',r:1}],
+    label:()=>'Want kids: '+opt('wk').l, rate:()=>opt('wk').r},
+  {k:'int', name:'Intentions', src:'est', kind:'select',
+    opts:[{id:'mar',l:'Marriage / life partner',r:0.48},{id:'rel',l:'Relationship',r:0.7},{id:'any',l:'Any',r:1}],
+    label:()=>'Intentions: '+opt('int').l, rate:()=>opt('int').r},
+  {k:'chem', name:'Chemistry', src:'est', kind:'select',
+    opts:[{id:'imp',l:'Important',r:0.65},{id:'must',l:'Must-have',r:0.4},{id:'any',l:'Any',r:1}],
+    label:()=>'Chemistry: '+opt('chem').l, rate:()=>opt('chem').r},
+];
+const S={age:{lo:31,hi:45}, ht:'510-64', race:'awl', deg:'ma', inc:'150', rel:'nc', pol:'lm', hk:'no', wk:'yes', int:'mar', chem:'imp'};
+function opt(k){return FILTERS.find(f=>f.k===k).opts.find(o=>o.id===S[k])}
+function steps(){
+  const out=[{k:'start', l:'Single men within 30 mi of 94103', n:BASE, src:'acs'}];
+  let n=BASE;
+  FILTERS.forEach(f=>{ n=Math.max(20, Math.round(n*f.rate()/10)*10); out.push({k:f.k,l:f.label(),n,src:f.src}); });
+  return out;
+}
+function finalN(){return steps().at(-1).n}
+const SRC={acs:'acs',nhanes:'nhanes',est:'est'};
+const SRCL={acs:'ACS',nhanes:'NHANES',est:'ESTIMATE'};
+let editing=null;
+function renderBars(){
+  const st=steps(), max=st[0].n;
+  $('#big').textContent='≈ '+fmt(st.at(-1).n);
+  $('#bars').innerHTML=st.map((s,i)=>{
+    const w=Math.max(3, Math.sqrt(s.n/max)*100);
+    const can=s.k!=='start';
+    const tag=can?'button':'div';
+    const src=`<span class="tag ${s.src}">${SRCL[s.src]}</span>`;
+    return `<${tag} type="button" class="st ${can?'edit':'start'}${i===st.length-1?' last':''}${editing===s.k?' open':''}" data-k="${s.k}">
+      <div class="bar" style="width:${w}%"></div><span class="sl">${s.l}${src}</span><span class="sn">${fmt(s.n)}</span>${can?'<span class="ed">EDIT</span>':''}</${tag}>`;
+  }).join('');
+  document.querySelectorAll('.st.edit').forEach(b=>b.onclick=()=>openEdit(b.dataset.k));
+}
+function openEdit(k){
+  const f=FILTERS.find(x=>x.k===k); if(!f) return;
+  editing=k; document.body.classList.add('editing');
+  $('#big').textContent='≈ '+fmt(finalN());
+  let body='';
+  if(f.kind==='range'){
+    body=`<div class="ed-range"><div class="rv"><span>${f.name} range <span class="tag ${f.src}">${SRCL[f.src]}</span></span><b id="rv">${S.age.lo}–${S.age.hi}</b></div>
+      <div class="rk">From</div><input type="range" id="rlo" min="${f.min}" max="${f.max-1}" value="${S.age.lo}">
+      <div class="rk">To</div><input type="range" id="rhi" min="${f.min+1}" max="${f.max}" value="${S.age.hi}"></div>
+      <p class="ed-note">ACS-based age bands (illustrative). Wider = bigger pool.</p>`;
+  } else {
+    body=`<div class="ed-opts">${f.opts.map(o=>{
+      const prev=S[f.k]; S[f.k]=o.id; const n=finalN(); S[f.k]=prev;
+      return `<button type="button" class="ed-opt${S[f.k]===o.id?' on':''}" data-id="${o.id}"><span>${o.l}</span><span class="n">≈ ${fmt(n)}</span></button>`;
+    }).join('')}</div>
+    <p class="ed-note">${f.src==='acs'?'Census ACS (illustrative).':f.src==='nhanes'?'CDC NHANES height (illustrative).':'ESTIMATE — Pew or internal model. Not a Census count.'}</p>`;
+  }
+  $('#ed').innerHTML=`<div class="ed-top"><span class="k">Edit ${f.name} <span class="tag ${f.src}">${SRCL[f.src]}</span></span><button type="button" class="x" id="edx">DONE</button></div>${body}<button type="button" class="ed-done" id="edd">Done — update pool</button>`;
+  $('#edx').onclick=$('#edd').onclick=closeEdit;
+  if(f.kind==='range'){
+    const sync=()=>{
+      let lo=+$('#rlo').value, hi=+$('#rhi').value;
+      if(lo>=hi){ if(document.activeElement===$('#rlo')){hi=Math.min(f.max,lo+1);$('#rhi').value=hi} else {lo=Math.max(f.min,hi-1);$('#rlo').value=lo} }
+      S.age={lo,hi}; $('#rv').textContent=lo+'–'+hi; $('#big').textContent='≈ '+fmt(finalN());
+    };
+    $('#rlo').oninput=$('#rhi').oninput=sync;
+  } else {
+    $('#ed').querySelectorAll('.ed-opt').forEach(b=>b.onclick=()=>{S[f.k]=b.dataset.id; openEdit(k)});
+  }
+}
+function closeEdit(){ editing=null; document.body.classList.remove('editing'); $('#ed').innerHTML=''; renderBars(); }
+renderBars();
+</script>
+</body></html>
