@@ -69,7 +69,7 @@ h1 span{color:var(--lime);text-shadow:4px 5px 0 #7a5cff}
   <div><span class="lbl">YOUR REAL PREFERENCES · COUNTS ESTIMATED</span></div>
   <h1>YOUR <span>POOL</span></h1>
   <p class="sub">Pour in <b id="startN"></b> single men. Each pick, in your ranked order, squeezes the funnel.</p>
-  <div class="leg"><span class="stk src-acs">ACS</span><span class="stk src-nhanes">NHANES</span><span class="stk src-pew">PEW EST</span><span class="stk src-nsfg">NSFG EST</span></div>
+  <div class="leg"><span class="stk src-acs">CENSUS</span><span class="stk src-nhanes">CDC</span><span class="stk src-pew">EST</span><span class="stk src-nsfg">EST</span></div>
   <div id="funnel"></div>
   <div class="neck"></div>
   <div class="drips"><i></i><i></i></div>
@@ -86,7 +86,7 @@ const E=PoolEngine, $=s=>document.querySelector(s);
 const CANDY=['#ff8fc2','#ffb347','#ffe14d','#c8f135','#6fe3ff','#b48bff'];
 function render(){
   const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0;
-  h+=`<div class="cap"><span class="rk">★</span><span class="tx">Single men 31–54, 30 mi of you <span class="stk src-acs">ACS</span><small>incl. 03 Distance + 04 Age</small></span></div>
+  h+=`<div class="cap"><span class="rk">★</span><span class="tx">${E.cityName()}: Single men 21–80, ${E.S.radius==="any"?"any distance":E.S.radius+" mi"} <span class="stk src-acs">CENSUS</span><small>03 City &amp; distance</small></span></div>
       <div class="rim"></div><div class="blob" style="width:100%;background:${CANDY[0]}"><span class="cnt">${E.fmt(start)}</span></div>`;
   ci=1;
   steps.forEach(s=>{const r=s.r;

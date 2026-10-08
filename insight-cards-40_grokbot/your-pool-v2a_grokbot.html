@@ -62,7 +62,7 @@ h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:64px;line-heigh
   <div><span class="lbl">YOUR REAL PREFERENCES · COUNTS ESTIMATED</span></div>
   <h1>YOUR POOL</h1>
   <p class="sub">Every pick in your ranked order, squeezing <b id="startN"></b> single men down to your matches.</p>
-  <div class="leg"><span class="bdg src-acs">ACS</span><span class="bdg src-nhanes">NHANES</span><span class="bdg src-pew">PEW EST</span><span class="bdg src-nsfg">NSFG EST</span></div>
+  <div class="leg"><span class="bdg src-acs">CENSUS</span><span class="bdg src-nhanes">CDC</span><span class="bdg src-pew">EST</span><span class="bdg src-nsfg">EST</span></div>
   <div id="funnel"></div>
   <div class="neck" id="neck"></div>
   <div class="spout"><div class="drop"></div><div class="big" id="big"></div><p>single men match everything you picked</p></div>
@@ -79,7 +79,7 @@ function trap(top,bot){const a=(100-top)/2,b=(100-bot)/2;return `polygon(${a}% 0
 function render(){
   const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0;
   const w0=96;
-  h+=`<div class="cap"><span class="rk" style="color:${HUES[0][0]}">GO</span><span class="tx">Single men 31–54 within 30 mi of you <span class="bdg src-acs">ACS</span><small>incl. 03 Distance 30 mi + 04 Age 31–54</small></span></div>
+  h+=`<div class="cap"><span class="rk" style="color:${HUES[0][0]}">GO</span><span class="tx">${E.cityName()}: single men 21–80 within ${E.S.radius==="any"?"any distance":E.S.radius+" mi"} <span class="bdg src-acs">CENSUS</span><small>03 City &amp; distance</small></span></div>
       <div class="band" style="clip-path:${trap(100,w0)};background:linear-gradient(90deg,${HUES[0][0]},${HUES[0][1]})"><span class="cnt">${E.fmt(start)}</span></div>`;
   prevW=w0; ci=1;
   steps.forEach(s=>{const r=s.r;

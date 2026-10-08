@@ -75,7 +75,7 @@ a{color:inherit;text-decoration:none}
     <div class="score" id="big"></div>
     <p>single men match everything you picked<span class="blink">_</span></p>
   </div>
-  <div class="leg"><span class="bdg src-acs">ACS</span><span class="bdg src-nhanes">NHANES</span><span class="bdg src-pew">PEW EST</span><span class="bdg src-nsfg">NSFG EST</span></div>
+  <div class="leg"><span class="bdg src-acs">CENSUS</span><span class="bdg src-nhanes">CDC</span><span class="bdg src-pew">EST</span><span class="bdg src-nsfg">EST</span></div>
   <div id="funnel"></div>
   <div class="clear"><div class="px">★ STAGE CLEAR ★</div><div class="big" id="big2"></div><p>single men left after all 10 levels</p></div>
   <p class="src" id="src"></p>
@@ -89,7 +89,7 @@ const E=PoolEngine, $=s=>document.querySelector(s);
 const NEON=['#2ef2ff','#ff3df2','#ffe600','#c8f135','#ff8c1a','#9d6bff'];
 function render(){
   const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0, lv=0;
-  h+=`<div class="cap"><span class="lv px" style="color:${NEON[0]}">P1</span><span class="tx">Single men 31–54 within 30 mi of you <span class="bdg src-acs">ACS</span><small>incl. LV 03 Distance + LV 04 Age</small></span></div>
+  h+=`<div class="cap"><span class="lv px" style="color:${NEON[0]}">P1</span><span class="tx">${E.cityName()}: single men 21–80 within ${E.S.radius==="any"?"any distance":E.S.radius+" mi"} <span class="bdg src-acs">CENSUS</span><small>LV 03 City &amp; distance</small></span></div>
       <div class="lvl" style="width:100%;color:${NEON[0]};border-color:${NEON[0]};box-shadow:0 0 10px ${NEON[0]},inset 0 0 10px ${NEON[0]}55"><span class="cnt">${E.fmt(start)}</span></div>`;
   ci=1;
   steps.forEach(s=>{const r=s.r;

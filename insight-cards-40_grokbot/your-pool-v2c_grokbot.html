@@ -67,7 +67,7 @@ h1 .d{display:inline-block;width:.42em;height:.42em;border-radius:50%;margin:0 .
   <div><span class="lbl">YOUR REAL PREFERENCES · COUNTS ESTIMATED</span></div>
   <h1>YOUR P<span class="d" style="background:#ff5fa2"></span><span class="d" style="background:#5fe0ff"></span>L</h1>
   <p class="sub">Pour in <b id="startN"></b> single men. Each pick, in your ranked order, lets fewer dots through.</p>
-  <div class="leg"><span class="bdg src-acs">ACS</span><span class="bdg src-nhanes">NHANES</span><span class="bdg src-pew">PEW EST</span><span class="bdg src-nsfg">NSFG EST</span></div>
+  <div class="leg"><span class="bdg src-acs">CENSUS</span><span class="bdg src-nhanes">CDC</span><span class="bdg src-pew">EST</span><span class="bdg src-nsfg">EST</span></div>
   <div id="funnel"></div>
   <div class="pile" id="pile"></div>
   <div class="spout"><div class="big" id="big"></div><p>single men match everything you picked</p><button class="replay" type="button" id="replay">↻ POUR AGAIN</button></div>
@@ -95,7 +95,7 @@ function chamber(top,bot,n,start,color,d0){
 const stream=c=>`<div class="stream"><i style="background:${c}"></i><i style="background:${c};animation-delay:.37s"></i><i style="background:${c};animation-delay:.74s"></i></div>`;
 function render(){
   seed=7; const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0, d0=0;
-  h+=`<div class="cap"><span class="rk">IN</span><span class="tx">Single men 31–54 within 30 mi of you <span class="bdg src-acs">ACS</span><small>incl. 03 Distance 30 mi + 04 Age 31–54</small></span></div>`+chamber(100,94,start,start,STROKE[0],0);
+  h+=`<div class="cap"><span class="rk">IN</span><span class="tx">${E.cityName()}: single men 21–80 within ${E.S.radius==="any"?"any distance":E.S.radius+" mi"} <span class="bdg src-acs">CENSUS</span><small>03 City &amp; distance</small></span></div>`+chamber(100,94,start,start,STROKE[0],0);
   prevW=94; ci=1;
   steps.forEach(s=>{const r=s.r;
     if(r.fixed==='start') return;
