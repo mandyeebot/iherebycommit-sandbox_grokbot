@@ -16,15 +16,19 @@ a{color:inherit;text-decoration:none}
 #app{position:relative;z-index:2;max-width:430px;margin:0 auto;height:100vh;height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 18px env(safe-area-inset-bottom,0px);--fit:1}
 .prog{display:flex;gap:4px;padding:12px 0 0;flex-shrink:0}.prog i{flex:1;height:3px;background:rgba(240,236,224,.16)}.prog i.d{background:var(--lime)}.prog i.a{background:var(--ow)}
 .hd{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0 0}
-.step{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);white-space:nowrap}.step b{color:var(--ow);font-weight:700}.step b span{color:var(--lime);text-shadow:0 0 10px rgba(200,241,53,.45)}
-.sub{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0 4px}
-.appl{flex-shrink:0;font-size:10px;margin-top:4px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.appl b{color:var(--lime)}
+.step{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.ttl{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+/* headline never shrinks with --fit; only the funnel + result do */
+h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(40px,7.3dvh,48px);line-height:.95;letter-spacing:.5px;color:var(--ow);white-space:nowrap}
+h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
+.sub{flex-shrink:0;display:flex;align-items:center;gap:8px;margin:5px 0 2px}
+.appl{flex-shrink:0;font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.appl b{color:var(--lime)}
 .info{flex-shrink:0;font-size:10px;color:var(--ow);border:1px solid rgba(240,236,224,.35);border-radius:999px;min-height:26px;padding:0 9px;white-space:nowrap}
 .lbl{flex-shrink:0;padding:2px 7px;white-space:nowrap;border-radius:999px;font-size:10px;letter-spacing:.05em;font-weight:700;color:var(--k);background:linear-gradient(90deg,var(--lime),var(--or))}
 .main{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:safe center;padding-top:4px}
 .main>*{flex-shrink:0}.main>:first-child{margin-top:auto}.main>:last-child{margin-bottom:auto}
 #funnel{filter:drop-shadow(0 0 8px rgba(200,241,53,.28)) drop-shadow(0 0 14px rgba(255,122,47,.2))}
-.band{position:relative;height:calc(clamp(34px,6.9dvh,52px)*var(--fit));margin:0 auto 4px;display:flex;align-items:center;gap:6px;color:var(--k);cursor:pointer}
+.band{position:relative;height:calc(clamp(34px,7.3dvh,54px)*var(--fit));margin:0 auto 4px;display:flex;align-items:center;gap:6px;color:var(--k);cursor:pointer}
 .band.start{cursor:default}
 .band .rk{font-family:'Bebas Neue',sans-serif;font-size:17px;line-height:1;opacity:.55;width:17px;flex-shrink:0}
 .band .lb{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
@@ -39,9 +43,9 @@ a{color:inherit;text-decoration:none}
 .nocut{font-size:10px;color:var(--muted);text-align:center;margin:2px 0 1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nocut b{color:var(--ow);font-weight:400}
 .neck{height:calc(18px*var(--fit));margin:2px auto 0;background:linear-gradient(180deg,var(--or),rgba(255,122,47,.25));clip-path:polygon(0 0,100% 0,64% 100%,36% 100%)}
-.spout{text-align:center;margin-top:1px}
-.spout .big{font-family:'Bebas Neue',sans-serif;font-size:calc(clamp(56px,11.5dvh,88px)*var(--fit));line-height:.88;color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.85),0 0 34px rgba(200,241,53,.45),0 0 60px rgba(255,122,47,.45)}
-.spout p{font-size:10px;color:var(--ow);margin-top:3px}
+.spout{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:3px}
+.spout .big{font-family:'Bebas Neue',sans-serif;font-size:calc(clamp(40px,7.4dvh,56px)*var(--fit));line-height:.9;white-space:nowrap;color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.85),0 0 34px rgba(200,241,53,.45),0 0 60px rgba(255,122,47,.45)}
+.spout p{font-size:10px;line-height:1.35;color:var(--ow);text-align:left}
 .bottom{flex-shrink:0;padding:8px 0 4px;display:flex;flex-direction:column}
 .next{width:100%;height:50px;font-family:'Bebas Neue',sans-serif;font-size:23px;letter-spacing:.12em;color:var(--k);background:var(--lime);border-radius:6px;box-shadow:0 0 18px rgba(200,241,53,.35)}
 .back{height:34px;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.08em;color:var(--muted)}
@@ -67,14 +71,14 @@ a{color:inherit;text-decoration:none}
 <body><!-- SANDBOX MOCKUP V3 (neon funnel, brand palette, no-scroll; condensed from V2A). Amanda's real preferences x public data; counts estimated. No location shown. -->
 <div id="app">
   <div class="prog"><i class="d"></i><i class="d"></i><i class="d"></i><i class="d"></i><i class="a"></i></div>
-  <div class="hd"><h1 class="step">Step 5 of 5 · <b>Your <span>Pool</span></b></h1><button class="info" type="button" id="infoBtn">ⓘ Sources</button></div>
+  <div class="hd"><span class="step">Step 5 of 5</span><span class="appl">Applying as: <b>Single</b> · <u>Edit</u></span></div>
+  <div class="ttl"><h1>Your <span>Pool</span></h1><button class="info" type="button" id="infoBtn">ⓘ Sources</button></div>
   <div class="sub"><span class="lbl">YOUR REAL PREFERENCES · COUNTS ESTIMATED</span></div>
-  <span class="appl">Applying as: <b>Single</b> · <u>Edit</u> · 10 picks, ranked</span>
   <div class="main">
     <div id="funnel"></div>
     <div class="nocut" id="nocut"></div>
     <div class="neck" id="neck"></div>
-    <div class="spout"><div class="big" id="big"></div><p>single men match everything you picked</p></div>
+    <div class="spout"><div class="big" id="big"></div><p>single men match<br>everything you picked</p></div>
   </div>
   <div class="bottom"><button class="next" type="button">NEXT</button><a class="back" href="all-cards_grokbot.html#sec-pool" target="_top">&larr; BACK</a></div>
 </div>
@@ -113,7 +117,7 @@ function render(){
 }
 // shrink bands + result a little if the screen is shorter than expected, so nothing spills
 function fit(){const a=$('#app'),m=$('.main');let f=1;a.style.setProperty('--fit',1);
-  while(f>0.7&&(m.scrollHeight>m.clientHeight+1)){f-=0.04;a.style.setProperty('--fit',f.toFixed(2));}}
+  while(f>0.6&&(m.scrollHeight>m.clientHeight+1)){f-=0.04;a.style.setProperty('--fit',f.toFixed(2));}}
 addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);
 $('#infoBtn').onclick=()=>{const w=document.createElement('div'); w.className='src-sheet';
   w.innerHTML=`<div class="src-back"></div><div class="src-panel"><div class="pe-top"><span class="pe-k">Sources &amp; method</span><button class="pe-x" type="button">CLOSE</button></div>
