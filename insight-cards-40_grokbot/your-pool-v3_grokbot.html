@@ -29,7 +29,7 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 .main>*{flex-shrink:0}.main>:first-child{margin-top:auto}.main>:last-child{margin-bottom:auto}
 #funnel{filter:drop-shadow(0 0 8px rgba(200,241,53,.28)) drop-shadow(0 0 14px rgba(255,122,47,.2))}
 .band{position:relative;height:calc(clamp(34px,7.3dvh,54px)*var(--fit));margin:0 auto 4px;display:flex;align-items:center;gap:6px;color:var(--k);cursor:pointer}
-.band.start{cursor:default}
+.band .lb2{display:flex;flex-direction:column;min-width:0;line-height:1.15}.band .lb2 b{font-size:12px;font-weight:700;white-space:nowrap}.band .lb2 small{font-size:10px;letter-spacing:-.02em;white-space:nowrap;opacity:.8}
 .band .rk{font-family:'Bebas Neue',sans-serif;font-size:17px;line-height:1;opacity:.55;width:17px;flex-shrink:0}
 .band .lb{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .band .sp{flex:1}
@@ -40,6 +40,10 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 .b-nhanes{background:transparent;color:var(--k)}
 .b-pew{background:var(--w);color:var(--k);border-color:var(--w)}
 .b-nsfg{background:var(--k);color:var(--or)}
+.b-ipeds{background:var(--or);color:var(--k);border-color:var(--k)}
+.tierchip{display:flex;align-items:center;justify-content:center;gap:6px;margin:3px auto 1px;padding:2px 3px 2px 9px;border:1px dashed rgba(240,236,224,.35);border-radius:999px;font-size:10px;color:var(--muted);white-space:nowrap}
+.tierchip b{color:var(--ow);font-weight:400}.tierchip .b-ipeds{border-color:var(--or)}
+.tierchip .ed{height:20px;padding:0 8px;border-radius:999px;background:var(--lime);color:var(--k);font-size:10px;font-weight:700;letter-spacing:.08em;display:inline-flex;align-items:center}
 .nocut{font-size:10px;color:var(--muted);text-align:center;margin:2px 0 1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nocut b{color:var(--ow);font-weight:400}
 .neck{height:calc(18px*var(--fit));margin:2px auto 0;background:linear-gradient(180deg,var(--or),rgba(255,122,47,.25));clip-path:polygon(0 0,100% 0,64% 100%,36% 100%)}
@@ -57,7 +61,8 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 .pe-sheet.show .pe-panel,.src-sheet.show .src-panel{transform:none}
 .pe-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.pe-k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .pe-badge{font-size:10px;font-weight:700;padding:2px 5px;border-radius:4px;margin-left:4px;border:1.5px solid var(--lime)}
-.pe-badge.src-acs{background:var(--k);color:var(--lime)}.pe-badge.src-nhanes{color:var(--ow);border-color:var(--ow)}.pe-badge.src-pew{background:var(--w);color:var(--k);border-color:var(--w)}.pe-badge.src-nsfg{background:var(--k);color:var(--or);border-color:var(--or)}
+.pe-badge.src-acs{background:var(--k);color:var(--lime)}.pe-badge.src-nhanes{color:var(--ow);border-color:var(--ow)}.pe-badge.src-pew{background:var(--w);color:var(--k);border-color:var(--w)}.pe-badge.src-nsfg{background:var(--k);color:var(--or);border-color:var(--or)}.pe-badge.src-ipeds{background:var(--or);color:var(--k);border-color:var(--or)}
+.pe-opt span{display:flex;flex-direction:column;gap:1px}.pe-sm{font-size:10px;color:var(--muted)}
 .pe-x{min-height:40px;color:var(--lime);font-size:11px;letter-spacing:.12em}
 .pe-opts{display:flex;flex-direction:column;gap:6px}
 .pe-opt{min-height:42px;display:flex;justify-content:space-between;align-items:center;padding:0 14px;border-radius:8px;border:1px solid rgba(240,236,224,.18);text-align:left;font-size:13px}
@@ -68,7 +73,7 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 .src-leg{display:flex;flex-wrap:wrap;gap:6px 8px;margin:8px 0;padding:8px;border-radius:8px;background:var(--lime);color:var(--k);font-size:10px;align-items:center}
 .src-leg span{display:inline-flex;gap:4px;align-items:center}
 </style></head>
-<body><!-- SANDBOX MOCKUP V3 (neon funnel, brand palette, no-scroll; condensed from V2A). Amanda's real preferences x public data; counts estimated. No location shown. -->
+<body><!-- SANDBOX MOCKUP V3 (neon funnel, brand palette, no-scroll; condensed from V2A). Amanda's real preferences x public data; counts estimated. City names shown (no ZIP/address). -->
 <div id="app">
   <div class="prog"><i class="d"></i><i class="d"></i><i class="d"></i><i class="d"></i><i class="a"></i></div>
   <div class="hd"><span class="step">Step 5 of 5</span><span class="appl">Applying as: <b>Single</b> · <u>Edit</u></span></div>
@@ -77,6 +82,7 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
   <div class="main">
     <div id="funnel"></div>
     <div class="nocut" id="nocut"></div>
+    <button class="tierchip" type="button" id="tierchip"></button>
     <div class="neck" id="neck"></div>
     <div class="spout"><div class="big" id="big"></div><p>single men match<br>everything you picked</p></div>
   </div>
@@ -91,26 +97,29 @@ const SHORT={intent:()=>({rel:'Relationship',looking:'Any dating',single:'Any si
   kids:()=>S.kids==='yes'?'Wants kids':'Kids: any',
   height:()=>'Height '+({'58':'5′8″+','510':'5′10″+','511':'5′11″+','60':'6′0″+','62':'6′2″+','any':'any'})[S.height],
   edu:()=>({any:'Any degree',ba:'Bachelor’s+',ma:'Master’s+'})[S.edu],
+  tier:()=>'Tier '+({s50:'<50%',s25:'<25%',s15:'<15%'})[S.tier],
   inc:()=>'Income '+({'0':'any','50000':'$50k+','100000':'$100k+','150000':'$150k+','200000':'$200k+','300000':'$300k+'})[S.inc]};
-const B={acs:'b-acs',nhanes:'b-nhanes',pew:'b-pew',nsfg:'b-nsfg'};
+const B={acs:'b-acs',nhanes:'b-nhanes',pew:'b-pew',nsfg:'b-nsfg',ipeds:'b-ipeds'};
 // lime -> orange mix (only brand hexes)
 const L=[200,241,53], O=[255,122,47];
 const mix=t=>`rgb(${L.map((v,i)=>Math.round(v+(O[i]-v)*t)).join(',')})`;
 function trap(top,bot){const a=(100-top)/2,b=(100-bot)/2;return `polygon(${a}% 0,${100-a}% 0,${100-b}% 100%,${b}% 100%)`}
 function render(){
-  const {start,steps,final}=E.compute(); const cuts=steps.filter(s=>s.r.k);
-  const W=n=>66+34*Math.max(0,Math.min(1,Math.log(n/40)/Math.log(start/40)));
+  const {start,steps,final}=E.compute(); const cuts=steps.filter(s=>s.r.k&&!s.r.fixed); const cityName=E.D.city.by[S.city].name;
+  const W=n=>72+28*Math.max(0,Math.min(1,Math.log(n/40)/Math.log(start/40)));
   let h='', prev=100; const n=cuts.length;
   const pad=(top,bot)=>`padding:0 ${(100-Math.min(top,bot))/2*0.01*353+10}px`;
-  h+=`<div class="band start" style="width:100%;clip-path:${trap(100,97)};background:linear-gradient(90deg,var(--ow),var(--lime));padding:0 12px"><span class="rk" style="width:auto">03·04</span><span class="lb">Single men 31–54 · ≤30 mi</span><span class="bd b-acs">ACS</span><span class="sp"></span><span class="ct">${E.fmt(start)}</span></div>`;
+  h+=`<div class="band start" data-k="city" role="button" aria-label="Change city" style="width:100%;clip-path:${trap(100,97)};background:linear-gradient(90deg,var(--ow),var(--lime));padding:0 12px"><span class="rk" style="width:auto">03·04</span><span class="lb2"><b>${cityName}</b><small>≤30 mi · 31–54</small></span><span class="bd b-acs">ACS</span><span class="sp"></span><span class="ct">${E.fmt(start)}</span><button class="ed" type="button" data-k="city">EDIT</button></div>`;
   prev=97;
   cuts.forEach((s,i)=>{const r=s.r, w=Math.min(prev-3,W(s.n)), t=(i+1)/n;
     const inset=(100-w)/2; 
-    h+=`<div class="band" data-k="${r.k}" role="button" aria-label="Edit ${r.name}" style="width:100%;clip-path:${trap(prev,w)};background:linear-gradient(90deg,${mix(Math.max(0,t-.2))},${mix(t)});padding:0 calc(${inset}% + 9px)"><span class="rk">${r.rk}</span><span class="lb">${SHORT[r.k]()}</span><span class="bd ${B[r.src]}">${E.SRC[r.src]}</span><span class="sp"></span><span class="ct">${E.fmt(s.n)}</span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>`;
+    h+=`<div class="band" data-k="${r.k}" role="button" aria-label="Edit ${r.name}" style="width:100%;clip-path:${trap(prev,w)};background:linear-gradient(90deg,${mix(Math.max(0,t-.2))},${mix(t)});padding:0 calc(${inset}% + 9px)"><span class="rk">${r.rk}</span>${r.k==='tier'?`<span class="lb2"><b>Tier</b><small>${({s50:'&lt;50%',s25:'&lt;25%',s15:'&lt;15%'})[S.tier]}</small></span>`:`<span class="lb">${SHORT[r.k]()}</span>`}<span class="bd ${B[r.src]}">${E.SRC[r.src]}</span><span class="sp"></span><span class="ct">${E.fmt(s.n)}</span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>`;
     prev=w;
   });
   $('#funnel').innerHTML=h; $('#neck').style.width=(prev*0.8)+'%';
-  $('#nocut').innerHTML='<b>07 Ethnicity · 09 Kids · 10 Religion</b>: any, no cut';
+  $('#nocut').innerHTML='<b>08 Ethnicity · 09 Kids · 10 Religion</b>: any, no cut';
+  const tc=$('#tierchip'); tc.style.display=S.tier==='any'?'':'none';
+  tc.innerHTML='<span><b>11 School tier</b>: any, no cut</span><span class="bd b-ipeds">IPEDS EST</span><span class="ed">EDIT</span>'; tc.onclick=()=>E.openEdit('tier',render);
   $('#big').textContent='≈'+E.fmt(final);
   document.querySelectorAll('.band[data-k]').forEach(b=>b.onclick=()=>E.openEdit(b.dataset.k,render));
   fit();
@@ -121,8 +130,8 @@ function fit(){const a=$('#app'),m=$('.main');let f=1;a.style.setProperty('--fit
 addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);
 $('#infoBtn').onclick=()=>{const w=document.createElement('div'); w.className='src-sheet';
   w.innerHTML=`<div class="src-back"></div><div class="src-panel"><div class="pe-top"><span class="pe-k">Sources &amp; method</span><button class="pe-x" type="button">CLOSE</button></div>
-  <div class="src-leg"><span><span class="bd b-acs">ACS</span>Census</span><span><span class="bd b-nhanes">NHANES</span>CDC height</span><span><span class="bd b-pew">PEW EST</span>intent</span><span><span class="bd b-nsfg">NSFG EST</span>wants kids</span></div>
-  <p>${E.SOURCES}</p><p style="margin-top:6px">Each step keeps: ${E.compute().steps.filter(s=>s.r.k).map(s=>s.r.rk+' '+Math.round(s.keep*100)+'%').join(' · ')}.</p></div>`;
+  <div class="src-leg"><span><span class="bd b-acs">ACS</span>Census</span><span><span class="bd b-nhanes">NHANES</span>CDC height</span><span><span class="bd b-pew">PEW EST</span>intent</span><span><span class="bd b-nsfg">NSFG EST</span>wants kids</span><span><span class="bd b-ipeds">IPEDS EST</span>school tier</span></div>
+  <p>${E.SOURCES}</p><p style="margin-top:6px">Each step keeps: ${E.compute().steps.filter(s=>s.r.k&&!s.r.fixed).map(s=>s.r.rk+' '+Math.round(s.keep*100)+'%').join(' · ')}.</p></div>`;
   const c=()=>w.remove(); document.body.appendChild(w); requestAnimationFrame(()=>w.classList.add('show'));
   w.querySelector('.src-back').onclick=w.querySelector('.pe-x').onclick=c;};
 render();
