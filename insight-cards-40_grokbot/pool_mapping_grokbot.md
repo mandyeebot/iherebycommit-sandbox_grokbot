@@ -1,6 +1,6 @@
 # Your Pool: app question → answer → % mapping (men and women)
 
-Rebuilt Oct 9, 2026 (CT) by `/workspace/pool_map_grokbot/build_v6_grokbot.py` (v6: men and women, every partner preference multi-select, income to $3M+ with an EST tail, Want kids Yes = yes + not sure; options mirror the Sandbox 2 s3y63 inputs; see pool_edit_inputs_grokbot.md for the input list and option → group mapping). CSV: `/workspace/pool_mapping_grokbot.csv` (one row per question × option × age band).
+Rebuilt Oct 9, 2026 (CT) by `/workspace/pool_map_grokbot/build_v7_grokbot.py` (v7: Supabase B12002 tract, IPEDS admissions and IRS SOI tables; v6: men and women, every partner preference multi-select, income to $3M+ with an EST tail, Want kids Yes = yes + not sure; options mirror the Sandbox 2 s3y63 inputs; see pool_edit_inputs_grokbot.md for the input list and option → group mapping). CSV: `/workspace/pool_mapping_grokbot.csv` (one row per question × option × age band).
 
 Rule (Amanda): every funnel step and EDIT option uses the IHereByCommit onboarding wording (sandbox `ranked-any-k11_grokbot/index.html`, K4M What Matters Most + What You Want), and each answer gets a realistic % from one source or a documented blend. Badges: **CENSUS** = direct ACS count, **CDC** = direct NHANES, **EST** = blend.
 
@@ -15,8 +15,8 @@ App options used (Sandbox 2 s3y63): Distance slider stops 1–300 mi (35 stops, 
 | Want kids | EST | NSFG 2022–23 RWANT, unmarried non-cohabiting men by 5-yr age (n=168–685) blended with Pew ATP 2023 (men 18–34 childless: 57% / 15% / 28% not sure) at 0.4 under 35, 0.2 at 35–39 | Three exclusive groups yes / no / not sure (not sure stands in for open to either). **Yes = yes + not sure** (Amanda, Oct 9); No = no; Open to either = yes + no + not sure; Unsure = not sure. Women: NSFG 2022–23 female respondents only (no Pew women split). 50–54 carries 45–49; older ages scaled down |
 | Have kids | EST | NSFG 2022–23 EVBIOKID within the Want kids groups accepted | 50+ carries 45–49 |
 | Height | CDC | NHANES Aug 2021–Aug 2023 + 2017–Mar 2020 measured, men by decade, rounded to the inch, waves averaged (n=886–1,477 per decade) | direct |
-| Degree, Income, Ethnicity | CENSUS | ACS 2020–24 PUMS, single men, PUMAs inside 30 mi of each city, by age group; income among men who pass Degree; ethnicity among men who pass Degree + Income (MENA = ancestry 400–499, South Asian = detailed race) | $500k+ small samples; $1M+ / $2M+ / $3M+ = EST Pareto tail: share ≥ X = share ≥ $500k × (500k/X)^a, a fitted to PUMS ≥$300k vs ≥$500k (men 1.845, women 2.072); women from PUMS SEX=2; Doctorate+ includes MD/JD |
-| Education tier | EST | NCES IPEDS completions 2008–09 + 2015–16 (men’s bachelor’s) × admissions; averaged | Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke (1.4%); Top 50 / Top 100 = 50 / 100 most selective by admit rate with ≥5,000 applicants (4.9% / 10.6%) as a ranking stand-in |
+| Degree, Income, Ethnicity | CENSUS | ACS 2020–24 PUMS, single men, PUMAs inside 30 mi of each city, by age group; income among men who pass Degree; ethnicity among men who pass Degree + Income (MENA = ancestry 400–499, South Asian = detailed race) | $500k+ small samples; $1M+ / $2M+ / $3M+ = EST (IRS SOI 2023): PUMS ≥$500k × IRS share of unmarried $500k+ filers at $1M+ in the city's state, Pareto above $1M from mean $1M+ AGI; women from PUMS SEX=2; Doctorate+ includes MD/JD |
+| Education tier | EST | Supabase research_ipeds_admissions ranking (2016, 2023) × NCES IPEDS completions (classes of 2016, 2023), by sex; averaged | Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke (1.35%); Top 50 / Top 100 = 50 / 100 most selective by admit rate with ≥5,000 applicants (4.9% / 10.9%) as a ranking stand-in |
 | Religion | EST | GSS 2018–2024 unmarried men, weighted (n=356–712 per age group); Jewish / Muslim / Buddhist / Hindu = 50% GSS + 50% Pew RLS 2023–24 (1.7 / 1.2 / 1.1 / 0.9%) | no-religion split 5:6:19 atheist : agnostic : nothing in particular (Pew RLS); nothing in particular half Spiritual, half Other; Sikh 0.2% |
 | Politics | EST | GSS 2018–2024 polviews 7-point, unmarried men, weighted | 1–2 Left, 3 Left-leaning, 4 Moderate, 5 Right-leaning, 6–7 Right, no answer = Apolitical (stand-in); None Stated adds no one |
 
@@ -24,13 +24,14 @@ App options used (Sandbox 2 s3y63): Distance slider stops 1–300 mi (35 stops, 
 
 | Step | Source (stored in Supabase dqrmyqmpqnlemkwdndsf unless noted) | Note |
 |---|---|---|
-| City & distance, Age | ACS 2020–24 B12002 female cells (never married E099–E109, + widowed, + divorced) by tract — **public Census file** (Supabase has ZCTA % only) | same tracts / radii as men |
+| City & distance, Age | `public.research_acs_b12002_tract` (v7; ACS 2020–24, e099–e109 never married + e161–e171 widowed + e176–e186 divorced; men e006–e016 + e068–e078 + e083–e093), md5-verified against the build cache | same tracts / radii as men |
 | Intentions | `public.research_pew_w111` f_gender=2, marital_w111 2/3/5/6, marital2_w111, seeking_w111, weight_w111 | 30–49: single 41.0%, looking 19.6%, committed-or-either 18.5%, committed only 11.0%; want-to-marry blend = men's (no by-sex source) |
 | Want kids, Have kids | `public.research_nsfg_2022_2023_female_p1/_p2` (= NSFG 2022–23 FemResp PUF): RWANT, RMARITAL 3/4/6, PARITY, WGT2022_2023 | no Pew blend |
 | Height | `public.benchmarks` height_cm_f_<decade>_p05…p95 (CDC/NCHS anthropometric reference, 2018 + 2023 editions) | percentiles interpolated, normal tails |
 | Degree, Income, Ethnicity | ACS 2020–24 PUMS SEX=2 — **public Census file** (not in Supabase) | same PUMAs |
 | Religion, Politics | `public.research_gss` sex=2, marital 3/4/5, relig, polviews, wtssps/wtssall, 2018–2024 | by sex |
-| Education tier | NCES IPEDS CTOTALW — **public file** | Ivy+ 1.1%, Top 50 4.0%, Top 100 9.3% |
+| Education tier | `public.research_ipeds_admissions` (2016, 2023: admit_rate, number_applied; ranking) × NCES IPEDS completions CTOTALW (public file) | Ivy+ 1.0%, Top 50 4.0%, Top 100 9.4% |
+| Income $1M+ (both sexes) | `public.research_irs_soi_state_agi` (tax year 2023: agi_stub 9–10, mars1, mars4, n1, a00100); check `public.research_irs_soi_county` (agi_stub 8 = $200k+) | EST (IRS SOI 2023): TX 34.7% of unmarried $500k+ filers at $1M+ |
 
 ## Mapping table (men; women rows marked “women”)
 
@@ -308,9 +309,28 @@ App options used (Sandbox 2 s3y63): Distance slider stops 1–300 mi (35 stops, 
 
 | Option | Age band | % | Sources | Blend / note |
 |---|---|---|---|---|
-| Top 100 | all ages | 10.6 | NCES IPEDS completions 2008-09, 2015-16 x admissions | share of men's bachelor's degrees; Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke; Top 50/100 = most selective by admit rate (>=5,000 applicants) as a stand-in for a published ranking; applied to men who pass Degree |
-| Top 50 | all ages | 4.9 | NCES IPEDS completions 2008-09, 2015-16 x admissions | share of men's bachelor's degrees; Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke; Top 50/100 = most selective by admit rate (>=5,000 applicants) as a stand-in for a published ranking; applied to men who pass Degree |
-| Ivy+ | all ages | 1.4 | NCES IPEDS completions 2008-09, 2015-16 x admissions | share of men's bachelor's degrees; Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke; Top 50/100 = most selective by admit rate (>=5,000 applicants) as a stand-in for a published ranking; applied to men who pass Degree |
+| Top 100 | all ages | 10.9 | Supabase research_ipeds_admissions ranking (2016, 2023) x NCES IPEDS completions (classes of 2016, 2023) | share of men's bachelor's degrees; Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke; Top 50/100 = most selective by admit rate (>=5,000 applicants) as a stand-in for a published ranking; applied to men who pass Degree |
+| Top 50 | all ages | 4.9 | Supabase research_ipeds_admissions ranking (2016, 2023) x NCES IPEDS completions (classes of 2016, 2023) | share of men's bachelor's degrees; Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke; Top 50/100 = most selective by admit rate (>=5,000 applicants) as a stand-in for a published ranking; applied to men who pass Degree |
+| Ivy+ | all ages | 1.4 | Supabase research_ipeds_admissions ranking (2016, 2023) x NCES IPEDS completions (classes of 2016, 2023) | share of men's bachelor's degrees; Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke; Top 50/100 = most selective by admit rate (>=5,000 applicants) as a stand-in for a published ranking; applied to men who pass Degree |
+
+### Income (partner)
+
+| Option | Age band | % | Sources | Blend / note |
+|---|---|---|---|---|
+| $1M+ (share of $500k+, austin) | all ages | 34.6 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), TX unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 27.9% / women 23.8% |
+| $2M+ (share of $500k+, austin) | all ages | 12.8 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), TX unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 7.8% / women 5.7% |
+| $3M+ (share of $500k+, austin) | all ages | 7.1 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), TX unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 3.7% / women 2.4% |
+| $1M+ (share of $500k+, nyc) | all ages | 31.3 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), NY unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 27.9% / women 23.8% |
+| $2M+ (share of $500k+, nyc) | all ages | 11.9 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), NY unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 7.8% / women 5.7% |
+| $3M+ (share of $500k+, nyc) | all ages | 6.8 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), NY unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 3.7% / women 2.4% |
+| $1M+ (share of $500k+, la) | all ages | 29.9 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), CA unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 27.9% / women 23.8% |
+| $2M+ (share of $500k+, la) | all ages | 10.6 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), CA unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 7.8% / women 5.7% |
+| $3M+ (share of $500k+, la) | all ages | 5.8 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), CA unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 3.7% / women 2.4% |
+| $1M+ (share of $500k+, chi) | all ages | 30.9 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), IL unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 27.9% / women 23.8% |
+| $2M+ (share of $500k+, chi) | all ages | 11.5 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), IL unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 7.8% / women 5.7% |
+| $3M+ (share of $500k+, chi) | all ages | 6.4 | IRS SOI 2023 (Supabase research_irs_soi_state_agi), IL unmarried filers | EST (IRS SOI 2023): multiplies the PUMS $500k+ share; fitted curve alone = men 3.7% / women 2.4% |
+| $100k+ (among Bachelor's+) | 30-34 (Austin) | 38.1 | Census ACS 2020-24 PUMS | 100% ACS (direct) |
+| $100k+ (among Bachelor's+) | 45-49 (Austin) | 43.5 | Census ACS 2020-24 PUMS | 100% ACS (direct) |
 
 ### Education degree (partner)
 
@@ -318,10 +338,3 @@ App options used (Sandbox 2 s3y63): Distance slider stops 1–300 mi (35 stops, 
 |---|---|---|---|---|
 | Bachelor's+ | 30-34 (Austin) | 50.1 | Census ACS 2020-24 PUMS | 100% ACS (direct), single men in PUMAs within 30 mi |
 | Bachelor's+ | 45-49 (Austin) | 41.9 | Census ACS 2020-24 PUMS | 100% ACS (direct), single men in PUMAs within 30 mi |
-
-### Income (partner)
-
-| Option | Age band | % | Sources | Blend / note |
-|---|---|---|---|---|
-| $100k+ (among Bachelor's+) | 30-34 (Austin) | 38.1 | Census ACS 2020-24 PUMS | 100% ACS (direct) |
-| $100k+ (among Bachelor's+) | 45-49 (Austin) | 43.5 | Census ACS 2020-24 PUMS | 100% ACS (direct) |

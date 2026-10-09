@@ -202,7 +202,7 @@ function fit(){fitH1();const a=$('#app'),m=$('.main');let f=1;a.style.setPropert
 addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);
 $('#infoBtn').onclick=()=>{const w=document.createElement('div'); w.className='src-sheet';
   w.innerHTML=`<div class="src-back"></div><div class="src-panel"><div class="pe-top"><span class="pe-k">Sources &amp; method</span><button class="pe-x" type="button">CLOSE</button></div>
-  <div class="src-leg"><span><span class="bd b-acs">CENSUS</span>direct ACS count</span><span><span class="bd b-nhanes">CDC</span>direct NHANES</span><span><span class="bd b-pew">EST</span>blend of studies (intentions, kids, religion, politics, tier, $1M+ income)</span></div>
+  <div class="src-leg"><span><span class="bd b-acs">CENSUS</span>direct ACS count</span><span><span class="bd b-nhanes">CDC</span>direct NHANES</span><span><span class="bd b-pew">EST</span>blend of studies (intentions, kids, religion, politics, tier, $1M+ income from IRS SOI 2023)</span></div>
   <p>${E.SOURCES}</p><p style="margin-top:6px">Each step keeps: ${E.compute().steps.filter(s=>s.r.k&&!s.r.fixed).map(s=>s.r.name+' '+E.pct(s.keep)+(s.member!=null?' (IHBC '+E.pct(s.member)+')':'')).join(' · ')}.</p></div>`;
   const c=()=>w.remove(); document.body.appendChild(w); requestAnimationFrame(()=>w.classList.add('show'));
   w.querySelector('.src-back').onclick=w.querySelector('.pe-x').onclick=c;};
