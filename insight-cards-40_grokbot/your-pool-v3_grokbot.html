@@ -122,10 +122,10 @@ const SHORT={age:()=>'Age '+S.amin+'–'+S.amax,
   intent:()=>S.intent.length?all('intent','Looking for:'):'Looking for: any',
   kids:()=>!S.kids.length?'Want kids: any':S.kids.length===1&&S.kids[0]==='yes'?'Wants kids':all('kids','Want kids:'),
   height:()=>E.hL(),
-  edu:()=>E.optL('edu',S.edu)==='Any'?'Any degree':E.optL('edu',S.edu),
-  inc:()=>S.inc==='0'?'Any income':E.optL('inc',S.inc),
-  eth:()=>all('eth'), relig:()=>all('relig'), pol:()=>all('pol'), tier:()=>'Tier: '+E.optL('tier',S.tier),
-  haskids:()=>({no:'No kids',yes:'Has kids'})[S.haskids]};
+  edu:()=>S.edu.length?all('edu'):'Any degree',
+  inc:()=>S.inc.length?all('inc'):'Any income',
+  eth:()=>all('eth'), relig:()=>all('relig'), pol:()=>all('pol'), tier:()=>all('tier','Tier:'),
+  haskids:()=>S.haskids.length===1?({no:'No kids',yes:'Has kids'})[S.haskids[0]]:'Kids: any'};
 // two-line labels for narrow optional bands
 // band labels: every pick spelled out. Shrink type (11px -> 9px) to fit two lines; if still too long, allow a third line
 // when the band is tall enough (down to 8.5px). Clamping (…) is only a last resort and is reported by the fit check.
@@ -181,7 +181,7 @@ function openOptional(){
     ${opts.map(r=>{const s=by[r.rk], on=!E.isAny(r.k), multi=!!E.D[r.k].multi;
       return `<div class="op-blk"><div class="op-hd">${r.name}<span class="pe-badge src-${r.src}">${E.SRC[r.src]}</span><span class="res">${on?`<b>≈ ${E.fmt(s.n)}</b> · keeps ${pct(s.keep)}`:'any · no cut'}</span></div>${on&&s.member!=null?`<div class="pe-sm" style="margin:-2px 0 4px">${E.memLine(s)}</div>`:''}
       <div class="op-chips">${E.D[r.k].opts.map(([id,l])=>{const sel=multi?(id==='any'?!S[r.k].length:S[r.k].includes(id)):S[r.k]===id; return `<button type="button" class="op-chip${sel?' on':''}" data-k="${r.k}" data-id="${id}">${l}</button>`}).join('')}</div></div>`}).join('')}
-    <p class="pe-note">These are “Any” in your picks, so they don’t cut. Turn one on to add it after your ranked picks (Ethnicity, Religion and Politics take several). Your pool now: <b style="color:var(--lime)">≈ ${E.fmt(c.final)}</b>. Sources in ⓘ.</p>
+    <p class="pe-note">These are “Any” in your picks, so they don’t cut. Turn one on to add it after your ranked picks (each takes several picks; several count each group once). Your pool now: <b style="color:var(--lime)">≈ ${E.fmt(c.final)}</b>. Sources in ⓘ.</p>
     <button type="button" class="pe-done">Done — update pool</button></div>`;
     wrap.querySelectorAll('.op-chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k,id=b.dataset.id; if(E.D[k].multi){S[k]=id==='any'?[]:(S[k].includes(id)?S[k].filter(x=>x!==id):S[k].concat(id)); const it=E.D[k].opts.map(o=>o[0]).filter(x=>x!=='any'&&x!=='none'); if(it.every(x=>S[k].includes(x))) S[k]=[];} else S[k]=id; draw(); render();});
     wrap.querySelector('.pe-x').onclick=wrap.querySelector('.pe-done').onclick=wrap.querySelector('.pe-back').onclick=()=>E.close();
@@ -190,7 +190,7 @@ function openOptional(){
 }
 // shrink bands + result if the screen is shorter than expected, so nothing spills (headline never shrinks)
 function pickSub(){ const b=document.querySelector('.band.start .lb2.st b'), cy=b&&b.querySelector('.cty'); if(!cy) return;
-  const full=E.cityName(), sh=S.city==='all'?'All cities':full; cy.style.fontSize=''; cy.textContent=full;
+  const ids=E.cityIds(), full=E.cityName(), sh=ids.length===E.D.city.ORDER.length?'All cities':ids.length>1?ids.length+' cities':full; cy.style.fontSize=''; cy.textContent=full;
   const over=()=>b.scrollWidth>b.clientWidth+1;
   const px0=parseFloat(getComputedStyle(cy).fontSize); let px=px0; while(over()&&px>19){px-=1; cy.style.fontSize=px+'px';}
   if(over()){cy.textContent=sh; px=px0; cy.style.fontSize=''; while(over()&&px>16){px-=1; cy.style.fontSize=px+'px';}} }
@@ -201,7 +201,7 @@ function fit(){fitH1();const a=$('#app'),m=$('.main');let f=1;a.style.setPropert
 addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);
 $('#infoBtn').onclick=()=>{const w=document.createElement('div'); w.className='src-sheet';
   w.innerHTML=`<div class="src-back"></div><div class="src-panel"><div class="pe-top"><span class="pe-k">Sources &amp; method</span><button class="pe-x" type="button">CLOSE</button></div>
-  <div class="src-leg"><span><span class="bd b-acs">CENSUS</span>direct ACS count</span><span><span class="bd b-nhanes">CDC</span>direct NHANES</span><span><span class="bd b-pew">EST</span>blend of studies (intentions, kids, religion, politics, tier)</span></div>
+  <div class="src-leg"><span><span class="bd b-acs">CENSUS</span>direct ACS count</span><span><span class="bd b-nhanes">CDC</span>direct NHANES</span><span><span class="bd b-pew">EST</span>blend of studies (intentions, kids, religion, politics, tier, $1M+ income)</span></div>
   <p>${E.SOURCES}</p><p style="margin-top:6px">Each step keeps: ${E.compute().steps.filter(s=>s.r.k&&!s.r.fixed).map(s=>s.r.name+' '+E.pct(s.keep)+(s.member!=null?' (IHBC '+E.pct(s.member)+')':'')).join(' · ')}.</p></div>`;
   const c=()=>w.remove(); document.body.appendChild(w); requestAnimationFrame(()=>w.classList.add('show'));
   w.querySelector('.src-back').onclick=w.querySelector('.pe-x').onclick=c;};
