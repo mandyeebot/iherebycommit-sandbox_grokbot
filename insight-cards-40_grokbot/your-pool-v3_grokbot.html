@@ -178,12 +178,12 @@ function openOptional(){
   const draw=()=>{const c=E.compute(), by={}; c.steps.forEach(s=>by[s.r.rk]=s);
     wrap.innerHTML=`<div class="pe-back"></div><div class="pe-panel" role="dialog" aria-label="Unused preferences">
     <div class="pe-top"><span class="pe-k">Unused preferences</span><button type="button" class="pe-x">DONE</button></div>
-    ${opts.map(r=>{const s=by[r.rk], on=!E.isAny(r.k), multi=!!E.D[r.k].multi;
+    ${opts.map(r=>{const s=by[r.rk], on=!E.isAny(r.k), multi=!!E.D[r.k].multi;  /* single-select keys (tier) keep an array of one pick */
       return `<div class="op-blk"><div class="op-hd">${r.name}<span class="pe-badge src-${r.src}">${E.SRC[r.src]}</span><span class="res">${on?`<b>≈ ${E.fmt(s.n)}</b> · keeps ${pct(s.keep)}`:'any · no cut'}</span></div>${on&&s.member!=null?`<div class="pe-sm" style="margin:-2px 0 4px">${E.memLine(s)}</div>`:''}
       <div class="op-chips">${E.D[r.k].opts.map(([id,l])=>{const sel=multi?(id==='any'?!S[r.k].length:S[r.k].includes(id)):S[r.k]===id; return `<button type="button" class="op-chip${sel?' on':''}" data-k="${r.k}" data-id="${id}">${l}</button>`}).join('')}</div></div>`}).join('')}
-    <p class="pe-note">These are “Any” in your picks, so they don’t cut. Turn one on to add it after your ranked picks (each takes several picks; several count each group once). Your pool now: <b style="color:var(--lime)">≈ ${E.fmt(c.final)}</b>. Sources in ⓘ.</p>
+    <p class="pe-note">These are “Any” in your picks, so they don’t cut. Turn one on to add it after your ranked picks (Education tier takes one, a minimum; the others take several, each group counted once). Your pool now: <b style="color:var(--lime)">≈ ${E.fmt(c.final)}</b>. Sources in ⓘ.</p>
     <button type="button" class="pe-done">Done — update pool</button></div>`;
-    wrap.querySelectorAll('.op-chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k,id=b.dataset.id; if(E.D[k].multi){S[k]=id==='any'?[]:(S[k].includes(id)?S[k].filter(x=>x!==id):S[k].concat(id)); const it=E.D[k].opts.map(o=>o[0]).filter(x=>x!=='any'&&x!=='none'); if(it.every(x=>S[k].includes(x))) S[k]=[];} else S[k]=id; draw(); render();});
+    wrap.querySelectorAll('.op-chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k,id=b.dataset.id; if(E.D[k].single){S[k]=id==='any'?[]:[id];} else if(E.D[k].multi){S[k]=id==='any'?[]:(S[k].includes(id)?S[k].filter(x=>x!==id):S[k].concat(id)); const it=E.D[k].opts.map(o=>o[0]).filter(x=>x!=='any'&&x!=='none'); if(it.every(x=>S[k].includes(x))) S[k]=[];} else S[k]=id; draw(); render();});
     wrap.querySelector('.pe-x').onclick=wrap.querySelector('.pe-done').onclick=wrap.querySelector('.pe-back').onclick=()=>E.close();
   };
   draw(); document.body.appendChild(wrap); requestAnimationFrame(()=>wrap.classList.add('show'));

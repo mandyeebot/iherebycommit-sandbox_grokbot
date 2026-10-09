@@ -1,7 +1,9 @@
 /* Shared logic for Your Pool variants (sandbox mockups), v6. Uses window.POOL_REAL.
    Every EDIT sheet mirrors the IHereByCommit Sandbox 2 (k5-s3y63) partner-preference input for that question (wording, options, order).
    RULE (Amanda, Oct 9): every partner preference is MULTI-SELECT (what you're looking for); only your own answers are single-choice.
-   Each option maps to mutually exclusive survey groups; several picks count each group once (ordered ones like degree / income: the union = the lowest level picked).
+   EXCEPTION (Amanda, Oct 9): minimum-style 'X or more' options are SINGLE-select: Income (minimum income), Degree (minimum degree) and School tier
+   (nested Top 100 > Top 50 > Ivy+). A pick = at least this; Any / None Stated = no cut. Height and Age are ranges (one answer).
+   Each option maps to mutually exclusive survey groups; several picks count each group once. Minimum-style ones (income, degree, tier) are single-select, kept as a one-item array.
    Seeking: men, women or both (both = men + women; the two never overlap). Every rate is sex-specific (see pool_edit_inputs_grokbot.md).
    City (with distance) is the first band, Age the second; both editable. No ZIP/address stored or shown.
    MEMBER RATES HOOK: once real IHereByCommit signups reach D.members.threshold (1,000), every step also shows the members' own rate next to the study rate.
@@ -71,12 +73,12 @@ const NOTES={
  intent:'EST. Pew ATP W111 (Jul 2022) splits unmarried men (and, for women, unmarried women; Supabase research_pew_w111) into exclusive groups: in a relationship / not looking / casual only / open to casual or committed / committed only; the two committed groups are split by want-to-marry (30–49: 51% = Pew 2025 49%×0.4 + AEI 2021 56%×0.4 + SIA 2026 44.6%×0.2) and, of the rest, 43% would take a life partner without marriage (SIA 2026). Each option counts the groups that would pick it; several options add their groups once (no double counting). Any = every single person not already in a relationship. Women use the same want-to-marry blend (no by-sex source stored)',
  kids:'EST. CDC NSFG 2022–23 unmarried men (wants kids: yes / no / don’t know), blended with Pew 2023 (men 18–34 without kids: 57% / 15% / 28% not sure) at weight 0.4 under 35 and 0.2 at 35–39; women: NSFG 2022–23 female respondents alone. 50–54 carries 45–49, older ages scaled down (NSFG stops at 49). Three exclusive groups: Yes, No, Not sure (Not sure stands in for “open to either”). Yes = yes + not sure (anyone who wants kids or is open to them); No = no; Open to either = yes + no + not sure; Unsure = not sure. Several options add their groups once',
  height:'CDC. NHANES measured heights (men: Aug 2021–Aug 2023 and 2017–Mar 2020, averaged; women: CDC/NCHS anthropometric reference percentiles, 2018 and 2023 editions, from Supabase), by sex and age, by inch like the site slider (4’10”–7’0”)',
- edu:'CENSUS. ACS 2020–24 PUMS: single men / women in this city area, by age. Doctorate+ includes professional degrees (MD, JD). Several picks = the lowest level picked (each person once). None Stated = no degree cut (the census has no “not stated”)',
- inc:'CENSUS. ACS 2020–24 PUMS personal income, among single men / women in this area who pass Degree. Several picks = the lowest level picked. $500k+ rests on small samples. $1M+, $2M+, $3M+ are EST: the Census top-codes the highest incomes, so we extend the $300k–$500k tail as a Pareto curve (share above X = share above $500k × (500k/X)^a; a = '+D.inc.alpha.m+' men, '+D.inc.alpha.f+' women, fitted to single adults 21–80 in your 6 states). None Stated = no income cut',
+ edu:'CENSUS. ACS 2020–24 PUMS: single men / women in this city area, by age. Doctorate+ includes professional degrees (MD, JD). Single select (a minimum degree, like the site’s dropdown). Any or None Stated = no degree cut (the census has no “not stated”)',
+ inc:'CENSUS. ACS 2020–24 PUMS personal income, among single men / women in this area who pass Degree. Single select (the site’s minimum-income dropdown): a pick means at least that much. $500k+ rests on small samples. $1M+, $2M+, $3M+ are EST: the Census top-codes the highest incomes, so we extend the $300k–$500k tail as a Pareto curve (share above X = share above $500k × (500k/X)^a; a = '+D.inc.alpha.m+' men, '+D.inc.alpha.f+' women, fitted to single adults 21–80 in your 6 states). None Stated = no income cut',
  eth:'CENSUS. ACS 2020–24 PUMS race and Hispanic origin among single men / women who pass Degree and Income (MENA from ancestry, South Asian from detailed race); exclusive groups, so picks add up. Non-Hispanic except Hispanic / Latino; Other = some other race or two or more races. None Stated adds no one (everyone in the census has a race)',
  haskids:'EST. CDC NSFG 2022–23: unmarried men (no biological child) / women (no birth) with or without a child, within the Want kids groups you accept. 50+ carries 45–49 (NSFG stops at 49)',
  relig:'EST. GSS 2018–2024 pooled, unmarried men / women by sex, weighted (n=356–712 per age group for men); exclusive groups, so picks add up. Jewish, Muslim, Buddhist and Hindu averaged 50/50 with Pew RLS 2023–24 shares (small GSS samples). No religion is split Atheist 5 : Agnostic 6 : nothing in particular 19 (Pew RLS), and nothing in particular goes half to Spiritual, half to Other (assumption). Sikh 0.2% (Pew RLS). None Stated adds no one. National',
- tier:'EST. NCES IPEDS: share of U.S. men’s (or women’s) bachelor’s degrees (classes of 2009 and 2016, averaged). Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke: 1.4%. Top 50 / Top 100 = the 50 / 100 most selective colleges by admit rate (4.9% / 10.6%), standing in for a published ranking. Women: 1.1% / 4.0% / 9.3%. Several picks = the widest tier picked. Applied to people who pass Degree; a tier implies a bachelor’s, so Income and Ethnicity then use Bachelor’s+ mixes; national',
+ tier:'EST. NCES IPEDS: share of U.S. men’s (or women’s) bachelor’s degrees (classes of 2009 and 2016, averaged). Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke: 1.4%. Top 50 / Top 100 = the 50 / 100 most selective colleges by admit rate (4.9% / 10.6%), standing in for a published ranking. Women: 1.1% / 4.0% / 9.3%. Single select (Top 100 includes Top 50 and Ivy+). Applied to people who pass Degree; a tier implies a bachelor’s, so Income and Ethnicity then use Bachelor’s+ mixes; national',
  pol:'EST. GSS 2018–2024 pooled, unmarried men / women by sex, weighted, 7-point scale: 1–2 (extremely) liberal = Left, 3 slightly liberal = Left-leaning, 4 = Moderate, 5 slightly conservative = Right-leaning, 6–7 = Right; no answer / don’t know (about 2%) stands in for Apolitical. Exclusive groups, so picks add up. None Stated adds no one. National'};
 const PF={intent:1.42,kids:1.28,height:1.06,edu:1.33,inc:1.21,eth:1,haskids:1.08,relig:.92,tier:1.7,pol:1.18}; // PREVIEW ONLY: fake member multipliers
 // context for rate(): sex ('m'/'f') and the city whose mix applies
@@ -84,7 +86,7 @@ const CX={sx:'m',c:'austin'};
 const TB=sx=>sx==='m'?{cells:D.intent.cells,kids:D.kids.rate,nok:D.haskids.nok,hcdf:D.height.cdf,tier:D.tier.share,relig:D.relig.rate,pol:D.pol.rate}:D.F;
 const pums=()=>D.city.pums[CX.sx][CX.c];
 const ordIdx=(k,id)=>D[k].opts.findIndex(o=>o[0]===id);
-// ordered multi-select: union of 'X or more' levels = the lowest level picked; None Stated (or nothing) = no cut
+// minimum-style 'X or more' keys (single-select, one-item array): the pick; None Stated (or nothing) = no cut
 const lowest=k=>{const a=S[k]; if(!a.length||a.includes('none')) return null; return a.slice().sort((x,y)=>ordIdx(k,x)-ordIdx(k,y))[0];};
 const eduK=()=>lowest('edu')||'any', incK=()=>lowest('inc')||'0';
 // a School tier pick means a bachelor's degree, so income and ethnicity mixes use at least Bachelor's+ when a tier is picked
@@ -149,7 +151,7 @@ const pct=k=>k>=0.995?'100%':k<0.01?'<1%':Math.round(k*100)+'%';
 function memLine(st){return st&&st.member!=null?`IHBC members ${pct(st.member)} · studies ${pct(st.keep)}${MEM.preview?' · PREVIEW':''}`:'';}
 function tryVal(k,v){const prev=S[k]; S[k]=v; const n=compute().final; S[k]=prev; return n;}
 function tryMany(o){const prev={}; for(const k in o){prev[k]=S[k]; S[k]=o[k];} const c=compute(); for(const k in prev) S[k]=prev[k]; return c;}
-const SOURCES='<b>YOUR REAL PREFERENCES</b> from your Oct 7, 2026 signup (6:24 PM CT; your most complete single signup), in your What Matters Most order. Every EDIT is the Sandbox 2 preferences input for that question (same wording and options). Every partner preference takes several picks (your own answers take one); several picks count each group once, and for ordered ones (degree, income) the lowest level picked. Seeking men, women or both: every step uses that sex’s rates; both = men + women. No signup has partner Intentions or Want kids saved, so your own answers stand in for them; Ethnicity, Have kids, Religion and Politics aren’t saved (Any); Education tier has no saved field yet. Counts are our estimates, not a live dating pool. Badges: <b>CENSUS</b> = direct ACS count, <b>CDC</b> = direct NHANES, <b>EST</b> = our blend of studies. '+
+const SOURCES='<b>YOUR REAL PREFERENCES</b> from your Oct 7, 2026 signup (6:24 PM CT; your most complete single signup), in your What Matters Most order. Every EDIT is the Sandbox 2 preferences input for that question (same wording and options). Partner preferences take several picks (Looking for, Want kids, Have kids, Ethnicity, Religion, Politics, Seeking, cities) except the minimum-style ones, which take one like the site’s dropdowns: Income, Degree and School tier (a pick = at least this). Your own answers take one; several picks count each group once. Seeking men, women or both: every step uses that sex’s rates; both = men + women. No signup has partner Intentions or Want kids saved, so your own answers stand in for them; Ethnicity, Have kids, Religion and Politics aren’t saved (Any); Education tier has no saved field yet. Counts are our estimates, not a live dating pool. Badges: <b>CENSUS</b> = direct ACS count, <b>CDC</b> = direct NHANES, <b>EST</b> = our blend of studies. '+
  '<b>How options add up:</b> each question’s survey answers are split into groups of people that don’t overlap; each site option counts the groups that would match it, and picking several counts each group once. No 50/50 splits. '+
  '<b>City + distance:</b> '+NOTES.city.slice(8)+'. <b>Age:</b> '+NOTES.age.slice(8)+'. <b>Intentions (EST):</b> '+NOTES.intent.slice(5)+'. <b>Want kids (EST):</b> '+NOTES.kids.slice(5)+'. <b>Height (CDC):</b> '+NOTES.height.slice(5)+'. <b>Degree, Income (CENSUS):</b> ACS 2020–24 PUMS, single men / women in the same area and age, counted together; $1M+ and up are EST (top-coded tail, Pareto). '+
  '<b>Unused until you turn them on:</b> Ethnicity (CENSUS, ACS PUMS); Have kids (EST, NSFG, within your Want kids groups); Religion (EST, GSS + Pew RLS); Education tier (EST, NCES IPEDS); Politics (EST, GSS 7-point). '+
@@ -238,6 +240,11 @@ function openEdit(k,onChange){
     return h;};
   const ESTN={'1m':1,'2m':1,'3m':1};
   // multi-select list for one preference key (row numbers: + = pool if you add that pick, − = pool if you remove it)
+  // single-select list (Income): each row = final pool if that option is the pick
+  const slist=(kk,title)=>{const cur=S[kk][0]||'any';
+    return `<label class="pf-lab">${title} <span class="pf-hint">(pick one · at least this · numbers = your pool with that pick)</span></label><div class="pf-list" data-sk="${kk}">${D[kk].opts.map(([id,l])=>{
+      const lab=l+(kk==='inc'&&ESTN[id]?'<span class="pf-tag est">EST</span>':''), on=cur===id;
+      return opt(id,lab,on,'round',(on?'<span class="pf-in">in</span> ':'')+(id==='any'||id==='none'?'no cut · ':'')+'≈ '+fmtR(tryVal(kk,id==='any'?[]:[id])));}).join('')}</div>`;};
   const mlist=(kk,title)=>{const cur=S[kk], nxt=id=>{let v=cur.includes(id)?cur.filter(x=>x!==id):cur.concat(id); if(RACE_PANEL[kk]){const it=D[kk].opts.map(o=>o[0]).filter(x=>x!=='any'&&x!=='none'); if(it.every(x=>v.includes(x))) v=[];} return v;};
     return `<label class="pf-lab">${title||ASK[kk][0]} <span class="pf-hint">(pick any · numbers = your pool if you add <b>+</b> or remove <b>−</b> that pick)</span></label><div class="pf-list" data-mk="${kk}">${D[kk].opts.map(([id,l])=>{
       const lab=l+(kk==='inc'&&ESTN[id]?'<span class="pf-tag est">EST</span>':'');
@@ -267,9 +274,9 @@ function openEdit(k,onChange){
       body=`<label class="pf-lab">Height</label>${dual('height',H0,H1,Math.max(H0,S.hmin),Math.min(H1,S.hmax),fmtIn)}
         <div class="pf-list">${opt('sig',`${fmtIn(D.sel.hmin)}–${fmtIn(D.sel.hmax)}<span class="pf-tag sig">signup</span>`,S.hmin===D.sel.hmin&&S.hmax===D.sel.hmax,'round')}${opt('any','Any height',S.hmin<=H0&&S.hmax>=H1,'round')}</div>`;
     } else if(k==='edu'||k==='tier'){
-      body=mlist('edu','Degree')+`<p class="pf-flag">Several degrees = the lowest one picked (Bachelor’s+ already includes Master’s+). None Stated = no degree cut.</p>`+learn('edu')+mlist('tier','School tier')+`<p class="pf-flag">Several tiers = the widest one picked (Top 100 includes Top 50 and Ivy+).</p>`+learn('tier');
+      body=slist('edu','Degree')+`<p class="pf-flag">One pick, a minimum degree: Bachelor’s+ already includes Master’s+ and Doctorate+. Any or None Stated = no degree cut.</p>`+learn('edu')+slist('tier','School tier')+`<p class="pf-flag">One pick: Top 100 already includes Top 50 and Ivy+.</p>`+learn('tier');
     } else if(k==='inc'){
-      body=mlist('inc','Income')+`<p class="pf-flag">Several levels = the lowest one picked. <b>$1M+, $2M+, $3M+ are EST</b>: the Census top-codes the highest incomes, so these extend the $300k–$500k curve (Pareto). None Stated = no income cut.</p>`+learn('inc');
+      body=slist('inc','Income')+`<p class="pf-flag">One pick, like the site’s minimum-income dropdown: a pick means at least that much. <b>$1M+, $2M+, $3M+ are EST</b>: the Census top-codes the highest incomes, so these extend the $300k–$500k curve (Pareto). None Stated = no income cut.</p>`+learn('inc');
     } else { // multi-select lists: intent, kids, haskids (WMM lists) and eth / relig / pol (race panels)
       body=mlist(k);
       if(k==='kids') body+=`<p class="pf-flag"><b>Yes</b> = people who want kids + people open to either (the survey’s Not sure); <b>No</b> = people who don’t want kids (Not sure is not counted); <b>Open to either</b> = all three groups; <b>Unsure</b> = Not sure only. Each group counts once. Checked boxes are your own answer until partner picks are saved.</p>`;
@@ -307,8 +314,9 @@ function openEdit(k,onChange){
     const oc=wrap.querySelector('#pf-other'); if(oc) oc.onchange=()=>{S.city=oc.checked?D.city.ORDER.slice():[D.city.home]; build(); ch();};
     const lm=wrap.querySelector('[data-lm]'); if(lm) lm.onclick=()=>{lmOpen=!lmOpen; build(); const p=wrap.querySelector('.pf-lmp'); if(p) p.scrollIntoView({block:'nearest'});};
     wrap.querySelectorAll('.race-opt[data-id]:not([disabled])').forEach(b=>b.onclick=()=>{const id=b.dataset.id, mk=(b.closest('[data-mk]')||{}).dataset;
-      const kk=mk&&mk.mk;
-      if(kk==='city'){const a=cityIds(); S.city=a.includes(id)?a.filter(x=>x!==id):a.concat(id); if(!S.city.length) S.city=[D.city.home];}
+      const kk=mk&&mk.mk, sk=(b.closest('[data-sk]')||{dataset:{}}).dataset.sk;
+      if(sk) S[sk]=id==='any'?[]:[id];
+      else if(kk==='city'){const a=cityIds(); S.city=a.includes(id)?a.filter(x=>x!==id):a.concat(id); if(!S.city.length) S.city=[D.city.home];}
       else if(k==='age'){const [a,z]=id.split('-').map(Number); S.amin=a; S.amax=z;}
       else if(k==='height'){if(id==='any'){S.hmin=H0; S.hmax=H1;} else {S.hmin=D.sel.hmin; S.hmax=D.sel.hmax;}}
       else if(kk){ // multi: Any is exclusive; picking anything else clears Any; empty = Any

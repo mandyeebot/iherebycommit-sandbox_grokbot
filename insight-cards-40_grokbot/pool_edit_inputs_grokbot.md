@@ -2,10 +2,10 @@
 
 ## THE RULE (Amanda, Oct 9 2026)
 **Every partner preference (what you're looking for) is multi-select; only your own answers are single-choice.**
+**Exception (Amanda, Oct 9): every minimum-style "X or more" preference is single-select** — Income (minimum income, like the site's dropdown), Degree (minimum degree) and School tier (nested: Top 100 ⊃ Top 50 ⊃ Ivy+). A pick means "at least this"; Any or None Stated = no cut; each row shows the final pool for that pick. (Ticking Bachelor's+ and Master's+ together made the − / + row numbers look like the pool wasn't growing, because Bachelor's+ already contains Master's+.) Height and Age are ranges, so one answer each.
+
 Each pick maps to non-overlapping survey groups, and several picks count each group once:
 - Unordered lists (Looking for, Want kids, Have kids, Ethnicities, Religion, Politics, Seeking, Partner cities): the union of the picked groups.
-- Ordered "X or more" levels (Degree, Income): the union is the **lowest level picked** (Bachelor's+ already contains Master's+).
-- School tier (nested: Top 100 ⊃ Top 50 ⊃ Ivy+): the **widest tier picked**.
 - Have kids Yes + No = no cut. Seeking Men + Women = Both. Nothing picked = Any (no cut); for Partner cities, nothing = home (Austin).
 - None Stated: adds no one on Ethnicity / Religion / Politics (no "not stated" group in the surveys); on Degree / Income it means no cut (as in v5).
 
@@ -22,9 +22,9 @@ Source (read only): `/workspace/k5-split_grokbot/sandbox-repo/k5-s3y63-sandbox2_
 | Want kids | Should they want kids? | Any, Yes, No, Open to either, Unsure | single on the site | **Multi.** Yes = yes + not sure (Amanda: only yes or open to either count; Not sure stands in for open to either). No = no. Open to either = yes + no + not sure. Unsure = not sure. Learn more: NSFG vs Pew. |
 | Have kids | Can they already have kids? | Any, Yes, No | single | **Multi** (Yes + No = no cut). |
 | Height | How tall should they be? | 4’10”–7’0” | dual slider | Same (a range is one answer). |
-| Degree | How much education should they have? | Any, High school+ … Doctorate+, None Stated | select | **Multi list**: lowest level picked. |
-| School tier | (education sheet) | Any tier, Top 100, Top 50, Ivy+ | select | **Multi list**: widest tier picked. Learn more: IPEDS 2009 vs 2016. |
-| Income | How much should they earn? | Any, $25k+ … $500k+, $1M+, $2M+, $3M+, None Stated | select | **Multi list**, every option enabled. $1M+ / $2M+ / $3M+ tagged EST (Pareto tail; the band badge turns EST). |
+| Degree | How much education should they have? | Any, High school+ … Doctorate+, None Stated | select | **Single select** (minimum degree; radio rows, each with the final pool). |
+| School tier | (education sheet) | Any tier, Top 100, Top 50, Ivy+ | select | **Single select** (Top 100 includes Top 50 and Ivy+). Learn more: IPEDS 2009 vs 2016. |
+| Income | How much should they earn? | Any, $25k+ … $500k+, $1M+, $2M+, $3M+, None Stated | select | **Single select** (radio rows, each with the final pool), every option enabled. $1M+ / $2M+ / $3M+ tagged EST (Pareto tail; the band badge turns EST). |
 | Ethnicities | Which ethnicities are you open to? | Any, White … Other, None Stated | multi (race panel) | Same rules. |
 | Religion | Which religions are you open to? | Any, Agnostic … Other, None Stated | multi (race panel) | Same rules. Learn more: GSS vs Pew RLS. |
 | Politics | Politics | Any, Left … Apolitical, None Stated | multi (race panel) | Same rules (single source: GSS). |
@@ -40,7 +40,7 @@ Source (read only): `/workspace/k5-split_grokbot/sandbox-repo/k5-s3y63-sandbox2_
 - A School tier pick implies a bachelor's degree, so Income and Ethnicity use Bachelor's+ mixes when a tier is picked (keeps widening Degree from lowering the pool).
 - Several cities: tract counts are stored per exact covering pattern; a tract near several picked cities uses the city mix that keeps the most people, so adding a city never lowers the pool.
 - **Learn more** (every EST sheet): one row per source with year, base, its own %, its weight, and the pool if that source were used alone (ages it doesn't cover keep the blend), then the Blended row = what you see. Single-source steps say so.
-- Monotonic check: `pool_monotonic_check_grokbot.js` tries every subset of Seeking, Partner cities, Looking for, Want kids, Have kids, Degree, School tier, Income, Ethnicity, Religion and Politics in 9 contexts (men, women, both, several cities). Adding a pick never lowers the step share or the final pool.
+- Monotonic check: `pool_monotonic_check_grokbot.js` tries every subset of Seeking, Partner cities, Looking for, Want kids, Have kids, Ethnicity, Religion and Politics in 9 contexts (Income, Degree and School tier skipped: single-select minimums). `pool_row_numbers_check_grokbot.js` checks every + / − row number on those multi-select sheets (with picks in place, + never below the pool, − never above) (men, women, both, several cities). Adding a pick never lowers the step share or the final pool.
 
 ## Option → groups → % kept at her age band (31–54, Austin 30 mi), men and women
 Each % is the share the option keeps at that step with other preferences Any (Ethnicity among Bachelor’s+ $100k+; Tier among Bachelor’s+; Have kids within Want kids = Yes).
