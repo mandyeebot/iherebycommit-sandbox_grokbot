@@ -79,7 +79,7 @@ function trap(top,bot){const a=(100-top)/2,b=(100-bot)/2;return `polygon(${a}% 0
 function render(){
   const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0;
   const w0=96;
-  h+=`<div class="cap"><span class="rk" style="color:${HUES[0][0]}">GO</span><span class="tx">${E.cityName()}: single men 21–80 within ${E.S.radius==="any"?"any distance":E.S.radius+" mi"} <span class="bdg src-acs">CENSUS</span><small>03 City &amp; distance</small></span></div>
+  h+=`<div class="cap"><span class="rk" style="color:${HUES[0][0]}">GO</span><span class="tx">${E.seekL()}: ${E.startSub()} <span class="bdg src-acs">CENSUS</span><small>Seeking · 03 City &amp; distance</small></span></div>
       <div class="band" style="clip-path:${trap(100,w0)};background:linear-gradient(90deg,${HUES[0][0]},${HUES[0][1]})"><span class="cnt">${E.fmt(start)}</span></div>`;
   prevW=w0; ci=1;
   steps.forEach(s=>{const r=s.r;

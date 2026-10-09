@@ -89,7 +89,7 @@ const E=PoolEngine, $=s=>document.querySelector(s);
 const NEON=['#2ef2ff','#ff3df2','#ffe600','#c8f135','#ff8c1a','#9d6bff'];
 function render(){
   const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0, lv=0;
-  h+=`<div class="cap"><span class="lv px" style="color:${NEON[0]}">P1</span><span class="tx">${E.cityName()}: single men 21–80 within ${E.S.radius==="any"?"any distance":E.S.radius+" mi"} <span class="bdg src-acs">CENSUS</span><small>LV 03 City &amp; distance</small></span></div>
+  h+=`<div class="cap"><span class="lv px" style="color:${NEON[0]}">P1</span><span class="tx">${E.seekL()}: ${E.startSub()} <span class="bdg src-acs">CENSUS</span><small>LV Seeking · 03 City &amp; distance</small></span></div>
       <div class="lvl" style="width:100%;color:${NEON[0]};border-color:${NEON[0]};box-shadow:0 0 10px ${NEON[0]},inset 0 0 10px ${NEON[0]}55"><span class="cnt">${E.fmt(start)}</span></div>`;
   ci=1;
   steps.forEach(s=>{const r=s.r;

@@ -17,6 +17,12 @@ const optL=(k,id)=>{const o=D[k].opts.find(o=>o[0]===id); return o?o[1]:id};
 const multiL=(k,short)=>{const a=S[k]; if(!a.length) return k==='intent'?'Any single':'Any'; const l=a.map(id=>optL(k,id)); return a.length===1?l[0]:(short?l[0]+' +'+(a.length-1):l.join(', '))};
 const hL=()=>{const p=D.height.presets.find(p=>p[0]===S.hmin&&p[1]===S.hmax); if(p) return p[2]; const f=i=>i<=0?'Any':`${Math.floor(i/12)}′${i%12}″`; return f(S.hmin)+'–'+f(S.hmax)};
 const cityName=()=>D.city.names[S.city];
+// Seeking (mirrors the app's I'm seeking: men / women / everyone). Counts are built for men only, so men is the default and the only data today.
+if(!S.seek) S.seek='men';
+const SEEK={men:['MALE','single men'],women:['FEMALE','single women'],everyone:['EVERYONE','singles']};
+const seekL=()=>(SEEK[S.seek]||SEEK.men)[0], seekN=()=>(SEEK[S.seek]||SEEK.men)[1];
+const distL=()=>S.radius==='any'?'any distance':'≤'+S.radius+' mi';
+const startSub=()=>seekN()+' 21–80 · '+cityName()+' '+distL();
 const MEM={threshold:D.members.threshold,count:D.members.count,asOf:D.members.asOf,rates:D.members.rates,preview:false};
 if(Q.get('members')==='1'){MEM.preview=true; MEM.count=1240;}
 const memOn=()=>MEM.count>=MEM.threshold;
@@ -138,5 +144,5 @@ function openEdit(k,onChange){
   draw(); document.body.appendChild(wrap); requestAnimationFrame(()=>wrap.classList.add('show'));
 }
 function close(){const w=document.getElementById('pe-sheet'); if(w) w.remove();}
-window.PoolEngine={D,S,ROWS,SRC,NOTES,SOURCES,compute,width,openEdit,close,fmt,pct,memLine,memOn,setMembers,MEM,optL,multiL,hL,isAny,tryVal,cityName};
+window.PoolEngine={D,S,ROWS,SRC,NOTES,SOURCES,compute,width,openEdit,close,fmt,pct,memLine,memOn,setMembers,MEM,optL,multiL,hL,isAny,tryVal,cityName,seekL,seekN,startSub};
 })();

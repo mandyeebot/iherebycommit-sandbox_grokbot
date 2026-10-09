@@ -30,6 +30,7 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 #funnel{filter:drop-shadow(0 0 8px rgba(200,241,53,.28)) drop-shadow(0 0 14px rgba(255,122,47,.2))}
 .band{--bh:calc(clamp(34px,7.3dvh,54px)*var(--fit));position:relative;height:var(--bh);margin:0 auto calc(4px*var(--fit));display:flex;align-items:center;gap:6px;color:var(--k);cursor:pointer}
 .band .lb2{display:flex;flex-direction:column;min-width:0;line-height:1.15}.band .lb2 b{font-size:12px;font-weight:700;white-space:nowrap}.band .lb2 small{font-size:10px;letter-spacing:-.02em;white-space:nowrap;opacity:.8}
+.band .lb2.st b{display:flex;align-items:center;gap:6px;font-size:13px;letter-spacing:.06em}.band .lb2.st small{font-size:10px}
 .band .rk{font-family:'Bebas Neue',sans-serif;font-size:17px;line-height:1;opacity:.55;width:17px;flex-shrink:0}
 .band .lb{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .band .sp{flex:1}
@@ -133,7 +134,7 @@ function render(){
   const ml=$('#memleg'); ml.hidden=!mem; if(mem) ml.innerHTML=`${C.members.preview?'<i>PREVIEW</i>':''}% kept: <b>IHBC members</b> · studies`;
   const W=n=>72+28*Math.max(0,Math.min(1,Math.log(n/40)/Math.log(start/40)));
   let h='', prev=100; const n=cuts.length;
-  h+=`<div class="band start" data-k="city" role="button" aria-label="Change city or distance" style="width:100%;clip-path:${trap(100,97)};background:linear-gradient(90deg,var(--ow),var(--lime));padding:0 12px"><span class="rk">03</span><span class="lb2"><b>${cityName}</b><small>${S.radius==='any'?'any distance':'≤'+S.radius+' mi'} · 21–80</small></span><span class="bd b-acs">${E.SRC.acs}</span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(start)}</span><span class="pc">start</span></span><button class="ed" type="button" data-k="city">EDIT</button></div>`;
+  h+=`<div class="band start" data-k="city" role="button" aria-label="Seeking male: change city or distance" style="width:100%;clip-path:${trap(100,97)};background:linear-gradient(90deg,var(--ow),var(--lime));padding:0 12px"><span class="lb2 st"><b>${E.seekL()} <span class="bd b-acs">${E.SRC.acs}</span></b><small>${E.startSub()}</small></span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(start)}</span><span class="pc">start</span></span><button class="ed" type="button" data-k="city">EDIT</button></div>`;
   prev=97;
   const step=(97-72)/Math.max(n,1);
   cuts.forEach((s,i)=>{const r=s.r, w=Math.max(72,Math.min(prev-Math.min(3,step),W(s.n))), t=(i+1)/n;
@@ -152,7 +153,7 @@ function render(){
   }
   u.onclick=openOptional;
   $('#big').textContent='≈'+E.fmt(final);
-  $('#spoutp').innerHTML=`match everything you picked<br><b>${cum(final/start*100)}</b> of ${E.fmt(start)} single men`+(mem?`<br>${C.members.preview?'PREVIEW · ':''}${E.fmt(C.members.count)} IHBC members`:'');
+  $('#spoutp').innerHTML=`match everything you picked<br><b>${cum(final/start*100)}</b> of ${E.fmt(start)} ${E.seekN()}`+(mem?`<br>${C.members.preview?'PREVIEW · ':''}${E.fmt(C.members.count)} IHBC members`:'');
   document.querySelectorAll('.band[data-k]').forEach(b=>b.onclick=()=>E.openEdit(b.dataset.k,render));
   fit();
 }
@@ -174,8 +175,10 @@ function openOptional(){
   draw(); document.body.appendChild(wrap); requestAnimationFrame(()=>wrap.classList.add('show'));
 }
 // shrink bands + result if the screen is shorter than expected, so nothing spills (headline never shrinks)
+function pickSub(){ const sm=document.querySelector('.band.start small'); if(sm){ const c=S.city==='all'?'All cities':E.cityName(), d=S.radius==='any'?'any dist':'≤'+S.radius+' mi';
+    for(const t of [E.startSub(), E.seekN()+' 21–80 · '+c+' '+d, E.seekN().replace('single ','')+' 21–80 · '+c+' '+d]){ sm.textContent=t; if(sm.scrollWidth<=sm.clientWidth+1) break; } } }
 function fit(){const a=$('#app'),m=$('.main');let f=1;a.style.setProperty('--fit',1);
-  while(f>0.5&&(m.scrollHeight>m.clientHeight+1)){f-=0.03;a.style.setProperty('--fit',f.toFixed(2));}}
+  while(f>0.5&&(m.scrollHeight>m.clientHeight+1)){f-=0.03;a.style.setProperty('--fit',f.toFixed(2));} pickSub();}
 addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);
 $('#infoBtn').onclick=()=>{const w=document.createElement('div'); w.className='src-sheet';
   w.innerHTML=`<div class="src-back"></div><div class="src-panel"><div class="pe-top"><span class="pe-k">Sources &amp; method</span><button class="pe-x" type="button">CLOSE</button></div>
