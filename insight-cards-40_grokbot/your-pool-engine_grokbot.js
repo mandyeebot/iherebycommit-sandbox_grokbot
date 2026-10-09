@@ -17,6 +17,12 @@ const optL=(k,id)=>{const o=D[k].opts.find(o=>o[0]===id); return o?o[1]:id};
 const multiL=(k,short)=>{const a=S[k]; if(!a.length) return k==='intent'?'Any single':'Any'; const l=a.map(id=>optL(k,id)); return a.length===1?l[0]:(short?l[0]+' +'+(a.length-1):l.join(', '))};
 const hL=()=>{const p=D.height.presets.find(p=>p[0]===S.hmin&&p[1]===S.hmax); if(p) return p[2]; const f=i=>i<=0?'Any':`${Math.floor(i/12)}′${i%12}″`; return f(S.hmin)+'–'+f(S.hmax)};
 const cityName=()=>D.city.names[S.city];
+// Header name: the signup's first name (D.user.first) as a possessive with a curly apostrophe; '' = fall back to YOUR POOL
+const firstName=()=>((D.user&&D.user.first)||'').trim();
+const poss=()=>{const n=firstName(); return n?n+(/s$/i.test(n)?'\u2019':'\u2019s'):''};
+const poolTitle=()=>(poss()||'Your')+' Pool';
+// shrink an element's font (px) until its text fits `avail` px wide; never wraps or truncates
+function fitFont(el,avail,minPx){ if(!el) return; el.style.fontSize=''; let px=parseFloat(getComputedStyle(el).fontSize); while(el.scrollWidth>avail+0.5&&px>minPx){px-=0.5; el.style.fontSize=px+'px';} }
 // Seeking (mirrors the app's I'm seeking: men / women / everyone). Counts are built for men only, so men is the default and the only data today.
 if(!S.seek) S.seek='men';
 const SEEK={men:['MALE','single men'],women:['FEMALE','single women'],everyone:['EVERYONE','singles']};
@@ -144,5 +150,5 @@ function openEdit(k,onChange){
   draw(); document.body.appendChild(wrap); requestAnimationFrame(()=>wrap.classList.add('show'));
 }
 function close(){const w=document.getElementById('pe-sheet'); if(w) w.remove();}
-window.PoolEngine={D,S,ROWS,SRC,NOTES,SOURCES,compute,width,openEdit,close,fmt,pct,memLine,memOn,setMembers,MEM,optL,multiL,hL,isAny,tryVal,cityName,seekL,seekN,startSub};
+window.PoolEngine={D,S,ROWS,SRC,NOTES,SOURCES,compute,width,openEdit,close,fmt,pct,memLine,memOn,setMembers,MEM,optL,multiL,hL,isAny,tryVal,cityName,seekL,seekN,startSub,firstName,poss,poolTitle,fitFont};
 })();

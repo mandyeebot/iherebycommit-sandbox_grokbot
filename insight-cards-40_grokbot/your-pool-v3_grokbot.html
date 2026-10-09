@@ -95,7 +95,7 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 <div id="app">
   <div class="prog"><i class="d"></i><i class="d"></i><i class="d"></i><i class="d"></i><i class="a"></i></div>
   <div class="hd"><span class="step">Step 5 of 5</span><span class="appl">Applying as: <b>Single</b> · <u>Edit</u></span></div>
-  <div class="ttl"><h1>Your <span>Pool</span></h1><button class="info" type="button" id="infoBtn">ⓘ Sources</button></div>
+  <div class="ttl"><h1 id="h1">Your <span>Pool</span></h1><button class="info" type="button" id="infoBtn">ⓘ Sources</button></div>
   <div class="sub"><span class="lbl">YOUR REAL PREFERENCES · COUNTS ESTIMATED</span></div>
   <div class="memleg" id="memleg" hidden></div>
   <div class="main">
@@ -111,6 +111,8 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 <script src="your-pool-engine_grokbot.js"></script>
 <script>
 const E=PoolEngine, S=E.S, $=s=>document.querySelector(s);
+// header: AMANDA’S POOL (signup first name), YOUR POOL if there is no name
+$('#h1').innerHTML=(E.poss()||'Your')+' <span>Pool</span>'; document.title=document.title.replace(/^Your pool/i,E.poolTitle());
 const short=(k,n)=>{const a=S[k]; const l=a.map(id=>E.optL(k,id)); return a.length===1?l[0]:l[0]+' +'+(a.length-1)};
 const SHORT={age:()=>'Age '+S.amin+'–'+S.amax,
   intent:()=>S.intent.length?short('intent'):'Any single',
@@ -181,7 +183,8 @@ function pickSub(){ const b=document.querySelector('.band.start .lb2.st b'), cy=
   const over=()=>b.scrollWidth>b.clientWidth+1;
   const px0=parseFloat(getComputedStyle(cy).fontSize); let px=px0; while(over()&&px>19){px-=1; cy.style.fontSize=px+'px';}
   if(over()){cy.textContent=sh; px=px0; cy.style.fontSize=''; while(over()&&px>16){px-=1; cy.style.fontSize=px+'px';}} }
-function fit(){const a=$('#app'),m=$('.main');let f=1;a.style.setProperty('--fit',1);
+function fitH1(){const t=$('.ttl'),h=$('#h1'),i=$('#infoBtn'); E.fitFont(h,t.clientWidth-i.offsetWidth-8,30);}
+function fit(){fitH1();const a=$('#app'),m=$('.main');let f=1;a.style.setProperty('--fit',1);
   while(f>0.5&&(m.scrollHeight>m.clientHeight+1)){f-=0.03;a.style.setProperty('--fit',f.toFixed(2));} pickSub();}
 addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);
 $('#infoBtn').onclick=()=>{const w=document.createElement('div'); w.className='src-sheet';

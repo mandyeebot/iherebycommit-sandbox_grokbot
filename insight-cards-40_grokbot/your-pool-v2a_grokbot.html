@@ -74,6 +74,11 @@ h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:64px;line-heigh
 <script src="your-pool-engine_grokbot.js"></script>
 <script>
 const E=PoolEngine, $=s=>document.querySelector(s);
+// header: AMANDA’S POOL from the signup's first name (YOUR POOL if none)
+const _nm=(E.poss()||'Your').toUpperCase(); document.title=document.title.replace(/^Your pool/i,E.poolTitle());
+function fitH1(){const h=document.querySelector('h1'); if(h){h.style.whiteSpace='nowrap'; E.fitFont(h,h.parentElement.clientWidth-parseFloat(getComputedStyle(h.parentElement).paddingLeft)-parseFloat(getComputedStyle(h.parentElement).paddingRight),30);}}
+addEventListener('resize',fitH1); document.fonts&&document.fonts.ready.then(fitH1);
+document.querySelector('h1').textContent=_nm+' POOL'; fitH1();
 const HUES=[['#ff2d95','#ff6ab8'],['#ff7a2f','#ffa45c'],['#ffd60a','#ffe866'],['#c8f135','#e2ff7a'],['#22e5ff','#8ff3ff'],['#9b5cff','#c39bff']];
 function trap(top,bot){const a=(100-top)/2,b=(100-bot)/2;return `polygon(${a}% 0,${100-a}% 0,${100-b}% 100%,${b}% 100%)`}
 function render(){

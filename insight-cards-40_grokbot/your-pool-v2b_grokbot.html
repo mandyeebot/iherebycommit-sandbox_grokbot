@@ -83,6 +83,11 @@ h1 span{color:var(--lime);text-shadow:4px 5px 0 #7a5cff}
 <script src="your-pool-engine_grokbot.js"></script>
 <script>
 const E=PoolEngine, $=s=>document.querySelector(s);
+// header: AMANDA’S POOL from the signup's first name (YOUR POOL if none)
+const _nm=(E.poss()||'Your').toUpperCase(); document.title=document.title.replace(/^Your pool/i,E.poolTitle());
+function fitH1(){const h=document.querySelector('h1'); if(h){h.style.whiteSpace='nowrap'; E.fitFont(h,h.parentElement.clientWidth-parseFloat(getComputedStyle(h.parentElement).paddingLeft)-parseFloat(getComputedStyle(h.parentElement).paddingRight),30);}}
+addEventListener('resize',fitH1); document.fonts&&document.fonts.ready.then(fitH1);
+document.querySelector('h1').innerHTML=_nm+' <span>POOL</span>'; fitH1();
 const CANDY=['#ff8fc2','#ffb347','#ffe14d','#c8f135','#6fe3ff','#b48bff'];
 function render(){
   const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0;
