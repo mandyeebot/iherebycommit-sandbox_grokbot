@@ -33,8 +33,10 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 .band .lb2.st b{display:flex;align-items:center;gap:6px;font-size:12px;letter-spacing:.06em;line-height:1}.band .lb2.st small{font-size:10px;margin-top:1px}
 .band .lb2.st .cty{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(19px,calc(26px*var(--fit)),26px);line-height:.9;letter-spacing:.02em;color:var(--k);-webkit-text-stroke:.6px var(--k);white-space:nowrap}
 .band .rk{font-family:'Bebas Neue',sans-serif;font-size:17px;line-height:1;opacity:.55;width:17px;flex-shrink:0}
-.band .lb{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.band .sp{flex:1}
+.band .lb{font-size:11px;font-weight:700;line-height:1.1;min-width:0;flex:1;white-space:normal;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.band .lb .nw{white-space:nowrap}
+.tight .band .kw{display:none}.band .pc{display:flex;align-items:center;gap:3px}.band .pc .bd{font-size:8px;line-height:1;padding:1px 3px .5px;border-width:1px;border-radius:3px;letter-spacing:.02em}
+.band .sp{flex:0 0 2px}.band.start .sp{flex:1}
 .band .ct{font-family:'Bebas Neue',sans-serif;font-size:clamp(15px,calc(23px*var(--fit)),23px);line-height:.95;white-space:nowrap}
 .band .ctw{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;line-height:1}
 .band .pc{font-size:10px;font-weight:700;line-height:1.05;white-space:nowrap;opacity:.78;letter-spacing:-.01em}
@@ -113,18 +115,27 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 const E=PoolEngine, S=E.S, $=s=>document.querySelector(s);
 // header: AMANDA’S POOL (signup first name), YOUR POOL if there is no name
 $('#h1').innerHTML=(E.poss()||'Your')+' <span>Pool</span>'; document.title=document.title.replace(/^Your pool/i,E.poolTitle());
-const short=(k,n)=>{const a=S[k]; const l=a.map(id=>E.optL(k,id)); return a.length===1?l[0]:l[0]+' +'+(a.length-1)};
+// every pick spelled out (site option order); each pick stays on one line, picks wrap between them
+const nw=t=>`<span class="nw">${t}</span>`;
+const all=(k,pre)=>{const a=E.multiL(k).split(' · '); return a.map((x,i)=>nw((i===0&&pre?pre+' ':'')+x+(i<a.length-1?' ·':''))).join(' ')};
 const SHORT={age:()=>'Age '+S.amin+'–'+S.amax,
-  intent:()=>S.intent.length?short('intent'):'Any single',
-  kids:()=>({any:'Kids: any',yes:'Wants kids',no:'Wants no kids',open:'Kids: open',unsure:'Kids: unsure'})[S.kids],
+  intent:()=>S.intent.length?all('intent','Looking for:'):'Looking for: any',
+  kids:()=>!S.kids.length?'Want kids: any':S.kids.length===1&&S.kids[0]==='yes'?'Wants kids':all('kids','Want kids:'),
   height:()=>E.hL(),
   edu:()=>E.optL('edu',S.edu)==='Any'?'Any degree':E.optL('edu',S.edu),
   inc:()=>S.inc==='0'?'Any income':E.optL('inc',S.inc),
-  eth:()=>short('eth'), relig:()=>short('relig'), pol:()=>short('pol'),
+  eth:()=>all('eth'), relig:()=>all('relig'), pol:()=>all('pol'), tier:()=>'Tier: '+E.optL('tier',S.tier),
   haskids:()=>({no:'No kids',yes:'Has kids'})[S.haskids]};
 // two-line labels for narrow optional bands
-const two=k=>S[k].length>1?[E.optL(k,S[k][0]),'+'+(S[k].length-1)+' more']:null;
-const TWO={tier:()=>['Tier',E.optL('tier',S.tier)],eth:()=>two('eth'),relig:()=>two('relig'),pol:()=>two('pol')};
+// band labels: every pick spelled out. Shrink type (11px -> 9px) to fit two lines; if still too long, allow a third line
+// when the band is tall enough (down to 8.5px). Clamping (…) is only a last resort and is reported by the fit check.
+const lbOver=()=>[...document.querySelectorAll('.band .lb')].some(e=>e.scrollHeight>e.clientHeight+2||[...e.querySelectorAll('.nw')].some(n=>n.offsetWidth>e.clientWidth+1));
+function fitLabels(){document.querySelectorAll('.band .lb').forEach(el=>{const band=el.closest('.band'); el.style.fontSize=''; el.style.webkitLineClamp='unset'; el.style.display='block';
+  const lh=()=>parseFloat(getComputedStyle(el).lineHeight), nwOk=()=>[...el.querySelectorAll('.nw')].every(n=>n.offsetWidth<=el.clientWidth+1);
+  const fits=n=>el.scrollHeight<=n*lh()+1&&nwOk(); let px=11;
+  while(!fits(2)&&px>9){px-=.5; el.style.fontSize=px+'px';}
+  let lines=2; if(!fits(2)){const max3=Math.floor((band.clientHeight-2)/lh())>=3; if(max3){lines=3; px=10; el.style.fontSize=px+'px'; while(!fits(3)&&px>8.5){px-=.5; el.style.fontSize=px+'px';}} else while(!fits(2)&&px>8){px-=.5; el.style.fontSize=px+'px';}}
+  el.style.display=''; el.style.webkitLineClamp=lines;});}
 const B={acs:'b-acs',nhanes:'b-nhanes',pew:'b-pew',nsfg:'b-nsfg',ipeds:'b-ipeds',gss:'b-gss'};
 const pct=k=>k>=0.995?'100%':k<0.01?'<1%':Math.round(k*100)+'%';
 const cum=x=>x>=10?Math.round(x)+'%':x>=1?x.toFixed(1)+'%':x>=0.1?x.toFixed(1)+'%':x.toFixed(2)+'%';
@@ -137,12 +148,12 @@ function render(){
   const ml=$('#memleg'); ml.hidden=!mem; if(mem) ml.innerHTML=`${C.members.preview?'<i>PREVIEW</i>':''}% kept: <b>IHBC members</b> · studies`;
   const W=n=>72+28*Math.max(0,Math.min(1,Math.log(n/40)/Math.log(start/40)));
   let h='', prev=100; const n=cuts.length;
-  h+=`<div class="band start" data-k="city" role="button" aria-label="Seeking ${E.seekL().toLowerCase()} in ${E.cityName()}: change city or distance" style="width:100%;clip-path:${trap(100,97)};background:linear-gradient(90deg,var(--ow),var(--lime));padding:0 12px"><span class="lb2 st"><b><span class="sk">${E.seekL()}</span><span class="cty">${E.cityName()}</span><span class="bd b-acs">${E.SRC.acs}</span></b><small>${E.seekN()} 21–80 · ${S.radius==='any'?'any distance':'≤'+S.radius+' mi'}</small></span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(start)}</span><span class="pc">start</span></span><button class="ed" type="button" data-k="city">EDIT</button></div>`;
+  h+=`<div class="band start" data-k="city" role="button" aria-label="Seeking ${E.seekL().toLowerCase()} in ${E.cityName()}: change city or distance" style="width:100%;clip-path:${trap(100,97)};background:linear-gradient(90deg,var(--ow),var(--lime));padding:0 12px"><span class="lb2 st"><b><span class="sk">${E.seekL()}</span><span class="cty">${E.cityName()}</span></b><small>${E.seekN()} 21–80 · ≤${S.radius} mi</small></span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(start)}</span><span class="pc"><span class="bd b-acs">${E.SRC.acs}</span>start</span></span><button class="ed" type="button" data-k="city">EDIT</button></div>`;
   prev=97;
   const step=(97-72)/Math.max(n,1);
   cuts.forEach((s,i)=>{const r=s.r, w=Math.max(72,Math.min(prev-Math.min(3,step),W(s.n))), t=(i+1)/n;
-    const inset=(100-w)/2, two=TWO[r.k]&&TWO[r.k]()?TWO[r.k]:null;
-    h+=`<div class="band" data-k="${r.k}" role="button" aria-label="Edit ${r.name}" style="width:100%;clip-path:${trap(prev,w)};background:linear-gradient(90deg,${mix(Math.max(0,t-.2))},${mix(t)});padding:0 calc(${inset}% + 9px)">${two?`<span class="lb2"><b>${two()[0]}</b><small>${two()[1]}</small></span>`:`<span class="lb">${SHORT[r.k]()}</span>`}<span class="bd ${B[r.src]}">${E.SRC[r.src]}</span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(s.n)}</span><span class="pc">${mem&&s.member!=null?`<b>${pct(s.member)}</b> · ${pct(s.keep)}`:'keeps '+pct(s.keep)}</span></span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>`;
+    const inset=(100-w)/2;
+    h+=`<div class="band" data-k="${r.k}" role="button" aria-label="Edit ${r.name}" style="width:100%;clip-path:${trap(prev,w)};background:linear-gradient(90deg,${mix(Math.max(0,t-.2))},${mix(t)});padding:0 calc(${inset}% + 9px)"><span class="lb">${SHORT[r.k]()}</span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(s.n)}</span><span class="pc"><span class="bd ${B[r.src]}">${E.SRC[r.src]}</span>${mem&&s.member!=null?`<b>${pct(s.member)}</b> · ${pct(s.keep)}`:'<span class="kw">keeps </span>'+pct(s.keep)}</span></span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>`;
     prev=w;
   });
   $('#funnel').innerHTML=h; $('#neck').style.width=(prev*0.8)+'%';
@@ -172,7 +183,7 @@ function openOptional(){
       <div class="op-chips">${E.D[r.k].opts.map(([id,l])=>{const sel=multi?(id==='any'?!S[r.k].length:S[r.k].includes(id)):S[r.k]===id; return `<button type="button" class="op-chip${sel?' on':''}" data-k="${r.k}" data-id="${id}">${l}</button>`}).join('')}</div></div>`}).join('')}
     <p class="pe-note">These are “Any” in your picks, so they don’t cut. Turn one on to add it after your ranked picks (Ethnicity, Religion and Politics take several). Your pool now: <b style="color:var(--lime)">≈ ${E.fmt(c.final)}</b>. Sources in ⓘ.</p>
     <button type="button" class="pe-done">Done — update pool</button></div>`;
-    wrap.querySelectorAll('.op-chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k,id=b.dataset.id; if(E.D[k].multi) S[k]=id==='any'?[]:(S[k].includes(id)?S[k].filter(x=>x!==id):S[k].concat(id)); else S[k]=id; draw(); render();});
+    wrap.querySelectorAll('.op-chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k,id=b.dataset.id; if(E.D[k].multi){S[k]=id==='any'?[]:(S[k].includes(id)?S[k].filter(x=>x!==id):S[k].concat(id)); const it=E.D[k].opts.map(o=>o[0]).filter(x=>x!=='any'&&x!=='none'); if(it.every(x=>S[k].includes(x))) S[k]=[];} else S[k]=id; draw(); render();});
     wrap.querySelector('.pe-x').onclick=wrap.querySelector('.pe-done').onclick=wrap.querySelector('.pe-back').onclick=()=>E.close();
   };
   draw(); document.body.appendChild(wrap); requestAnimationFrame(()=>wrap.classList.add('show'));
@@ -185,11 +196,12 @@ function pickSub(){ const b=document.querySelector('.band.start .lb2.st b'), cy=
   if(over()){cy.textContent=sh; px=px0; cy.style.fontSize=''; while(over()&&px>16){px-=1; cy.style.fontSize=px+'px';}} }
 function fitH1(){const t=$('.ttl'),h=$('#h1'),i=$('#infoBtn'); E.fitFont(h,t.clientWidth-i.offsetWidth-8,30);}
 function fit(){fitH1();const a=$('#app'),m=$('.main');let f=1;a.style.setProperty('--fit',1);
-  while(f>0.5&&(m.scrollHeight>m.clientHeight+1)){f-=0.03;a.style.setProperty('--fit',f.toFixed(2));} pickSub();}
+  const fu=$('#funnel'); fu.classList.remove('tight'); fitLabels(); while(f>0.5&&(m.scrollHeight>m.clientHeight+1)){f-=0.03;a.style.setProperty('--fit',f.toFixed(2)); fitLabels();}
+  if(lbOver()){fu.classList.add('tight'); fitLabels();} pickSub();}
 addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);
 $('#infoBtn').onclick=()=>{const w=document.createElement('div'); w.className='src-sheet';
   w.innerHTML=`<div class="src-back"></div><div class="src-panel"><div class="pe-top"><span class="pe-k">Sources &amp; method</span><button class="pe-x" type="button">CLOSE</button></div>
-  <div class="src-leg"><span><span class="bd b-acs">CENSUS</span>direct ACS count</span><span><span class="bd b-nhanes">CDC</span>direct NHANES</span><span><span class="bd b-pew">EST</span>blend of studies (intent; also kids, religion, politics, tier)</span></div>
+  <div class="src-leg"><span><span class="bd b-acs">CENSUS</span>direct ACS count</span><span><span class="bd b-nhanes">CDC</span>direct NHANES</span><span><span class="bd b-pew">EST</span>blend of studies (intentions, kids, religion, politics, tier)</span></div>
   <p>${E.SOURCES}</p><p style="margin-top:6px">Each step keeps: ${E.compute().steps.filter(s=>s.r.k&&!s.r.fixed).map(s=>s.r.name+' '+E.pct(s.keep)+(s.member!=null?' (IHBC '+E.pct(s.member)+')':'')).join(' · ')}.</p></div>`;
   const c=()=>w.remove(); document.body.appendChild(w); requestAnimationFrame(()=>w.classList.add('show'));
   w.querySelector('.src-back').onclick=w.querySelector('.pe-x').onclick=c;};
