@@ -286,12 +286,15 @@ function openEdit(k,onChange){
       if(k==='eth'||k==='relig') body+=`<p class="pf-flag">None Stated adds no one: the survey has no “not stated” group.</p>`;
       body+=learn(k);
     }
+    // keep the reader's place: save the panel (and Learn more box) scroll before re-rendering, restore after
+    const op=wrap.querySelector('.pe-panel'), st0=op?op.scrollTop:0, lp=wrap.querySelector('.pf-lmp'), lt0=lp?lp.scrollTop:0; const wt0=wrap.scrollTop;
     wrap.innerHTML=`<div class="pe-back"></div><div class="pe-panel pf-panel" role="dialog" aria-label="Edit ${r.name}">
       <div class="pe-top"><span class="pe-k">Edit ${k==='tier'?'Education':r.name} <span class="pe-badge src-${r.src}">${SRC[r.src]}</span></span><button type="button" class="pe-x">DONE</button></div>
       <div class="pf-q">${ASK[k][1]}</div><div class="pf-live">${result()}</div>
       <div class="pe-opts pf-body">${body}</div>
       <p class="pe-note">${NOTES[k]}.</p>
       <button type="button" class="pe-done">Done — update pool</button></div>`;
+    const np=wrap.querySelector('.pe-panel'); if(np&&st0) np.scrollTop=st0; const nl=wrap.querySelector('.pf-lmp'); if(nl&&lt0) nl.scrollTop=lt0; if(wt0) wrap.scrollTop=wt0;
     wire();};
   const live=()=>{const el=wrap.querySelector('.pf-live'); if(el) el.innerHTML=result(); ch();};
   function paintDual(w,f){const r0=w.querySelector('.r0'),r1=w.querySelector('.r1'),lo=+r0.min,hi=+r0.max,p=v=>(v-lo)/(hi-lo)*100;
@@ -312,7 +315,7 @@ function openEdit(k,onChange){
       if(v==='both') S.seek=['men','women']; else {const nx=cur.includes(v)?cur.filter(x=>x!==v):cur.concat(v); if(nx.length) S.seek=nx;}
       build(); ch();});
     const oc=wrap.querySelector('#pf-other'); if(oc) oc.onchange=()=>{S.city=oc.checked?D.city.ORDER.slice():[D.city.home]; build(); ch();};
-    const lm=wrap.querySelector('[data-lm]'); if(lm) lm.onclick=()=>{lmOpen=!lmOpen; build(); const p=wrap.querySelector('.pf-lmp'); if(p) p.scrollIntoView({block:'nearest'});};
+    const lm=wrap.querySelector('[data-lm]'); if(lm) lm.onclick=()=>{lmOpen=!lmOpen; build();};
     wrap.querySelectorAll('.race-opt[data-id]:not([disabled])').forEach(b=>b.onclick=()=>{const id=b.dataset.id, mk=(b.closest('[data-mk]')||{}).dataset;
       const kk=mk&&mk.mk, sk=(b.closest('[data-sk]')||{dataset:{}}).dataset.sk;
       if(sk) S[sk]=id==='any'?[]:[id];
