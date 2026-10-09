@@ -89,14 +89,14 @@ const E=PoolEngine, $=s=>document.querySelector(s);
 const NEON=['#2ef2ff','#ff3df2','#ffe600','#c8f135','#ff8c1a','#9d6bff'];
 function render(){
   const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0, lv=0;
-  h+=`<div class="cap"><span class="lv px" style="color:${NEON[0]}">P1</span><span class="tx">${E.seekL()}: ${E.startSub()} <span class="bdg src-acs">CENSUS</span><small>LV Seeking · 03 City &amp; distance</small></span></div>
+  h+=`<div class="cap"><span class="lv px" style="color:${NEON[0]}">P1</span><span class="tx">${E.seekL()}: ${E.startSub()} <span class="bdg src-acs">CENSUS</span><small>Seeking · City &amp; distance</small></span></div>
       <div class="lvl" style="width:100%;color:${NEON[0]};border-color:${NEON[0]};box-shadow:0 0 10px ${NEON[0]},inset 0 0 10px ${NEON[0]}55"><span class="cnt">${E.fmt(start)}</span></div>`;
   ci=1;
   steps.forEach(s=>{const r=s.r;
     if(r.fixed==='start') return;
-    if(r.fixed==='nocut'){h+=`<div class="nocut"><span class="lv px">LV${+r.rk}</span>${r.label()} · free pass<i></i></div>`;return}
+    if(r.fixed==='nocut'){h+=`<div class="nocut"><span class="lv px">▶</span>${r.label()} · free pass<i></i></div>`;return}
     const w=Math.min(prevW-6,E.width(s.n,start,40)), c=NEON[ci%NEON.length];
-    h+=`<div class="down px">▼</div><div class="cap"><span class="lv px" style="color:${c}">LV${+r.rk}</span><span class="tx">${r.label()} <span class="bdg src-${r.src}">${E.SRC[r.src]}</span><small><em>−${Math.round((1-s.keep)*100)}%</em> · keeps ${Math.round(s.keep*100)}%</small></span><button class="ed px" type="button" data-k="${r.k}">EDIT</button></div>
+    h+=`<div class="down px">▼</div><div class="cap"><span class="lv px" style="color:${c}">▶</span><span class="tx">${r.label()} <span class="bdg src-${r.src}">${E.SRC[r.src]}</span><small><em>−${Math.round((1-s.keep)*100)}%</em> · keeps ${Math.round(s.keep*100)}%</small></span><button class="ed px" type="button" data-k="${r.k}">EDIT</button></div>
         <div class="lvl" style="width:${w}%;color:${c};border-color:${c};box-shadow:0 0 10px ${c},inset 0 0 10px ${c}55"><span class="cnt">${E.fmt(s.n)}</span></div>`;
     prevW=w; ci++;
   });

@@ -95,13 +95,13 @@ function chamber(top,bot,n,start,color,d0){
 const stream=c=>`<div class="stream"><i style="background:${c}"></i><i style="background:${c};animation-delay:.37s"></i><i style="background:${c};animation-delay:.74s"></i></div>`;
 function render(){
   seed=7; const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0, d0=0;
-  h+=`<div class="cap"><span class="rk">IN</span><span class="tx">${E.seekL()}: ${E.startSub()} <span class="bdg src-acs">CENSUS</span><small>Seeking · 03 City &amp; distance</small></span></div>`+chamber(100,94,start,start,STROKE[0],0);
+  h+=`<div class="cap"><span class="rk">IN</span><span class="tx">${E.seekL()}: ${E.startSub()} <span class="bdg src-acs">CENSUS</span><small>Seeking · City &amp; distance</small></span></div>`+chamber(100,94,start,start,STROKE[0],0);
   prevW=94; ci=1;
   steps.forEach(s=>{const r=s.r;
     if(r.fixed==='start') return;
-    if(r.fixed==='nocut'){h+=`<div class="nocut"><span class="rk">${r.rk}</span>${r.label()} · no cut<i></i></div>`;return}
+    if(r.fixed==='nocut'){h+=`<div class="nocut">${r.label()} · no cut<i></i></div>`;return}
     const w=Math.min(prevW-5,E.width(s.n,start,26)), c=STROKE[ci%STROKE.length]; d0+=.25;
-    h+=stream(c)+`<div class="cap"><span class="rk" style="color:${c}">${r.rk}</span><span class="tx">${r.label()} <span class="bdg src-${r.src}">${E.SRC[r.src]}</span><small>keeps ${Math.round(s.keep*100)}% · ${Math.round((1-s.keep)*100)}% filtered out</small></span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>`+chamber(prevW,w,s.n,start,c,d0);
+    h+=stream(c)+`<div class="cap"><span class="tx">${r.label()} <span class="bdg src-${r.src}">${E.SRC[r.src]}</span><small>keeps ${Math.round(s.keep*100)}% · ${Math.round((1-s.keep)*100)}% filtered out</small></span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>`+chamber(prevW,w,s.n,start,c,d0);
     prevW=w; ci++;
   });
   $('#funnel').innerHTML=h+stream('#c8f135');

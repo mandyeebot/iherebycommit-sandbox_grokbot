@@ -86,14 +86,14 @@ const E=PoolEngine, $=s=>document.querySelector(s);
 const CANDY=['#ff8fc2','#ffb347','#ffe14d','#c8f135','#6fe3ff','#b48bff'];
 function render(){
   const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0;
-  h+=`<div class="cap"><span class="rk">★</span><span class="tx">${E.seekL()}: ${E.startSub()} <span class="stk src-acs">CENSUS</span><small>Seeking · 03 City &amp; distance</small></span></div>
+  h+=`<div class="cap"><span class="rk">★</span><span class="tx">${E.seekL()}: ${E.startSub()} <span class="stk src-acs">CENSUS</span><small>Seeking · City &amp; distance</small></span></div>
       <div class="rim"></div><div class="blob" style="width:100%;background:${CANDY[0]}"><span class="cnt">${E.fmt(start)}</span></div>`;
   ci=1;
   steps.forEach(s=>{const r=s.r;
     if(r.fixed==='start') return;
-    if(r.fixed==='nocut'){h+=`<div class="nocut"><span class="rk">${r.rk}</span>${r.label()} · no cut<i></i></div>`;return}
+    if(r.fixed==='nocut'){h+=`<div class="nocut">${r.label()} · no cut<i></i></div>`;return}
     const w=Math.min(prevW-5,E.width(s.n,start,34));
-    h+=`<div class="cap"><span class="rk">${r.rk}</span><span class="tx">${r.label()} <span class="stk src-${r.src}">${E.SRC[r.src]}</span><small>keeps ${Math.round(s.keep*100)}%</small></span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>
+    h+=`<div class="cap"><span class="tx">${r.label()} <span class="stk src-${r.src}">${E.SRC[r.src]}</span><small>keeps ${Math.round(s.keep*100)}%</small></span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>
         <div class="blob" style="width:${w}%;background:${CANDY[ci%CANDY.length]}"><span class="cnt">${E.fmt(s.n)}</span></div>`;
     prevW=w; ci++;
   });

@@ -30,7 +30,8 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 #funnel{filter:drop-shadow(0 0 8px rgba(200,241,53,.28)) drop-shadow(0 0 14px rgba(255,122,47,.2))}
 .band{--bh:calc(clamp(34px,7.3dvh,54px)*var(--fit));position:relative;height:var(--bh);margin:0 auto calc(4px*var(--fit));display:flex;align-items:center;gap:6px;color:var(--k);cursor:pointer}
 .band .lb2{display:flex;flex-direction:column;min-width:0;line-height:1.15}.band .lb2 b{font-size:12px;font-weight:700;white-space:nowrap}.band .lb2 small{font-size:10px;letter-spacing:-.02em;white-space:nowrap;opacity:.8}
-.band .lb2.st b{display:flex;align-items:center;gap:6px;font-size:13px;letter-spacing:.06em}.band .lb2.st small{font-size:10px}
+.band .lb2.st b{display:flex;align-items:center;gap:6px;font-size:12px;letter-spacing:.06em;line-height:1}.band .lb2.st small{font-size:10px;margin-top:1px}
+.band .lb2.st .cty{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(19px,calc(26px*var(--fit)),26px);line-height:.9;letter-spacing:.02em;color:var(--k);-webkit-text-stroke:.6px var(--k);white-space:nowrap}
 .band .rk{font-family:'Bebas Neue',sans-serif;font-size:17px;line-height:1;opacity:.55;width:17px;flex-shrink:0}
 .band .lb{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .band .sp{flex:1}
@@ -134,12 +135,12 @@ function render(){
   const ml=$('#memleg'); ml.hidden=!mem; if(mem) ml.innerHTML=`${C.members.preview?'<i>PREVIEW</i>':''}% kept: <b>IHBC members</b> · studies`;
   const W=n=>72+28*Math.max(0,Math.min(1,Math.log(n/40)/Math.log(start/40)));
   let h='', prev=100; const n=cuts.length;
-  h+=`<div class="band start" data-k="city" role="button" aria-label="Seeking male: change city or distance" style="width:100%;clip-path:${trap(100,97)};background:linear-gradient(90deg,var(--ow),var(--lime));padding:0 12px"><span class="lb2 st"><b>${E.seekL()} <span class="bd b-acs">${E.SRC.acs}</span></b><small>${E.startSub()}</small></span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(start)}</span><span class="pc">start</span></span><button class="ed" type="button" data-k="city">EDIT</button></div>`;
+  h+=`<div class="band start" data-k="city" role="button" aria-label="Seeking ${E.seekL().toLowerCase()} in ${E.cityName()}: change city or distance" style="width:100%;clip-path:${trap(100,97)};background:linear-gradient(90deg,var(--ow),var(--lime));padding:0 12px"><span class="lb2 st"><b><span class="sk">${E.seekL()}</span><span class="cty">${E.cityName()}</span><span class="bd b-acs">${E.SRC.acs}</span></b><small>${E.seekN()} 21–80 · ${S.radius==='any'?'any distance':'≤'+S.radius+' mi'}</small></span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(start)}</span><span class="pc">start</span></span><button class="ed" type="button" data-k="city">EDIT</button></div>`;
   prev=97;
   const step=(97-72)/Math.max(n,1);
   cuts.forEach((s,i)=>{const r=s.r, w=Math.max(72,Math.min(prev-Math.min(3,step),W(s.n))), t=(i+1)/n;
     const inset=(100-w)/2, two=TWO[r.k]&&TWO[r.k]()?TWO[r.k]:null;
-    h+=`<div class="band" data-k="${r.k}" role="button" aria-label="Edit ${r.name}" style="width:100%;clip-path:${trap(prev,w)};background:linear-gradient(90deg,${mix(Math.max(0,t-.2))},${mix(t)});padding:0 calc(${inset}% + 9px)"><span class="rk">${r.rk}</span>${two?`<span class="lb2"><b>${two()[0]}</b><small>${two()[1]}</small></span>`:`<span class="lb">${SHORT[r.k]()}</span>`}<span class="bd ${B[r.src]}">${E.SRC[r.src]}</span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(s.n)}</span><span class="pc">${mem&&s.member!=null?`<b>${pct(s.member)}</b> · ${pct(s.keep)}`:'keeps '+pct(s.keep)}</span></span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>`;
+    h+=`<div class="band" data-k="${r.k}" role="button" aria-label="Edit ${r.name}" style="width:100%;clip-path:${trap(prev,w)};background:linear-gradient(90deg,${mix(Math.max(0,t-.2))},${mix(t)});padding:0 calc(${inset}% + 9px)">${two?`<span class="lb2"><b>${two()[0]}</b><small>${two()[1]}</small></span>`:`<span class="lb">${SHORT[r.k]()}</span>`}<span class="bd ${B[r.src]}">${E.SRC[r.src]}</span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(s.n)}</span><span class="pc">${mem&&s.member!=null?`<b>${pct(s.member)}</b> · ${pct(s.keep)}`:'keeps '+pct(s.keep)}</span></span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>`;
     prev=w;
   });
   $('#funnel').innerHTML=h; $('#neck').style.width=(prev*0.8)+'%';
@@ -147,7 +148,7 @@ function render(){
   const un=E.ROWS.filter(r=>r.fixed==='nocut'), u=$('#unused');
   if(!un.length){u.style.display='none';} else {
     u.style.display='';
-    const names=un.map(r=>`${r.rk} ${r.uname||r.name}`); const lines=[[],[]]; let len=0, tot=names.join(' · ').length;
+    const names=un.map(r=>`${r.uname||r.name}`); const lines=[[],[]]; let len=0, tot=names.join(' · ').length;
     let best=1e9; for(let i=1;i<=names.length;i++){const l1=names.slice(0,i).join(' · ').length+2, l2=i<names.length?names.slice(i).join(' · ').length+13:0, m=Math.max(l1,l2); if(m<best){best=m; lines[0]=names.slice(0,i); lines[1]=names.slice(i);}}
     u.innerHTML=`<span class="ut"><span><b>${lines[0].join(' · ')}${lines[1].length?' ·':''}</b></span>${lines[1].length?`<span><b>${lines[1].join(' · ')}</b>: any, no cut</span>`:`<span>any, no cut · tap to turn on</span>`}</span><span class="ed">EDIT</span>`;
   }
@@ -165,7 +166,7 @@ function openOptional(){
     wrap.innerHTML=`<div class="pe-back"></div><div class="pe-panel" role="dialog" aria-label="Unused preferences">
     <div class="pe-top"><span class="pe-k">Unused preferences</span><button type="button" class="pe-x">DONE</button></div>
     ${opts.map(r=>{const s=by[r.rk], on=!E.isAny(r.k), multi=!!E.D[r.k].multi;
-      return `<div class="op-blk"><div class="op-hd"><span class="rk">${r.rk}</span>${r.name}<span class="pe-badge src-${r.src}">${E.SRC[r.src]}</span><span class="res">${on?`<b>≈ ${E.fmt(s.n)}</b> · keeps ${pct(s.keep)}`:'any · no cut'}</span></div>${on&&s.member!=null?`<div class="pe-sm" style="margin:-2px 0 4px">${E.memLine(s)}</div>`:''}
+      return `<div class="op-blk"><div class="op-hd">${r.name}<span class="pe-badge src-${r.src}">${E.SRC[r.src]}</span><span class="res">${on?`<b>≈ ${E.fmt(s.n)}</b> · keeps ${pct(s.keep)}`:'any · no cut'}</span></div>${on&&s.member!=null?`<div class="pe-sm" style="margin:-2px 0 4px">${E.memLine(s)}</div>`:''}
       <div class="op-chips">${E.D[r.k].opts.map(([id,l])=>{const sel=multi?(id==='any'?!S[r.k].length:S[r.k].includes(id)):S[r.k]===id; return `<button type="button" class="op-chip${sel?' on':''}" data-k="${r.k}" data-id="${id}">${l}</button>`}).join('')}</div></div>`}).join('')}
     <p class="pe-note">These are “Any” in your picks, so they don’t cut. Turn one on to add it after your ranked picks (Ethnicity, Religion and Politics take several). Your pool now: <b style="color:var(--lime)">≈ ${E.fmt(c.final)}</b>. Sources in ⓘ.</p>
     <button type="button" class="pe-done">Done — update pool</button></div>`;
@@ -175,15 +176,18 @@ function openOptional(){
   draw(); document.body.appendChild(wrap); requestAnimationFrame(()=>wrap.classList.add('show'));
 }
 // shrink bands + result if the screen is shorter than expected, so nothing spills (headline never shrinks)
-function pickSub(){ const sm=document.querySelector('.band.start small'); if(sm){ const c=S.city==='all'?'All cities':E.cityName(), d=S.radius==='any'?'any dist':'≤'+S.radius+' mi';
-    for(const t of [E.startSub(), E.seekN()+' 21–80 · '+c+' '+d, E.seekN().replace('single ','')+' 21–80 · '+c+' '+d]){ sm.textContent=t; if(sm.scrollWidth<=sm.clientWidth+1) break; } } }
+function pickSub(){ const b=document.querySelector('.band.start .lb2.st b'), cy=b&&b.querySelector('.cty'); if(!cy) return;
+  const full=E.cityName(), sh=S.city==='all'?'All cities':full; cy.style.fontSize=''; cy.textContent=full;
+  const over=()=>b.scrollWidth>b.clientWidth+1;
+  const px0=parseFloat(getComputedStyle(cy).fontSize); let px=px0; while(over()&&px>19){px-=1; cy.style.fontSize=px+'px';}
+  if(over()){cy.textContent=sh; px=px0; cy.style.fontSize=''; while(over()&&px>16){px-=1; cy.style.fontSize=px+'px';}} }
 function fit(){const a=$('#app'),m=$('.main');let f=1;a.style.setProperty('--fit',1);
   while(f>0.5&&(m.scrollHeight>m.clientHeight+1)){f-=0.03;a.style.setProperty('--fit',f.toFixed(2));} pickSub();}
 addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);
 $('#infoBtn').onclick=()=>{const w=document.createElement('div'); w.className='src-sheet';
   w.innerHTML=`<div class="src-back"></div><div class="src-panel"><div class="pe-top"><span class="pe-k">Sources &amp; method</span><button class="pe-x" type="button">CLOSE</button></div>
   <div class="src-leg"><span><span class="bd b-acs">CENSUS</span>direct ACS count</span><span><span class="bd b-nhanes">CDC</span>direct NHANES</span><span><span class="bd b-pew">EST</span>blend of studies (intent; also kids, religion, politics, tier)</span></div>
-  <p>${E.SOURCES}</p><p style="margin-top:6px">Each step keeps: ${E.compute().steps.filter(s=>s.r.k&&!s.r.fixed).map(s=>s.r.rk+' '+E.pct(s.keep)+(s.member!=null?' (IHBC '+E.pct(s.member)+')':'')).join(' · ')}.</p></div>`;
+  <p>${E.SOURCES}</p><p style="margin-top:6px">Each step keeps: ${E.compute().steps.filter(s=>s.r.k&&!s.r.fixed).map(s=>s.r.name+' '+E.pct(s.keep)+(s.member!=null?' (IHBC '+E.pct(s.member)+')':'')).join(' · ')}.</p></div>`;
   const c=()=>w.remove(); document.body.appendChild(w); requestAnimationFrame(()=>w.classList.add('show'));
   w.querySelector('.src-back').onclick=w.querySelector('.pe-x').onclick=c;};
 render();

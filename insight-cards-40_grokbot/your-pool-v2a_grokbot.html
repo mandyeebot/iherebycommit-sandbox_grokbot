@@ -79,14 +79,14 @@ function trap(top,bot){const a=(100-top)/2,b=(100-bot)/2;return `polygon(${a}% 0
 function render(){
   const {start,steps,final}=E.compute(); let h='', prevW=100, ci=0;
   const w0=96;
-  h+=`<div class="cap"><span class="rk" style="color:${HUES[0][0]}">GO</span><span class="tx">${E.seekL()}: ${E.startSub()} <span class="bdg src-acs">CENSUS</span><small>Seeking · 03 City &amp; distance</small></span></div>
+  h+=`<div class="cap"><span class="rk" style="color:${HUES[0][0]}">GO</span><span class="tx">${E.seekL()}: ${E.startSub()} <span class="bdg src-acs">CENSUS</span><small>Seeking · City &amp; distance</small></span></div>
       <div class="band" style="clip-path:${trap(100,w0)};background:linear-gradient(90deg,${HUES[0][0]},${HUES[0][1]})"><span class="cnt">${E.fmt(start)}</span></div>`;
   prevW=w0; ci=1;
   steps.forEach(s=>{const r=s.r;
     if(r.fixed==='start') return;
-    if(r.fixed==='nocut'){h+=`<div class="nocut"><span class="rk">${r.rk}</span>${r.label()} · no cut<i></i></div>`;return}
+    if(r.fixed==='nocut'){h+=`<div class="nocut">${r.label()} · no cut<i></i></div>`;return}
     const w=Math.min(prevW-4,E.width(s.n,start,30)), c=HUES[ci%HUES.length];
-    h+=`<div class="cap"><span class="rk" style="color:${c[0]}">${r.rk}</span><span class="tx">${r.label()} <span class="bdg src-${r.src}">${E.SRC[r.src]}</span><small>keeps ${Math.round(s.keep*100)}% of the men above</small></span><button class="ed" type="button" data-k="${r.k}" style="background:${c[0]};box-shadow:0 0 12px ${c[0]}">EDIT</button></div>
+    h+=`<div class="cap"><span class="tx">${r.label()} <span class="bdg src-${r.src}">${E.SRC[r.src]}</span><small>keeps ${Math.round(s.keep*100)}% of the men above</small></span><button class="ed" type="button" data-k="${r.k}" style="background:${c[0]};box-shadow:0 0 12px ${c[0]}">EDIT</button></div>
         <div class="band" style="clip-path:${trap(prevW,w)};background:linear-gradient(90deg,${c[0]},${c[1]})"><span class="cnt">${E.fmt(s.n)}</span></div>`;
     prevW=w; ci++;
   });
