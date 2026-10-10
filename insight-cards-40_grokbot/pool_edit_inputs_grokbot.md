@@ -176,3 +176,7 @@ Each % is the share the option keeps at that step with other preferences Any (Et
 | women | pol | Right | R | 14.4% |
 | women | pol | Apolitical | NA | 3.7% |
 | women | pol | None Stated |  | 0.0% |
+
+## Oct 10, 2026 additions
+- Post-submit CTA mockup: post-submit-pool_grokbot.html (recreates Sandbox 2 screen-8 confirmation from k5-s3y121) with a Your Pool CTA (?cta=a default "See how your preferences compare to reality" + live pool line; b "See your real dating pool"; c big-number card). Opens your-pool-v3_grokbot.html?from=post, whose BACK/NEXT return to post-submit.
+- Plain-language sheets: each EDIT sheet shows one orange plain note for the current pick and a "How we got this" block (source, sample size, parts, link), from engine plainNote()/howLine(). Wave codes, table names, mapping rules and the old notes moved inside Learn more. Each band's badge is a tappable ⓘ that opens the same block.

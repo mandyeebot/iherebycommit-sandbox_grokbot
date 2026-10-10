@@ -91,6 +91,10 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 .pe-opt{min-height:42px;display:flex;justify-content:space-between;align-items:center;padding:0 14px;border-radius:8px;border:1px solid rgba(240,236,224,.18);text-align:left;font-size:13px}
 .pe-opt b{color:var(--lime)}.pe-opt.on{border-color:var(--lime);background:linear-gradient(90deg,rgba(200,241,53,.2),rgba(255,122,47,.16))}
 .pe-note{font-size:10px;color:var(--muted);margin:8px 0}
+.pf-pn{font-size:12.5px;line-height:1.45;color:var(--or);font-weight:700;margin:6px 0 6px}
+.pf-how{font-size:11px;line-height:1.5;color:var(--ow);border-left:2px solid var(--lime);padding:2px 0 2px 9px;margin:0 0 8px}.pf-how>b{display:block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--lime);margin-bottom:2px}.pf-how p+p{margin-top:5px}.pf-how a{color:var(--lime);white-space:nowrap}
+.pf-tech .pf-flag,.pf-tech .pf-single,.pf-tech .pe-note{font-size:10px;color:var(--muted);margin:4px 0}
+.band .bd.si{cursor:pointer}.src-line{font-size:12px;line-height:1.55;color:var(--ow)}.src-line a{color:var(--lime)}.src-line .pf-pn{font-size:12.5px}
 .pe-done{width:100%;min-height:44px;border-radius:8px;background:var(--lime);color:var(--k);font-weight:700;letter-spacing:.1em;font-size:12px;text-transform:uppercase}
 .src-panel{max-height:94dvh;overflow:auto;font-size:10px;line-height:1.45;color:rgba(240,236,224,.8)}.src-panel b{color:var(--ow)}
 .src-leg{display:flex;flex-wrap:wrap;gap:6px 8px;margin:8px 0;padding:8px;border-radius:8px;background:var(--lime);color:var(--k);font-size:10px;align-items:center}
@@ -112,8 +116,8 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
   <div class="bottom"><button class="upd" type="button" id="upd" hidden>Update my preferences to these</button><button class="next" type="button">NEXT</button><a class="back" href="all-cards_grokbot.html#sec-pool" target="_top">&larr; BACK</a></div>
 </div>
 <div class="mock">mockup · V3 brand palette</div>
-<script src="your-pool-real-data_grokbot.js?v=12"></script>
-<script src="your-pool-engine_grokbot.js?v=12"></script>
+<script src="your-pool-real-data_grokbot.js?v=14"></script>
+<script src="your-pool-engine_grokbot.js?v=14"></script>
 <script>
 const E=PoolEngine, S=E.S, $=s=>document.querySelector(s);
 // header: AMANDA’S POOL (signup first name), YOUR POOL if there is no name
@@ -157,7 +161,7 @@ function render(){
   const step=(97-72)/Math.max(n,1);
   cuts.forEach((s,i)=>{const r=s.r, w=Math.max(72,Math.min(prev-Math.min(3,step),W(s.n))), t=(i+1)/n;
     const inset=(100-w)/2;
-    h+=`<div class="band" data-k="${r.k}" role="button" aria-label="Edit ${r.name}" style="width:100%;clip-path:${trap(prev,w)};background:linear-gradient(90deg,${mix(Math.max(0,t-.2))},${mix(t)});padding:0 calc(${inset}% + 9px)"><span class="lb">${SHORT[r.k]()}</span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(s.n)}</span><span class="pc"><span class="bd ${B[r.src]}">${E.SRC[r.src]}</span>${mem&&s.member!=null?`<b>${pct(s.member)}</b> · ${pct(s.keep)}`:'<span class="kw">keeps </span>'+pct(s.keep)}</span></span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>`;
+    h+=`<div class="band" data-k="${r.k}" role="button" aria-label="Edit ${r.name}" style="width:100%;clip-path:${trap(prev,w)};background:linear-gradient(90deg,${mix(Math.max(0,t-.2))},${mix(t)});padding:0 calc(${inset}% + 9px)"><span class="lb">${SHORT[r.k]()}</span><span class="sp"></span><span class="ctw"><span class="ct">${E.fmt(s.n)}</span><span class="pc"><span class="bd si ${B[r.src]}" data-si="${r.k}" role="button" aria-label="Where this number comes from">ⓘ ${E.SRC[r.src]}</span>${mem&&s.member!=null?`<b>${pct(s.member)}</b> · ${pct(s.keep)}`:'<span class="kw">keeps </span>'+pct(s.keep)}</span></span><button class="ed" type="button" data-k="${r.k}">EDIT</button></div>`;
     prev=w;
   });
   $('#funnel').innerHTML=h; $('#neck').style.width=(prev*0.8)+'%';
@@ -173,6 +177,7 @@ function render(){
   $('#big').textContent='≈'+E.fmt(final);
   $('#spoutp').innerHTML=`match everything you picked<br><b>${cum(final/start*100)}</b> of ${E.fmt(start)} ${E.seekN()}`+(mem?`<br>${C.members.preview?'PREVIEW · ':''}${E.fmt(C.members.count)} IHBC members`:'');
   document.querySelectorAll('.band[data-k]').forEach(b=>b.onclick=()=>E.openEdit(b.dataset.k,render));
+  document.querySelectorAll('.band [data-si]').forEach(x=>x.onclick=ev=>{ev.stopPropagation(); srcSheet(x.dataset.si);});
   fit();
 }
 // sheet: turn unused (Any) prefs on, or back off
@@ -233,7 +238,14 @@ $('#upd').onclick=()=>{const ch=changes(); if(!ch.length) return; const w=docume
     // partner_intentions, (partner) wants_marriage pick, partner_wants_children_multi (+ _text), partner_has_children, partner_education_min,
     // partner_education_tier, partner_income_min, partner_ethnicity, partner_religion, partner_politics (+ _text). This mockup writes nothing to any DB.
     SAVED=snap(); w.querySelector('#updFoot').innerHTML='<div class="upd-ok">✓ SAVED</div>'; w.querySelector('.pe-x').textContent='CLOSE'; updBtn();};};
+// came from the post-submit screen (Sandbox 2 confirmation CTA): BACK and NEXT return there
+if(new URLSearchParams(location.search).get('from')==='post'){const ret='post-submit-pool_grokbot.html?cta='+encodeURIComponent(new URLSearchParams(location.search).get('cta')||'a');
+  const bk=$('.back'); bk.href=ret; bk.target='_self'; bk.innerHTML='&larr; BACK TO YOUR APPLICATION'; $('.next').onclick=()=>{location.href=ret;};}
 const _render0=render; render=function(){_render0(); updBtn();};
+// band ⓘ: the plain note + "How we got this" for that step, in a small sheet (keeps the main page free of extra text)
+function srcSheet(k){const w=document.createElement('div'); w.className='src-sheet'; const nm=(E.ROWS.find(r=>r.k===k)||{}).name||k;
+  w.innerHTML=`<div class="src-back"></div><div class="src-panel"><div class="pe-top"><span class="pe-k">Where ${nm} comes from</span><button class="pe-x" type="button">CLOSE</button></div><div class="src-line">${E.plainHTML(k)}</div></div>`;
+  const c=()=>w.remove(); document.body.appendChild(w); requestAnimationFrame(()=>w.classList.add('show')); w.querySelector('.src-back').onclick=w.querySelector('.pe-x').onclick=c;}
 render();
 </script>
 </body></html>

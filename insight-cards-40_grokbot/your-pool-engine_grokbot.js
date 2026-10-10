@@ -175,6 +175,55 @@ const SOURCES='<b>YOUR REAL PREFERENCES</b> from your newest Sandbox 2 single si
  '<b>Unused until you turn them on:</b> Ethnicity (CENSUS, ACS PUMS); Have kids (EST, NSFG, within your Want kids groups); Religion (EST, GSS + Pew RLS); Education tier (EST, Supabase research_ipeds_admissions ranking × NCES IPEDS completions); Politics (EST, GSS 7-point). '+
  'Survey rates are national and assumed independent of each other, applied age by age. Each EST sheet has <b>Learn more</b>: the pool with each source alone vs blended. <b>IHBC member rates</b> show next to the study rate once 1,000 people have signed up (now '+D.members.count+', '+D.members.asOf+'). Full input list and mapping: <a href="pool_edit_inputs_grokbot.md" target="_blank" style="color:#c8f135">pool_edit_inputs_grokbot.md</a>; data table <a href="pool_mapping_grokbot.md" target="_blank" style="color:#c8f135">pool_mapping_grokbot.md</a>.';
 
+/* ---------- plain-language notes (Amanda Oct 10): one short orange note + "How we got this" with sample size, parts and a link. Technical detail lives in Learn more. ---------- */
+const LINK={pew111:['Pew Research: online dating in the U.S. (2023)','https://www.pewresearch.org/internet/2023/02/02/from-looking-for-love-to-swiping-the-field-online-dating-in-the-u-s/'],
+ pewmar:['Pew Research: marriage and family','https://www.pewresearch.org/topic/family-relationships/marriage-divorce/'],
+ nsfg:['CDC National Survey of Family Growth','https://www.cdc.gov/nchs/nsfg/'],acs:['U.S. Census: American Community Survey','https://www.census.gov/programs-surveys/acs'],
+ nhanes:['CDC NHANES body measurements','https://www.cdc.gov/nchs/nhanes/'],ipeds:['U.S. Dept. of Education: IPEDS','https://nces.ed.gov/ipeds/'],
+ irs:['IRS Statistics of Income','https://www.irs.gov/statistics/soi-tax-stats-historic-table-2'],gss:['General Social Survey','https://gss.norc.org/'],
+ rls:['Pew Religious Landscape Study','https://www.pewresearch.org/religious-landscape-study/']};
+const W111N={m:{all:1036,'18-29':181,'30-49':312,'50-64':306,'65+':230},f:{all:1153,'18-29':186,'30-49':313,'50-64':334,'65+':319}};
+function plainCtx(){const sx=SXS()[0]||'m', mid=Math.round((S.amin+S.amax)/2), key=Object.keys(D.PG).find(k=>{const [a,b]=k.split('-').map(Number);return mid>=a&&mid<=b;})||'40-44';
+  const st=compute().steps; return {sx,men:SXS().length>1?'people':sx==='m'?'men':'women',key,ag:D.PG[key],T:TB(sx),keep:k=>{const s=st.find(x=>x.r.k===k);return s?s.keep:1;}};}
+const P=x=>Math.round(x*100)+'%', lk=id=>`<a href="${LINK[id][1]}" target="_blank" rel="noopener">${LINK[id][0]} ↗</a>`, agL=a=>a.replace('-','–');
+function names(k){return (Array.isArray(S[k])?S[k]:[]).map(id=>{const o=D[k].opts.find(o=>o[0]===id);return o?o[1]:id;});}
+function plainNote(k){const {men}=plainCtx(), n=names(k);
+  switch(k){
+  case 'intent':return ({committed:`Committed counts ${men} looking only for something serious, plus ${men} open to either.`,casual:`Casual counts ${men} looking only for something casual, plus ${men} open to either.`,either:`Either counts every single ${men==='men'?'man':men==='women'?'woman':'person'} who is looking for any kind of relationship.`})[S.intent[0]]||`Any keeps every single ${men==='men'?'man':men==='women'?'woman':'person'}, even those not looking right now.`;
+  case 'marry':return n.length?`Counts ${men} who answer ${n.join(' or ')} to “Do you want to get married someday?”`:`Any keeps everyone, whatever they think about marriage.`;
+  case 'kids':{if(!n.length) return `Any keeps everyone, whether or not they want kids.`; const t={yes:`Yes counts ${men} who want kids, plus those not sure yet.`,no:`No counts ${men} who don’t want kids.`,open:`Whatever my partner wants counts ${men} who aren’t sure either way.`}; return S.kids.map(x=>t[x]).join(' ');}
+  case 'haskids':return n.length?`Counts ${men} who ${n.join(' or ').toLowerCase()} kids already.`:`Any keeps everyone, with or without kids.`;
+  case 'age':return `Counts single ${men} aged ${S.amin}–${S.amax}.`;
+  case 'height':return `Counts ${men} between ${hL().replace('–',' and ')} tall.`;
+  case 'city':return `Your starting pool: every single ${men==='men'?'man':men==='women'?'woman':'person'} 21–80 living within ${S.radius} miles of ${cityName()}.`;
+  case 'edu':case 'tier':{const e=D.edu.opts.find(o=>o[0]===eduK()), t=D.tier.opts.find(o=>o[0]===tierK()); let s=e&&eduK()!=='any'?`A minimum: ${e[1]} also counts everyone with a higher degree.`:`Any degree keeps everyone.`; if(tierK()) s+=` School tier counts degrees from the ${t[1]} most selective colleges.`; return s;}
+  case 'inc':{const o=D.inc.opts.find(o=>o[0]===incK()); return incK()==='0'||!o||o[0]==='any'?`Any keeps everyone, whatever they earn.`:`A minimum: ${o[1]} counts ${men} earning at least that much a year.`;}
+  case 'eth':case 'relig':case 'pol':return n.length?`Counts ${men} who are ${n.join(', ')}.`:`Any keeps everyone.`;}
+  return '';}
+function howLine(k){const h=howLine0(k); return (['eth','relig','pol','haskids'].includes(k)&&!names(k).length)?h.replace(/Your pick keeps 100%\.|: 100% match the groups you picked\./,m=>m[0]===':'?'. Any = no cut.':'Any = no cut.'):h;}
+function howLine0(k){const c=plainCtx(), {men,ag,T,key}=c, kp=P(c.keep(k)), sx=c.sx;
+  switch(k){
+  case 'intent':{const cl=T.cells[ag], n=W111N[sx]||W111N.m; const p=x=>P(cl[x]);
+    const parts={committed:`${p('co')} want only something committed and ${p('ei')} are open to either, so ${P(cl.co+cl.ei)} would date someone looking for commitment`,
+      casual:`${p('ca')} want only something casual and ${p('ei')} are open to either, so ${P(cl.ca+cl.ei)} would date someone looking for something casual`,
+      either:`${p('co')} want committed, ${p('ca')} casual and ${p('ei')} either, so ${P(cl.co+cl.ca+cl.ei)} are looking`}[S.intent[0]]||`${P(cl.nl)} aren’t looking right now, and Any keeps them`;
+    return `Pew Research, 2022 survey of ${n.all.toLocaleString()} single ${sx==='m'?'men':'women'}. Among ${sx==='m'?'men':'women'} ${agL(ag)} (${n[ag]} people): ${parts}. Across your age range this step keeps ${kp}. ${lk('pew111')}`;}
+  case 'marry':{const r=T.marry[ag], w=D.blend.marry.parts.map(p=>{const m=(p.w||'').match(new RegExp('([\\d.]+) \\('+ag+'\\)'));return m?[p.name.replace(' (Match)','').replace('Research Center ATP','Research').replace('Research Center','Research'),p.year,+m[1]]:null;}).filter(Boolean), tot=w.reduce((t,x)=>t+x[2],0);
+    return `We average ${w.length} surveys for ${sx==='m'?'men':'women'} ${agL(ag)}: ${w.map(x=>`${x[0]} ${x[1]} (${Math.round(x[2]/tot*100)}%)`).join(', ')}. Together: ${P(r.yes)} yes, ${P(r.ns)} not sure, ${P(r.no)} no. Across your age range your pick keeps ${kp}. ${lk('pewmar')}`;}
+  case 'kids':{const r=T.kids[key], b=D.kids.base, tot=b.reduce((t,x)=>t+r[x],0), mid=(S.amin+S.amax)/2, wn=mid<35?60:mid<40?80:100;
+    return `CDC’s National Survey of Family Growth 2022–23 (unmarried ${sx==='m'?'men':'women'}, about 380 per 5-year age group)${wn<100?`, weighted ${wn}%, plus a Pew Research 2023 survey weighted ${100-wn}%`:''}. At ages ${key.replace('-','–')}: ${P(r.yes/tot)} want kids, ${P(r.ns/tot)} aren’t sure, ${P(r.no/tot)} don’t. Across your age range your pick keeps ${kp}. ${lk('nsfg')}`;}
+  case 'haskids':return `CDC’s National Survey of Family Growth 2022–23 asks unmarried ${men} whether they have children. Your pick keeps ${kp}. ${lk('nsfg')}`;
+  case 'city':return `U.S. Census, American Community Survey 2020–24: actual counts of never-married, divorced and widowed ${men} in every neighborhood (census tract) within ${S.radius} miles. ${lk('acs')}`;
+  case 'age':return `Same Census count, by age: ${kp} of the single ${men} near you are ${S.amin}–${S.amax}. ${lk('acs')}`;
+  case 'height':return `CDC’s NHANES measures the real heights of thousands of Americans (not self-reported). ${kp} of ${men} your age are ${hL()}. ${lk('nhanes')}`;
+  case 'edu':return `Census American Community Survey 2020–24, single ${men} in your area and age: ${kp} have the degree you picked. ${lk('acs')}`;
+  case 'tier':return `U.S. Dept. of Education college data (admission rates and degrees awarded, classes of 2016 and 2023 averaged): ${kp} of bachelor’s degrees ${sx==='m'?'men':'women'} earn come from these schools. ${lk('ipeds')}`;
+  case 'inc':return incEst()?`Census survey data stop at $500k+, so IRS 2023 tax returns for your state split the top: ${kp} of the remaining ${men} clear this income. ${lk('irs')}`:`Census American Community Survey 2020–24, single ${men} in your area, age and degree: ${kp} earn at least this. ${lk('acs')}`;
+  case 'eth':return `Census American Community Survey 2020–24, single ${men} in your area: ${kp} match the groups you picked. ${lk('acs')}`;
+  case 'relig':return `General Social Survey 2018–24 (unmarried ${men}, 350–700 per age group), with Pew’s Religious Landscape Study averaged in 50/50 for Jewish, Muslim, Buddhist and Hindu. Your pick keeps ${kp}. ${lk('gss')}`;
+  case 'pol':return `General Social Survey 2018–24, unmarried ${men} by age (7-point liberal–conservative scale). Your pick keeps ${kp}. ${lk('gss')}`;}
+  return '';}
+function plainHTML(k){const ks=k==='edu'?['edu','tier']:[k]; return `<p class="pf-pn">${plainNote(k)}</p><div class="pf-how"><b>How we got this</b>${ks.map(x=>`<p>${howLine(x)}</p>`).join('')}</div>`;}
 /* ---------- EDIT sheets: Sandbox 2 (s3y63) preference inputs, re-made in the sandbox palette ---------- */
 // site wording: What Matters Most questions (LONG) + Screen 3 field labels
 const ASK={marry:['Married someday','Should they want to get married someday?'],intent:['Intentions','What should they be looking for?'],kids:['Want kids','Should they want kids?'],haskids:['Have kids','Can they already have kids?'],
@@ -257,6 +306,11 @@ function openEdit(k,onChange){
       (B.single?`<div class="pf-lmh">${B.single}</div>`:'')+`</div>`;}
     return h;};
   const ESTN={'1m':1,'2m':1,'3m':1};
+  // plain-language rule: wave codes, table names and mapping rules (pf-flag), the old NOTES line and single-source notes go inside Learn more only
+  const techify=(body,k)=>{const fl=[]; body=body.replace(/<p class="pf-(flag|single)">[\s\S]*?<\/p>/g,m=>{fl.push(m);return '';});
+    const tech=fl.join('')+`<p class="pe-note">${NOTES[k]}.</p>`;
+    if(/class="pf-lm"/.test(body)) return body.replace(/(<div class="pf-lmp">)/,'$1<div class="pf-tech">'+tech+'</div>');
+    return body+`<button type="button" class="pf-lm" data-lm="1">${lmOpen?'Hide details':'Learn more · technical details'}</button>`+(lmOpen?`<div class="pf-lmp"><div class="pf-tech">${tech}</div></div>`:'');};
   // multi-select list for one preference key (row numbers: + = pool if you add that pick, − = pool if you remove it)
   // single-select list (Income): each row = final pool if that option is the pick
   const slist=(kk,title)=>{const cur=S[kk][0]||'any';
@@ -312,12 +366,12 @@ function openEdit(k,onChange){
     wrap.innerHTML=`<div class="pe-back"></div><div class="pe-panel pf-panel" role="dialog" aria-label="Edit ${r.name}">
       <div class="pe-top"><span class="pe-k">Edit ${k==='tier'?'Education':r.name} <span class="pe-badge src-${r.src}">${SRC[r.src]}</span></span><button type="button" class="pe-x">DONE</button></div>
       <div class="pf-q">${ASK[k][1]}</div><div class="pf-live">${result()}</div>
-      <div class="pe-opts pf-body">${body}</div>
-      <p class="pe-note">${NOTES[k]}.</p>
+      <div class="pf-plain">${plainHTML(k)}</div>
+      <div class="pe-opts pf-body">${techify(body,k)}</div>
       <button type="button" class="pe-done">Done — update pool</button></div>`;
     const np=wrap.querySelector('.pe-panel'); if(np&&st0) np.scrollTop=st0; const nl=wrap.querySelector('.pf-lmp'); if(nl&&lt0) nl.scrollTop=lt0; if(wt0) wrap.scrollTop=wt0;
     wire();};
-  const live=()=>{const el=wrap.querySelector('.pf-live'); if(el) el.innerHTML=result(); ch();};
+  const live=()=>{const el=wrap.querySelector('.pf-live'); if(el) el.innerHTML=result(); const pl=wrap.querySelector('.pf-plain'); if(pl) pl.innerHTML=plainHTML(k); ch();};
   function paintDual(w,f){const r0=w.querySelector('.r0'),r1=w.querySelector('.r1'),lo=+r0.min,hi=+r0.max,p=v=>(v-lo)/(hi-lo)*100;
     w.querySelector('.range-fill').style.cssText=`left:${p(+r0.value)}%;right:${100-p(+r1.value)}%`;
     const b0=w.querySelector('.b0'),b1=w.querySelector('.b1'); b0.textContent=f(+r0.value); b1.textContent=f(+r1.value);
@@ -352,5 +406,5 @@ function openEdit(k,onChange){
   build(); document.body.appendChild(wrap); requestAnimationFrame(()=>wrap.classList.add('show'));
 }
 function close(){const w=document.getElementById('pe-sheet'); if(w) w.remove();}
-window.PoolEngine={rankOf,orderRows,UNSTEPPED,CARD,alone,cityIds,otherIds,homeId,setHome,SXS,seekKey,peopleN,eduK,incK,tierK,incEst,lowest,CX,fmtR,D,S,ROWS,SRC,NOTES,SOURCES,ASK,compute,width,openEdit,close,fmt,pct,memLine,memOn,setMembers,MEM,optL,multiL,kidsL,hL,fmtIn,isAny,tryVal,tryMany,cityName,seekL,seekN,startSub,firstName,poss,poolTitle,fitFont,rate,accepted};
+window.PoolEngine={plainNote,howLine,plainHTML,rankOf,orderRows,UNSTEPPED,CARD,alone,cityIds,otherIds,homeId,setHome,SXS,seekKey,peopleN,eduK,incK,tierK,incEst,lowest,CX,fmtR,D,S,ROWS,SRC,NOTES,SOURCES,ASK,compute,width,openEdit,close,fmt,pct,memLine,memOn,setMembers,MEM,optL,multiL,kidsL,hL,fmtIn,isAny,tryVal,tryMany,cityName,seekL,seekN,startSub,firstName,poss,poolTitle,fitFont,rate,accepted};
 })();

@@ -1,0 +1,78 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Application received · See your real dating pool (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- Recreation of Sandbox 2 screen-8 "confirmation" (k5-s3y121-sandbox2_grokbot/index.html, showConfirmation) + a Your Pool CTA. Mockup: nothing is submitted or saved. -->
+<style>
+:root{--k:#0e0e0e;--ow:#f0ece0;--w:#fff;--lime:#c8f135;--or:#FF7A2F;--muted:rgba(240,236,224,.55);--soft:rgba(240,236,224,.66);--f:1}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--k);color:var(--ow);font-family:'Space Mono',monospace;-webkit-text-size-adjust:100%}
+button,a{font:inherit;color:inherit;background:none;border:none;cursor:pointer;text-decoration:none;-webkit-tap-highlight-color:transparent}
+#app{height:100dvh;max-width:430px;margin:0 auto;display:flex;flex-direction:column;padding:calc(30px*var(--f)) 24px 10px}
+.lbl{font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+.num{font-family:'Bebas Neue',sans-serif;font-size:calc(72px*var(--f));line-height:1;color:var(--lime);margin:calc(6px*var(--f)) 0 calc(6px*var(--f))}
+.numl{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:calc(18px*var(--f))}
+.pri{font-size:calc(13px*var(--f));line-height:1.6;color:var(--soft);margin-bottom:calc(14px*var(--f))}
+.txt{font-size:calc(14px*var(--f));line-height:1.7;color:var(--ow);margin-bottom:calc(16px*var(--f))}
+/* ---- NEW: Your Pool CTA ---- */
+.cta{display:block;width:100%;border-radius:4px;text-align:center}
+.cta-a{background:var(--lime);color:var(--k);padding:calc(13px*var(--f)) 10px;box-shadow:0 0 18px rgba(200,241,53,.35)}
+.cta-a b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:20px;letter-spacing:.06em;white-space:nowrap}
+.cta-a small{display:block;font-size:10.5px;margin-top:3px;white-space:nowrap}
+.cta-b{background:var(--lime);color:var(--k);padding:calc(12px*var(--f)) 10px;box-shadow:0 0 18px rgba(200,241,53,.35)}
+.cta-b b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:24px;letter-spacing:.1em;white-space:nowrap}
+.cta-b small{display:block;font-size:10.5px;margin-top:2px;white-space:nowrap}
+.cta-c{border:1.5px solid var(--lime);padding:calc(10px*var(--f)) 12px;text-align:left;display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,rgba(200,241,53,.08),rgba(255,122,47,.10))}
+.cta-c .n{font-family:'Bebas Neue',sans-serif;font-size:calc(46px*var(--f));line-height:.9;color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.6);white-space:nowrap}
+.cta-c .t{flex:1;font-size:10.5px;line-height:1.4;color:var(--ow)}.cta-c .t b{display:block;margin-top:4px;color:var(--lime);font-size:11.5px;letter-spacing:.04em}
+.ctawrap{margin-bottom:calc(16px*var(--f))}
+/* real recruit section */
+.rec .lbl{margin-bottom:calc(10px*var(--f))}
+.btn{display:block;width:100%;height:calc(50px*var(--f));font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2.2px}
+.btn-l{background:var(--lime);color:var(--k);border-radius:4px}
+.btn-o{border:1.5px solid rgba(240,236,224,.35);color:var(--ow);border-radius:4px}
+.more{flex:1;min-height:0;overflow:auto;margin-top:calc(16px*var(--f));border-top:1px solid rgba(240,236,224,.16);padding-top:calc(14px*var(--f))}
+.gh{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1.2px;line-height:1;margin-bottom:8px}.gh span{color:var(--lime)}
+.gw{font-size:13px;line-height:1.55;margin-bottom:12px}
+.mock{position:fixed;right:5px;bottom:1px;font-size:8px;letter-spacing:.1em;color:rgba(240,236,224,.22);text-transform:uppercase;pointer-events:none}
+</style></head><body>
+<div id="app">
+  <div class="lbl">APPLICATION RECEIVED</div>
+  <div class="num" id="num">#01234</div>
+  <div class="numl">APPLICATION NUMBER</div>
+  <p class="pri">Applications are reviewed in the order they're received. The earlier you applied, the higher your priority for Cohort 01.</p>
+  <div class="txt" id="txt"></div>
+  <div class="ctawrap" id="ctawrap"></div>
+  <div class="rec"><div class="lbl">Know someone who should apply?</div><button class="btn btn-l" type="button">SEND THEM THE LINK</button></div>
+  <section class="more" aria-label="Find mutual friends">
+    <div class="gh">FIND MUTUAL <span>FRIENDS</span></div>
+    <p class="gw">Connect Google or Facebook to see mutual friends in the study. With Google you can also block an ex so you're never matched.</p>
+    <button class="btn btn-o" type="button">CONNECT GOOGLE CONTACTS</button>
+    <div class="lbl" style="text-align:center;margin:12px 0">OR WITH FACEBOOK</div>
+    <button class="btn btn-o" type="button">CONNECT FACEBOOK</button>
+  </section>
+</div>
+<div class="mock">mockup · post-submit + pool CTA</div>
+<script src="your-pool-real-data_grokbot.js?v=14"></script>
+<script src="your-pool-engine_grokbot.js?v=14"></script>
+<script>
+const E=window.PoolEngine, Q=new URLSearchParams(location.search), V=(Q.get('cta')||'a').toLowerCase();
+const NUM='#01234', NAME='Amanda';   // mock application number; first name from her signup
+document.getElementById('num').textContent=NUM;
+document.getElementById('txt').textContent=`${NAME} — your application number is ${NUM}. You just volunteered to let science study your love life. We respect that enormously.`;
+// live pool number from the same engine + data + signup defaults as Your Pool V3
+const C=E.compute(), n='≈'+E.fmtR(C.final), who=({m:'single men',f:'single women'})[E.SXS().length>1?'b':E.SXS()[0]]||'singles';
+const href='your-pool-v3_grokbot.html?from=post&cta='+V;
+const CTA={
+ a:`<a class="cta cta-a" id="cta" href="${href}"><b>See how your preferences compare to reality</b><small>${n} ${who} match everything you picked</small></a>`,
+ b:`<a class="cta cta-b" id="cta" href="${href}"><b>See your real dating pool</b><small>${n} ${who} match everything you picked</small></a>`,
+ c:`<a class="cta cta-c" id="cta" href="${href}"><span class="n">${n}</span><span class="t">${who} match everything you picked<b>COMPARE TO REALITY →</b></span></a>`};
+document.getElementById('ctawrap').innerHTML=CTA[V]||CTA.a;
+// shrink the CTA headline to one line if needed, then scale spacing so the page never scrolls (the friends section scrolls inside itself, as it would below the fold)
+function fit(){const a=document.getElementById('app'),c=document.querySelector('#cta b');
+  if(c){c.style.fontSize='';let px=parseFloat(getComputedStyle(c).fontSize);while(c.scrollWidth>c.clientWidth+1&&px>15){px-=.5;c.style.fontSize=px+'px';}}
+  let f=1;a.style.setProperty('--f',1);const m=document.querySelector('.more');
+  while(f>0.55&&m.clientHeight<70){f-=.04;a.style.setProperty('--f',f.toFixed(2));}}
+addEventListener('resize',fit);fit();document.fonts&&document.fonts.ready.then(fit);
+</script></body></html>
