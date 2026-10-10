@@ -91,6 +91,12 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 .pe-opt{min-height:42px;display:flex;justify-content:space-between;align-items:center;padding:0 14px;border-radius:8px;border:1px solid rgba(240,236,224,.18);text-align:left;font-size:13px}
 .pe-opt b{color:var(--lime)}.pe-opt.on{border-color:var(--lime);background:linear-gradient(90deg,rgba(200,241,53,.2),rgba(255,122,47,.16))}
 .pe-note{font-size:10px;color:var(--muted);margin:8px 0}
+.ed-subsec{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:8px 0 2px}
+.ed-t{display:inline-flex;flex-direction:column;line-height:1.2}.ed-sub{font-size:10px;color:var(--muted);margin-top:1px;white-space:nowrap}
+.il-row{display:flex;align-items:center;gap:6px}.il-row>.race-opt{flex:1;min-width:0}
+.il-link{flex-shrink:0;font-size:11px;font-weight:700;color:var(--lime);border:1px solid var(--lime);border-radius:999px;padding:5px 10px;white-space:nowrap}.il-link::after{content:' ▾'}
+.il-form{padding:2px 0 8px 34px}.il-k{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:2px 0 6px}
+.il-same{display:flex;flex-wrap:wrap;gap:6px}.il-chip{min-height:34px;padding:3px 10px;border-radius:999px;border:1px solid rgba(240,236,224,.25);font-size:11.5px;text-align:center;line-height:1.15}.il-chip small{display:block;font-size:9.5px;color:var(--muted)}.il-chip.on{background:var(--lime);color:var(--k);border-color:var(--lime);font-weight:700}.il-chip.on small{color:var(--k)}
 .pf-pn{font-size:12.5px;line-height:1.45;color:var(--or);font-weight:700;margin:6px 0 6px}
 .pf-how{font-size:11px;line-height:1.5;color:var(--ow);border-left:2px solid var(--lime);padding:2px 0 2px 9px;margin:0 0 8px}.pf-how>b{display:block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--lime);margin-bottom:2px}.pf-how p+p{margin-top:5px}.pf-how a{color:var(--lime);white-space:nowrap}
 .pf-tech .pf-flag,.pf-tech .pf-single,.pf-tech .pe-note{font-size:10px;color:var(--muted);margin:4px 0}
@@ -116,8 +122,8 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
   <div class="bottom"><button class="upd" type="button" id="upd" hidden>Update my preferences to these</button><button class="next" type="button">NEXT</button><a class="back" href="all-cards_grokbot.html#sec-pool" target="_top">&larr; BACK</a></div>
 </div>
 <div class="mock">mockup · V3 brand palette</div>
-<script src="your-pool-real-data_grokbot.js?v=14"></script>
-<script src="your-pool-engine_grokbot.js?v=14"></script>
+<script src="your-pool-real-data_grokbot.js?v=15"></script>
+<script src="your-pool-engine_grokbot.js?v=15"></script>
 <script>
 const E=PoolEngine, S=E.S, $=s=>document.querySelector(s);
 // header: AMANDA’S POOL (signup first name), YOUR POOL if there is no name
@@ -193,7 +199,7 @@ function openOptional(){
     <p class="pe-note">These are “Any” in your picks, so they don’t cut. Turn one on to add it after your ranked picks (Education tier takes one, a minimum; the others take several, each group counted once). Your pool now: <b style="color:var(--lime)">≈ ${E.fmt(c.final)}</b>. Sources in ⓘ.</p>
     <button type="button" class="pe-done">Done — update pool</button></div>`;
     {const np=wrap.querySelector('.pe-panel'); if(np&&st0) np.scrollTop=st0;}
-    wrap.querySelectorAll('.op-chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k,id=b.dataset.id; if(E.D[k].single){S[k]=id==='any'?[]:[id];} else if(E.D[k].multi){S[k]=id==='any'?[]:(S[k].includes(id)?S[k].filter(x=>x!==id):S[k].concat(id)); const it=E.D[k].opts.map(o=>o[0]).filter(x=>x!=='any'&&x!=='none'); if(it.every(x=>S[k].includes(x))) S[k]=[];} else S[k]=id; draw(); render();});
+    wrap.querySelectorAll('.op-chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k,id=b.dataset.id; if(E.D[k].single){S[k]=id==='any'?[]:[id]; if(k==='tier'&&S.tier.length&&!['ba','ma','phd'].includes(S.edu[0])) S.edu=['ba'];} else if(E.D[k].multi){S[k]=id==='any'?[]:(S[k].includes(id)?S[k].filter(x=>x!==id):S[k].concat(id)); const it=E.D[k].opts.map(o=>o[0]).filter(x=>x!=='any'&&x!=='none'); if(it.every(x=>S[k].includes(x))) S[k]=[];} else S[k]=id; draw(); render();});
     wrap.querySelector('.pe-x').onclick=wrap.querySelector('.pe-done').onclick=wrap.querySelector('.pe-back').onclick=()=>E.close();
   };
   draw(); document.body.appendChild(wrap); requestAnimationFrame(()=>wrap.classList.add('show'));

@@ -15,7 +15,7 @@
 (function(){
 const D=window.POOL_REAL, S=JSON.parse(JSON.stringify(D.sel)), Q=new URLSearchParams(location.search);
 const sig=n=>{n=Math.round(n); if(n<1000) return Math.round(n/10)*10||n; const p=Math.pow(10,Math.floor(Math.log10(n))-2); return Math.round(n/p)*p};
-const fmt=n=>sig(n).toLocaleString('en-US');
+const fmt=n=>n<100?(n>=10?String(Math.round(n)):n>0?n.toFixed(1):'0'):sig(n).toLocaleString('en-US'); // small pools: same digits as the sheets (was rounding 6.4 to 10)
 // row counts in sheets: unrounded under 100 (one decimal under 10) so small groups stay distinct
 const fmtR=n=>n>=100?fmt(n):n>=10?String(Math.round(n)):n>0?n.toFixed(1):'0';
 // src keys stay as before (variants style badges by key); the text is the simple Census / CDC / EST rule
@@ -110,6 +110,7 @@ const eduK=()=>lowest('edu')||'any', incK=()=>lowest('inc')||'0';
 const BAUP={ba:1,ma:1,phd:1}, eduM=()=>{const e=eduK(); return tierK()&&!BAUP[e]?'ba':e;};
 const TAIL={'1m':1,'2m':1,'3m':1}, incEst=()=>!!TAIL[incK()];
 const tierK=()=>['top100','top50','ivy'].find(t=>S.tier.includes(t));  // widest tier picked
+D.haskids.opts=[['any','Doesn’t matter'],['yes','Yes'],['no','No']]; D.haskids.multi=false; D.haskids.single=true; // s3y121 'Can they already have kids?' (single); Yes = they may already have kids = no cut, No = only people without kids, Doesn't matter = no cut
 const hasKidsMode=()=>{const a=S.haskids; return a.length===1?a[0]:'any';};
 function frac(g,lo,hi){const [a,b]=D.GB[g]; const ov=Math.min(b,hi)-Math.max(a,lo)+1; return ov>0?ov/(b-a+1):0;}
 // accepted base categories for a multi-select step (union, each once)
@@ -122,7 +123,7 @@ function rate(k,g){
     case 'kids':{if(!S.kids.length) return 1; const r=T.kids[g], tot=D.kids.base.reduce((t,x)=>t+r[x],0); let v=0; accepted('kids').forEach(x=>v+=r[x]); return v/tot;}
     case 'haskids':{const md=hasKidsMode(); if(md==='any') return 1; const nk=T.nok[g]; let p=nk.any;
       if(S.kids.length){const r=T.kids[g]; let num=0,den=0; accepted('kids').forEach(x=>{num+=r[x]*nk[x]; den+=r[x];}); if(den>0) p=num/den;}
-      return md==='no'?p:1-p;}
+      return md==='no'?p:1;}
     case 'height': return hRate(T.hcdf[g]);
     case 'edu': return c.edu[g][eduK()]/1000;
     case 'inc':{const i=incK(); if(i==='0') return 1; if(TAIL[i]) return c.inc[g][eduM()]['500000']/1000*(D.inc.irs?D.inc.irs[CX.c][i]:D.inc.tail[CX.sx][i]);  /* IRS SOI 2023 by state; fitted curve if irs is off (Learn more) */ return c.inc[g][eduM()][i]/1000;}
@@ -192,7 +193,7 @@ function plainNote(k){const {men}=plainCtx(), n=names(k);
   case 'intent':return ({committed:`Committed counts ${men} looking only for something serious, plus ${men} open to either.`,casual:`Casual counts ${men} looking only for something casual, plus ${men} open to either.`,either:`Either counts every single ${men==='men'?'man':men==='women'?'woman':'person'} who is looking for any kind of relationship.`})[S.intent[0]]||`Any keeps every single ${men==='men'?'man':men==='women'?'woman':'person'}, even those not looking right now.`;
   case 'marry':return n.length?`Counts ${men} who answer ${n.join(' or ')} to “Do you want to get married someday?”`:`Any keeps everyone, whatever they think about marriage.`;
   case 'kids':{if(!n.length) return `Any keeps everyone, whether or not they want kids.`; const t={yes:`Yes counts ${men} who want kids, plus those not sure yet.`,no:`No counts ${men} who don’t want kids.`,open:`Whatever my partner wants counts ${men} who aren’t sure either way.`}; return S.kids.map(x=>t[x]).join(' ');}
-  case 'haskids':return n.length?`Counts ${men} who ${n.join(' or ').toLowerCase()} kids already.`:`Any keeps everyone, with or without kids.`;
+  case 'haskids':return S.haskids[0]==='no'?`No counts only ${men} who don’t have kids yet.`:S.haskids[0]==='yes'?`Yes means they can already have kids, so everyone stays in.`:`Doesn’t matter keeps everyone, with or without kids.`;
   case 'age':return `Counts single ${men} aged ${S.amin}–${S.amax}.`;
   case 'height':return `Counts ${men} between ${hL().replace('–',' and ')} tall.`;
   case 'city':return `Your starting pool: every single ${men==='men'?'man':men==='women'?'woman':'person'} 21–80 living within ${S.radius} miles of ${cityName()}.`;
@@ -200,7 +201,7 @@ function plainNote(k){const {men}=plainCtx(), n=names(k);
   case 'inc':{const o=D.inc.opts.find(o=>o[0]===incK()); return incK()==='0'||!o||o[0]==='any'?`Any keeps everyone, whatever they earn.`:`A minimum: ${o[1]} counts ${men} earning at least that much a year.`;}
   case 'eth':case 'relig':case 'pol':return n.length?`Counts ${men} who are ${n.join(', ')}.`:`Any keeps everyone.`;}
   return '';}
-function howLine(k){const h=howLine0(k); return (['eth','relig','pol','haskids'].includes(k)&&!names(k).length)?h.replace(/Your pick keeps 100%\.|: 100% match the groups you picked\./,m=>m[0]===':'?'. Any = no cut.':'Any = no cut.'):h;}
+function howLine(k){const h=howLine0(k); return ((['eth','relig','pol'].includes(k)&&!names(k).length)||(k==='haskids'&&S.haskids[0]!=='no'))?h.replace(/Your pick keeps 100%\.|: 100% match the groups you picked\./,m=>m[0]===':'?'. Any = no cut.':'Any = no cut.'):h;}
 function howLine0(k){const c=plainCtx(), {men,ag,T,key}=c, kp=P(c.keep(k)), sx=c.sx;
   switch(k){
   case 'intent':{const cl=T.cells[ag], n=W111N[sx]||W111N.m; const p=x=>P(cl[x]);
@@ -291,7 +292,7 @@ function openEdit(k,onChange){
       <span class="slider-bubble b0">${fmtv(a)}</span><span class="slider-bubble b1">${fmtv(b)}</span>
       <input type="range" class="range-input r0" min="${lo}" max="${hi}" step="1" value="${a}" aria-label="Minimum"><input type="range" class="range-input r1" min="${lo}" max="${hi}" step="1" value="${b}" aria-label="Maximum"></div>
       <div class="pf-ends"><span>${fmtv(lo)}</span><span>${fmtv(hi)}</span></div>`;
-  let body='', top='', lmOpen=false;
+  let body='', top='', lmOpen=false, tierOpen=false;
   // Learn more: one row per source of the blended rate, with the pool if that source were used alone; Blended = current
   const SINGLE={haskids:'Single source: CDC NSFG 2022–23 (men: EVBIOKID; women: PARITY).',pol:'Single source: GSS 2018–2024 polviews (7-point), by sex.',
     eth:'Single source: ACS 2020–24 PUMS (direct count).',edu:'Single source: ACS 2020–24 PUMS (direct count).',
@@ -314,7 +315,7 @@ function openEdit(k,onChange){
   // multi-select list for one preference key (row numbers: + = pool if you add that pick, − = pool if you remove it)
   // single-select list (Income): each row = final pool if that option is the pick
   const slist=(kk,title)=>{const cur=S[kk][0]||'any';
-    return `<label class="pf-lab">${title} <span class="pf-hint">(pick one · ${kk==='intent'?'':'at least this · '}numbers = your pool with that pick)</span></label><div class="pf-list" data-sk="${kk}">${D[kk].opts.map(([id,l])=>{
+    return `<label class="pf-lab">${title} <span class="pf-hint">(pick one · ${kk==='intent'||kk==='haskids'?'':'at least this · '}numbers = your pool with that pick)</span></label><div class="pf-list" data-sk="${kk}">${D[kk].opts.map(([id,l])=>{
       const lab=l+(kk==='inc'&&ESTN[id]?'<span class="pf-tag est">EST</span>':''), on=cur===id;
       return opt(id,lab,on,'round',(on?'<span class="pf-in">in</span> ':'')+(id==='any'||id==='none'?'no cut · ':'')+'≈ '+fmtR(tryVal(kk,id==='any'?[]:[id])));}).join('')}</div>`;};
   const mlist=(kk,title)=>{const cur=S[kk], nxt=id=>{let v=cur.includes(id)?cur.filter(x=>x!==id):cur.concat(id); if(RACE_PANEL[kk]){const it=D[kk].opts.map(o=>o[0]).filter(x=>x!=='any'&&x!=='none'); if(it.every(x=>v.includes(x))) v=[];} return v;};
@@ -346,16 +347,24 @@ function openEdit(k,onChange){
       body=`<label class="pf-lab">Height</label>${dual('height',H0,H1,Math.max(H0,S.hmin),Math.min(H1,S.hmax),fmtIn)}
         <div class="pf-list">${opt('sig',`${fmtIn(D.sel.hmin)}–${fmtIn(D.sel.hmax)}<span class="pf-tag sig">signup</span>`,S.hmin===D.sel.hmin&&S.hmax===D.sel.hmax,'round')}${opt('any','Any height',S.hmin<=H0&&S.hmax>=H1,'round')}</div>`;
     } else if(k==='edu'||k==='tier'){
-      body=slist('edu','Degree')+`<p class="pf-flag">One pick, a minimum degree: Bachelor’s+ already includes Master’s+ and Doctorate+. Any or None Stated = no degree cut.</p>`+learn('edu')+slist('tier','School tier')+`<p class="pf-flag">One pick: Top 100 already includes Top 50 and Ivy+.</p>`+learn('tier');
+      // mirrors Sandbox 2 (s3y78/s3y81/s3y104) wd-panel: 'Minimum degree' list (common first, then More), School tier on the selected degree row
+      const LV=[['any','Any','No minimum'],['ba','BS/BA+','Bachelor’s or higher'],['ma','MA+','Master’s or higher (MA, MS, MBA…)'],['phd','PhD+','Doctorate (PhD, JD, MD…)'],null,['hs','HS+','High school / GED or higher'],['sc','Some college+',''],['aa','AA+','Associate’s or higher'],['none','None Stated','Prefer not to say']];
+      const TI=[['any','Any tier'],['top100','Top 100'],['top50','Top 50'],['ivy','Ivy+']], TIERED=['ba','ma','phd'], cur=S.edu[0]||'any', tc=S.tier[0]||'any';
+      body=`<label class="pf-lab">Minimum degree <span class="pf-hint">(numbers = your pool with that pick)</span></label><div class="pf-list" data-sk="edu">`+LV.map(d=>{if(!d) return `<div class="ed-subsec">More</div>`;
+        const [id,t,sub]=d, on=cur===id, n=fmtR(tryMany(TIERED.includes(id)?{edu:id==='any'?[]:[id]}:{edu:id==='any'?[]:[id],tier:[]}).final);  /* below BS/BA+ the tier resets to Any tier, so the row shows that pool */
+        let h=opt(id,`<span class="ed-t">${t}${sub?`<span class="ed-sub">${sub}</span>`:''}</span>`,on,'round',(on?'<span class="pf-in">in</span> ':'')+(id==='any'||id==='none'?'no cut · ':'')+'≈ '+n);
+        if(on&&TIERED.includes(id)){h=`<div class="il-row">${h}<button type="button" class="il-link wd-tier-btn" data-tiertog="1" aria-expanded="${tierOpen}">${TI.find(x=>x[0]===tc)[1]}</button></div>`;
+          if(tierOpen) h+=`<div class="il-form wd-tier-form" role="radiogroup" aria-label="School tier"><div class="il-k">School tier</div><div class="il-same">${TI.map(([tid,tl])=>`<button type="button" class="il-chip${tc===tid?' on':''}" data-tier="${tid}" role="radio" aria-checked="${tc===tid}">${tc===tid?'✓ ':''}${tl}<small>≈ ${fmtR(tryVal('tier',tid==='any'?[]:[tid]))}</small></button>`).join('')}</div></div>`;}
+        return h;}).join('')+`</div><p class="pf-flag">One pick, a minimum degree: BS/BA+ already includes MA+ and PhD+. Any or None Stated = no degree cut. School tier shows on the picked degree (BS/BA+ or higher); picking a lower degree resets it to Any tier; Top 100 already includes Top 50 and Ivy+.</p>`+learn('edu')+learn('tier');
     } else if(k==='intent'){
       body=slist('intent','Intentions')+`<p class="pf-flag">One pick. <b>Committed</b> = committed only + either; <b>Casual</b> = casual only + either; <b>Either</b> = everyone looking; <b>Any</b> = no cut (every single person, including not looking — same as before). Pew 2022 (W111) groups. Default = your Sandbox 2 Looking For (Committed).</p>`+learn('intent');
     } else if(k==='inc'){
       body=slist('inc','Income')+`<p class="pf-flag">One pick, like the site’s minimum-income dropdown: a pick means at least that much. <b>$1M+, $2M+, $3M+ are EST (IRS SOI 2023)</b>: the Census top-codes the highest incomes, so these take the census $500k+ count and the IRS share of unmarried $500k+ filers in that state who make $1M+, $2M+, $3M+. Learn more compares it with the older fitted curve. None Stated = no income cut.</p>`+learn('inc');
     } else { // multi-select lists: intent, kids, haskids (WMM lists) and eth / relig / pol (race panels)
-      body=mlist(k);
+      body=k==='haskids'?slist('haskids','Can they already have kids?'):mlist(k);
       if(k==='marry') body+=`<p class="pf-flag">Same answers as the site’s “Do you want to get married someday?”: <b>Yes</b> / <b>Not sure</b> / <b>No</b>. Groups don’t overlap; all three = no cut. Checked = your Sandbox 2 answer (Yes).</p>`;
       if(k==='kids') body+=`<p class="pf-flag"><b>Yes</b> = people who want kids + people open to either (the survey’s Not sure); <b>No</b> = people who don’t want kids (Not sure is not counted); <b>Whatever my partner wants</b> = Not sure only (Sandbox 2 counts a partner’s Unsure as Whatever my partner wants). Each group counts once. Checked = your saved partner picks on Sandbox 2.</p>`;
-      if(k==='haskids') body+=`<p class="pf-flag">Pick both = no cut. Uses the Want kids groups you accept.</p>`;
+      if(k==='haskids') body+=`<p class="pf-flag">Same as Sandbox 2 (s3y121) “Can they already have kids?”, saved as partner_has_children (yes / no / null). No = only people with no children yet (NSFG, within the Want kids groups you accept); Yes and Doesn’t matter = no cut.</p>`;
       // (intent is single-select since v10: handled above)
       if(k==='pol') body+=`<p class="pf-flag">Apolitical uses the GSS “no answer / don’t know” share (stand-in). None Stated adds no one.</p>`;
       if(k==='eth'||k==='relig') body+=`<p class="pf-flag">None Stated adds no one: the survey has no “not stated” group.</p>`;
@@ -390,10 +399,12 @@ function openEdit(k,onChange){
       if(v==='both') S.seek=['men','women']; else {const nx=cur.includes(v)?cur.filter(x=>x!==v):cur.concat(v); if(nx.length) S.seek=nx;}
       build(); ch();});
     const oc=wrap.querySelector('#pf-other'); if(oc) oc.onchange=()=>{S.city=oc.checked?D.city.ORDER.filter(x=>x!==homeId()):[]; build(); ch();};
+    const tt=wrap.querySelector('[data-tiertog]'); if(tt) tt.onclick=()=>{tierOpen=!tierOpen; build();};
+    wrap.querySelectorAll('[data-tier]').forEach(b=>b.onclick=()=>{S.tier=b.dataset.tier==='any'?[]:[b.dataset.tier]; tierOpen=false; build(); ch();});
     const lm=wrap.querySelector('[data-lm]'); if(lm) lm.onclick=()=>{lmOpen=!lmOpen; build();};
     wrap.querySelectorAll('.race-opt[data-id]:not([disabled])').forEach(b=>b.onclick=()=>{const id=b.dataset.id, mk=(b.closest('[data-mk]')||{}).dataset;
       const kk=mk&&mk.mk, sk=(b.closest('[data-sk]')||{dataset:{}}).dataset.sk;
-      if(sk) S[sk]=id==='any'?[]:[id];
+      if(sk){S[sk]=id==='any'?[]:[id]; if(sk==='edu'){if(['ba','ma','phd'].includes(id)) tierOpen=true; else {S.tier=[]; tierOpen=false;}}}
       else if(kk==='city'){if(id!==homeId()){const a=otherIds(); S.city=a.includes(id)?a.filter(x=>x!==id):a.concat(id);}}
       else if(k==='age'){const [a,z]=id.split('-').map(Number); S.amin=a; S.amax=z;}
       else if(k==='height'){if(id==='any'){S.hmin=H0; S.hmax=H1;} else {S.hmin=D.sel.hmin; S.hmax=D.sel.hmax;}}
