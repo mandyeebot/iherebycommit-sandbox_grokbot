@@ -42,7 +42,13 @@ const seekKey=()=>{const a=SXS(); return a.length>1?'both':a[0]==='m'?'men':'wom
 const seekL=()=>SEEK[seekKey()][0], seekN=()=>SEEK[seekKey()][1];
 const peopleN=()=>({men:'men',women:'women',both:'people'})[seekKey()];
 // partner cities: multi-select of her signup cities (union, each tract once); empty = home
-const cityIds=()=>{const a=D.city.ORDER.filter(id=>S.city.includes(id)); return a.length?a:[D.city.home];};
+// Amanda Oct 10: the home (main) city is always in and NEVER appears in the Other cities list; a saved copy of it there is dropped (not double counted);
+// changing home (setHome) re-filters the other cities. S.city holds other cities only.
+const homeId=()=>S.home||D.city.home;
+const otherIds=()=>D.city.ORDER.filter(id=>id!==homeId()&&S.city.includes(id));
+const cityIds=()=>{const h=homeId(); return [h].concat(otherIds()).sort((a,b)=>D.city.ORDER.indexOf(a)-D.city.ORDER.indexOf(b));};
+const setHome=id=>{if(!D.city.ORDER.includes(id)) return; S.home=id; S.city=S.city.filter(x=>x!==id);};
+S.home=D.city.home; S.city=S.city.filter(x=>x!==S.home);
 const distL=()=>'≤'+S.radius+' mi';
 const startSub=()=>seekN()+' 21–80 · '+cityName()+' '+distL();
 const MEM={threshold:D.members.threshold,count:D.members.count,asOf:D.members.asOf,rates:D.members.rates,preview:false};
@@ -70,7 +76,7 @@ function opt(rk,k,name,src){return {rk,k,name,src,uname:k==='tier'?'Tier':name,o
 const NOTES={
  city:'CENSUS. ACS 2020–24 5-yr (B12002, by sex; Supabase research_acs_b12002_tract, checked tract by tract): single men and/or women (never married, divorced or widowed) aged 21–80 in Census tracts within that distance of the city, at every stop of the site’s distance slider (1–300 mi). Both = men + women (no overlap). Several cities count each tract once (New York and Brooklyn overlap almost fully); a tract near several of your cities uses the mix of the city that keeps the most people. Degree, income and ethnicity use each city’s own mix for that sex',
  age:'CENSUS. Same ACS table by 5-year age group (65–74 and 75–84 come in 10-year groups; a partial group counts by its share of years). Later steps use age-specific rates for the ages you keep',
- intent:'EST. Sandbox 2 Looking For wording: Committed / Casual / Either (multi-select). Pew ATP W111 (Jul 2022) SEEKING asks unmarried adults who aren’t in a relationship what they’re looking for: a committed relationship only / casual dates only / either / not looking; men from the published W111 cells, women from Supabase research_pew_w111, by age 18–29, 30–49, 50–64, 65+. Committed = committed only, Casual = casual only, Either = either; the groups don’t overlap, so picks add up and ticking all three cuts only not looking. Pew 2019 W56 (same question, Supabase research_pew_w56) is shown in Learn more for comparison only',
+ intent:'EST. Single select, Sandbox 2 Looking For wording: Any / Committed / Casual / Either. Pew ATP W111 (Jul 2022) SEEKING asks unmarried adults who aren’t in a relationship what they’re looking for: committed only / casual only / either / not looking (men from the published W111 cells, women from Supabase research_pew_w111, by age 18–29, 30–49, 50–64, 65+). A pick accepts compatible people: Committed = committed only + either; Casual = casual only + either; Either = everyone looking; Any = no cut (every single person, including not looking, as before). Pew 2019 W56 (Supabase research_pew_w56) is in Learn more for comparison only',
  kids:'EST. CDC NSFG 2022–23 unmarried men (wants kids: yes / no / don’t know), blended with Pew 2023 (men 18–34 without kids: 57% / 15% / 28% not sure) at weight 0.4 under 35 and 0.2 at 35–39; women: NSFG 2022–23 female respondents alone. 50–54 carries 45–49, older ages scaled down (NSFG stops at 49). Three exclusive groups: Yes, No, Not sure (Not sure stands in for “open to either”). Yes = yes + not sure (anyone who wants kids or is open to them); No = no; Open to either = not sure (Sandbox 2 counts a partner’s Unsure as Open to either). Several options add their groups once.',
  height:'CDC. NHANES measured heights (men: Aug 2021–Aug 2023 and 2017–Mar 2020, averaged; women: CDC/NCHS anthropometric reference percentiles, 2018 and 2023 editions, from Supabase), by sex and age, by inch like the site slider (4’10”–7’0”)',
  edu:'CENSUS. ACS 2020–24 PUMS: single men / women in this city area, by age. Doctorate+ includes professional degrees (MD, JD). Single select (a minimum degree, like the site’s dropdown). Any or None Stated = no degree cut (the census has no “not stated”)',
@@ -151,7 +157,7 @@ const pct=k=>k>=0.995?'100%':k<0.01?'<1%':Math.round(k*100)+'%';
 function memLine(st){return st&&st.member!=null?`IHBC members ${pct(st.member)} · studies ${pct(st.keep)}${MEM.preview?' · PREVIEW':''}`:'';}
 function tryVal(k,v){const prev=S[k]; S[k]=v; const n=compute().final; S[k]=prev; return n;}
 function tryMany(o){const prev={}; for(const k in o){prev[k]=S[k]; S[k]=o[k];} const c=compute(); for(const k in prev) S[k]=prev[k]; return c;}
-const SOURCES='<b>YOUR REAL PREFERENCES</b> from your newest Sandbox 2 single signup (Oct 9, 2026, 11:56 PM CT), in your What Matters Most order. Every EDIT is the Sandbox 2 preferences input for that question (same wording and options). Partner preferences take several picks (Intentions, Want kids, Have kids, Ethnicity, Religion, Politics, Seeking, cities) except the minimum-style ones, which take one like the site’s dropdowns: Income, Degree and School tier (a pick = at least this). Your own answers take one; several picks count each group once. Seeking men, women or both: every step uses that sex’s rates; both = men + women. Intentions = your Looking For answer there (Casual); Want kids, Degree, School tier, Income, cities, age and height are your saved partner picks; Ethnicity, Have kids, Religion and Politics are Any. Marriage timing, kids timing and the other marriage questions are about you, so they don’t cut the pool. Counts are our estimates, not a live dating pool. Badges: <b>CENSUS</b> = direct ACS count, <b>CDC</b> = direct NHANES, <b>EST</b> = our blend of studies. '+
+const SOURCES='<b>YOUR REAL PREFERENCES</b> from your newest Sandbox 2 single signup (Oct 9, 2026, 11:56 PM CT), in your What Matters Most order. Every EDIT is the Sandbox 2 preferences input for that question (same wording and options). Partner preferences take several picks ( Want kids, Have kids, Ethnicity, Religion, Politics, Seeking, cities) except the minimum-style ones, which take one like the site’s dropdowns: Income, Degree and School tier (a pick = at least this), plus Intentions (one pick: Any / Committed / Casual / Either). Your own answers take one; several picks count each group once. Seeking men, women or both: every step uses that sex’s rates; both = men + women. Intentions = your Looking For answer there (Casual); Want kids, Degree, School tier, Income, cities, age and height are your saved partner picks; Ethnicity, Have kids, Religion and Politics are Any. Marriage timing, kids timing and the other marriage questions are about you, so they don’t cut the pool. Counts are our estimates, not a live dating pool. Badges: <b>CENSUS</b> = direct ACS count, <b>CDC</b> = direct NHANES, <b>EST</b> = our blend of studies. '+
  '<b>How options add up:</b> each question’s survey answers are split into groups of people that don’t overlap; each site option counts the groups that would match it, and picking several counts each group once. No 50/50 splits. '+
  '<b>Supabase tables (dqrmyqmpqnlemkwdndsf):</b> research_acs_b12002_tract (start counts), research_pew_w111, research_nsfg_2022_2023_female, research_gss, benchmarks (height), research_ipeds_admissions (tier), research_irs_soi_state_agi + research_irs_soi_county ($1M+). '+
  '<b>City + distance:</b> '+NOTES.city.slice(8)+'. <b>Age:</b> '+NOTES.age.slice(8)+'. <b>Intentions (EST):</b> '+NOTES.intent.slice(5)+'. <b>Want kids (EST):</b> '+NOTES.kids.slice(5)+'. <b>Height (CDC):</b> '+NOTES.height.slice(5)+'. <b>Degree, Income (CENSUS):</b> ACS 2020–24 PUMS, single men / women in the same area and age, counted together; $1M+ and up are EST (IRS SOI 2023, Supabase research_irs_soi_state_agi, checked against research_irs_soi_county). '+
@@ -243,7 +249,7 @@ function openEdit(k,onChange){
   // multi-select list for one preference key (row numbers: + = pool if you add that pick, − = pool if you remove it)
   // single-select list (Income): each row = final pool if that option is the pick
   const slist=(kk,title)=>{const cur=S[kk][0]||'any';
-    return `<label class="pf-lab">${title} <span class="pf-hint">(pick one · at least this · numbers = your pool with that pick)</span></label><div class="pf-list" data-sk="${kk}">${D[kk].opts.map(([id,l])=>{
+    return `<label class="pf-lab">${title} <span class="pf-hint">(pick one · ${kk==='intent'?'':'at least this · '}numbers = your pool with that pick)</span></label><div class="pf-list" data-sk="${kk}">${D[kk].opts.map(([id,l])=>{
       const lab=l+(kk==='inc'&&ESTN[id]?'<span class="pf-tag est">EST</span>':''), on=cur===id;
       return opt(id,lab,on,'round',(on?'<span class="pf-in">in</span> ':'')+(id==='any'||id==='none'?'no cut · ':'')+'≈ '+fmtR(tryVal(kk,id==='any'?[]:[id])));}).join('')}</div>`;};
   const mlist=(kk,title)=>{const cur=S[kk], nxt=id=>{let v=cur.includes(id)?cur.filter(x=>x!==id):cur.concat(id); if(RACE_PANEL[kk]){const it=D[kk].opts.map(o=>o[0]).filter(x=>x!=='any'&&x!=='none'); if(it.every(x=>v.includes(x))) v=[];} return v;};
@@ -257,7 +263,7 @@ function openEdit(k,onChange){
     return `<div class="pf-res"><span>Your pool <b>≈ ${fmtR(c.final)}</b></span><i>this step keeps ${pct(keep)}${ml?' · '+ml:''}</i></div>`;};
   const build=()=>{
     if(k==='city'){
-      const ids=cityIds(), open=!(ids.length===1&&ids[0]===D.city.home), si=Math.max(0,STOPS.indexOf(S.radius)), sk=seekKey();
+      const ids=cityIds(), open=otherIds().length>0, si=Math.max(0,STOPS.indexOf(S.radius)), sk=seekKey();
       const seekBtn=s=>{const on=s==='both'?sk==='both':sk==='both'||sk===s; const n=tryVal('seek',s==='both'?['men','women']:[s]); return `<button type="button" class="toggle-btn${on?' selected':''}" data-seek="${s}">${SEEK[s][2]}<br><small style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0">≈ ${fmtR(n)}</small></button>`;};
       body=`<label class="pf-lab">Seeking <span class="pf-hint">(pick one or both · numbers = your pool)</span></label><div class="toggle-group">${['men','women','both'].map(seekBtn).join('')}</div>
         <label class="pf-lab">Distance from ${ids.length>1?'each of your cities':D.city.names[ids[0]]}</label>
@@ -265,7 +271,7 @@ function openEdit(k,onChange){
         <input type="range" class="range-input r0" min="0" max="${STOPS.length-1}" step="1" value="${si}" aria-label="Distance" style="pointer-events:auto"></div>
         <div class="pf-ends"><span>1 mile</span><span>300 miles</span></div>
         <label class="vk-cb"><input type="checkbox" id="pf-other"${open?' checked':''}> <span class="vk-cb-txt">I'm open to dating in other cities</span></label>
-        ${open?`<label class="pf-lab">Partner cities <span class="pf-hint">(your signup cities · pick any · each area once)</span></label><div class="pf-list" data-mk="city">${D.city.ORDER.map(id=>{const on=ids.includes(id), nx=on?ids.filter(x=>x!==id):ids.concat(id); return opt(id,D.city.names[id]+(id===D.city.home?' · home':''),on,'',(on?'<span class="pf-in">in</span> − ≈ ':'+ ≈ ')+fmtR(tryVal('city',nx.length?nx:[D.city.home])));}).join('')}</div>`:''}`;
+        ${open?`<label class="pf-lab">Other cities <span class="pf-hint">(home: ${D.city.names[homeId()]} is always in · pick any · each area once)</span></label><div class="pf-list" data-mk="city">${D.city.ORDER.filter(id=>id!==homeId()).map(id=>{const oth=otherIds(), on=oth.includes(id), nx=on?oth.filter(x=>x!==id):oth.concat(id); return opt(id,D.city.names[id],on,'',(on?'<span class="pf-in">in</span> − ≈ ':'+ ≈ ')+fmtR(tryVal('city',nx)));}).join('')}</div>`:''}`;
     } else if(k==='age'){
       const custom=!PRESET_AGES.some(([a,b])=>a===S.amin&&b===S.amax);
       const prow=(a,b)=>{const on=S.amin===a&&S.amax===b, n=tryMany({amin:a,amax:b}).final; return opt(a+'-'+b,`${a}–${b}${on?'<span class="pf-tag">yours</span>':''}${a===D.sel.amin&&b===D.sel.amax?'<span class="pf-tag sig">signup</span>':''}${a===21&&b===80?' · any age':''}`,on,'round','≈ '+fmtR(n));};
@@ -276,13 +282,15 @@ function openEdit(k,onChange){
         <div class="pf-list">${opt('sig',`${fmtIn(D.sel.hmin)}–${fmtIn(D.sel.hmax)}<span class="pf-tag sig">signup</span>`,S.hmin===D.sel.hmin&&S.hmax===D.sel.hmax,'round')}${opt('any','Any height',S.hmin<=H0&&S.hmax>=H1,'round')}</div>`;
     } else if(k==='edu'||k==='tier'){
       body=slist('edu','Degree')+`<p class="pf-flag">One pick, a minimum degree: Bachelor’s+ already includes Master’s+ and Doctorate+. Any or None Stated = no degree cut.</p>`+learn('edu')+slist('tier','School tier')+`<p class="pf-flag">One pick: Top 100 already includes Top 50 and Ivy+.</p>`+learn('tier');
+    } else if(k==='intent'){
+      body=slist('intent','Intentions')+`<p class="pf-flag">One pick. <b>Committed</b> = committed only + either; <b>Casual</b> = casual only + either; <b>Either</b> = everyone looking; <b>Any</b> = no cut (every single person, including not looking — same as before). Pew 2022 (W111) groups. Default = your Sandbox 2 Looking For (Casual).</p>`+learn('intent');
     } else if(k==='inc'){
       body=slist('inc','Income')+`<p class="pf-flag">One pick, like the site’s minimum-income dropdown: a pick means at least that much. <b>$1M+, $2M+, $3M+ are EST (IRS SOI 2023)</b>: the Census top-codes the highest incomes, so these take the census $500k+ count and the IRS share of unmarried $500k+ filers in that state who make $1M+, $2M+, $3M+. Learn more compares it with the older fitted curve. None Stated = no income cut.</p>`+learn('inc');
     } else { // multi-select lists: intent, kids, haskids (WMM lists) and eth / relig / pol (race panels)
       body=mlist(k);
       if(k==='kids') body+=`<p class="pf-flag"><b>Yes</b> = people who want kids + people open to either (the survey’s Not sure); <b>No</b> = people who don’t want kids (Not sure is not counted); <b>Open to either</b> = Not sure only (Sandbox 2 counts a partner’s Unsure as Open to either). Each group counts once. Checked = your saved partner picks on Sandbox 2.</p>`;
       if(k==='haskids') body+=`<p class="pf-flag">Pick both = no cut. Uses the Want kids groups you accept.</p>`;
-      if(k==='intent') body+=`<p class="pf-flag">Each option is one Pew 2022 (W111) group: Committed = looking for a committed relationship only; Casual = casual dates only; Either = either. Groups don’t overlap; all three = everyone single except not looking. Checked = your Sandbox 2 Looking For answer (Casual).</p>`;
+      // (intent is single-select since v10: handled above)
       if(k==='pol') body+=`<p class="pf-flag">Apolitical uses the GSS “no answer / don’t know” share (stand-in). None Stated adds no one.</p>`;
       if(k==='eth'||k==='relig') body+=`<p class="pf-flag">None Stated adds no one: the survey has no “not stated” group.</p>`;
       body+=learn(k);
@@ -315,12 +323,12 @@ function openEdit(k,onChange){
     wrap.querySelectorAll('[data-seek]').forEach(b=>b.onclick=()=>{const v=b.dataset.seek, cur=SXS().map(x=>x==='m'?'men':'women');
       if(v==='both') S.seek=['men','women']; else {const nx=cur.includes(v)?cur.filter(x=>x!==v):cur.concat(v); if(nx.length) S.seek=nx;}
       build(); ch();});
-    const oc=wrap.querySelector('#pf-other'); if(oc) oc.onchange=()=>{S.city=oc.checked?D.city.ORDER.slice():[D.city.home]; build(); ch();};
+    const oc=wrap.querySelector('#pf-other'); if(oc) oc.onchange=()=>{S.city=oc.checked?D.city.ORDER.filter(x=>x!==homeId()):[]; build(); ch();};
     const lm=wrap.querySelector('[data-lm]'); if(lm) lm.onclick=()=>{lmOpen=!lmOpen; build();};
     wrap.querySelectorAll('.race-opt[data-id]:not([disabled])').forEach(b=>b.onclick=()=>{const id=b.dataset.id, mk=(b.closest('[data-mk]')||{}).dataset;
       const kk=mk&&mk.mk, sk=(b.closest('[data-sk]')||{dataset:{}}).dataset.sk;
       if(sk) S[sk]=id==='any'?[]:[id];
-      else if(kk==='city'){const a=cityIds(); S.city=a.includes(id)?a.filter(x=>x!==id):a.concat(id); if(!S.city.length) S.city=[D.city.home];}
+      else if(kk==='city'){if(id!==homeId()){const a=otherIds(); S.city=a.includes(id)?a.filter(x=>x!==id):a.concat(id);}}
       else if(k==='age'){const [a,z]=id.split('-').map(Number); S.amin=a; S.amax=z;}
       else if(k==='height'){if(id==='any'){S.hmin=H0; S.hmax=H1;} else {S.hmin=D.sel.hmin; S.hmax=D.sel.hmax;}}
       else if(kk){ // multi: Any is exclusive; picking anything else clears Any; empty = Any
@@ -332,5 +340,5 @@ function openEdit(k,onChange){
   build(); document.body.appendChild(wrap); requestAnimationFrame(()=>wrap.classList.add('show'));
 }
 function close(){const w=document.getElementById('pe-sheet'); if(w) w.remove();}
-window.PoolEngine={alone,cityIds,SXS,seekKey,peopleN,eduK,incK,tierK,incEst,lowest,CX,fmtR,D,S,ROWS,SRC,NOTES,SOURCES,ASK,compute,width,openEdit,close,fmt,pct,memLine,memOn,setMembers,MEM,optL,multiL,kidsL,hL,fmtIn,isAny,tryVal,tryMany,cityName,seekL,seekN,startSub,firstName,poss,poolTitle,fitFont,rate,accepted};
+window.PoolEngine={alone,cityIds,otherIds,homeId,setHome,SXS,seekKey,peopleN,eduK,incK,tierK,incEst,lowest,CX,fmtR,D,S,ROWS,SRC,NOTES,SOURCES,ASK,compute,width,openEdit,close,fmt,pct,memLine,memOn,setMembers,MEM,optL,multiL,kidsL,hL,fmtIn,isAny,tryVal,tryMany,cityName,seekL,seekN,startSub,firstName,poss,poolTitle,fitFont,rate,accepted};
 })();

@@ -12,8 +12,8 @@ const ctx=[{},{amin:25,amax:35},{amin:41,amax:42},{seek:['women'],hmin:58,hmax:8
 const norm=(k,v)=>{if(['eth','relig','pol'].includes(k)){const it=D[k].opts.map(o=>o[0]).filter(x=>x!=='any'&&x!=='none'); if(it.every(x=>v.includes(x))) return [];} return v;};
 const KEYS={seek:D.seek.opts.map(o=>o[0]),city:ALL};
 let tests=0, fails=[]; const per={};
-// Income, Degree and School tier are single-select minimums (Amanda, Oct 9), so they are skipped here
-for(const k of ['seek','city','intent','kids','haskids','eth','relig','pol']){
+// Income, Degree and School tier are single-select minimums (Amanda, Oct 9) and Intentions is single-select (Oct 10), so they are skipped here
+for(const k of ['seek','city','kids','haskids','eth','relig','pol']){
   const ids=KEYS[k]||D[k].opts.map(o=>o[0]).filter(x=>x!=='any'), N=ids.length; per[k]=0;
   for(const c of ctx){ Object.assign(S,JSON.parse(JSON.stringify(base)),JSON.parse(JSON.stringify(c)));
     const val=v=>{const prev=S[k]; S[k]=norm(k,v); const r=E.compute(); S[k]=prev; const st=r.steps.find(s=>s.r.k===k); return {fin:r.final, keep:st?st.keep:1};};

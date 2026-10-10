@@ -1,17 +1,17 @@
 # Your Pool: app question → answer → % mapping (men and women)
 
-Rebuilt Oct 9, 2026 (CT) by `/workspace/pool_map_grokbot/build_v9_grokbot.py` (v9: Intentions Committed / Casual / Either = Pew W111 SEEKING groups, W56 2019 comparison; v8: Want kids without Unsure, defaults from the newest Sandbox 2 signup; v7: Supabase B12002 tract, IPEDS admissions and IRS SOI tables; v6: men and women, every partner preference multi-select, income to $3M+ with an EST tail, Want kids Yes = yes + not sure; options mirror the Sandbox 2 s3y63 inputs; see pool_edit_inputs_grokbot.md for the input list and option → group mapping). CSV: `/workspace/pool_mapping_grokbot.csv` (one row per question × option × age band).
+Rebuilt Oct 9, 2026 (CT) by `/workspace/pool_map_grokbot/build_v10_grokbot.py` (v10: Intentions single select; home city never in Other cities; v9: Intentions Committed / Casual / Either = Pew W111 SEEKING groups, W56 2019 comparison; v8: Want kids without Unsure, defaults from the newest Sandbox 2 signup; v7: Supabase B12002 tract, IPEDS admissions and IRS SOI tables; v6: men and women, every partner preference multi-select, income to $3M+ with an EST tail, Want kids Yes = yes + not sure; options mirror the Sandbox 2 s3y63 inputs; see pool_edit_inputs_grokbot.md for the input list and option → group mapping). CSV: `/workspace/pool_mapping_grokbot.csv` (one row per question × option × age band).
 
 Rule (Amanda): every funnel step and EDIT option uses the IHereByCommit onboarding wording (sandbox `ranked-any-k11_grokbot/index.html`, K4M What Matters Most + What You Want), and each answer gets a realistic % from one source or a documented blend. Badges: **CENSUS** = direct ACS count, **CDC** = direct NHANES, **EST** = blend.
 
-App options used (Sandbox 2 s3y63): Distance slider stops 1–300 mi (35 stops, default 30); Age dual slider 21–80; Height dual slider 4’10”–7’0”; Intentions Any / Committed / Casual / Either (v9: Sandbox 2 Looking For wording, one Pew W111 SEEKING group each); Want kids Any / Yes / Open to either / No (Sandbox 2 s3y81); Have kids Any / Yes / No; Degree and Income incl. None Stated and $1M+ / $2M+ / $3M+; every partner preference multi-select here (Amanda, Oct 9); School tier Any tier / Top 100 / Top 50 / Ivy+; Ethnicities, Religion, Politics (7 options) multi with None Stated.
+App options used (Sandbox 2 s3y63): Distance slider stops 1–300 mi (35 stops, default 30); Age dual slider 21–80; Height dual slider 4’10”–7’0”; Intentions Any / Committed / Casual / Either (v10: single select; Committed = committed + either, Casual = casual + either, Either = everyone looking, Any = no cut); Want kids Any / Yes / Open to either / No (Sandbox 2 s3y81); Have kids Any / Yes / No; Degree and Income incl. None Stated and $1M+ / $2M+ / $3M+; every partner preference multi-select here (Amanda, Oct 9); School tier Any tier / Top 100 / Top 50 / Ivy+; Ethnicities, Religion, Politics (7 options) multi with None Stated.
 
 ## Blends and weights
 
 | Step | Badge | Sources and weights | Assumptions |
 |---|---|---|---|
 | City & distance, Age | CENSUS | ACS 2020–24 5-yr B12002, single (never married + divorced + widowed) men by age group, tracts within radius of each city; All my cities = union of tracts; Any = U.S. | partial age groups counted by share of years |
-| Intentions | EST | Pew ATP W111 Jul 2022 (men, not married): in a relationship / not looking / casual only / open to either / committed only, by Pew age 18–29, 30–49, 50–64, 65+ (n=279/503/422/293). Want-to-marry blend: 18–29 = Pew 2025 73%×0.4 + AEI 2021 76%×0.3 + Pew 2023 men 72%×0.3 = **73.6%**; 30–49 = Pew 2025 49%×0.4 + AEI 56%×0.4 + SIA 2026 44.6%×0.2 = **50.9%**; 50–64 = AEI 50+ 39%×0.6 + Pew 2013 remarry men 29%×0.2 + SIA 44.6%×0.2 = **38.1%**; 65+ = AEI 39%×0.4 + Pew 2013 29%×0.6 = **33.0%**. v9: Committed = co (committed only), Casual = ca (casual only), Either = ei; all three = everyone single except not looking. No want-to-marry split. Pew 2019 W56 (Supabase research_pew_w56) shown as a comparison row in Learn more. |
+| Intentions | EST | Pew ATP W111 Jul 2022 (men, not married): in a relationship / not looking / casual only / open to either / committed only, by Pew age 18–29, 30–49, 50–64, 65+ (n=279/503/422/293). Want-to-marry blend: 18–29 = Pew 2025 73%×0.4 + AEI 2021 76%×0.3 + Pew 2023 men 72%×0.3 = **73.6%**; 30–49 = Pew 2025 49%×0.4 + AEI 56%×0.4 + SIA 2026 44.6%×0.2 = **50.9%**; 50–64 = AEI 50+ 39%×0.6 + Pew 2013 remarry men 29%×0.2 + SIA 44.6%×0.2 = **38.1%**; 65+ = AEI 39%×0.4 + Pew 2013 29%×0.6 = **33.0%**. v10 (single select): Committed = co + ei, Casual = ca + ei, Either = co + ca + ei, Any = no cut; all three = everyone single except not looking. No want-to-marry split. Pew 2019 W56 (Supabase research_pew_w56) shown as a comparison row in Learn more. |
 | Want kids | EST | NSFG 2022–23 RWANT, unmarried non-cohabiting men by 5-yr age (n=168–685) blended with Pew ATP 2023 (men 18–34 childless: 57% / 15% / 28% not sure) at 0.4 under 35, 0.2 at 35–39 | Three exclusive groups yes / no / not sure (not sure stands in for open to either). **Yes = yes + not sure** (Amanda, Oct 9); No = no; Open to either = not sure (Sandbox 2 counts a partner's Unsure as Open to either). Women: NSFG 2022–23 female respondents only (no Pew women split). 50–54 carries 45–49; older ages scaled down |
 | Have kids | EST | NSFG 2022–23 EVBIOKID within the Want kids groups accepted | 50+ carries 45–49 |
 | Height | CDC | NHANES Aug 2021–Aug 2023 + 2017–Mar 2020 measured, men by decade, rounded to the inch, waves averaged (n=886–1,477 per decade) | direct |
@@ -40,21 +40,21 @@ App options used (Sandbox 2 s3y63): Distance slider stops 1–300 mi (35 stops, 
 | Option | Age band | % | Sources | Blend / note |
 |---|---|---|---|---|
 | Any (single men) | 18-29 | 73.8 | Pew ATP W111 Jul 2022 | 100% Pew W111: share of unmarried men not in a relationship |
-| Committed | 18-29 | 9.0 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: a committed romantic relationship only |
-| Casual | 18-29 | 10.4 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: casual dates only |
-| Either | 18-29 | 24.0 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: either a committed relationship or casual dates |
+| Committed | 18-29 | 33.0 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: committed only + either |
+| Casual | 18-29 | 34.4 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: casual only + either |
+| Either | 18-29 | 43.4 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: everyone looking (committed + casual + either) |
 | Any (single men) | 30-49 | 56.8 | Pew ATP W111 Jul 2022 | 100% Pew W111: share of unmarried men not in a relationship |
-| Committed | 30-49 | 10.5 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: a committed romantic relationship only |
-| Casual | 30-49 | 5.7 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: casual dates only |
-| Either | 30-49 | 19.3 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: either a committed relationship or casual dates |
+| Committed | 30-49 | 29.8 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: committed only + either |
+| Casual | 30-49 | 25.0 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: casual only + either |
+| Either | 30-49 | 35.5 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: everyone looking (committed + casual + either) |
 | Any (single men) | 50-64 | 66.7 | Pew ATP W111 Jul 2022 | 100% Pew W111: share of unmarried men not in a relationship |
-| Committed | 50-64 | 8.3 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: a committed romantic relationship only |
-| Casual | 50-64 | 4.1 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: casual dates only |
-| Either | 50-64 | 16.6 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: either a committed relationship or casual dates |
+| Committed | 50-64 | 24.9 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: committed only + either |
+| Casual | 50-64 | 20.7 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: casual only + either |
+| Either | 50-64 | 29.0 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: everyone looking (committed + casual + either) |
 | Any (single men) | 65+ | 78.4 | Pew ATP W111 Jul 2022 | 100% Pew W111: share of unmarried men not in a relationship |
-| Committed | 65+ | 2.9 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: a committed romantic relationship only |
-| Casual | 65+ | 3.7 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: casual dates only |
-| Either | 65+ | 13.4 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: either a committed relationship or casual dates |
+| Committed | 65+ | 16.3 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: committed only + either |
+| Casual | 65+ | 17.1 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: casual only + either |
+| Either | 65+ | 20.0 | Pew ATP W111 Jul 2022 | Pew W111 SEEKING: everyone looking (committed + casual + either) |
 
 ### Want kids (partner)
 
