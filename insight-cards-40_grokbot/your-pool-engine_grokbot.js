@@ -110,7 +110,7 @@ const eduK=()=>lowest('edu')||'any', incK=()=>lowest('inc')||'0';
 const BAUP={ba:1,ma:1,phd:1}, eduM=()=>{const e=eduK(); return tierK()&&!BAUP[e]?'ba':e;};
 const TAIL={'1m':1,'2m':1,'3m':1}, incEst=()=>!!TAIL[incK()];
 const tierK=()=>['top100','top50','ivy'].find(t=>S.tier.includes(t));  // widest tier picked
-D.haskids.opts=[['any','Doesn’t matter'],['yes','Yes'],['no','No']]; D.haskids.multi=false; D.haskids.single=true; // s3y121 'Can they already have kids?' (single); Yes = they may already have kids = no cut, No = only people without kids, Doesn't matter = no cut
+D.haskids.opts=[['any','Doesn’t matter'],['yes','Yes'],['no','No']]; D.haskids.multi=false; D.haskids.single=true; // s3y121 'Can they already have kids?' (single); Yes = only people who already have kids, No = only people without kids, Doesn't matter = no cut (Amanda, Oct 10)
 const hasKidsMode=()=>{const a=S.haskids; return a.length===1?a[0]:'any';};
 function frac(g,lo,hi){const [a,b]=D.GB[g]; const ov=Math.min(b,hi)-Math.max(a,lo)+1; return ov>0?ov/(b-a+1):0;}
 // accepted base categories for a multi-select step (union, each once)
@@ -123,7 +123,7 @@ function rate(k,g){
     case 'kids':{if(!S.kids.length) return 1; const r=T.kids[g], tot=D.kids.base.reduce((t,x)=>t+r[x],0); let v=0; accepted('kids').forEach(x=>v+=r[x]); return v/tot;}
     case 'haskids':{const md=hasKidsMode(); if(md==='any') return 1; const nk=T.nok[g]; let p=nk.any;
       if(S.kids.length){const r=T.kids[g]; let num=0,den=0; accepted('kids').forEach(x=>{num+=r[x]*nk[x]; den+=r[x];}); if(den>0) p=num/den;}
-      return md==='no'?p:1;}
+      return md==='no'?p:1-p;}
     case 'height': return hRate(T.hcdf[g]);
     case 'edu': return c.edu[g][eduK()]/1000;
     case 'inc':{const i=incK(); if(i==='0') return 1; if(TAIL[i]) return c.inc[g][eduM()]['500000']/1000*(D.inc.irs?D.inc.irs[CX.c][i]:D.inc.tail[CX.sx][i]);  /* IRS SOI 2023 by state; fitted curve if irs is off (Learn more) */ return c.inc[g][eduM()][i]/1000;}
@@ -193,7 +193,7 @@ function plainNote(k){const {men}=plainCtx(), n=names(k);
   case 'intent':return ({committed:`Committed counts ${men} looking only for something serious, plus ${men} open to either.`,casual:`Casual counts ${men} looking only for something casual, plus ${men} open to either.`,either:`Either counts every single ${men==='men'?'man':men==='women'?'woman':'person'} who is looking for any kind of relationship.`})[S.intent[0]]||`Any keeps every single ${men==='men'?'man':men==='women'?'woman':'person'}, even those not looking right now.`;
   case 'marry':return n.length?`Counts ${men} who answer ${n.join(' or ')} to “Do you want to get married someday?”`:`Any keeps everyone, whatever they think about marriage.`;
   case 'kids':{if(!n.length) return `Any keeps everyone, whether or not they want kids.`; const t={yes:`Yes counts ${men} who want kids, plus those not sure yet.`,no:`No counts ${men} who don’t want kids.`,open:`Whatever my partner wants counts ${men} who aren’t sure either way.`}; return S.kids.map(x=>t[x]).join(' ');}
-  case 'haskids':return S.haskids[0]==='no'?`No counts only ${men} who don’t have kids yet.`:S.haskids[0]==='yes'?`Yes means they can already have kids, so everyone stays in.`:`Doesn’t matter keeps everyone, with or without kids.`;
+  case 'haskids':return S.haskids[0]==='no'?`No counts only ${men} who don’t have kids yet.`:S.haskids[0]==='yes'?`Yes counts only ${men} who already have kids.`:`Doesn’t matter keeps everyone, with or without kids.`;
   case 'age':return `Counts single ${men} aged ${S.amin}–${S.amax}.`;
   case 'height':return `Counts ${men} between ${hL().replace('–',' and ')} tall.`;
   case 'city':return `Your starting pool: every single ${men==='men'?'man':men==='women'?'woman':'person'} 21–80 living within ${S.radius} miles of ${cityName()}.`;
@@ -201,7 +201,7 @@ function plainNote(k){const {men}=plainCtx(), n=names(k);
   case 'inc':{const o=D.inc.opts.find(o=>o[0]===incK()); return incK()==='0'||!o||o[0]==='any'?`Any keeps everyone, whatever they earn.`:`A minimum: ${o[1]} counts ${men} earning at least that much a year.`;}
   case 'eth':case 'relig':case 'pol':return n.length?`Counts ${men} who are ${n.join(', ')}.`:`Any keeps everyone.`;}
   return '';}
-function howLine(k){const h=howLine0(k); return ((['eth','relig','pol'].includes(k)&&!names(k).length)||(k==='haskids'&&S.haskids[0]!=='no'))?h.replace(/Your pick keeps 100%\.|: 100% match the groups you picked\./,m=>m[0]===':'?'. Any = no cut.':'Any = no cut.'):h;}
+function howLine(k){const h=howLine0(k); return ((['eth','relig','pol'].includes(k)&&!names(k).length)||(k==='haskids'&&!S.haskids.length))?h.replace(/Your pick keeps 100%\.|: 100% match the groups you picked\./,m=>m[0]===':'?'. Any = no cut.':'Any = no cut.'):h;}
 function howLine0(k){const c=plainCtx(), {men,ag,T,key}=c, kp=P(c.keep(k)), sx=c.sx;
   switch(k){
   case 'intent':{const cl=T.cells[ag], n=W111N[sx]||W111N.m; const p=x=>P(cl[x]);
@@ -213,7 +213,7 @@ function howLine0(k){const c=plainCtx(), {men,ag,T,key}=c, kp=P(c.keep(k)), sx=c
     return `We average ${w.length} surveys for ${sx==='m'?'men':'women'} ${agL(ag)}: ${w.map(x=>`${x[0]} ${x[1]} (${Math.round(x[2]/tot*100)}%)`).join(', ')}. Together: ${P(r.yes)} yes, ${P(r.ns)} not sure, ${P(r.no)} no. Across your age range your pick keeps ${kp}. ${lk('pewmar')}`;}
   case 'kids':{const r=T.kids[key], b=D.kids.base, tot=b.reduce((t,x)=>t+r[x],0), mid=(S.amin+S.amax)/2, wn=mid<35?60:mid<40?80:100;
     return `CDC’s National Survey of Family Growth 2022–23 (unmarried ${sx==='m'?'men':'women'}, about 380 per 5-year age group)${wn<100?`, weighted ${wn}%, plus a Pew Research 2023 survey weighted ${100-wn}%`:''}. At ages ${key.replace('-','–')}: ${P(r.yes/tot)} want kids, ${P(r.ns/tot)} aren’t sure, ${P(r.no/tot)} don’t. Across your age range your pick keeps ${kp}. ${lk('nsfg')}`;}
-  case 'haskids':return `CDC’s National Survey of Family Growth 2022–23 asks unmarried ${men} whether they have children. Your pick keeps ${kp}. ${lk('nsfg')}`;
+  case 'haskids':return `CDC’s National Survey of Family Growth 2022–23 asks unmarried ${men} whether they have children; we use the answers of ${men} in the Want kids groups you picked. Your pick keeps ${kp}. ${lk('nsfg')}`;
   case 'city':return `U.S. Census, American Community Survey 2020–24: actual counts of never-married, divorced and widowed ${men} in every neighborhood (census tract) within ${S.radius} miles. ${lk('acs')}`;
   case 'age':return `Same Census count, by age: ${kp} of the single ${men} near you are ${S.amin}–${S.amax}. ${lk('acs')}`;
   case 'height':return `CDC’s NHANES measures the real heights of thousands of Americans (not self-reported). ${kp} of ${men} your age are ${hL()}. ${lk('nhanes')}`;
@@ -364,7 +364,7 @@ function openEdit(k,onChange){
       body=k==='haskids'?slist('haskids','Can they already have kids?'):mlist(k);
       if(k==='marry') body+=`<p class="pf-flag">Same answers as the site’s “Do you want to get married someday?”: <b>Yes</b> / <b>Not sure</b> / <b>No</b>. Groups don’t overlap; all three = no cut. Checked = your Sandbox 2 answer (Yes).</p>`;
       if(k==='kids') body+=`<p class="pf-flag"><b>Yes</b> = people who want kids + people open to either (the survey’s Not sure); <b>No</b> = people who don’t want kids (Not sure is not counted); <b>Whatever my partner wants</b> = Not sure only (Sandbox 2 counts a partner’s Unsure as Whatever my partner wants). Each group counts once. Checked = your saved partner picks on Sandbox 2.</p>`;
-      if(k==='haskids') body+=`<p class="pf-flag">Same as Sandbox 2 (s3y121) “Can they already have kids?”, saved as partner_has_children (yes / no / null). No = only people with no children yet (NSFG, within the Want kids groups you accept); Yes and Doesn’t matter = no cut.</p>`;
+      if(k==='haskids') body+=`<p class="pf-flag">Same as Sandbox 2 (s3y121) “Can they already have kids?”, saved as partner_has_children (yes / no / null). Yes = only people who already have kids; No = only people with no children yet (NSFG, within the Want kids groups you accept); Doesn’t matter = no cut.</p>`;
       // (intent is single-select since v10: handled above)
       if(k==='pol') body+=`<p class="pf-flag">Apolitical uses the GSS “no answer / don’t know” share (stand-in). None Stated adds no one.</p>`;
       if(k==='eth'||k==='relig') body+=`<p class="pf-flag">None Stated adds no one: the survey has no “not stated” group.</p>`;
