@@ -119,7 +119,7 @@ $('#h1').innerHTML=(E.poss()||'Your')+' <span>Pool</span>'; document.title=docum
 const nw=t=>`<span class="nw">${t}</span>`;
 const all=(k,pre)=>{const a=E.multiL(k).split(' · '); return a.map((x,i)=>nw((i===0&&pre?pre+' ':'')+x+(i<a.length-1?' ·':''))).join(' ')};
 const SHORT={age:()=>'Age '+S.amin+'–'+S.amax,
-  intent:()=>S.intent.length?all('intent','Looking for:'):'Looking for: any',
+  intent:()=>S.intent.length?all('intent','They want:'):'They want: any',
   kids:()=>!S.kids.length?'Want kids: any':S.kids.length===1&&S.kids[0]==='yes'?'Wants kids':all('kids','Want kids:'),
   height:()=>E.hL(),
   edu:()=>S.edu.length?all('edu'):'Any degree',

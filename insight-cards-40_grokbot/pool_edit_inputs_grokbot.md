@@ -18,8 +18,8 @@ Source (read only): `/workspace/k5-split_grokbot/sandbox-repo/k5-s3y63-sandbox2_
 | Seeking | Seeking | MEN · WOMEN · BOTH | single toggle | **Multi**: MEN and WOMEN toggle; BOTH = both on. Each shows ≈ pool. Every later step uses that sex's rates; Both = men + women (disjoint, so no double count). First band: MALE / FEMALE / EVERYONE. |
 | City & distance | Distance from <city>; "I'm open to dating in other cities"; Partner city | 1, 3, 5, 10 … 300 mi (35 stops) | slider + checkbox + single city | Same slider. Checkbox reveals **multi-select** Partner cities (her 5 signup cities); each tract counts once (stored by exact covering pattern). |
 | Age | Age | 21–80 | dual slider | Same dual slider + quick picks (a range is one answer). |
-| Looking for | What should they be looking for? | Any, Casual, Dating, Relationship, Marriage, Life partner | multi | Multi (same). Learn more: want-to-marry blend by source. |
-| Want kids | Should they want kids? | Any, Yes, No, Open to either, Unsure | single on the site | **Multi.** Yes = yes + not sure (Amanda: only yes or open to either count; Not sure stands in for open to either). No = no. Open to either = yes + no + not sure. Unsure = not sure. Learn more: NSFG vs Pew. |
+| Intentions (v8: ONE step, what the partner wants) | What should they be looking for? | Any, Marriage, Life partner (committed, no marriage), Casual | multi | **Multi, non-overlapping.** Marriage = Pew committed / open-to-either who want to marry (Sandbox 2: married someday Yes + Looking For Committed / Either); Life partner = committed / open-to-either who don't (married someday Not sure / No); Casual = casual only (Looking For Casual). All three = no cut except not looking. Marriage pace, kids timing, legal marriage, prenup, life-partner and the other marriage questions are about her, so they are **not** steps or chips. Learn more: want-to-marry blend by source. |
+| Want kids | Should they want kids? | Any, Yes, Open to either, No (Sandbox 2 s3y81: Unsure removed) | multi | Multi. Yes = yes + not sure (Amanda: only yes or open to either count). No = no. Open to either = not sure (Sandbox 2 counts a partner's Unsure as Open to either). |
 | Have kids | Can they already have kids? | Any, Yes, No | single | **Multi** (Yes + No = no cut). |
 | Height | How tall should they be? | 4’10”–7’0” | dual slider | Same (a range is one answer). |
 | Degree | How much education should they have? | Any, High school+ … Doctorate+, None Stated | select | **Single select** (minimum degree; radio rows, each with the final pool). |
@@ -32,32 +32,31 @@ Source (read only): `/workspace/k5-split_grokbot/sandbox-repo/k5-s3y63-sandbox2_
 ## Math (v6)
 - Each question's survey answers are split into **mutually exclusive groups**, separately for men and women. Shares are normalised to the survey total.
 - Want kids groups: Yes / No / Not sure (men: NSFG 2022–23 blended with Pew 2023 under 40; women: NSFG 2022–23 female only).
-  - **Yes → yes + not sure** · No → no · Open to either → yes + no + not sure · Unsure → not sure
+  - **Yes → yes + not sure** · No → no · Open to either → not sure (v8; Unsure removed on Sandbox 2)
   - Asymmetry to note: No does not include Not sure, while Yes does (Amanda's rule for Yes).
 - Have kids runs inside the Want kids groups you accept: P(no child | groups) = Σ share × P(no child | group) / Σ share (men: EVBIOKID; women: PARITY = 0).
-- Intentions (Pew W111 per age and sex) as v5; women from Supabase `research_pew_w111`; both sexes use the same want-to-marry blend.
+- Intentions (v8, Amanda Oct 10: "just if they want marriage vs life partner vs casual"): Pew W111 per age and sex (women from Supabase `research_pew_w111`) gives exclusive groups tk (in a relationship), nl (not looking), ca (casual only), ei (open to either), co (committed only); ei and co are split by the want-to-marry blend (Pew 2025 / AEI 2021 / SIA 2026 / Pew 2013, same for both sexes) into M (wants marriage) and L + R (doesn't). Marriage = coM + eiM; Life partner = coL + coR + eiL + eiR; Casual = ca. Picks add groups once; all three = 1 − tk − nl.
+- Defaults (v8): Amanda's newest Sandbox 2 single signup (ycoaslgtaaiwfwgytqlm partial_leads, Oct 9 2026 11:56 PM CT, page s3y109): Austin + New York ≤30 mi, age 31–55, height 5'11"–7'0", Intentions Marriage + Casual (married someday Yes, Looking For Casual), Want kids Yes + Open to either, Bachelor's+, Top 100, $100k+, the rest Any.
 - Income above $500k (v7, EST · IRS SOI 2023): PUMS top-codes, so share ≥ $1M = PUMS share ≥ $500k (single men / women) × P($1M+ | $500k+) for **unmarried** filers (single + head of household) in the city's state, from Supabase `public.research_irs_soi_state_agi` (TX 34.7%, NY 31.3%, CA 30.0%, IL 30.9%). Above $1M: Pareto with a = mean/(mean − $1M) from the mean AGI of $1M+ returns (TX a = 1.44 → $2M+ 12.8%, $3M+ 7.1% of $500k+). Check: `public.research_irs_soi_county` $200k+ class — unmarried returns at $200k+ are 5.0% in Travis, 2.7% Williamson, 3.9% across the 5 Austin counties vs 1.8% in Texas. The older fitted curve (PUMS $300k vs $500k, a = 1.845 men / 2.072 women) stays as the "alone" row in Learn more.
 - A School tier pick implies a bachelor's degree, so Income and Ethnicity use Bachelor's+ mixes when a tier is picked (keeps widening Degree from lowering the pool).
 - Start counts (v7): Supabase `public.research_acs_b12002_tract` (ACS 2020–24, e006–e016 + e068–e078 + e083–e093 men, e099–e109 + e161–e171 + e176–e186 women), verified tract by tract (md5 over all 85,382 tracts) and by direct SQL for Austin 30 mi (464 tracts: men 367,805 aged 21–80, women 360,670).
 - School tier (v7): Top 50 / Top 100 ranked by admit rate (5,000+ applicants) from Supabase `public.research_ipeds_admissions` (2016, 2023), weighted by IPEDS bachelor's completions by sex (classes of 2016 and 2023).
 - Several cities: tract counts are stored per exact covering pattern; a tract near several picked cities uses the city mix that keeps the most people, so adding a city never lowers the pool.
 - **Learn more** (every EST sheet): one row per source with year, base, its own %, its weight, and the pool if that source were used alone (ages it doesn't cover keep the blend), then the Blended row = what you see. Single-source steps say so.
-- Monotonic check: `pool_monotonic_check_grokbot.js` tries every subset of Seeking, Partner cities, Looking for, Want kids, Have kids, Ethnicity, Religion and Politics in 9 contexts (Income, Degree and School tier skipped: single-select minimums). `pool_row_numbers_check_grokbot.js` checks every + / − row number on those multi-select sheets (with picks in place, + never below the pool, − never above) (men, women, both, several cities). Adding a pick never lowers the step share or the final pool.
+- Monotonic check: `pool_monotonic_check_grokbot.js` tries every subset of Seeking, Partner cities, Intentions, Want kids, Have kids, Ethnicity, Religion and Politics in 9 contexts (Income, Degree and School tier skipped: single-select minimums). `pool_row_numbers_check_grokbot.js` checks every + / − row number on those multi-select sheets (with picks in place, + never below the pool, − never above) (men, women, both, several cities). Adding a pick never lowers the step share or the final pool.
 
 ## Option → groups → % kept at her age band (31–54, Austin 30 mi), men and women
 Each % is the share the option keeps at that step with other preferences Any (Ethnicity among Bachelor’s+ $100k+; Tier among Bachelor’s+; Have kids within Want kids = Yes).
 
 | Seeking | Step | Option | Groups counted | % kept |
 |---|---|---|---|---|
-| men | intent | Casual | ca, eiM, eiL, eiR | 24.5% |
-| men | intent | Dating | ca, coM, coL, coR, eiM, eiL, eiR | 34.7% |
-| men | intent | Relationship | coM, coL, coR, eiM, eiL, eiR | 29.2% |
 | men | intent | Marriage | coM, eiM | 14.4% |
-| men | intent | Life partner | coM, coL, eiM, eiL | 20.8% |
+| men | intent | Life partner (committed, no marriage) | coL, coR, eiL, eiR | 14.7% |
+| men | intent | Casual | ca | 5.5% |
 | men | kids | Yes | yes + ns | 48.9% |
 | men | kids | No | no | 51.1% |
-| men | kids | Open to either | yes + no + ns | 100.0% |
-| men | kids | Unsure | ns | 8.4% |
+| men | kids | Open to either | ns | 8.4% |
+| men | intent | all three | everyone single except not looking | 34.7% |
 | men | haskids | Yes | within Want kids = Yes: has a child | 18.7% |
 | men | haskids | No | within Want kids = Yes: no child | 81.3% |
 | men | edu | High school+ | hs or more | 91.9% |
@@ -111,15 +110,13 @@ Each % is the share the option keeps at that step with other preferences Any (Et
 | men | pol | Right | R | 15.7% |
 | men | pol | Apolitical | NA | 2.3% |
 | men | pol | None Stated |  | 0.0% |
-| women | intent | Casual | ca, eiM, eiL, eiR | 9.4% |
-| women | intent | Dating | ca, coM, coL, coR, eiM, eiL, eiR | 20.4% |
-| women | intent | Relationship | coM, coL, coR, eiM, eiL, eiR | 19.2% |
 | women | intent | Marriage | coM, eiM | 9.3% |
-| women | intent | Life partner | coM, coL, eiM, eiL | 13.5% |
+| women | intent | Life partner (committed, no marriage) | coL, coR, eiL, eiR | 9.9% |
+| women | intent | Casual | ca | 1.2% |
 | women | kids | Yes | yes + ns | 31.8% |
 | women | kids | No | no | 68.2% |
-| women | kids | Open to either | yes + no + ns | 100.0% |
-| women | kids | Unsure | ns | 4.4% |
+| women | kids | Open to either | ns | 4.4% |
+| women | intent | all three | everyone single except not looking | 20.4% |
 | women | haskids | Yes | within Want kids = Yes: has a child | 51.1% |
 | women | haskids | No | within Want kids = Yes: no child | 48.9% |
 | women | edu | High school+ | hs or more | 91.8% |
