@@ -71,6 +71,9 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
 .spout p{font-size:10px;line-height:1.35;color:var(--ow);text-align:left;white-space:nowrap}.spout p b{color:var(--lime)}
 .bottom{flex-shrink:0;padding:8px 0 4px;display:flex;flex-direction:column}
 .next{width:100%;height:50px;font-family:'Bebas Neue',sans-serif;font-size:23px;letter-spacing:.12em;color:var(--k);background:var(--lime);border-radius:6px;box-shadow:0 0 18px rgba(200,241,53,.35)}
+.upd{width:100%;height:40px;margin-bottom:6px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--lime);background:transparent;border:1.5px solid var(--lime);border-radius:6px}.upd[hidden]{display:none}
+.upd-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid rgba(240,236,224,.12);font-size:12px}.upd-row b{color:var(--ow)}.upd-row s{color:var(--muted)}.upd-row i{font-style:normal;color:var(--lime)}
+.upd-go{width:100%;height:46px;margin-top:12px;font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:.1em;color:var(--k);background:var(--lime);border-radius:6px}.upd-ok{margin-top:12px;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.1em;color:var(--lime)}
 .back{height:34px;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.08em;color:var(--muted)}
 .mock{position:fixed;right:5px;bottom:1px;font-size:8px;letter-spacing:.1em;color:rgba(240,236,224,.22);text-transform:uppercase;pointer-events:none;z-index:3}
 /* sheets */
@@ -106,11 +109,11 @@ h1 span{color:var(--lime);text-shadow:0 0 14px rgba(200,241,53,.5)}
     <div class="neck" id="neck"></div>
     <div class="spout"><div class="big" id="big"></div><p id="spoutp"></p></div>
   </div>
-  <div class="bottom"><button class="next" type="button">NEXT</button><a class="back" href="all-cards_grokbot.html#sec-pool" target="_top">&larr; BACK</a></div>
+  <div class="bottom"><button class="upd" type="button" id="upd" hidden>Update my preferences to these</button><button class="next" type="button">NEXT</button><a class="back" href="all-cards_grokbot.html#sec-pool" target="_top">&larr; BACK</a></div>
 </div>
 <div class="mock">mockup · V3 brand palette</div>
-<script src="your-pool-real-data_grokbot.js?v=11b"></script>
-<script src="your-pool-engine_grokbot.js?v=11b"></script>
+<script src="your-pool-real-data_grokbot.js?v=12"></script>
+<script src="your-pool-engine_grokbot.js?v=12"></script>
 <script>
 const E=PoolEngine, S=E.S, $=s=>document.querySelector(s);
 // header: AMANDA’S POOL (signup first name), YOUR POOL if there is no name
@@ -207,6 +210,30 @@ $('#infoBtn').onclick=()=>{const w=document.createElement('div'); w.className='s
   <p>${E.SOURCES}</p><p style="margin-top:6px">Each step keeps: ${E.compute().steps.filter(s=>s.r.k&&!s.r.fixed).map(s=>s.r.name+' '+E.pct(s.keep)+(s.member!=null?' (IHBC '+E.pct(s.member)+')':'')).join(' · ')}.</p></div>`;
   const c=()=>w.remove(); document.body.appendChild(w); requestAnimationFrame(()=>w.classList.add('show'));
   w.querySelector('.src-back').onclick=w.querySelector('.pe-x').onclick=c;};
+// ---- 'Update my preferences to these' (Amanda Oct 10): shows only when a pick differs from the saved preferences ----
+const PK=['seek','city','radius','amin','amax','intent','marry','kids','hmin','hmax','edu','tier','inc','eth','haskids','relig','pol'];
+const snap=()=>JSON.parse(JSON.stringify(PK.reduce((o,k)=>(o[k]=S[k],o),{})));
+let SAVED=snap();  // the user's saved partner preferences (newest Sandbox 2 signup)
+const GROUPS=[['Seeking',['seek'],()=>E.seekL()],['City & distance',['city','radius'],()=>E.cityName()+' · ≤'+S.radius+' mi'],['Age',['amin','amax'],()=>S.amin+'–'+S.amax],
+  ['Height',['hmin','hmax'],()=>E.hL()],...['intent','marry','kids','edu','tier','inc','eth','haskids','relig','pol'].map(k=>[E.ASK[k]?E.ASK[k][0]:k,[k],()=>E.multiL(k)])];
+function withState(st,fn){const cur=snap(); Object.assign(S,JSON.parse(JSON.stringify(st))); const v=fn(); Object.assign(S,cur); return v;}
+function changes(){const now=snap(); return GROUPS.filter(([,ks])=>ks.some(k=>JSON.stringify(now[k])!==JSON.stringify(SAVED[k]))).map(([n,,f])=>[n,withState(SAVED,f),f()]);}
+function updBtn(){const b=$('#upd'), on=changes().length>0; if(b.hidden===on){b.hidden=!on; fit();}}
+$('#upd').onclick=()=>{const ch=changes(); if(!ch.length) return; const w=document.createElement('div'); w.className='src-sheet';
+  const oldN=withState(SAVED,()=>E.compute().final), newN=E.compute().final;
+  w.innerHTML=`<div class="src-back"></div><div class="src-panel"><div class="pe-top"><span class="pe-k">Update my preferences</span><button class="pe-x" type="button">CANCEL</button></div>
+  ${ch.map(([n,o,v])=>`<div class="upd-row"><b>${n}</b><span><s>${o}</s> → <i>${v}</i></span></div>`).join('')}
+  <div class="upd-row"><b>Your pool</b><span><s>≈ ${E.fmtR(oldN)}</s> → <i>≈ ${E.fmtR(newN)}</i></span></div>
+  <div id="updFoot"><button class="upd-go" type="button">SAVE AS MY PREFERENCES</button></div></div>`;
+  const c=()=>w.remove(); document.body.appendChild(w); requestAnimationFrame(()=>w.classList.add('show'));
+  w.querySelector('.src-back').onclick=w.querySelector('.pe-x').onclick=c;
+  w.querySelector('.upd-go').onclick=()=>{
+    // TODO(Coder): real save on Sandbox 2 = the same save-lead path the site uses (saveLead() -> partial_leads / waitlist upsert), writing the partner
+    // preference fields: gender_seeking, partner_city_primary + partner_cities_extra, partner_distance_mi, age_min/age_max, height_min_cm/height_max_cm,
+    // partner_intentions, (partner) wants_marriage pick, partner_wants_children_multi (+ _text), partner_has_children, partner_education_min,
+    // partner_education_tier, partner_income_min, partner_ethnicity, partner_religion, partner_politics (+ _text). This mockup writes nothing to any DB.
+    SAVED=snap(); w.querySelector('#updFoot').innerHTML='<div class="upd-ok">✓ SAVED</div>'; w.querySelector('.pe-x').textContent='CLOSE'; updBtn();};};
+const _render0=render; render=function(){_render0(); updBtn();};
 render();
 </script>
 </body></html>

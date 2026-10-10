@@ -72,6 +72,14 @@ const ROWS=[
  opt('11','tier','Education tier','ipeds'),
  opt('12','pol','Politics','gss'),
 ];
+// v12 (Amanda Oct 10): bands follow the user's What Matters Most ranking (D.rank = priority_order), highest first. City & distance stays first (start pool).
+// Card -> step map; steps without a card ride right after their parent card (Marriage after Intentions, School tier after Education).
+const CARD={intentions:'intent',want_kids:'kids',distance:'city',other_cities:'city',age_range:'age',height:'height',education:'edu',income:'inc',ethnicity:'eth',religion:'relig',politics:'pol',have_kids:'haskids'};
+const RIDE={marry:'intent',tier:'edu'};
+function rankOf(k){const R=(D.rank||[]); const step=RIDE[k]||k; const i=R.findIndex(c=>CARD[c]===step); return i<0?null:i+(RIDE[k]?0.5:0);}
+function orderRows(){const base=ROWS.slice(), pos=r=>r.k==='city'?-1:(rankOf(r.k)??(1000+base.indexOf(r))); ROWS.sort((a,b)=>pos(a)-pos(b));}
+const UNSTEPPED=()=>(D.rank||[]).filter(c=>!CARD[c]);
+orderRows();
 function isAny(k){return !S[k].length;}
 function opt(rk,k,name,src){return {rk,k,name,src,uname:k==='tier'?'Tier':name,optional:true,get fixed(){return isAny(k)?'nocut':undefined},label:()=>name+': '+multiL(k)};}
 const NOTES={
@@ -160,7 +168,7 @@ const pct=k=>k>=0.995?'100%':k<0.01?'<1%':Math.round(k*100)+'%';
 function memLine(st){return st&&st.member!=null?`IHBC members ${pct(st.member)} · studies ${pct(st.keep)}${MEM.preview?' · PREVIEW':''}`:'';}
 function tryVal(k,v){const prev=S[k]; S[k]=v; const n=compute().final; S[k]=prev; return n;}
 function tryMany(o){const prev={}; for(const k in o){prev[k]=S[k]; S[k]=o[k];} const c=compute(); for(const k in prev) S[k]=prev[k]; return c;}
-const SOURCES='<b>YOUR REAL PREFERENCES</b> from your newest Sandbox 2 single signup (Oct 9, 2026, 11:56 PM CT), in your What Matters Most order. Every EDIT is the Sandbox 2 preferences input for that question (same wording and options). Partner preferences take several picks ( Want kids, Have kids, Ethnicity, Religion, Politics, Seeking, cities) except the minimum-style ones, which take one like the site’s dropdowns: Income, Degree and School tier (a pick = at least this), plus Intentions (one pick: Any / Committed / Casual / Either). Your own answers take one; several picks count each group once. Seeking men, women or both: every step uses that sex’s rates; both = men + women. Intentions = your Looking For answer there (Casual); Want kids, Degree, School tier, Income, cities, age and height are your saved partner picks; Ethnicity, Have kids, Religion and Politics are Any. Marriage timing, kids timing and the other marriage questions are about you, so they don’t cut the pool. Counts are our estimates, not a live dating pool. Badges: <b>CENSUS</b> = direct ACS count, <b>CDC</b> = direct NHANES, <b>EST</b> = our blend of studies. '+
+const SOURCES='<b>YOUR REAL PREFERENCES</b> from your newest Sandbox 2 single signup (Oct 10, 2026, 1:52 AM CT); bands follow your What Matters Most ranking, highest first (City & distance stays first as the starting pool). Every EDIT is the Sandbox 2 preferences input for that question (same wording and options). Partner preferences take several picks ( Want kids, Have kids, Ethnicity, Religion, Politics, Seeking, cities) except the minimum-style ones, which take one like the site’s dropdowns: Income, Degree and School tier (a pick = at least this), plus Intentions (one pick: Any / Committed / Casual / Either). Your own answers take one; several picks count each group once. Seeking men, women or both: every step uses that sex’s rates; both = men + women. Intentions = your Looking For answer there (Committed); Want kids, Degree, School tier, Income, cities, age and height are your saved partner picks; Ethnicity, Have kids, Religion and Politics are Any. Marriage timing, kids timing and the other marriage questions are about you, so they don’t cut the pool. Counts are our estimates, not a live dating pool. Badges: <b>CENSUS</b> = direct ACS count, <b>CDC</b> = direct NHANES, <b>EST</b> = our blend of studies. '+
  '<b>How options add up:</b> each question’s survey answers are split into groups of people that don’t overlap; each site option counts the groups that would match it, and picking several counts each group once. No 50/50 splits. '+
  '<b>Supabase tables (dqrmyqmpqnlemkwdndsf):</b> research_acs_b12002_tract (start counts), research_pew_w111, research_nsfg_2022_2023_female, research_gss, benchmarks (height), research_ipeds_admissions (tier), research_irs_soi_state_agi + research_irs_soi_county ($1M+). '+
  '<b>City + distance:</b> '+NOTES.city.slice(8)+'. <b>Age:</b> '+NOTES.age.slice(8)+'. <b>Intentions (EST):</b> '+NOTES.intent.slice(5)+'. <b>Marriage (EST):</b> '+NOTES.marry.slice(5)+'. <b>Want kids (EST):</b> '+NOTES.kids.slice(5)+'. <b>Height (CDC):</b> '+NOTES.height.slice(5)+'. <b>Degree, Income (CENSUS):</b> ACS 2020–24 PUMS, single men / women in the same area and age, counted together; $1M+ and up are EST (IRS SOI 2023, Supabase research_irs_soi_state_agi, checked against research_irs_soi_county). '+
@@ -286,7 +294,7 @@ function openEdit(k,onChange){
     } else if(k==='edu'||k==='tier'){
       body=slist('edu','Degree')+`<p class="pf-flag">One pick, a minimum degree: Bachelor’s+ already includes Master’s+ and Doctorate+. Any or None Stated = no degree cut.</p>`+learn('edu')+slist('tier','School tier')+`<p class="pf-flag">One pick: Top 100 already includes Top 50 and Ivy+.</p>`+learn('tier');
     } else if(k==='intent'){
-      body=slist('intent','Intentions')+`<p class="pf-flag">One pick. <b>Committed</b> = committed only + either; <b>Casual</b> = casual only + either; <b>Either</b> = everyone looking; <b>Any</b> = no cut (every single person, including not looking — same as before). Pew 2022 (W111) groups. Default = your Sandbox 2 Looking For (Casual).</p>`+learn('intent');
+      body=slist('intent','Intentions')+`<p class="pf-flag">One pick. <b>Committed</b> = committed only + either; <b>Casual</b> = casual only + either; <b>Either</b> = everyone looking; <b>Any</b> = no cut (every single person, including not looking — same as before). Pew 2022 (W111) groups. Default = your Sandbox 2 Looking For (Committed).</p>`+learn('intent');
     } else if(k==='inc'){
       body=slist('inc','Income')+`<p class="pf-flag">One pick, like the site’s minimum-income dropdown: a pick means at least that much. <b>$1M+, $2M+, $3M+ are EST (IRS SOI 2023)</b>: the Census top-codes the highest incomes, so these take the census $500k+ count and the IRS share of unmarried $500k+ filers in that state who make $1M+, $2M+, $3M+. Learn more compares it with the older fitted curve. None Stated = no income cut.</p>`+learn('inc');
     } else { // multi-select lists: intent, kids, haskids (WMM lists) and eth / relig / pol (race panels)
@@ -344,5 +352,5 @@ function openEdit(k,onChange){
   build(); document.body.appendChild(wrap); requestAnimationFrame(()=>wrap.classList.add('show'));
 }
 function close(){const w=document.getElementById('pe-sheet'); if(w) w.remove();}
-window.PoolEngine={alone,cityIds,otherIds,homeId,setHome,SXS,seekKey,peopleN,eduK,incK,tierK,incEst,lowest,CX,fmtR,D,S,ROWS,SRC,NOTES,SOURCES,ASK,compute,width,openEdit,close,fmt,pct,memLine,memOn,setMembers,MEM,optL,multiL,kidsL,hL,fmtIn,isAny,tryVal,tryMany,cityName,seekL,seekN,startSub,firstName,poss,poolTitle,fitFont,rate,accepted};
+window.PoolEngine={rankOf,orderRows,UNSTEPPED,CARD,alone,cityIds,otherIds,homeId,setHome,SXS,seekKey,peopleN,eduK,incK,tierK,incEst,lowest,CX,fmtR,D,S,ROWS,SRC,NOTES,SOURCES,ASK,compute,width,openEdit,close,fmt,pct,memLine,memOn,setMembers,MEM,optL,multiL,kidsL,hL,fmtIn,isAny,tryVal,tryMany,cityName,seekL,seekN,startSub,firstName,poss,poolTitle,fitFont,rate,accepted};
 })();
