@@ -12346,9 +12346,21 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
       applies: function () { return state.status === 'partnered'; } });
   }
   // couples: one question at a time, so the ILY / first-sex / prenup questions wait until these two are answered
-  function gate() { if (typeof state === 'undefined') return; var c = state.status === 'partnered', wait = c && crApplies('rel-lastrel') && (!crIsCollapsed('rel-lastrel') || (crApplies('rel-breakup') && !crIsCollapsed('rel-breakup'))) && !document.getElementById('rel-lastrel').classList.contains('cr-later');
-    var lat = c && document.getElementById('rel-lastrel').classList.contains('cr-later');
-    ['ily-block', 'cpn-block'].forEach(function (id) { var b = document.getElementById(id); if (b) b.classList.toggle('lr-wait', wait || lat); }); }
+  // Oct 10 (Amanda): Your Relationship order = Stage -> First date (+ engaged/wedding) -> First sex -> ILY -> Married before -> Last breakup -> Why ended -> prenup
+  (function () { var ily = document.getElementById('ily-block'), mb = document.getElementById('rel-mb'); if (ily && mb) mb.parentNode.insertBefore(ily, mb); })();
+  ilyApplies_s3y116 = function () { return state.status === 'partnered' && !!((document.getElementById('relationship_stage') || {}).value); }; // ILY no longer waits on Married before (it comes first now); the reveal is gated below
+  function vis(id) { var u = document.getElementById(id); return !!u && crApplies(id) && !u.classList.contains('cr-later') && u.style.display !== 'none'; }
+  function datesDone() { return ['rel-first', 'rel-eng', 'rel-wed'].every(function (id) { return !crApplies(id) || crIsCollapsed(id); }) && vis('rel-first'); }
+  function ilyDone() { var b = document.getElementById('ily-block'); if (!b || b.style.display === 'none') return true;
+    return [].every.call(b.querySelectorAll('.s118-u'), function (u) { return u.classList.contains('s118-off') || u.classList.contains('collapsed'); }); }
+  function lbDone() { return crApplies('rel-lastrel') && crIsCollapsed('rel-lastrel') && (!crApplies('rel-breakup') || crIsCollapsed('rel-breakup')); }
+  function gate() { if (typeof state === 'undefined') return; var c = state.status === 'partnered';
+    var t = function (id, w) { var e = document.getElementById(id); if (e) e.classList.toggle('lr-wait', !!w); };
+    var dd = datesDone(), id_ = dd && ilyDone(), mbd = id_ && crIsCollapsed('rel-mb');
+    t('ily-block', c && !dd);            // First sex waits on First date (+ engaged / wedding)
+    t('rel-mb', c && !id_);              // Married before waits on ILY (First sex is optional: Skipped counts)
+    t('rel-lb-row', c && !mbd);          // Last breakup waits on Married before
+    t('cpn-block', c && !(mbd && lbDone())); }
   var _cs = window.crSync; window.crSync = crSync = function () { var r = _cs.apply(this, arguments); try { gate(); } catch (e) {} return r; };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
