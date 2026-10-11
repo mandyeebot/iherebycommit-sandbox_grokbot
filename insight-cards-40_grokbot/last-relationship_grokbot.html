@@ -69,7 +69,7 @@
   Own: ambition 28.4%, time together 23.9%, free time 22.6%, wealth/lifestyle 21.8%, relocating 19.2%, children 16.3%, marriage 13.4%, monogamy 11.9%, religion 8.1%, income/split 20.5%, drug or alcohol 13.9%
   Johnson: abuse 44% women / 8% men -->
 <style>
-  #lr-panel .lr-dates, #clr-panel .lr-dates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 4px 12px 12px; border-bottom: 1px solid #2a2a2a; }
+  #lr-panel .lr-dates, #clr-panel .lr-dates { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 4px 12px 12px; border-bottom: 1px solid #2a2a2a; }
   #br-panel .race-opt .race-opt-txt, #cbr-panel .race-opt .race-opt-txt { flex: 1; }
   .br-help { display: block; padding: 6px 12px 12px 46px; font-family: 'Space Mono', monospace; font-size: 11px; line-height: 1.5; color: var(--muted); border-bottom: 1px solid #2a2a2a; }
   .br-help a { color: var(--accent); }
@@ -12281,16 +12281,14 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
     // the two pickers = the Race / Education popup (cp-sheet race-sheet), built once
     var h = '<div class="cp-backdrop" id="' + C.p + '-backdrop" hidden></div><div class="cp-sheet race-sheet s121-sheet" id="' + C.p + '-panel" role="dialog" aria-modal="true" aria-label="' + esc(C.q1) + '" hidden>' +
       '<div class="cp-sheet-head"><span class="cp-sheet-title">' + esc(C.q1) + '</span><button type="button" class="cp-x" aria-label="Close" data-x="' + C.p + '">' + X + '</button></div>' +
-      '<div class="cp-list"><div class="ed-sec">Month &amp; year</div><div class="lr-dates"><select class="field-input is-default" id="' + C.p + '-month" aria-label="Month"><option value="">Month</option></select><select class="field-input is-default" id="' + C.p + '-year" aria-label="Year"><option value="">Year</option></select></div><div class="ed-sec">Or</div>' +
+      '<div class="cp-list"><div class="ed-sec">Date it ended</div><div class="lr-dates lr-date1"><input class="field-input" id="' + C.p + '-date" type="date" data-pick="date" aria-label="Date it ended"></div><div class="ed-sec">Or</div>' +
       C.opts.map(function (o) { return '<button type="button" class="race-opt" data-lr="' + o[0] + '"><span class="race-box"></span><span class="race-opt-txt">' + esc(o[1]) + '</span></button>'; }).join('') + '</div>' +
       '<div class="cp-foot"><button type="button" class="btn btn-primary cp-done-btm" data-x="' + C.p + '">DONE</button></div></div>' +
       '<div class="cp-backdrop" id="' + C.b + '-backdrop" hidden></div><div class="cp-sheet race-sheet" id="' + C.b + '-panel" role="dialog" aria-modal="true" aria-label="' + esc(C.q2) + '" hidden>' +
       '<div class="cp-sheet-head"><span class="cp-sheet-title lq87">' + esc(C.q2) + '</span><button type="button" class="cp-x" aria-label="Close" data-x="' + C.b + '">' + X + '</button></div><div class="cp-list" id="' + C.b + '-list" role="group"></div>' +
       '<div class="cp-foot"><button type="button" class="btn btn-primary cp-done-btm" data-x="' + C.b + '">DONE</button></div></div>';
     var w = document.createElement('div'); w.innerHTML = h; while (w.firstChild) document.body.appendChild(w.firstChild);
-    var m = $(C.p + '-month'), y = $(C.p + '-year'), now = new Date();
-    MONF.forEach(function (t, i) { var o = document.createElement('option'); o.value = String(i + 1); o.textContent = t; m.appendChild(o); });
-    for (var k = now.getFullYear(); k >= now.getFullYear() - 50; k--) { var o = document.createElement('option'); o.value = String(k); o.textContent = String(k); y.appendChild(o); }
+    var dt = $(C.p + '-date'), now = new Date(); dt.max = now.toISOString().slice(0, 10); dt.min = (now.getFullYear() - 60) + '-01-01'; // the app's standard date picker (same as First date / Birthday)
     var L = $(C.b + '-list');
     BR.forEach(function (g) {
       var hd = document.createElement('div'); hd.className = 'ed-sec'; hd.textContent = g[0]; hd.setAttribute('role', 'heading'); L.appendChild(hd);
@@ -12304,12 +12302,12 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
     var oin = L.querySelector('[data-ow] input'); oin.addEventListener('input', function () { S.other = oin.value.trim(); sync(); });
     function paint() {
       document.querySelectorAll('#' + C.p + '-panel [data-lr]').forEach(function (b) { var on = S.status === b.dataset.lr; b.classList.toggle('selected', on); b.setAttribute('aria-pressed', String(on)); });
-      m.value = S.month; y.value = S.year; m.classList.toggle('is-default', !S.month); y.classList.toggle('is-default', !S.year);
+      dt.value = S.date || '';
       L.querySelectorAll('[data-br]').forEach(function (b) { var on = S.reasons.indexOf(b.dataset.br) >= 0; b.classList.toggle('selected', on); b.setAttribute('aria-pressed', String(on)); });
       L.querySelector('[data-help]').hidden = S.reasons.indexOf('abuse') < 0; L.querySelector('[data-ow]').hidden = S.reasons.indexOf('other') < 0;
     }
     function payload() { var pre = C.col; return [
-      [pre + '_end_month', hasDate() ? +S.month : null], [pre + '_end_year', hasDate() ? +S.year : null], [pre + '_status', S.status || (hasDate() ? 'ended' : null)],
+      [pre + '_end_date', hasDate() ? S.date : null], [pre + '_end_month', hasDate() ? +S.month : null], [pre + '_end_year', hasDate() ? +S.year : null], [pre + '_status', S.status || (hasDate() ? 'ended' : null)],
       [C.bcol, brApplies() ? S.reasons.slice() : []], [C.bcol + '_text', brApplies() ? (brValue() || null) : null], [C.bcol.replace(/s$/, '') + '_other', brApplies() && S.reasons.indexOf('other') >= 0 ? (S.other || null) : null]
     ].reduce(function (o, kv) { o[kv[0]] = kv[1]; return o; }, {}); }
     (window.lrPayloads = window.lrPayloads || {})[C.p] = payload;
@@ -12327,9 +12325,9 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
     document.querySelectorAll('[data-x="' + C.p + '"]').forEach(function (b) { b.onclick = close1; }); document.querySelectorAll('[data-x="' + C.b + '"]').forEach(function (b) { b.onclick = close2; });
     $(C.p + '-backdrop').onclick = close1; $(C.b + '-backdrop').onclick = close2;
     $(C.p + '-btn').onclick = function () { openP(C.p); }; $(C.b + '-btn').onclick = function () { openP(C.b); };
-    function dateCh() { S.month = m.value; S.year = y.value; if (S.month || S.year) S.status = ''; sync(); }
-    m.onchange = dateCh; y.onchange = dateCh;
-    document.querySelectorAll('#' + C.p + '-panel [data-lr]').forEach(function (b) { b.onclick = function () { var k = b.dataset.lr; S.status = S.status === k ? '' : k; if (S.status) { S.month = ''; S.year = ''; } sync(); if (S.status) setTimeout(close1, 220); }; });
+    function dateCh() { S.date = dt.value; var mm = /^(\d{4})-(\d{2})-\d{2}$/.exec(S.date || ''); S.month = mm ? String(+mm[2]) : ''; S.year = mm ? mm[1] : ''; if (S.date) S.status = ''; sync(); }
+    dt.onchange = dateCh; dt.oninput = dateCh;
+    document.querySelectorAll('#' + C.p + '-panel [data-lr]').forEach(function (b) { b.onclick = function () { var k = b.dataset.lr; S.status = S.status === k ? '' : k; if (S.status) { S.month = ''; S.year = ''; S.date = ''; } sync(); if (S.status) setTimeout(close1, 220); }; });
     crDef(C.uq, { partner: C.ub, focus: C.p + '-btn', applies: C.applies, busy: function () { return !$(C.p + '-panel').hidden; }, onExpand: function (f) { if (f) openP(C.p); }, value: lrValue });
     crDef(C.ub, { partner: C.uq, focus: C.b + '-btn', applies: function () { return C.applies() && brApplies(); }, busy: function () { return !$(C.b + '-panel').hidden; }, onExpand: function (f) { if (f) openP(C.b); }, value: brValue });
     var st = CR_STEPS[C.step], i = st.findIndex(function (x) { return x[0] === C.at; });
