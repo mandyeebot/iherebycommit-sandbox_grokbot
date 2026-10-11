@@ -80,6 +80,7 @@
   /* fit: same short-screen tightening Sandbox 2 uses on Intentions & Family (s3y122) */
   @media (max-height: 720px) { #screen-1, #screen-4 { --u-row: 6px; --u-cond-h: 38px; --u-cond-py: 3px; } }
   #rel-lb-row { margin-bottom: 12px; }
+  #who-ml-row.cr-both #who-marital .who-cond-k { letter-spacing: 0.03em !important; } #who-ml-row.cr-both #who-marital .who-cond { gap: 6px; } /* MARITAL STATUS fits in the half row */
   .lr-wait { display: none !important; }
 </style>
 
@@ -2641,6 +2642,27 @@ html.s3y66w #screen-9 .w61-chip.w70-chip .w61-cv::before { content: '\00b7 '; }
             <div class="who-cond" role="button" tabindex="0" aria-label="Edit Politics" onclick="crExpand('who-politics')"><span class="who-cond-txt"><span class="who-cond-k">Politics</span><span class="who-cond-v" id="who-politics-v"></span></span><span class="who-cond-edit">EDIT</span></div>
             <label class="field-label" for="politics">Politics</label>
             <select class="field-input is-default" id="politics" onchange="k5PoliticsPick(this)"><option value="">— Select —</option><option value="Left">Left</option><option value="Left-leaning">Left-leaning</option><option value="Moderate">Moderate</option><option value="Right-leaning">Right-leaning</option><option value="Right">Right</option><option value="Apolitical">Apolitical</option><option value="None Stated">None Stated</option></select><div class="field-error" id="err-politics">Required</div>
+          </div>
+          </div>
+          <div class="cr-pair" id="who-ml-row"><!-- MOCKUP_grokbot Oct 10: MARITAL STATUS | HAS KIDS side by side once both are answered. Production: marital_status text ('never_married'|'divorced'|'separated'|'widowed'), required for singles -->
+          <div class="field-group who-unit" id="who-marital" style="margin-bottom:0;min-width:0;">
+            <div class="who-cond" role="button" tabindex="0" aria-label="Edit Marital status" onclick="crExpand('who-marital')"><span class="who-cond-txt"><span class="who-cond-k">Marital status</span><span class="who-cond-v" id="who-marital-v"></span></span><span class="who-cond-edit">EDIT</span></div>
+            <label class="field-label">What's your marital status?</label>
+            <div class="toggle-group ms-tg" style="margin-bottom:0;">
+              <button type="button" class="toggle-btn" data-ms="never_married" onclick="msSet_grokbot('never_married')">NEVER MARRIED</button>
+              <button type="button" class="toggle-btn" data-ms="divorced" onclick="msSet_grokbot('divorced')">DIVORCED</button>
+              <button type="button" class="toggle-btn" data-ms="separated" onclick="msSet_grokbot('separated')">SEPARATED</button>
+              <button type="button" class="toggle-btn" data-ms="widowed" onclick="msSet_grokbot('widowed')">WIDOWED</button>
+            </div>
+            <div class="field-error" id="err-marital_status">Required</div>
+          </div>
+          <div class="field-group who-unit" id="who-haskids" style="margin-bottom:0;min-width:0;"><!-- reuses Sandbox 2's own has_children (Family & Intentions "Do you have kids?", yes/no) -->
+            <div class="who-cond" role="button" tabindex="0" aria-label="Edit Has kids" onclick="crExpand('who-haskids')"><span class="who-cond-txt"><span class="who-cond-k">Has kids</span><span class="who-cond-v" id="who-haskids-v"></span></span><span class="who-cond-edit">EDIT</span></div>
+            <label class="field-label">Do you have kids?</label>
+            <div class="toggle-group" style="margin-bottom:0;">
+              <button type="button" class="toggle-btn" data-hk="yes" onclick="hkSet_grokbot('yes')">YES</button>
+              <button type="button" class="toggle-btn" data-hk="no" onclick="hkSet_grokbot('no')">NO</button>
+            </div>
           </div>
           </div>
           <div class="cr-pair" id="who-lb-row"><!-- MOCKUP_grokbot: Ended | Breakup side by side once both are answered (full width first) -->
@@ -12258,6 +12280,26 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
 })();
 </script>
 <script>
+// MOCKUP_grokbot Oct 10: singles marital status (required), right before the last-relationship question
+var MS_LAB_grokbot = { never_married: 'Never married', divorced: 'Divorced', separated: 'Separated', widowed: 'Widowed' };
+function msSet_grokbot(v) {
+  state.maritalStatus = v; // TODO(Coder): save as marital_status
+  document.querySelectorAll('#who-marital [data-ms]').forEach(function (b) { b.classList.toggle('selected', b.dataset.ms === v); });
+  try { hideError('marital_status'); } catch (e) {}
+  msNever_grokbot(); crTap('who-marital');
+}
+function msNever_grokbot() { // smart default: once divorced / separated / widowed, 'I haven't had a serious relationship' is hidden (and cleared)
+  var hide = ['divorced', 'separated', 'widowed'].indexOf(state.maritalStatus) >= 0, b = document.querySelector('#lr-panel [data-lr="never"]'); if (!b) return;
+  b.hidden = hide; var S = (window.__lrS || {}).lr; if (hide && S && S.status === 'never') { b.click(); try { crExpand('who-lastrel'); } catch (e) {} }
+}
+function hkSet_grokbot(v) { // same field/value as Family & Intentions: has_children 'yes' | 'no'
+  var sel = document.getElementById('has_children_select'); if (sel) sel.value = v; try { setHasChildren(v); } catch (e) {}
+  state.hkWho_grokbot = v; document.querySelectorAll('#who-haskids [data-hk]').forEach(function (b) { b.classList.toggle('selected', b.dataset.hk === v); }); crTap('who-haskids');
+}
+crDef('who-haskids', { applies: function () { return state.status !== 'partnered'; }, value: function () { return ({ yes: 'Yes', no: 'No' })[state.hkWho_grokbot] || ''; } });
+crDef('who-marital', { applies: function () { return state.status !== 'partnered'; }, value: function () { return MS_LAB_grokbot[state.maritalStatus] || ''; } });
+</script>
+<script>
 // ---- MOCKUP_grokbot last relationship + breakup reasons, singles (Who You Are) and couples (Your Relationship). Saves faked. ----
 (function () {
   var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], MONF = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -12344,6 +12386,8 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
       q1: 'Before this relationship, when did your last serious relationship end?', q2: 'What led to that breakup? Choose all that apply.', q2also: [],
       opts: [['first_relationship', 'This is my first serious relationship', 'N/A'], ['prefer_not', 'Prefer not to say', 'Prefer not to say']],
       applies: function () { return state.status === 'partnered'; } });
+    (function () { var g = window.goNext; window.goNext = goNext = function (n) { if (n === 1 && state.status !== 'partnered' && !state.maritalStatus && !_crHidden('who-marital')) { try { showError('marital_status'); } catch (e) {} try { crExpand('who-marital'); } catch (e) {} return; } return g.apply(this, arguments); }; })(); // required
+    (function () { var st = CR_STEPS[1], i = st.findIndex(function (x) { return x[0] === 'who-lastrel'; }); if (i >= 0) st.splice(i, 0, ['who-marital'], ['who-haskids']); })(); // marital status, then last relationship
   }
   // couples: one question at a time, so the ILY / first-sex / prenup questions wait until these two are answered
   // Oct 10 (Amanda): Your Relationship order = Stage -> First date (+ engaged/wedding) -> First sex -> ILY -> Married before -> Last breakup -> Why ended -> prenup
