@@ -12354,6 +12354,27 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<script>/* MOCKUP_grokbot (Oct 10, Amanda): couples How met -> 'Which app or site?' inline in the How met popup, directly under a checked
+   'Dating app or website' (like School tier under Degree). Same fields as before: how_met_app (+ how_met_app_other). Moved here before the s118 wrap runs. */
+(function () {
+  var APPS = ['Hinge','Tinder','Bumble','Match.com','OkCupid','eHarmony','Coffee Meets Bagel','The League','Raya','Facebook Dating','Plenty of Fish','Grindr','Her','Feeld','JDate','Christian Mingle','Other',"Don't remember"];
+  var sel = document.getElementById('how_met_app'), aw = document.getElementById('hm-app-wrap'), ow = document.getElementById('hm-app-other-wrap'), opt = document.querySelector('#hm-panel [data-hm="app"]');
+  if (!sel || !aw || !ow || !opt) return;
+  sel.innerHTML = '<option value="">\u2014 Select \u2014</option>' + APPS.map(function (a) { var o = document.createElement('option'); o.value = a; o.textContent = a; return o.outerHTML; }).join('');
+  var f = document.createElement('div'); f.className = 'il-form hm-app-inline'; f.id = 'hm-app-inline'; f.style.display = 'none';
+  opt.parentNode.insertBefore(f, opt.nextSibling); f.appendChild(aw); f.appendChild(ow);
+  aw.style.display = ''; aw.querySelector('label').className = 'il-k';
+  var ol = ow.querySelector('label'); if (ol) ol.className = 'il-k';
+  var st = document.createElement('style'); st.textContent = '#hm-app-inline { padding: 0 12px 12px 46px; border-bottom: 1px solid #2a2a2a; } #hm-app-inline .field-group { margin: 0 !important; } #hm-app-inline .il-k { margin: 6px 0 6px; }';
+  document.head.appendChild(st);
+  var sync0 = hmSync_s3y118;
+  hmSync_s3y118 = function () { var on = state.howMet.indexOf('app') >= 0; f.style.display = on ? '' : 'none'; var r = sync0.apply(this, arguments); aw.style.display = ''; ow.style.display = on && sel.value === 'Other' ? '' : 'none'; return r; };
+  var tog0 = hmToggle_s3y118;
+  hmToggle_s3y118 = function (k) { var r = tog0.apply(this, arguments); if (k === 'app' && state.howMet.indexOf('app') < 0) { sel.value = ''; var oi = document.getElementById('how_met_app_other'); if (oi) oi.value = ''; hmSync_s3y118(); } return r; };
+  hmShort_s3y118 = function () { return state.howMet.map(function (k) { if (k !== 'app') return HM_SHORT_s3y118[k]; var a = sel.value, o = ((document.getElementById('how_met_app_other') || {}).value || '').trim(); a = a === 'Other' ? (o || 'Other') : a; return a ? 'Dating app (' + a + ')' : 'Dating app'; }).join(', '); };
+  var oi = document.getElementById('how_met_app_other'); if (oi) oi.addEventListener('input', function () { try { s118Sync(); } catch (e) {} });
+})();
+</script>
 <script>/* MOCKUP_grokbot: open straight on WHO YOU ARE as a single, or ?path=couple on YOUR RELATIONSHIP as a couple (?landing=1 = landing) */
 window.addEventListener('load',function(){ var q=location.search; if(/landing=1/.test(q)) return;
   try{ if(/path=couple/.test(q)){ startAs('partnered'); showScreen(4,'forward'); } else startAs('single'); }catch(e){} });</script>
