@@ -81,6 +81,7 @@
   @media (max-height: 720px) { #screen-1, #screen-4 { --u-row: 6px; --u-cond-h: 38px; --u-cond-py: 3px; } }
   #rel-lb-row { margin-bottom: 12px; }
   #who-ml-row.cr-both #who-marital .who-cond-k { letter-spacing: 0.03em !important; } #who-ml-row.cr-both #who-marital .who-cond { gap: 6px; } /* MARITAL STATUS fits in the half row */
+  #who-breakup .who-cond-k, #rel-breakup .who-cond-k { letter-spacing: 0.03em !important; } /* WHY ENDED (N) fits in the half row */
   .lr-wait { display: none !important; }
 </style>
 
@@ -12320,7 +12321,9 @@ crDef('who-marital', { applies: function () { return state.status !== 'partnered
     function hasDate() { return !!(S.month && S.year); }
     function lrValue() { if (S.status) return OPT[S.status][2]; return hasDate() ? MON[+S.month - 1] + ' ' + S.year : ''; }
     function brApplies() { return hasDate() || (C.q2also || []).indexOf(S.status) >= 0; }
-    function brValue() { var n = S.reasons.length; return n ? 'Reasons (' + n + ')' : ''; } // Oct 10: count, same '(N)' format as Sandbox 2's 'Other cities (3)'
+    function brValue() { // Oct 10 (Amanda): count in the label like Sandbox 2's 'Other cities (3)'; value lists the reasons like the cities row
+      var n = S.reasons.length, u = document.getElementById(C.ub), k = u && u.querySelector('.who-cond-k'); if (k) k.textContent = n ? 'Why ended (' + n + ')' : 'Why ended';
+      return S.reasons.map(function (r) { return r === 'other' && S.other ? S.other : ALL[r][2]; }).join(', '); }
     // the two pickers = the Race / Education popup (cp-sheet race-sheet), built once
     var h = '<div class="cp-backdrop" id="' + C.p + '-backdrop" hidden></div><div class="cp-sheet race-sheet s121-sheet" id="' + C.p + '-panel" role="dialog" aria-modal="true" aria-label="' + esc(C.q1) + '" hidden>' +
       '<div class="cp-sheet-head"><span class="cp-sheet-title">' + esc(C.q1) + '</span><button type="button" class="cp-x" aria-label="Close" data-x="' + C.p + '">' + X + '</button></div>' +
