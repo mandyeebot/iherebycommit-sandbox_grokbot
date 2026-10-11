@@ -12391,5 +12391,8 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
 <script>/* MOCKUP_grokbot: open straight on WHO YOU ARE as a single, or ?path=couple on YOUR RELATIONSHIP as a couple (?landing=1 = landing) */
 window.addEventListener('load',function(){ var q=location.search; if(/landing=1/.test(q)) return;
   try{ if(/path=couple/.test(q)){ startAs('partnered'); showScreen(4,'forward'); } else startAs('single'); }catch(e){} });</script>
+<style>/* MOCKUP_grokbot (Oct 10, Amanda): every popup header = the option label size, full-contrast text (was 10px dim caps). Sandbox 2 shared cp-sheet should do the same. */
+body .cp-sheet .cp-sheet-head .cp-sheet-title, body .cp-sheet .cp-sheet-head .cp-sheet-title.lq87 { font-family: 'Space Mono', monospace !important; font-size: 14px !important; line-height: 1.35 !important; letter-spacing: 0 !important; text-transform: none !important; color: var(--text) !important; font-weight: 700 !important; white-space: normal !important; padding-right: 8px; }
+</style>
 </body>
 </html>
