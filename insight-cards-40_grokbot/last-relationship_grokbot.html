@@ -62,22 +62,24 @@
        Built from s3i: production 2026-10-05p3 + K5 Religion / Income / Degree on Who You Are + I am a | Name half-row once Name is done.
        Saves faked. Not indexed. -->
   <meta name="robots" content="noindex,nofollow">
-<!-- ===== MOCKUP_grokbot last-relationship (Oct 10 2026): two new singles questions on WHO YOU ARE. Saves faked; nothing is written. =====
+<!-- ===== MOCKUP_grokbot last-relationship (Oct 10 2026, rebased on s3y128): singles = two new questions on WHO YOU ARE; couples (?path=couple) = the same two on YOUR RELATIONSHIP right after Married before. Saves faked; nothing is written. =====
   INTERNAL (never shown to users) source shares for analytics, also on each option as data-src-*:
   Hawkins: grew apart 55%, couldn't talk 53%, not enough attention 34%, partner's personal problems 37%, religious values 9%, infidelity 37%
   Scott: conflict 57.7%, lack of commitment 75.0%, financial problems 36.7%, infidelity 59.6%, too young 45.1%, drug or alcohol final straw 12.1%
   Own: ambition 28.4%, time together 23.9%, free time 22.6%, wealth/lifestyle 21.8%, relocating 19.2%, children 16.3%, marriage 13.4%, monogamy 11.9%, religion 8.1%, income/split 20.5%, drug or alcohol 13.9%
   Johnson: abuse 44% women / 8% men -->
 <style>
-  #lr-panel .lr-dates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 4px 12px 12px; border-bottom: 1px solid #2a2a2a; }
-  #br-panel .race-opt .race-opt-txt { flex: 1; }
+  #lr-panel .lr-dates, #clr-panel .lr-dates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 4px 12px 12px; border-bottom: 1px solid #2a2a2a; }
+  #br-panel .race-opt .race-opt-txt, #cbr-panel .race-opt .race-opt-txt { flex: 1; }
   .br-help { display: block; padding: 6px 12px 12px 46px; font-family: 'Space Mono', monospace; font-size: 11px; line-height: 1.5; color: var(--muted); border-bottom: 1px solid #2a2a2a; }
   .br-help a { color: var(--accent); }
   .br-other { padding: 4px 12px 12px 46px; border-bottom: 1px solid #2a2a2a; }
-  #who-lastrel .who-cond-v, #who-breakup .who-cond-v { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; -webkit-line-clamp: unset; }
-  #who-lb-row .who-unit.collapsed .who-cond-txt { min-width: 0; }
-  /* fit: same tightening Sandbox 2 uses on Intentions & Family (s3y122) so the added row fits at 393x660 */
-  @media (max-height: 720px) { #screen-1 { --u-row: 6px; --u-cond-h: 38px; --u-cond-py: 3px; } }
+  #who-lastrel .who-cond-v, #who-breakup .who-cond-v, #rel-lastrel .who-cond-v, #rel-breakup .who-cond-v { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; -webkit-line-clamp: unset; }
+  #who-lb-row .who-unit.collapsed .who-cond-txt, #rel-lb-row .who-unit.collapsed .who-cond-txt { min-width: 0; }
+  /* fit: same short-screen tightening Sandbox 2 uses on Intentions & Family (s3y122) */
+  @media (max-height: 720px) { #screen-1, #screen-4 { --u-row: 6px; --u-cond-h: 38px; --u-cond-py: 3px; } }
+  #rel-lb-row { margin-bottom: 12px; }
+  .lr-wait { display: none !important; }
 </style>
 
   <script>
@@ -105,7 +107,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover"><!-- s3m: maximum-scale=1 stops iOS Safari zooming on focus (14px pickers); iOS still allows pinch zoom -->
-  <title>I Hereby Commit (sandbox-2 · s3y126)</title>
+  <title>I Hereby Commit (sandbox-2 · s3y128)</title>
 
   <meta property="og:title" content="I Hereby Commit">
   <meta property="og:description" content="It's the biggest decision of your life. It's never been studied like one.">
@@ -2640,16 +2642,16 @@ html.s3y66w #screen-9 .w61-chip.w70-chip .w61-cv::before { content: '\00b7 '; }
             <select class="field-input is-default" id="politics" onchange="k5PoliticsPick(this)"><option value="">— Select —</option><option value="Left">Left</option><option value="Left-leaning">Left-leaning</option><option value="Moderate">Moderate</option><option value="Right-leaning">Right-leaning</option><option value="Right">Right</option><option value="Apolitical">Apolitical</option><option value="None Stated">None Stated</option></select><div class="field-error" id="err-politics">Required</div>
           </div>
           </div>
-          <div class="cr-pair" id="who-lb-row"><!-- MOCKUP_grokbot: LAST RELATIONSHIP | BREAKUP side by side once both are answered (full width first) -->
+          <div class="cr-pair" id="who-lb-row"><!-- MOCKUP_grokbot: Ended | Breakup side by side once both are answered (full width first) -->
           <div class="field-group who-unit" id="who-lastrel" style="margin-bottom:0;min-width:0;">
-            <div class="who-cond" role="button" tabindex="0" aria-label="Edit Last relationship" onclick="crExpand('who-lastrel')"><span class="who-cond-txt"><span class="who-cond-k">Ended</span><span class="who-cond-v" id="who-lastrel-v"></span></span><span class="who-cond-edit">EDIT</span></div>
+            <div class="who-cond" role="button" tabindex="0" aria-label="Edit Ended" onclick="crExpand('who-lastrel')"><span class="who-cond-txt"><span class="who-cond-k">Ended</span><span class="who-cond-v" id="who-lastrel-v"></span></span><span class="who-cond-edit">EDIT</span></div>
             <label class="field-label" for="lr-btn">When did your last serious relationship end?</label>
-            <button type="button" class="field-input race-select" id="lr-btn" aria-haspopup="true" aria-expanded="false" aria-controls="lr-panel" onclick="lrOpen()"><span class="race-select-text empty" id="lr-btn-text">— Select —</span></button>
+            <button type="button" class="field-input race-select" id="lr-btn" aria-haspopup="true" aria-expanded="false" aria-controls="lr-panel"><span class="race-select-text empty" id="lr-btn-text">— Select —</span></button>
           </div>
           <div class="field-group who-unit" id="who-breakup" style="margin-bottom:0;min-width:0;">
-            <div class="who-cond" role="button" tabindex="0" aria-label="Edit Breakup reasons" onclick="crExpand('who-breakup')"><span class="who-cond-txt"><span class="who-cond-k">Breakup</span><span class="who-cond-v" id="who-breakup-v"></span></span><span class="who-cond-edit">EDIT</span></div>
+            <div class="who-cond" role="button" tabindex="0" aria-label="Edit Breakup" onclick="crExpand('who-breakup')"><span class="who-cond-txt"><span class="who-cond-k">Breakup</span><span class="who-cond-v" id="who-breakup-v"></span></span><span class="who-cond-edit">EDIT</span></div>
             <label class="field-label" for="br-btn">What led to the breakup? <span class="lab-hint">(select all)</span></label>
-            <button type="button" class="field-input race-select" id="br-btn" aria-haspopup="true" aria-expanded="false" aria-controls="br-panel" onclick="brOpen()"><span class="race-select-text empty" id="br-btn-text">— Select —</span></button>
+            <button type="button" class="field-input race-select" id="br-btn" aria-haspopup="true" aria-expanded="false" aria-controls="br-panel"><span class="race-select-text empty" id="br-btn-text">— Select —</span></button>
           </div>
           </div>
           <div class="field-group who-unit" id="who-email" style="margin-bottom:12px;">
@@ -2981,6 +2983,17 @@ html.s3y66w #screen-9 .w61-chip.w70-chip .w61-cv::before { content: '\00b7 '; }
           <div class="field-error" id="err-relationship_stage">Required</div>
         </div>
       </div>
+      <div id="hm-block" style="display:none;margin-bottom:12px;"><!-- s3y128: How met right after Relationship stage -->
+        <!-- s3y118 (_grokbot): optional, how did you meet (multi-select sheet) + follow-ups -->
+        <div class="field-group" style="margin-bottom:0;"><label class="field-label" for="how_met_btn">How did you meet your partner? <span class="lab-hint">(select all that apply · optional)</span></label>
+          <button type="button" class="field-input race-select" id="how_met_btn" aria-haspopup="true" aria-expanded="false" aria-controls="hm-panel" onclick="hmOpen_s3y118()"><span class="race-select-text empty" id="hm-select-text">— Select —</span></button></div>
+        <div class="field-group" id="hm-other-wrap" style="margin-bottom:0;display:none;"><label class="field-label" for="how_met_other">Somewhere else: where did you meet?</label>
+          <input class="field-input" id="how_met_other" type="text" maxlength="200" autocomplete="off" placeholder="Describe"></div>
+        <div class="field-group" id="hm-app-wrap" style="margin-bottom:0;display:none;"><label class="field-label" for="how_met_app">Which app or site?</label>
+          <select class="field-input" id="how_met_app" autocomplete="off" onchange="hmSync_s3y118()"><option value="">— Select —</option><option value="Hinge">Hinge</option><option value="Tinder">Tinder</option><option value="Bumble">Bumble</option><option value="The League">The League</option><option value="Raya">Raya</option><option value="Match">Match</option><option value="eHarmony">eHarmony</option><option value="OkCupid">OkCupid</option><option value="Coffee Meets Bagel">Coffee Meets Bagel</option><option value="Facebook Dating">Facebook Dating</option><option value="Grindr">Grindr</option><option value="Her">Her</option><option value="Plenty of Fish">Plenty of Fish</option><option value="Other">Other</option></select></div>
+        <div class="field-group" id="hm-app-other-wrap" style="margin-bottom:0;display:none;"><label class="field-label" for="how_met_app_other">Which other app or site?</label>
+          <input class="field-input" id="how_met_app_other" type="text" maxlength="200" autocomplete="off" placeholder="App or site name"></div>
+      </div>
       <div class="who-unit" id="rel-first" style="margin-bottom:12px;">
         <div class="who-cond" role="button" tabindex="0" aria-label="Edit First date" onclick="crExpand('rel-first')"><span class="who-cond-txt"><span class="who-cond-k" id="rel-first-k">First date</span><span class="who-cond-v" id="rel-first-v"></span></span><span class="who-cond-edit">EDIT</span></div>
         <div class="field-group" style="margin-bottom:0;">
@@ -3020,18 +3033,21 @@ html.s3y66w #screen-9 .w61-chip.w70-chip .w61-cv::before { content: '\00b7 '; }
           <div class="field-error" id="err-married_before">Required</div>
         </div>
       </div>
+          <div class="cr-pair" id="rel-lb-row"><!-- MOCKUP_grokbot: Last ended | Breakup side by side once both are answered (full width first) -->
+          <div class="field-group who-unit" id="rel-lastrel" style="margin-bottom:0;min-width:0;">
+            <div class="who-cond" role="button" tabindex="0" aria-label="Edit Last ended" onclick="crExpand('rel-lastrel')"><span class="who-cond-txt"><span class="who-cond-k">Last ended</span><span class="who-cond-v" id="rel-lastrel-v"></span></span><span class="who-cond-edit">EDIT</span></div>
+            <label class="field-label" for="clr-btn">Before this relationship, when did your last serious relationship end?</label>
+            <button type="button" class="field-input race-select" id="clr-btn" aria-haspopup="true" aria-expanded="false" aria-controls="clr-panel"><span class="race-select-text empty" id="clr-btn-text">— Select —</span></button>
+          </div>
+          <div class="field-group who-unit" id="rel-breakup" style="margin-bottom:0;min-width:0;">
+            <div class="who-cond" role="button" tabindex="0" aria-label="Edit Breakup" onclick="crExpand('rel-breakup')"><span class="who-cond-txt"><span class="who-cond-k">Breakup</span><span class="who-cond-v" id="rel-breakup-v"></span></span><span class="who-cond-edit">EDIT</span></div>
+            <label class="field-label" for="cbr-btn">What led to that breakup? <span class="lab-hint">(select all)</span></label>
+            <button type="button" class="field-input race-select" id="cbr-btn" aria-haspopup="true" aria-expanded="false" aria-controls="cbr-panel"><span class="race-select-text empty" id="cbr-btn-text">— Select —</span></button>
+          </div>
+          </div>
       <!-- s3y115 (_grokbot): couples not Married: both prenup questions for the applicant AND about their partner. Dropdowns (4 options don't fit one row at 393). -->
       <!-- s3y116 (_grokbot): couples, each partner answers separately: who said "I love you" first (+ roughly how many months in) -->
       <div id="ily-block" style="display:none;margin-bottom:22px;">
-        <!-- s3y118 (_grokbot): optional, how did you meet (multi-select sheet) + follow-ups -->
-        <div class="field-group" style="margin-bottom:0;"><label class="field-label" for="how_met_btn">How did you meet your partner? <span class="lab-hint">(select all that apply · optional)</span></label>
-          <button type="button" class="field-input race-select" id="how_met_btn" aria-haspopup="true" aria-expanded="false" aria-controls="hm-panel" onclick="hmOpen_s3y118()"><span class="race-select-text empty" id="hm-select-text">— Select —</span></button></div>
-        <div class="field-group" id="hm-other-wrap" style="margin-bottom:0;display:none;"><label class="field-label" for="how_met_other">Somewhere else: where did you meet?</label>
-          <input class="field-input" id="how_met_other" type="text" maxlength="200" autocomplete="off" placeholder="Describe"></div>
-        <div class="field-group" id="hm-app-wrap" style="margin-bottom:0;display:none;"><label class="field-label" for="how_met_app">Which app or site?</label>
-          <select class="field-input" id="how_met_app" autocomplete="off" onchange="hmSync_s3y118()"><option value="">— Select —</option><option value="Hinge">Hinge</option><option value="Tinder">Tinder</option><option value="Bumble">Bumble</option><option value="The League">The League</option><option value="Raya">Raya</option><option value="Match">Match</option><option value="eHarmony">eHarmony</option><option value="OkCupid">OkCupid</option><option value="Coffee Meets Bagel">Coffee Meets Bagel</option><option value="Facebook Dating">Facebook Dating</option><option value="Grindr">Grindr</option><option value="Her">Her</option><option value="Plenty of Fish">Plenty of Fish</option><option value="Other">Other</option></select></div>
-        <div class="field-group" id="hm-app-other-wrap" style="margin-bottom:0;display:none;"><label class="field-label" for="how_met_app_other">Which other app or site?</label>
-          <input class="field-input" id="how_met_app_other" type="text" maxlength="200" autocomplete="off" placeholder="App or site name"></div>
         <!-- s3y116 (_grokbot, Amanda approved): optional, each partner answers separately -->
         <div class="field-group" style="margin-bottom:0;"><label class="field-label" for="first_sex_date">Which date was it when you first had sex? <span style="opacity:.6">(optional)</span></label>
           <select class="field-input" id="first_sex_date" autocomplete="off"><option value="">— Select —</option><option value="before_first_date">Before the first date</option><option value="date_1">1st</option><option value="date_2">2nd</option><option value="date_3">3rd</option><option value="date_4_5">4th–5th</option><option value="date_6_10">6th–10th</option><option value="more_than_10">More than 10</option><option value="not_yet">Haven't yet</option><option value="prefer_not_to_say">Prefer not to say</option></select></div>
@@ -3214,7 +3230,7 @@ html.s3y66w #screen-9 .w61-chip.w70-chip .w61-cv::before { content: '\00b7 '; }
           </div>
         </div>
         <div class="who-unit fam-unit" id="fam-wk" style="min-width:0;">
-          <div class="who-cond" role="button" tabindex="0" aria-label="Edit Want kids" onclick="crExpand('fam-wk')"><span class="who-cond-txt"><span class="who-cond-k" id="fam-wk-k">Want kids</span><span class="who-cond-v" id="fam-wk-v"></span></span><span class="who-cond-edit">EDIT</span></div>
+          <div class="who-cond" role="button" tabindex="0" aria-label="Edit Wants kids" onclick="crExpand('fam-wk')"><span class="who-cond-txt"><span class="who-cond-k" id="fam-wk-k">Wants kids</span><span class="who-cond-v" id="fam-wk-v"></span></span><span class="who-cond-edit">EDIT</span></div>
           <div class="field-group" id="wants-children-group" style="margin-bottom:0;min-width:0;">
             <label class="field-label" id="wants-children-label" for="wants_children_select">Do you want kids?</label>
             <select class="field-input" id="wants_children_select" onchange="setWantsChildren(this.value)">
@@ -3518,7 +3534,7 @@ const FUNCTIONS_URL = SUPABASE_URL + '/functions/v1';
 // No answer values are ever logged, only screen keys and (for validation_failed) field names.
 // ============================================================
 var TL_LEGACY_s3y86 = { '3_months': '1_year', '6_months': '1_year', '6_12_months': '1_year', '12_months': '1_year', '1_2_years': '2_years', '3_years': '3_4_years', '4_years': '3_4_years', '4_5_years': '3_4_years', '3_5_years': '3_4_years', '5_10_years': '5_plus_years', '6_10_years': '5_plus_years', '10_plus_years': '5_plus_years' }; // s3y88 list // s3y87 final list // s3y87: 5-10 Years -> 6-10 Years // s3y86: old relationship_timeline keys -> new list
-var PAGE_VERSION = '2026-10-10-sb2-s3y126'; // s3y117: badge on STEP line, tighter top; WMM Prenup: Any / Would sign one / Doesn't want one. // s3y116: kids age auto-advance; prenup Want/Would sign separate rows; relocation_expectation. // s3y115: WMM Prenup (partner_prenup). // s3y114: untouched Distance counts (idle/NEXT reveals Age); NEXT after Distance no longer reveals Age+Height together. // s3y99: kids 5+ asks the exact count (5-20), saved as the number. // s3y98: no What You Want subline; no 'Answer for yourself' note. // s3y97: married someday first; Looking for = Committed/Casual/Either; marriage pace question; pets removed. // s3y96: Age appears after Distance idle even without the other-cities box (change no longer cancels the idle timer). // s3y95: fertility 'Prefer not to say'; info sheet copy; dead kids-count select hidden. // s3y94: under-18 gate blocks every autosave and purges a saved partial
+var PAGE_VERSION = '2026-10-10-sb2-s3y128'; // s3y117: badge on STEP line, tighter top; WMM Prenup: Any / Would sign one / Doesn't want one. // s3y116: kids age auto-advance; prenup Want/Would sign separate rows; relocation_expectation. // s3y115: WMM Prenup (partner_prenup). // s3y114: untouched Distance counts (idle/NEXT reveals Age); NEXT after Distance no longer reveals Age+Height together. // s3y99: kids 5+ asks the exact count (5-20), saved as the number. // s3y98: no What You Want subline; no 'Answer for yourself' note. // s3y97: married someday first; Looking for = Committed/Casual/Either; marriage pace question; pets removed. // s3y96: Age appears after Distance idle even without the other-cities box (change no longer cancels the idle timer). // s3y95: fertility 'Prefer not to say'; info sheet copy; dead kids-count select hidden. // s3y94: under-18 gate blocks every autosave and purges a saved partial
 // // s3y93: landing 'why we ask' paragraph; What You Want subline. // s3y92: Dyrenforth myth line (similarity <0.5% vs partner 1-3%); full paper title. // s3y91: Marriage/Relationship timing title; value without prefix. // s3y90: Other Cities Not Ranked chip shows the count. // s3y89: Orange County + SF Bay Area placed in Popular by metro size. // s3y88: Dating-only = no timeline (like Casual). // s3y87: long question on every sheet header; WMM select sheets as tappable lists; Education lists all degrees+schools; LA + Orange County bundles. // s3y86: Education half width = highest degree (school); Education|Income, Religion|Politics; school parent names; SF Bay Area bundle; WYW Ethnicities | Religion, Politics full; new relationship timeline list. // s3y85: Who You Are Income | Religion, Politics full width. // s3y84: ASAP shown as Soonish; WMM Timing = 'Marriage soonish' / 'Relationship ...'. // s3y83: Education full-width row with schools; Income own row; NYC boroughs -> New York, NY. // s3y82: own No -> partner want kids No + Open to either. // s3y81d: partner Want kids = Any / Yes / Open to either / No (Unsure removed); Yes -> Yes + Open to either default; Timing chip/sheet; WMM age sheet fix. // s3y81c: one Pets sheet (have/how many/types/want) + pet_types; WMM Other Cities starts Not ranked; WMM cards 56px; helper 'Hold and drag to rank or unrank'. // s3y81b: Fertility answer re-runs the family drip (pets rows were never revealed). // s3y81: school tier = pill on the selected degree row + inline chooser (no separate section). // s3y80: own city never suggested in OTHER CITIES. // s3y79: BS/BA+ label, MORE low->high, short tier when Degree|Income paired. // s3y78: WYW partner Degree = bottom sheet (min degree + school tier). // s3y77: school card copy. // s3y76: Education + Income before Religion + Politics (Who You Are + What You Want). // s3y75: checking a bachelor's+ degree opens its School typeahead; school card once per visit. // s3y74: NOT RANKED chips show value (· ANY). // s3y71: hidden /connect-google/ OAuth review page (no links to it). // s3y70: kids sheet typed ages (0-60, int array). // s3y69: DEGREES display order (common first, MORE DEGREES subheading). // s3y68c: dba naming (sms_optin@2026-10-09c). // s3y68b: SMS wording + insights (sms_optin@2026-10-09b). // s3y68: Twilio A2P SMS opt-in wording (sms_optin@2026-10-09). // s3y67: one EDUCATION sheet (degrees + licenses + certifications, + ADD SCHOOL / + ADD DETAILS, schools nudge) // s3y66: WMM My City + Other Cities split; PRENUP when Marriage + kids count/ages sheet (Have kids Yes) + WMM Not Ranked drag (from mockup s3y61) // s3y63: 'Data is private by default' subline + Race (i) info sheet // s3y62: saves to the Supabase sandbox branch (save-lead + submit-application real) // s3y57: dragged WMM card keeps its value // s3y56: WMM one-line values, full-size drag card, NOT RANKED labels // s3y55: Connect Facebook (confirmation screen) // s3y54: Connect Google contacts (confirmation screen) // s3y29: Dist EDIT collapse after move+up+1s idle; match Age/Height slider pad // s3y28: Dist EDIT no OC checkbox; idle after move+up; Degree Any first // s3y28: EDIT Distance never shows other-cities checkbox; OC own cell when cities set // s3y27: Eth/Rel/Pol/Inc default Select; one-at-a-time after Degree // deploy-bump // s3y26: default Any grey/unanswered; condense only when field below touched // s3y25: Dist/Age/Height idle+collapse only after pointerup/touchend // s3y24: Age hidden while Distance open; reveal only after Dist idle+condensed // s3y23: Age after Distance slider idle ~1s (not first touch) // s3y22: EDIT Age/Height stay open until slider move + ~1s idle // s3y21: Eth/Rel/Pol — Any first, None Stated last // s3y20: Eth/Rel/Pol multi; None stacks; all→Any; Eth/Rel/Pol/Inc default Any (Any first) // s3y20: Eth/Rel/Pol multi; None stacks; all→Any; Eth/Rel/Pol/Inc default Any // s3y20: Eth+Rel multi; None Stated stacks; all-except-Any → Any // s3y20: Eth None Stated stacks with races; all races → display Any // s3y19: WYW Ethnicities label; default Any // s3y18: Height after Age idle ~1s; Degree after Height idle ~1s // s3y18: Height after Age slider idle ~1s (not first touch) // s3y17: Age|Height half-row only after Degree value selected // s3y16-b: AH condensed = Seeking (left-align); half-row only when Degree open // s3y16: Age|Height half-row only once user is selecting Degree // s3y15: uniform collapsed row height all screens + AH touch-gated collapse // s3y15: AH collapse only after both touched; same condensed height as Seeking // s3y14: Age|Height collapse to half-row after set // s3y13: WYW Ethnicity multi-select (Race-style sheet) // s3y12-b: flex gap only (no double margins) // s3y11-deploy-bump // s3y11: deg gutters+gap, reveal on height touch, NEXT pinned
 var timing = { startedAt:null, shownAt:null, currentKey:null, seq:0, events:[], flow:[] };
 
@@ -5747,6 +5763,7 @@ function _crStepDone(ids) {
 }
 function crReveal(screen) {
   const steps = CR_STEPS[screen]; if (!steps) return;
+  if (screen === 4 && typeof hmDone_s3y128 === 'function' && !hmDone_s3y128()) { _crFront[4] = 0; steps.forEach((ids, i) => ids.forEach(id => { const u = _crEl(id); if (u) u.classList.toggle('cr-later', i > 0); })); return; } // s3y128
   while (_crFront[screen] < steps.length - 1 && _crStepDone(steps[_crFront[screen]])) {
     _crFront[screen]++;
     steps[_crFront[screen]].forEach(id => { if (CR[id]) CR[id]._shownAt = Date.now(); });
@@ -5989,7 +6006,7 @@ function _crDefineAll() {
     value: () => { const t = _crOpt('has_children_select', state.hasChildrenDetail); if (!t) return ''; if (state.hasChildren !== true) return t; return state.numChildren ? t + ' (' + state.numChildren + ')' : ''; },
   });
   crDef('fam-nk', { focus: 'num_children_select', applies: () => !!_famShow.nk, value: () => _crOpt('num_children_select', state.numChildren) });
-  crDef('fam-wk', { focus: 'wants_children_select', applies: () => !!_famShow.wk, key: () => 'Want kids' /* s3y86: short form even when they have kids */, value: () => state.wantsChildren === 'open_either_way' ? "Partner's call" : _crOpt('wants_children_select', state.wantsChildren) }); // s3y118 short label
+  crDef('fam-wk', { focus: 'wants_children_select', applies: () => !!_famShow.wk, key: () => 'Wants kids' /* s3y86: short form even when they have kids */, value: () => state.wantsChildren === 'open_either_way' ? "Partner's call" : _crOpt('wants_children_select', state.wantsChildren) }); // s3y118 short label
   crDef('fam-kt', { focus: 'kids_timeline_select', applies: () => !!_famShow.kt, value: () => KT_SHORT_s3y101[state.kidsTimeline] || _crOpt('kids_timeline_select', state.kidsTimeline) }); // s3y101
   crDef('fam-fert', { focus: 'fertility_select', key: () => 'Fertility pres.', applies: () => !!_famShow.fert, value: () => _crOpt('fertility_select', state.fertilityPreservation) });
   // s3y70 pets
@@ -7056,7 +7073,11 @@ function cpnApplies_s3y115() { if (state.status !== 'partnered') return false; c
 // s3y116: I love you first (couples, any stage), shown once Married before is answered like the prenup block
 function ilyApplies_s3y116() { return state.status === 'partnered' && !!((document.getElementById('relationship_stage') || {}).value) && !!state.marriedBefore; }
 function ilyMonthsApplies_s3y116() { const v = (document.getElementById('ily_who_first') || {}).value; return ilyApplies_s3y116() && ['me', 'them'].includes(v); } // s3y121: 'About the same time' removed
+function hmApplies_s3y128() { return state.status === 'partnered' && !!((document.getElementById('relationship_stage') || {}).value); }
+// s3y128: How met (and its follow-ups) answered/skipped and collapsed before First date shows
+function hmDone_s3y128() { if (!hmApplies_s3y128()) return true; const b = document.getElementById('hm-block'); if (!b) return true; return ![...b.querySelectorAll('.s118-u')].some(u => !u.classList.contains('s118-off') && !u.classList.contains('collapsed')); }
 function ilySync_s3y116() {
+  { const h = document.getElementById('hm-block'); if (h) h.style.display = hmApplies_s3y128() ? '' : 'none'; }
   const b = document.getElementById('ily-block'); if (b) b.style.display = ilyApplies_s3y116() ? '' : 'none';
   const w = document.getElementById('ily-months-wrap'); if (w) w.style.display = ilyMonthsApplies_s3y116() ? '' : 'none';
   const s = document.getElementById('ily_who_first'); if (s && s.value) hideError('ily_who_first');
@@ -7099,7 +7120,7 @@ function hmSync_s3y118() {
   try { s118Sync(); } catch (e) {}
 }
 function hmPay_s3y118() {
-  if (!(typeof ilyApplies_s3y116 === 'function' && ilyApplies_s3y116()) || !state.howMet.length) return { how_met: null, how_met_other: null, how_met_app: null, how_met_app_other: null };
+  if (!hmApplies_s3y128() || !state.howMet.length) return { how_met: null, how_met_other: null, how_met_app: null, how_met_app_other: null };
   const v = id => ((document.getElementById(id) || {}).value || '').trim() || null;
   const app = state.howMet.includes('app') ? v('how_met_app') : null;
   return { how_met: state.howMet.join(','), how_met_other: state.howMet.includes('elsewhere') ? v('how_met_other') : null, how_met_app: app, how_met_app_other: app === 'Other' ? v('how_met_app_other') : null };
@@ -7118,7 +7139,7 @@ function spPay_s3y118() { const wa = spWho_s3y122() && fertilityNotAsked_s3y52()
   function val(f) { if (f.id === 'how_met_btn') return (typeof _hmOpenNow === 'undefined' && !document.getElementById('hm-panel').hidden) ? '' : hmShort_s3y118(); const v = (f.value || '').trim(); if (!v) return ''; if (f.id === 'ily_months') { const n = ilyMonths_s3y116(); return n === null ? '' : n + ' mo'; } const o = f.options && f.options[f.selectedIndex]; return o ? o.textContent.trim() : v; }
   function sync() {
     let blocked = false; // s3y121: one question at a time
-    ['ily-block', 'cpn-block'].forEach(bid => {
+    ['hm-block', 'ily-block', 'cpn-block'].forEach(bid => {
       const b = document.getElementById(bid); if (!b) return;
       const us = Array.from(b.children).filter(u => u.classList.contains('s118-u'));
       us.forEach(u => {
@@ -7139,10 +7160,11 @@ function spPay_s3y118() { const wa = spWho_s3y122() && fertilityNotAsked_s3y52()
       const vis = us.filter(u => !u.classList.contains('s118-off') && !u.classList.contains('s118-gate'));
       for (let k = 0; k < vis.length; k++) { const a = vis[k], n = vis[k + 1]; if (a.classList.contains('collapsed') && n && n.classList.contains('collapsed')) { a.classList.add('s118-half'); n.classList.add('s118-half'); k++; } }
     });
+    if (!sync._in) { sync._in = true; try { crSync(); } catch (e) {} sync._in = false; } // s3y128: How met gates First date
   }
   window.s118Sync = sync;
   function init() {
-    ['ily-block', 'cpn-block'].forEach(bid => {
+    ['hm-block', 'ily-block', 'cpn-block'].forEach(bid => {
       const b = document.getElementById(bid); if (!b || b.classList.contains('s118-g')) return;
       b.classList.add('s118-g');
       Array.from(b.querySelectorAll(':scope > .field-group')).forEach(fg => {
@@ -7163,8 +7185,8 @@ function spPay_s3y118() { const wa = spWho_s3y122() && fertilityNotAsked_s3y52()
   const _i = ilySync_s3y116; ilySync_s3y116 = function () { const r = _i.apply(this, arguments); try { sync(); } catch (e) {} return r; };
   const OPT = { how_met_btn: 1, how_met_other: 1, how_met_app: 1, how_met_app_other: 1, first_sex_date: 1 };
   const _g = goNext; goNext = function (n) {
-    if (n === 4 && document.querySelector('.s118-u.s118-gate')) { // s3y121: NEXT completes / skips the open question and shows the next
-      const open = [...document.querySelectorAll('#ily-block .s118-u, #cpn-block .s118-u')].find(u => !u.classList.contains('s118-off') && !u.classList.contains('s118-gate') && !u.classList.contains('collapsed') && u.closest('[id$="-block"]').style.display !== 'none');
+    if (n === 4 && (document.querySelector('.s118-u.s118-gate') || !hmDone_s3y128())) { // s3y121: NEXT completes / skips the open question and shows the next
+      const open = [...document.querySelectorAll('#hm-block .s118-u, #ily-block .s118-u, #cpn-block .s118-u')].find(u => !u.classList.contains('s118-off') && !u.classList.contains('s118-gate') && !u.classList.contains('collapsed') && u.closest('[id$="-block"]').style.display !== 'none');
       if (open) { const t = val(open._f); if (t) { open._edit = false; try { open._f.blur(); } catch (e) {} sync(); return; } if (OPT[open._f.id]) { open._skip = true; sync(); return; } }
     }
     const r = _g.apply(this, arguments); if (n === 4) Promise.resolve(r).then(() => setTimeout(() => { try { sync(); } catch (e) {} }, 0)); return r; };
@@ -7188,6 +7210,7 @@ function _relDateGate_s3y122() {
 }
 function onRelationshipStageChange() {
   setTimeout(_relDateGate_s3y122, 0);
+  try { ilySync_s3y116(); if (typeof s118Sync === 'function') s118Sync(); } catch (e) {} // s3y128
   const stage = document.getElementById('relationship_stage')?.value || '';
   if (stage) hideError('relationship_stage');
   const showEng = stage === 'engaged' || stage === 'married';
@@ -8662,7 +8685,7 @@ window.addEventListener('load', () => {
   if (chips && window.MutationObserver) new MutationObserver(() => { if (partnerCity) hideError('partner_city'); }).observe(chips, { childList: true, subtree: true });
 });
 </script>
-<div style="position:fixed;right:6px;bottom:4px;z-index:50;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#555;pointer-events:none;text-transform:uppercase;">Mockup · from Sandbox-2 s3y126 · saves faked</div>
+<div style="position:fixed;right:6px;bottom:4px;z-index:50;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#555;pointer-events:none;text-transform:uppercase;">Mockup · from Sandbox-2 s3y128 · saves faked</div>
 
 <script>
 // s3p: every empty select is grey (placeholder colour), on every screen. Untouched defaults (heights) keep their own rule.
@@ -8849,7 +8872,7 @@ const WMM_DEF = [
   { k: 'reltl', t: 'How soon should they want to get married?', o: ['Any', 'Within 1 year', 'Within 2 years', 'Within 3 years', 'Within 5 years', 'Open to any timeline'] },
   { k: 'kidstl', t: 'How soon should they want kids?', o: ['Any', 'Within 2 years', 'Within 5 years', 'Open to any timeline'] },
   { k: 'prenup', t: 'How should they feel about a prenup?', multi: true, o: ['Any', 'Would sign one', "Doesn't want one"] }, // s3y115: partner preference built on prenup_want / prenup_would_sign
-  { k: 'wantkids', t: 'Want kids', multi: true, o: ['Any', 'Yes', 'Whatever my partner wants', 'No'] }, // s3y70: multi-select (Any exclusive). s3y81: 'Unsure' removed as a choice (old saved 'Unsure' still loads/saves via WK).
+  { k: 'wantkids', t: 'Wants Kids', multi: true, o: ['Any', 'Yes', 'Whatever my partner wants', 'No'] }, // s3y70: multi-select (Any exclusive). s3y81: 'Unsure' removed as a choice (old saved 'Unsure' still loads/saves via WK).
   // s3y81 MATCHING RULE (no matching code yet): partners whose own answer is Unsure (not_sure) count as 'Open to either' in searches.
   { k: 'religion', t: 'Religion', multi: true, o: null }, // the Who You Are Religion list (without None Stated) + Any
   { k: 'politics', t: 'Politics', multi: true, o: ['Any', 'Left-leaning', 'Moderate', 'Right-leaning'] },
@@ -10291,7 +10314,7 @@ _wmmCard = function (k, i, anim) {
   document.documentElement.classList.add('s3y49w');
   const KEYS = ['intentions', 'wantkids', 'dist', 'othercities', 'age', 'height', 'education', 'ethnicity', 'income', 'haskids', 'religion', 'politics', 'reltl', 'kidstl', 'prenup']; // s3y115: + prenup. s3y66: + othercities (own card). s3y70: + politics / relationship timeline / kids timeline (start Not ranked; draggable)
   const EXTRA_s3y70 = ['politics', 'reltl', 'kidstl', 'prenup']; // s3y115: Prenup starts Not ranked
-  const TITLE = { intentions: 'Intentions', wantkids: 'Want Kids', dist: 'My City', othercities: 'Other Cities', age: 'Age Range', height: 'Height', education: 'Education',
+  const TITLE = { intentions: 'Intentions', wantkids: 'Wants Kids', dist: 'My City', othercities: 'Other Cities', age: 'Age Range', height: 'Height', education: 'Education',
     ethnicity: 'Ethnicity', income: 'Income', haskids: 'Have Kids', religion: 'Religion', politics: 'Politics', reltl: 'Timing', kidstl: 'Kids timing', prenup: 'Prenup' }; // s3y81: Timing / Kids timing
   const LONG = { intentions: 'What should they be looking for?', wantkids: 'Should they want kids?', dist: 'How far from your city can they live?', othercities: 'Which other cities could they live in?',
     age: 'How old should they be?', height: 'How tall should they be?', education: 'How much education should they have?',
@@ -12233,127 +12256,106 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
   });
 })();
 </script>
-<!-- MOCKUP_grokbot: both pickers reuse the Race / Education popup (cp-sheet race-sheet: long question in the header, grouped rows, DONE) -->
-<div class="cp-backdrop" id="lr-backdrop" hidden></div>
-<div class="cp-sheet race-sheet s121-sheet" id="lr-panel" role="dialog" aria-modal="true" aria-label="When did your last serious relationship end?" hidden>
-  <div class="cp-sheet-head"><span class="cp-sheet-title">When did your last serious relationship end?</span><button type="button" class="cp-x" id="lr-x" aria-label="Close" onclick="lrClose()"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button></div>
-  <div class="cp-list" id="lr-list">
-    <div class="ed-sec">Month &amp; year</div>
-    <div class="lr-dates">
-      <select class="field-input is-default" id="lr-month" aria-label="Month" onchange="lrDate()"><option value="">Month</option></select>
-      <select class="field-input is-default" id="lr-year" aria-label="Year" onchange="lrDate()"><option value="">Year</option></select>
-    </div>
-    <div class="ed-sec">Or</div>
-    <button type="button" class="race-opt" data-lr="still_together" onclick="lrPick(this.dataset.lr)"><span class="race-box"></span><span class="race-opt-txt">We're still together in some form</span></button>
-    <button type="button" class="race-opt" data-lr="complicated" onclick="lrPick(this.dataset.lr)"><span class="race-box"></span><span class="race-opt-txt">It's complicated</span></button>
-    <button type="button" class="race-opt" data-lr="prefer_not" onclick="lrPick(this.dataset.lr)"><span class="race-box"></span><span class="race-opt-txt">Prefer not to say</span></button>
-  </div>
-  <div class="cp-foot"><button type="button" class="btn btn-primary cp-done-btm" id="lr-done" onclick="lrClose()">DONE</button></div>
-</div>
-<div class="cp-backdrop" id="br-backdrop" hidden></div>
-<div class="cp-sheet race-sheet" id="br-panel" role="dialog" aria-modal="true" aria-label="What led to the breakup? Choose all that apply." hidden>
-  <div class="cp-sheet-head"><span class="cp-sheet-title lq87">What led to the breakup? Choose all that apply.</span><button type="button" class="cp-x" id="br-x" aria-label="Close" onclick="brClose()"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button></div>
-  <div class="cp-list" id="br-list" role="group" aria-label="Breakup reasons (select all that apply)"></div>
-  <div class="cp-foot"><button type="button" class="btn btn-primary cp-done-btm" id="br-done" onclick="brClose()">DONE</button></div>
-</div>
 <script>
-// ---- MOCKUP_grokbot last relationship + breakup reasons (faked saves) ----
+// ---- MOCKUP_grokbot last relationship + breakup reasons, singles (Who You Are) and couples (Your Relationship). Saves faked. ----
 (function () {
   var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], MONF = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  var LRO = { still_together: "Still together", complicated: "It's complicated", prefer_not: 'Prefer not to say' };
   // [id, label, short, internal source shares (analytics only, never rendered)]
   var BR = [
-    ['How you related', [
-      ['grew_apart', 'We grew apart', 'Grew apart', 'hawkins:55'],
-      ['communication', "We couldn't talk to each other", "Couldn't talk", 'hawkins:53'],
-      ['conflict', 'Too much conflict or arguing', 'Conflict', 'scott:57.7'],
-      ['commitment', 'Lack of commitment, from one or both of us', 'Commitment', 'scott:75.0'],
-      ['attention', "I wasn't getting enough attention", 'Attention', 'hawkins:34'],
-      ['partner_problems', "My partner's personal problems", "Partner's problems", 'hawkins:37']]],
-    ['What you each wanted', [
-      ['ambition', 'Differences in level of ambition', 'Ambition', 'own:28.4'],
-      ['time_together', 'How much time together vs. apart', 'Time together', 'own:23.9'],
-      ['free_time', 'How we wanted to spend free time', 'Free time', 'own:22.6'],
-      ['wealth_lifestyle', 'Goals about wealth and lifestyle', 'Lifestyle', 'own:21.8'],
-      ['relocating', 'Where to live / relocating', 'Where to live', 'own:19.2'],
-      ['children', 'Whether to have children', 'Kids', 'own:16.3'],
-      ['marriage', 'Whether to get married', 'Marriage', 'own:13.4'],
-      ['monogamy', 'A preference for monogamy', 'Monogamy', 'own:11.9'],
-      ['religion', 'Religious values', 'Religion', 'hawkins:9;own:8.1']]],
-    ['Money', [
-      ['financial', 'Financial problems or hardship', 'Money problems', 'scott:36.7'],
-      ['income_split', 'Income differences or an unfair split of costs', 'Income split', 'own:20.5']]],
-    ['Serious', [
-      ['infidelity', 'Infidelity', 'Infidelity', 'hawkins:37;scott:59.6'],
-      ['substance', 'Drug or alcohol use', 'Drugs/alcohol', 'scott:12.1;own:13.9'],
-      ['abuse', 'Abuse \u2014 emotional, physical or verbal', 'Abuse', 'johnson:44w/8m']]],
-    ['Other', [
-      ['too_young', 'We got together too young', 'Too young', 'scott:45.1'],
-      ['other', 'Something else', 'Other', '']]]];
+    ['How you related', [['grew_apart','We grew apart','Grew apart','hawkins:55'],['communication',"We couldn't talk to each other","Couldn't talk",'hawkins:53'],['conflict','Too much conflict or arguing','Conflict','scott:57.7'],['commitment','Lack of commitment, from one or both of us','Commitment','scott:75.0'],['attention',"I wasn't getting enough attention",'Attention','hawkins:34'],['partner_problems',"My partner's personal problems","Partner's problems",'hawkins:37']]],
+    ['What you each wanted', [['ambition','Differences in level of ambition','Ambition','own:28.4'],['time_together','How much time together vs. apart','Time together','own:23.9'],['free_time','How we wanted to spend free time','Free time','own:22.6'],['wealth_lifestyle','Goals about wealth and lifestyle','Lifestyle','own:21.8'],['relocating','Where to live / relocating','Where to live','own:19.2'],['children','Whether to have children','Kids','own:16.3'],['marriage','Whether to get married','Marriage','own:13.4'],['monogamy','A preference for monogamy','Monogamy','own:11.9'],['religion','Religious values','Religion','hawkins:9;own:8.1']]],
+    ['Money', [['financial','Financial problems or hardship','Money problems','scott:36.7'],['income_split','Income differences or an unfair split of costs','Income split','own:20.5']]],
+    ['Serious', [['infidelity','Infidelity','Infidelity','hawkins:37;scott:59.6'],['substance','Drug or alcohol use','Drugs/alcohol','scott:12.1;own:13.9'],['abuse','Abuse \u2014 emotional, physical or verbal','Abuse','johnson:44w/8m']]],
+    ['Other', [['too_young','We got together too young','Too young','scott:45.1'],['other','Something else','Other','']]]];
   var ALL = {}; BR.forEach(function (g) { g[1].forEach(function (o) { ALL[o[0]] = o; }); });
-  var S = window.__lr = { month: '', year: '', status: '', reasons: [], other: '' };
+  var X = '<svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>';
   function $(i) { return document.getElementById(i); }
-  function hasDate() { return !!(S.month && S.year); }
-  window.lrValue = function () { if (S.status) return LRO[S.status]; return hasDate() ? MON[+S.month - 1] + ' ' + S.year : ''; };
-  window.brApplies = function () { return hasDate() || S.status === 'complicated'; }; // hidden for Still together / Prefer not to say (It's complicated: shown for now)
-  window.brValue = function () { var r = S.reasons; if (!r.length) return ''; var a = r.map(function (k) { return k === 'other' && S.other ? S.other : ALL[k][2]; }); return a.length > 2 ? a[0] + ' \u00b7 ' + a[1] + ' +' + (a.length - 2) : a.join(' \u00b7 '); };
-  function fill() {
-    var y = $('lr-year'), m = $('lr-month'), now = new Date();
+  function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+  window.__lrMk = function (C) { // C: {p, b, uq, ub, q1, q2, opts:[[id,label,short]], applies, step, at, after}
+    var S = { month: '', year: '', status: '', reasons: [], other: '' }; (window.__lrS = window.__lrS || {})[C.p] = S;
+    var OPT = {}; C.opts.forEach(function (o) { OPT[o[0]] = o; });
+    function hasDate() { return !!(S.month && S.year); }
+    function lrValue() { if (S.status) return OPT[S.status][2]; return hasDate() ? MON[+S.month - 1] + ' ' + S.year : ''; }
+    function brApplies() { return hasDate() || (C.q2also || []).indexOf(S.status) >= 0; }
+    function brValue() { var r = S.reasons; if (!r.length) return ''; var a = r.map(function (k) { return k === 'other' && S.other ? S.other : ALL[k][2]; }); return a.length > 2 ? a[0] + ' \u00b7 ' + a[1] + ' +' + (a.length - 2) : a.join(' \u00b7 '); }
+    // the two pickers = the Race / Education popup (cp-sheet race-sheet), built once
+    var h = '<div class="cp-backdrop" id="' + C.p + '-backdrop" hidden></div><div class="cp-sheet race-sheet s121-sheet" id="' + C.p + '-panel" role="dialog" aria-modal="true" aria-label="' + esc(C.q1) + '" hidden>' +
+      '<div class="cp-sheet-head"><span class="cp-sheet-title">' + esc(C.q1) + '</span><button type="button" class="cp-x" aria-label="Close" data-x="' + C.p + '">' + X + '</button></div>' +
+      '<div class="cp-list"><div class="ed-sec">Month &amp; year</div><div class="lr-dates"><select class="field-input is-default" id="' + C.p + '-month" aria-label="Month"><option value="">Month</option></select><select class="field-input is-default" id="' + C.p + '-year" aria-label="Year"><option value="">Year</option></select></div><div class="ed-sec">Or</div>' +
+      C.opts.map(function (o) { return '<button type="button" class="race-opt" data-lr="' + o[0] + '"><span class="race-box"></span><span class="race-opt-txt">' + esc(o[1]) + '</span></button>'; }).join('') + '</div>' +
+      '<div class="cp-foot"><button type="button" class="btn btn-primary cp-done-btm" data-x="' + C.p + '">DONE</button></div></div>' +
+      '<div class="cp-backdrop" id="' + C.b + '-backdrop" hidden></div><div class="cp-sheet race-sheet" id="' + C.b + '-panel" role="dialog" aria-modal="true" aria-label="' + esc(C.q2) + '" hidden>' +
+      '<div class="cp-sheet-head"><span class="cp-sheet-title lq87">' + esc(C.q2) + '</span><button type="button" class="cp-x" aria-label="Close" data-x="' + C.b + '">' + X + '</button></div><div class="cp-list" id="' + C.b + '-list" role="group"></div>' +
+      '<div class="cp-foot"><button type="button" class="btn btn-primary cp-done-btm" data-x="' + C.b + '">DONE</button></div></div>';
+    var w = document.createElement('div'); w.innerHTML = h; while (w.firstChild) document.body.appendChild(w.firstChild);
+    var m = $(C.p + '-month'), y = $(C.p + '-year'), now = new Date();
     MONF.forEach(function (t, i) { var o = document.createElement('option'); o.value = String(i + 1); o.textContent = t; m.appendChild(o); });
-    for (var k = now.getFullYear(); k >= now.getFullYear() - 40; k--) { var o = document.createElement('option'); o.value = String(k); o.textContent = String(k); y.appendChild(o); }
-    var L = $('br-list');
+    for (var k = now.getFullYear(); k >= now.getFullYear() - 50; k--) { var o = document.createElement('option'); o.value = String(k); o.textContent = String(k); y.appendChild(o); }
+    var L = $(C.b + '-list');
     BR.forEach(function (g) {
-      var h = document.createElement('div'); h.className = 'ed-sec'; h.textContent = g[0]; h.setAttribute('role', 'heading'); L.appendChild(h);
+      var hd = document.createElement('div'); hd.className = 'ed-sec'; hd.textContent = g[0]; hd.setAttribute('role', 'heading'); L.appendChild(hd);
       g[1].forEach(function (o) {
-        var b = document.createElement('button'); b.type = 'button'; b.className = 'race-opt'; b.dataset.br = o[0]; b.setAttribute('aria-pressed', 'false');
-        if (o[3]) b.dataset.src = o[3]; // analytics only
-        b.innerHTML = '<span class="race-box"></span><span class="race-opt-txt"></span>'; b.lastChild.textContent = o[1];
-        b.onclick = function () { brToggle(o[0]); }; L.appendChild(b);
-        if (o[0] === 'abuse') { var p = document.createElement('div'); p.className = 'br-help'; p.id = 'br-help'; p.hidden = true; p.innerHTML = 'You\u2019re not alone. Free, confidential support 24/7: <a href="https://www.thehotline.org/" target="_blank" rel="noopener">National Domestic Violence Hotline</a> \u00b7 <span style="white-space:nowrap">1-800-799-7233</span>'; L.appendChild(p); }
-        if (o[0] === 'other') { var w = document.createElement('div'); w.className = 'br-other'; w.id = 'br-other-wrap'; w.hidden = true; w.innerHTML = '<input class="field-input" id="br-other" type="text" maxlength="200" placeholder="Tell us in a few words" autocomplete="off">'; L.appendChild(w); }
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'race-opt'; b.dataset.br = o[0]; b.setAttribute('aria-pressed', 'false'); if (o[3]) b.dataset.src = o[3];
+        b.innerHTML = '<span class="race-box"></span><span class="race-opt-txt"></span>'; b.lastChild.textContent = o[1]; b.onclick = function () { toggle(o[0]); }; L.appendChild(b);
+        if (o[0] === 'abuse') { var p = document.createElement('div'); p.className = 'br-help'; p.hidden = true; p.dataset.help = '1'; p.innerHTML = 'You\u2019re not alone. Free, confidential support 24/7: <a href="https://www.thehotline.org/" target="_blank" rel="noopener">National Domestic Violence Hotline</a> \u00b7 <span style="white-space:nowrap">1-800-799-7233</span>'; L.appendChild(p); }
+        if (o[0] === 'other') { var ow = document.createElement('div'); ow.className = 'br-other'; ow.hidden = true; ow.dataset.ow = '1'; ow.innerHTML = '<input class="field-input" type="text" maxlength="200" placeholder="Tell us in a few words" autocomplete="off">'; L.appendChild(ow); }
       });
     });
-    $('br-other').addEventListener('input', function (e) { S.other = e.target.value.trim(); sync(); });
-    $('lr-backdrop').onclick = lrClose; $('br-backdrop').onclick = brClose;
-  }
-  function paint() {
-    document.querySelectorAll('#lr-panel [data-lr]').forEach(function (b) { var on = S.status === b.dataset.lr; b.classList.toggle('selected', on); b.setAttribute('aria-pressed', String(on)); });
-    $('lr-month').value = S.month; $('lr-year').value = S.year;
-    $('lr-month').classList.toggle('is-default', !S.month); $('lr-year').classList.toggle('is-default', !S.year);
-    document.querySelectorAll('#br-panel [data-br]').forEach(function (b) { var on = S.reasons.indexOf(b.dataset.br) >= 0; b.classList.toggle('selected', on); b.setAttribute('aria-pressed', String(on)); });
-    $('br-help').hidden = S.reasons.indexOf('abuse') < 0; $('br-other-wrap').hidden = S.reasons.indexOf('other') < 0;
-  }
-  function sync() {
-    var v = lrValue(), t = $('lr-btn-text'); t.textContent = v || '\u2014 Select \u2014'; t.classList.toggle('empty', !v);
-    var w = brValue(), u = $('br-btn-text'); u.textContent = w || '\u2014 Select \u2014'; u.classList.toggle('empty', !w);
-    $('who-breakup').style.display = brApplies() ? '' : 'none';
-    window.__sbSaves = window.__sbSaves || []; window.__lrPayload = lrPayload(); // faked save: what Coder would send (no DB write)
-    try { crRefresh(); } catch (e) {} paint();
-  }
-  window.lrPayload = function () { return { last_relationship_end_month: hasDate() ? +S.month : null, last_relationship_end_year: hasDate() ? +S.year : null,
-    last_relationship_status: S.status || (hasDate() ? 'ended' : null), breakup_reasons: brApplies() ? S.reasons.slice() : [], breakup_reasons_text: brApplies() ? (brValue() || null) : null,
-    breakup_reason_other: brApplies() && S.reasons.indexOf('other') >= 0 ? (S.other || null) : null }; };
-  window.lrDate = function () { S.month = $('lr-month').value; S.year = $('lr-year').value; if (S.month || S.year) S.status = ''; sync(); };
-  window.lrPick = function (k) { S.status = S.status === k ? '' : k; if (S.status) { S.month = ''; S.year = ''; } sync(); if (S.status) setTimeout(lrClose, 220); };
-  window.brToggle = function (k) { var i = S.reasons.indexOf(k); if (i >= 0) S.reasons.splice(i, 1); else S.reasons.push(k); sync(); if (k === 'other' && i < 0) setTimeout(function () { try { $('br-other').focus(); } catch (e) {} }, 50); };
-  function openP(id) { $(id + '-panel').hidden = false; $(id + '-backdrop').hidden = false; $(id + '-panel').classList.add('open'); $(id + '-btn').setAttribute('aria-expanded', 'true'); paint(); try { sheetPinDone(id + '-panel'); } catch (e) {} }
-  function closeP(id) { var p = $(id + '-panel'); if (p.hidden) return false; p.hidden = true; $(id + '-backdrop').hidden = true; p.classList.remove('open'); $(id + '-btn').setAttribute('aria-expanded', 'false'); return true; }
-  window.lrOpen = function () { openP('lr'); }; window.brOpen = function () { openP('br'); };
-  window.lrIsOpen = function () { return !$('lr-panel').hidden; }; window.brIsOpen = function () { return !$('br-panel').hidden; };
-  window.lrClose = function () { if (closeP('lr')) { sync(); crTap('who-lastrel'); } };
-  window.brClose = function () { if (closeP('br')) { sync(); crTap('who-breakup', CR_DELAY); } };
-  function init() {
-    fill();
-    var single = function () { return state.status !== 'partnered'; };
-    crDef('who-lastrel', { partner: 'who-breakup', focus: 'lr-btn', applies: single, busy: lrIsOpen, onExpand: function (f) { if (f) lrOpen(); }, value: lrValue });
-    crDef('who-breakup', { partner: 'who-lastrel', focus: 'br-btn', applies: function () { return single() && brApplies(); }, busy: brIsOpen, onExpand: function (f) { if (f) brOpen(); }, value: brValue });
-    var st = CR_STEPS[1], i = st.findIndex(function (x) { return x[0] === 'who-email'; }); st.splice(i < 0 ? st.length : i, 0, ['who-lastrel'], ['who-breakup']);
+    var oin = L.querySelector('[data-ow] input'); oin.addEventListener('input', function () { S.other = oin.value.trim(); sync(); });
+    function paint() {
+      document.querySelectorAll('#' + C.p + '-panel [data-lr]').forEach(function (b) { var on = S.status === b.dataset.lr; b.classList.toggle('selected', on); b.setAttribute('aria-pressed', String(on)); });
+      m.value = S.month; y.value = S.year; m.classList.toggle('is-default', !S.month); y.classList.toggle('is-default', !S.year);
+      L.querySelectorAll('[data-br]').forEach(function (b) { var on = S.reasons.indexOf(b.dataset.br) >= 0; b.classList.toggle('selected', on); b.setAttribute('aria-pressed', String(on)); });
+      L.querySelector('[data-help]').hidden = S.reasons.indexOf('abuse') < 0; L.querySelector('[data-ow]').hidden = S.reasons.indexOf('other') < 0;
+    }
+    function payload() { var pre = C.col; return [
+      [pre + '_end_month', hasDate() ? +S.month : null], [pre + '_end_year', hasDate() ? +S.year : null], [pre + '_status', S.status || (hasDate() ? 'ended' : null)],
+      [C.bcol, brApplies() ? S.reasons.slice() : []], [C.bcol + '_text', brApplies() ? (brValue() || null) : null], [C.bcol.replace(/s$/, '') + '_other', brApplies() && S.reasons.indexOf('other') >= 0 ? (S.other || null) : null]
+    ].reduce(function (o, kv) { o[kv[0]] = kv[1]; return o; }, {}); }
+    (window.lrPayloads = window.lrPayloads || {})[C.p] = payload;
+    function sync() {
+      var v = lrValue(), t = $(C.p + '-btn-text'); t.textContent = v || '\u2014 Select \u2014'; t.classList.toggle('empty', !v);
+      var bv = brValue(), u = $(C.b + '-btn-text'); u.textContent = bv || '\u2014 Select \u2014'; u.classList.toggle('empty', !bv);
+      $(C.ub).style.display = brApplies() ? '' : 'none';
+      try { crRefresh(); } catch (e) {} paint();
+    }
+    function toggle(k) { var i = S.reasons.indexOf(k); if (i >= 0) S.reasons.splice(i, 1); else S.reasons.push(k); sync(); if (k === 'other' && i < 0) setTimeout(function () { try { oin.focus(); } catch (e) {} }, 50); }
+    function openP(id) { $(id + '-panel').hidden = false; $(id + '-backdrop').hidden = false; $(id + '-panel').classList.add('open'); $(id + '-btn').setAttribute('aria-expanded', 'true'); paint(); try { sheetPinDone(id + '-panel'); } catch (e) {} }
+    function closeP(id) { var p = $(id + '-panel'); if (p.hidden) return false; p.hidden = true; $(id + '-backdrop').hidden = true; p.classList.remove('open'); $(id + '-btn').setAttribute('aria-expanded', 'false'); return true; }
+    function close1() { if (closeP(C.p)) { sync(); crTap(C.uq); } }
+    function close2() { if (closeP(C.b)) { sync(); crTap(C.ub, CR_DELAY); } }
+    document.querySelectorAll('[data-x="' + C.p + '"]').forEach(function (b) { b.onclick = close1; }); document.querySelectorAll('[data-x="' + C.b + '"]').forEach(function (b) { b.onclick = close2; });
+    $(C.p + '-backdrop').onclick = close1; $(C.b + '-backdrop').onclick = close2;
+    $(C.p + '-btn').onclick = function () { openP(C.p); }; $(C.b + '-btn').onclick = function () { openP(C.b); };
+    function dateCh() { S.month = m.value; S.year = y.value; if (S.month || S.year) S.status = ''; sync(); }
+    m.onchange = dateCh; y.onchange = dateCh;
+    document.querySelectorAll('#' + C.p + '-panel [data-lr]').forEach(function (b) { b.onclick = function () { var k = b.dataset.lr; S.status = S.status === k ? '' : k; if (S.status) { S.month = ''; S.year = ''; } sync(); if (S.status) setTimeout(close1, 220); }; });
+    crDef(C.uq, { partner: C.ub, focus: C.p + '-btn', applies: C.applies, busy: function () { return !$(C.p + '-panel').hidden; }, onExpand: function (f) { if (f) openP(C.p); }, value: lrValue });
+    crDef(C.ub, { partner: C.uq, focus: C.b + '-btn', applies: function () { return C.applies() && brApplies(); }, busy: function () { return !$(C.b + '-panel').hidden; }, onExpand: function (f) { if (f) openP(C.b); }, value: brValue });
+    var st = CR_STEPS[C.step], i = st.findIndex(function (x) { return x[0] === C.at; });
+    if (C.after) st.splice(i < 0 ? st.length : i + 1, 0, [C.uq], [C.ub]); else st.splice(i < 0 ? st.length : i, 0, [C.uq], [C.ub]);
     sync();
+  };
+  function init() {
+    __lrMk({ p: 'lr', b: 'br', uq: 'who-lastrel', ub: 'who-breakup', step: 1, at: 'who-email', after: false, col: 'last_relationship', bcol: 'breakup_reasons',
+      q1: 'When did your last serious relationship end?', q2: 'What led to the breakup? Choose all that apply.', q2also: ['complicated'],
+      opts: [['still_together', "We're still together in some form", 'Still together'], ['complicated', "It's complicated", "It's complicated"], ['prefer_not', 'Prefer not to say', 'Prefer not to say']],
+      applies: function () { return state.status !== 'partnered'; } });
+    __lrMk({ p: 'clr', b: 'cbr', uq: 'rel-lastrel', ub: 'rel-breakup', step: 4, at: 'rel-mb', after: true, col: 'prior_relationship', bcol: 'prior_breakup_reasons',
+      q1: 'Before this relationship, when did your last serious relationship end?', q2: 'What led to that breakup? Choose all that apply.', q2also: [],
+      opts: [['first_relationship', 'This is my first serious relationship', 'First relationship'], ['prefer_not', 'Prefer not to say', 'Prefer not to say']],
+      applies: function () { return state.status === 'partnered'; } });
   }
+  // couples: one question at a time, so the ILY / first-sex / prenup questions wait until these two are answered
+  function gate() { if (typeof state === 'undefined') return; var c = state.status === 'partnered', wait = c && crApplies('rel-lastrel') && (!crIsCollapsed('rel-lastrel') || (crApplies('rel-breakup') && !crIsCollapsed('rel-breakup'))) && !document.getElementById('rel-lastrel').classList.contains('cr-later');
+    var lat = c && document.getElementById('rel-lastrel').classList.contains('cr-later');
+    ['ily-block', 'cpn-block'].forEach(function (id) { var b = document.getElementById(id); if (b) b.classList.toggle('lr-wait', wait || lat); }); }
+  var _cs = window.crSync; window.crSync = crSync = function () { var r = _cs.apply(this, arguments); try { gate(); } catch (e) {} return r; };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
-<script>/* MOCKUP_grokbot: open straight on WHO YOU ARE as a single (?landing=1 shows the landing) */
-window.addEventListener('load',function(){ if(!/landing=1/.test(location.search)) try{ startAs('single'); }catch(e){} });</script>
+<script>/* MOCKUP_grokbot: open straight on WHO YOU ARE as a single, or ?path=couple on YOUR RELATIONSHIP as a couple (?landing=1 = landing) */
+window.addEventListener('load',function(){ var q=location.search; if(/landing=1/.test(q)) return;
+  try{ if(/path=couple/.test(q)){ startAs('partnered'); showScreen(4,'forward'); } else startAs('single'); }catch(e){} });</script>
 </body>
 </html>
