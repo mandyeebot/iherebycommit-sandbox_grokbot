@@ -12337,8 +12337,8 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
   };
   function init() {
     __lrMk({ p: 'lr', b: 'br', uq: 'who-lastrel', ub: 'who-breakup', step: 1, at: 'who-email', after: false, col: 'last_relationship', bcol: 'breakup_reasons',
-      q1: 'When did your last serious relationship end?', q2: 'What led to the breakup? Choose all that apply.', q2also: ['complicated'],
-      opts: [['still_together', "We're still together in some form", 'Still together'], ['complicated', "It's complicated", "It's complicated"], ['prefer_not', 'Prefer not to say', 'Prefer not to say']],
+      q1: 'When did your last serious relationship end?', q2: 'What led to the breakup? Choose all that apply.', q2also: [],
+      opts: [['never', "I haven't had a serious relationship", 'N/A']],
       applies: function () { return state.status !== 'partnered'; } });
     __lrMk({ p: 'clr', b: 'cbr', uq: 'rel-lastrel', ub: 'rel-breakup', step: 4, at: 'rel-mb', after: true, col: 'prior_relationship', bcol: 'prior_breakup_reasons',
       q1: 'Before this relationship, when did your last serious relationship end?', q2: 'What led to that breakup? Choose all that apply.', q2also: [],
