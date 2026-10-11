@@ -12373,6 +12373,21 @@ window.addEventListener('resize', () => { clearTimeout(window._nrPackT); window.
   hmToggle_s3y118 = function (k) { var r = tog0.apply(this, arguments); if (k === 'app' && state.howMet.indexOf('app') < 0) { sel.value = ''; var oi = document.getElementById('how_met_app_other'); if (oi) oi.value = ''; hmSync_s3y118(); } return r; };
   hmShort_s3y118 = function () { return state.howMet.map(function (k) { if (k !== 'app') return HM_SHORT_s3y118[k]; var a = sel.value, o = ((document.getElementById('how_met_app_other') || {}).value || '').trim(); a = a === 'Other' ? (o || 'Other') : a; return a ? 'Dating app (' + a + ')' : 'Dating app'; }).join(', '); };
   var oi = document.getElementById('how_met_app_other'); if (oi) oi.addEventListener('input', function () { try { s118Sync(); } catch (e) {} });
+  // ---- Oct 10 (Amanda): How did you meet moves to the END of YOUR PARTNER (after Their city), one more revealed row; removed from Your Relationship ----
+  var hmFg = document.getElementById('how_met_btn').closest('.field-group'), hmOther = document.getElementById('hm-other-wrap'), hb = document.getElementById('hm-block');
+  var el = document.querySelector('#hm-panel [data-hm="elsewhere"]'); if (el && hmOther) { el.parentNode.insertBefore(hmOther, el.nextSibling); hmOther.classList.add('hm-inline-other'); var l2 = hmOther.querySelector('label'); if (l2) { l2.className = 'il-k'; l2.textContent = 'Where did you meet?'; } }
+  st.textContent += ' .hm-inline-other { padding: 0 12px 12px 46px; border-bottom: 1px solid #2a2a2a; } .hm-inline-other .il-k { margin: 6px 0; }';
+  var u = document.createElement('div'); u.className = 'field-group who-unit'; u.id = 'pt-hm'; u.style.cssText = 'margin-bottom:12px;min-width:0;';
+  u.innerHTML = '<div class="who-cond" role="button" tabindex="0" aria-label="Edit How you met" onclick="crExpand(\'pt-hm\')"><span class="who-cond-txt"><span class="who-cond-k">How you met</span><span class="who-cond-v" id="pt-hm-v"></span></span><span class="who-cond-edit">EDIT</span></div>';
+  u.appendChild(hmFg); hmFg.style.marginBottom = '0';
+  var lc = document.getElementById('pt-row-lc'); lc.parentNode.insertBefore(u, lc.nextSibling);
+  if (hb) hb.parentNode.removeChild(hb); // Your Relationship: First date now waits on Stage only (hmDone_s3y128 is true without the block)
+  hmApplies_s3y128 = function () { return state.status === 'partnered'; }; // asked on Your Partner now, before any stage exists
+  var oth = document.getElementById('how_met_other'); if (oth) oth.addEventListener('input', function () { try { crRefresh(); } catch (e) {} });
+  var cl0 = hmClose_s3y118; hmClose_s3y118 = function () { var was = !document.getElementById('hm-panel').hidden; var r = cl0.apply(this, arguments); if (was && document.getElementById('hm-panel').hidden) try { crTap('pt-hm', CR_DELAY); } catch (e) {} return r; };
+  function crInit() { crDef('pt-hm', { optional: true, focus: 'how_met_btn', applies: function () { return state.status === 'partnered'; }, busy: function () { return !document.getElementById('hm-panel').hidden; }, onExpand: function (f) { if (f) hmOpen_s3y118(); }, value: function () { return hmShort_s3y118(); } });
+    CR_STEPS[2].push(['pt-hm']); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', crInit); else crInit();
 })();
 </script>
 <script>/* MOCKUP_grokbot: open straight on WHO YOU ARE as a single, or ?path=couple on YOUR RELATIONSHIP as a couple (?landing=1 = landing) */
