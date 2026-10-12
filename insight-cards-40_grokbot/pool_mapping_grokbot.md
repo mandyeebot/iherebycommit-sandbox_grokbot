@@ -348,3 +348,6 @@ Pinned 3rd (after City, Age). Multi-select: Actively looking (Pew W111 SEEKING c
 
 ## v15 (Oct 12): School tiers = U.S. News lists
 Top 100 = U.S. News Best National Universities 2027 ranked 1-100 (108 schools with ties, incl. UT Austin #34, UNC #27); Top 50 = ranked 1-50 (51); Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke. List with IPEDS unitids: usnews_tiers_grokbot.json (source: Andrew G. Reiter, https://www.andyreiter.com/datasets/). Share = men (women) bachelor completions at those schools / all, IPEDS C2009/C2016/C2023 averaged: men 24.2% / 11.8% / 1.4%; women 19.9% / 9.7% / 1.0%.
+
+## v16 — Single & looking split from APS microdata
+Pew W111 sets partnered (removed) / looking / not looking. APS Dec 2022 (research_aps_2023_01, weighted) splits Pew lookers: Active = dating now share of (dating+open); Open = rest; Not wanting = Pew not looking. Dating share: M 18–29 .205, 30–49 .263, 50+ .153; F .339, .229, .184 (50–64 pooled with 65+, small n). Estimate/pending removed.
