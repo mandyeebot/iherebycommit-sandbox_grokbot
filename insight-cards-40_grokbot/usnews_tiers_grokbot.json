@@ -1,0 +1,796 @@
+{
+"source": "U.S. News Best National Universities, 2027 edition (published Sep 2026), via Andrew G. Reiter, US News National University Rankings (Top-150) Through 2027, https://www.andyreiter.com/datasets/ (IPEDS unitids included)",
+"top100": [
+[
+"Massachusetts Institute of Technology",
+"MA",
+166683,
+1
+],
+[
+"Princeton University",
+"NJ",
+186131,
+2
+],
+[
+"Harvard University",
+"MA",
+166027,
+3
+],
+[
+"Yale University",
+"CT",
+130794,
+4
+],
+[
+"Stanford University",
+"CA",
+243744,
+5
+],
+[
+"California Institute of Technology",
+"CA",
+110404,
+5
+],
+[
+"University of Pennsylvania",
+"PA",
+215062,
+7
+],
+[
+"Duke University",
+"NC",
+198419,
+8
+],
+[
+"University of Chicago",
+"IL",
+144050,
+9
+],
+[
+"Johns Hopkins University",
+"MD",
+162928,
+9
+],
+[
+"Northwestern University",
+"IL",
+147767,
+9
+],
+[
+"Dartmouth College",
+"NH",
+182670,
+12
+],
+[
+"Columbia University",
+"NY",
+190150,
+12
+],
+[
+"Cornell University",
+"NY",
+190415,
+14
+],
+[
+"Carnegie Mellon University",
+"PA",
+211440,
+14
+],
+[
+"Brown University",
+"RI",
+217156,
+16
+],
+[
+"Rice University",
+"TX",
+227757,
+16
+],
+[
+"Vanderbilt University",
+"TN",
+221999,
+16
+],
+[
+"Washington University in St. Louis",
+"MO",
+179867,
+16
+],
+[
+"University of California-Berkeley",
+"CA",
+110635,
+20
+],
+[
+"University of California-Los Angeles",
+"CA",
+110662,
+20
+],
+[
+"University of Notre Dame",
+"IN",
+152080,
+20
+],
+[
+"Emory University",
+"GA",
+139658,
+23
+],
+[
+"Georgetown University",
+"DC",
+131496,
+23
+],
+[
+"University of Michigan-Ann Arbor",
+"MI",
+170976,
+25
+],
+[
+"University of Virginia",
+"VA",
+234076,
+26
+],
+[
+"University of North Carolina-Chapel Hill",
+"NC",
+199120,
+27
+],
+[
+"University of Southern California",
+"CA",
+123961,
+27
+],
+[
+"University of California-San Diego",
+"CA",
+110680,
+29
+],
+[
+"Georgia Institute of Technology",
+"GA",
+139755,
+29
+],
+[
+"New York University",
+"NY",
+193900,
+31
+],
+[
+"Boston College",
+"MA",
+164924,
+31
+],
+[
+"Tufts University",
+"MA",
+168148,
+31
+],
+[
+"University of Florida",
+"FL",
+134130,
+34
+],
+[
+"University of Texas-Austin",
+"TX",
+228778,
+34
+],
+[
+"University of California-Davis",
+"CA",
+110644,
+34
+],
+[
+"University of California-Irvine",
+"CA",
+110653,
+34
+],
+[
+"University of Illinois-Urbana-Champaign",
+"IL",
+145637,
+34
+],
+[
+"University of Wisconsin-Madison",
+"WI",
+240444,
+34
+],
+[
+"Boston University",
+"MA",
+164988,
+34
+],
+[
+"Wake Forest University",
+"NC",
+199847,
+34
+],
+[
+"Northeastern University",
+"MA",
+167358,
+42
+],
+[
+"Villanova University",
+"PA",
+216597,
+42
+],
+[
+"University of California-Santa Barbara",
+"CA",
+110705,
+44
+],
+[
+"Ohio State University-Columbus",
+"OH",
+204796,
+44
+],
+[
+"Rutgers University-New Brunswick",
+"NJ",
+186380,
+44
+],
+[
+"Lehigh University",
+"PA",
+213543,
+44
+],
+[
+"Case Western Reserve University",
+"OH",
+201645,
+44
+],
+[
+"University of Maryland-College Park",
+"MD",
+163286,
+49
+],
+[
+"University of Washington",
+"WA",
+236948,
+49
+],
+[
+"University of Rochester",
+"NY",
+195030,
+49
+],
+[
+"University of Georgia",
+"GA",
+139959,
+52
+],
+[
+"Virginia Polytechnic Institute and State University",
+"VA",
+233921,
+52
+],
+[
+"College of William and Mary",
+"VA",
+231624,
+52
+],
+[
+"Purdue University",
+"IN",
+243780,
+55
+],
+[
+"Pennsylvania State University-University Park",
+"PA",
+214777,
+55
+],
+[
+"Santa Clara University",
+"CA",
+122931,
+55
+],
+[
+"University of Miami",
+"FL",
+135726,
+55
+],
+[
+"Texas A&M University-College Station",
+"TX",
+228723,
+59
+],
+[
+"Florida State University",
+"FL",
+134097,
+59
+],
+[
+"University of Minnesota",
+"MN",
+174066,
+59
+],
+[
+"Stony Brook University",
+"NY",
+196097,
+59
+],
+[
+"George Washington University",
+"DC",
+131469,
+59
+],
+[
+"University of Massachusetts-Amherst",
+"MA",
+166629,
+59
+],
+[
+"Brandeis University",
+"MA",
+165015,
+59
+],
+[
+"Tulane University",
+"LA",
+160755,
+59
+],
+[
+"University of Pittsburgh",
+"PA",
+215293,
+59
+],
+[
+"Stevens Institute of Technology",
+"NJ",
+186867,
+59
+],
+[
+"University of California-Merced",
+"CA",
+445188,
+69
+],
+[
+"Michigan State University",
+"MI",
+171100,
+69
+],
+[
+"Rensselaer Polytechnic Institute",
+"NY",
+194824,
+69
+],
+[
+"Syracuse University",
+"NY",
+196413,
+72
+],
+[
+"North Carolina State University",
+"NC",
+199193,
+73
+],
+[
+"University of Connecticut",
+"CT",
+129020,
+73
+],
+[
+"Binghamton University",
+"NY",
+196079,
+73
+],
+[
+"Indiana University-Bloomington",
+"IN",
+151351,
+73
+],
+[
+"Rutgers University-Newark",
+"NJ",
+186399,
+73
+],
+[
+"Worcester Polytechnic Institute",
+"MA",
+168421,
+73
+],
+[
+"Howard University",
+"DC",
+131520,
+73
+],
+[
+"University of California-Riverside",
+"CA",
+110671,
+80
+],
+[
+"Clemson University",
+"SC",
+217882,
+80
+],
+[
+"Colorado School of Mines",
+"CO",
+126775,
+80
+],
+[
+"Drexel University",
+"PA",
+212054,
+80
+],
+[
+"Pepperdine University",
+"CA",
+121150,
+80
+],
+[
+"University of Buffalo",
+"NY",
+196088,
+85
+],
+[
+"New Jersey Institute of Technology",
+"NJ",
+185828,
+85
+],
+[
+"University of Delaware",
+"DE",
+130943,
+85
+],
+[
+"Southern Methodist University",
+"TX",
+228246,
+85
+],
+[
+"Fordham University",
+"NY",
+191241,
+85
+],
+[
+"Yeshiva University",
+"NY",
+197708,
+90
+],
+[
+"Marquette University",
+"WI",
+239105,
+90
+],
+[
+"Baylor University",
+"TX",
+223232,
+90
+],
+[
+"Texas Christian University",
+"TX",
+228875,
+90
+],
+[
+"Gonzaga University",
+"WA",
+235316,
+90
+],
+[
+"University of Illinois-Chicago",
+"IL",
+145600,
+95
+],
+[
+"American University",
+"DC",
+131159,
+95
+],
+[
+"Rochester Institute of Technology",
+"NY",
+195003,
+95
+],
+[
+"Rutgers University-Camden",
+"NJ",
+186371,
+95
+],
+[
+"University of Missouri-Columbia",
+"MZ",
+178396,
+95
+],
+[
+"University of South Florida",
+"FL",
+137351,
+100
+],
+[
+"Florida International University",
+"FL",
+133951,
+100
+],
+[
+"University of Iowa",
+"IA",
+153658,
+100
+],
+[
+"Auburn University",
+"AL",
+100858,
+100
+],
+[
+"Saint Louis University",
+"MZ",
+179159,
+100
+],
+[
+"University of San Diego",
+"CA",
+122436,
+100
+],
+[
+"Chapman University",
+"CA",
+111948,
+100
+],
+[
+"Creighton University",
+"NE",
+181002,
+100
+],
+[
+"Elon University",
+"NC",
+198516,
+100
+]
+],
+"top50_unitids": [
+166683,
+186131,
+166027,
+130794,
+243744,
+110404,
+215062,
+198419,
+144050,
+162928,
+147767,
+182670,
+190150,
+190415,
+211440,
+217156,
+227757,
+221999,
+179867,
+110635,
+110662,
+152080,
+139658,
+131496,
+170976,
+234076,
+199120,
+123961,
+110680,
+139755,
+193900,
+164924,
+168148,
+134130,
+228778,
+110644,
+110653,
+145637,
+240444,
+164988,
+199847,
+167358,
+216597,
+110705,
+204796,
+186380,
+213543,
+201645,
+163286,
+236948,
+195030
+],
+"ivy_unitids": [
+166027,
+190150,
+130794,
+186131,
+182670,
+215062,
+217156,
+190415,
+243744,
+166683,
+144050,
+198419
+],
+"by_year": {
+"2009": {
+"top100": [
+0.2397,
+0.1981,
+165982,
+183874
+],
+"top50": [
+0.1208,
+0.0991,
+83654,
+91989
+],
+"ivy": [
+0.015,
+0.011,
+10357,
+10171
+]
+},
+"2016": {
+"top100": [
+0.2317,
+0.1902,
+192512,
+211764
+],
+"top50": [
+0.1119,
+0.0914,
+92980,
+101824
+],
+"ivy": [
+0.0133,
+0.01,
+11033,
+11185
+]
+},
+"2023": {
+"top100": [
+0.254,
+0.2083,
+209503,
+241815
+],
+"top50": [
+0.1218,
+0.1004,
+100499,
+116615
+],
+"ivy": [
+0.0137,
+0.0103,
+11282,
+11904
+]
+}
+},
+"avg": {
+"top100": [
+0.2418,
+0.1989
+],
+"top50": [
+0.1182,
+0.097
+],
+"ivy": [
+0.014,
+0.0104
+]
+}
+}

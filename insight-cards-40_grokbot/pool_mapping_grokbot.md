@@ -345,3 +345,6 @@ App options used (Sandbox 2 s3y63): Distance slider stops 1–300 mi (35 stops, 
 
 ## v14 (Oct 12): Single & looking band
 Pinned 3rd (after City, Age). Multi-select: Actively looking (Pew W111 SEEKING committed/casual/either) / Open but not looking (24% of Pew not looking, ESTIMATE from Survey Center APS 2023 published numbers; microdata pending) / Not wanting a relationship (76%). Partnered men (cohabiting or committed relationship; the ACS B12002 start pool still includes them) are never kept. Default Active + Open. Intentions now cuts among lookers: Committed = (co+ei)/looking (~84% men 31-53); Any = no cut.
+
+## v15 (Oct 12): School tiers = U.S. News lists
+Top 100 = U.S. News Best National Universities 2027 ranked 1-100 (108 schools with ties, incl. UT Austin #34, UNC #27); Top 50 = ranked 1-50 (51); Ivy+ = 8 Ivies + Stanford, MIT, Chicago, Duke. List with IPEDS unitids: usnews_tiers_grokbot.json (source: Andrew G. Reiter, https://www.andyreiter.com/datasets/). Share = men (women) bachelor completions at those schools / all, IPEDS C2009/C2016/C2023 averaged: men 24.2% / 11.8% / 1.4%; women 19.9% / 9.7% / 1.0%.
