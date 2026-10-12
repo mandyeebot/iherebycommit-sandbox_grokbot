@@ -131,7 +131,7 @@ $('#h1').innerHTML=(E.poss()||'Your')+' <span>Pool</span>'; document.title=docum
 // every pick spelled out (site option order); each pick stays on one line, picks wrap between them
 const nw=t=>`<span class="nw">${t}</span>`;
 const all=(k,pre)=>{const a=E.multiL(k).split(' · '); return a.map((x,i)=>nw((i===0&&pre?pre+' ':'')+x+(i<a.length-1?' ·':''))).join(' ')};
-const SHORT={age:()=>'Age '+S.amin+'–'+S.amax,
+const SHORT={look:()=>'Single: '+E.multiL('look'),age:()=>'Age '+S.amin+'–'+S.amax,
   intent:()=>S.intent.length?all('intent','Looking for:'):'Looking for: any',
   marry:()=>S.marry.length?all('marry','Married someday:'):'Married someday: any',
   kids:()=>!S.kids.length?'Want kids: any':S.kids.length===1&&S.kids[0]==='yes'?'Wants kids':all('kids','Want kids:'),
@@ -222,11 +222,11 @@ $('#infoBtn').onclick=()=>{const w=document.createElement('div'); w.className='s
   const c=()=>w.remove(); document.body.appendChild(w); requestAnimationFrame(()=>w.classList.add('show'));
   w.querySelector('.src-back').onclick=w.querySelector('.pe-x').onclick=c;};
 // ---- 'Update my preferences to these' (Amanda Oct 10): shows only when a pick differs from the saved preferences ----
-const PK=['seek','city','radius','amin','amax','intent','marry','kids','hmin','hmax','edu','tier','inc','eth','haskids','relig','pol'];
+const PK=['seek','city','radius','amin','amax','look','intent','marry','kids','hmin','hmax','edu','tier','inc','eth','haskids','relig','pol'];
 const snap=()=>JSON.parse(JSON.stringify(PK.reduce((o,k)=>(o[k]=S[k],o),{})));
 let SAVED=snap();  // the user's saved partner preferences (newest Sandbox 2 signup)
 const GROUPS=[['Seeking',['seek'],()=>E.seekL()],['City & distance',['city','radius'],()=>E.cityName()+' · ≤'+S.radius+' mi'],['Age',['amin','amax'],()=>S.amin+'–'+S.amax],
-  ['Height',['hmin','hmax'],()=>E.hL()],...['intent','marry','kids','edu','tier','inc','eth','haskids','relig','pol'].map(k=>[E.ASK[k]?E.ASK[k][0]:k,[k],()=>E.multiL(k)])];
+  ['Height',['hmin','hmax'],()=>E.hL()],...['look','intent','marry','kids','edu','tier','inc','eth','haskids','relig','pol'].map(k=>[E.ASK[k]?E.ASK[k][0]:k,[k],()=>E.multiL(k)])];
 function withState(st,fn){const cur=snap(); Object.assign(S,JSON.parse(JSON.stringify(st))); const v=fn(); Object.assign(S,cur); return v;}
 function changes(){const now=snap(); return GROUPS.filter(([,ks])=>ks.some(k=>JSON.stringify(now[k])!==JSON.stringify(SAVED[k]))).map(([n,,f])=>[n,withState(SAVED,f),f()]);}
 function updBtn(){const b=$('#upd'), on=changes().length>0; if(b.hidden===on){b.hidden=!on; fit();}}
