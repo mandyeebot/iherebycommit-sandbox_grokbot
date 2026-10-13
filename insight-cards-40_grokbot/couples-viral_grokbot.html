@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>I Hereby Commit · Couples vs. the research (5 viral cards)_grokbot</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"><style>
+:root{--bg:#0e0e0e;--text:#f0ece0;--body:#9a978c;--muted:#888;--dim:#333;--lime:#c8f135;--orange:#FF7A2F;--radius:4px;--accent:var(--lime)}
+body.couples{--accent:var(--orange)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace}
+body{min-height:100vh;display:flex;justify-content:center}
+.phone{width:393px;min-height:852px;position:relative;padding:10px 16px 18px;overflow:hidden}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--text)}
+.logo b{color:var(--accent);font-weight:400}
+.flowtoggle{display:flex;gap:4px}
+.flowtoggle button{font-family:'Space Mono',monospace;font-size:10px;padding:5px 8px;border:1px solid var(--dim);background:transparent;color:var(--muted);border-radius:var(--radius);cursor:pointer;text-transform:uppercase}
+.flowtoggle button.on{border-color:var(--accent);color:var(--bg);background:var(--accent)}
+.progress{display:flex;gap:3px;margin:6px 0 8px}
+.progress span{flex:1;height:3px;background:var(--dim);border-radius:2px}
+.progress span.done{background:var(--accent)}
+/* 9:16 story card */
+.card{width:361px;height:642px;position:relative;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid #222;cursor:pointer;user-select:none}
+.card .inner{position:absolute;inset:0;padding:26px 22px 20px;display:flex;flex-direction:column}
+.card.hero .inner{background:var(--accent);color:#0e0e0e}
+.kicker{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero .kicker{color:#0e0e0e;opacity:.75}
+.big{font-family:'Bebas Neue',sans-serif;font-size:112px;line-height:.85;color:var(--accent);letter-spacing:1px}
+.hero .big{color:#0e0e0e}
+.big small{font-size:40px}
+h2.head{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:38px;line-height:.95;letter-spacing:.5px;margin:10px 0 12px;color:var(--text)}
+.hero h2.head{color:#0e0e0e}
+.sub{font-size:12px;line-height:1.55;color:var(--body)}
+.sub b{color:var(--text);font-weight:700}
+.hero .sub{color:#1c1c1c}.hero .sub b{color:#0e0e0e}
+.viz{margin:16px 0 8px;flex:1;display:flex;align-items:center;justify-content:center}
+.foot{margin-top:auto;border-top:1px solid #262626;padding-top:8px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.hero .foot{border-top-color:rgba(0,0,0,.25)}
+.src{font-size:8.5px;line-height:1.35;color:var(--muted);max-width:245px}
+.hero .src{color:#222}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--text);white-space:nowrap}
+.hero .brand{color:#0e0e0e}
+.example{position:absolute;top:8px;right:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777;border:1px solid #333;padding:1px 5px;border-radius:3px;background:rgba(14,14,14,.6)}
+.hero .example{color:#0e0e0e;border-color:rgba(0,0,0,.35);background:transparent}
+.private{position:absolute;top:8px;left:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--bg);background:var(--muted);padding:1px 5px;border-radius:3px}
+/* dots viz */
+.dots{display:grid;grid-template-columns:repeat(14,1fr);gap:5px;width:100%}
+.dots i{display:block;width:100%;aspect-ratio:1;border-radius:50%;background:var(--dim)}
+.dots i.m{background:var(--accent)}
+.dots i.w{background:var(--text)}
+.dots i.x{background:transparent;border:1px solid #444}
+.legend{font-size:9px;color:var(--muted);margin-top:8px;display:flex;gap:12px}
+.legend em{font-style:normal;display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.bar{width:100%}
+.bar .row{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:10px;color:var(--body)}
+.bar .row .lbl{width:92px;text-align:right}
+.bar .track{flex:1;height:14px;background:#1b1b1b;border-radius:2px;position:relative}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:2px}
+.bar .fill.alt{background:#555}
+.bar .val{width:40px;font-weight:700;color:var(--text)}
+.timeline{width:100%;position:relative;height:150px}
+.timeline .line{position:absolute;left:0;right:0;top:70px;height:2px;background:#333}
+.timeline .pt{position:absolute;top:62px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+.timeline .pt.ghost{background:#555}
+.timeline .lab{position:absolute;width:90px;margin-left:-45px;text-align:center;font-size:9px;color:var(--body);line-height:1.3}
+.timeline .lab b{display:block;font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);font-weight:400}
+.sil{display:flex;align-items:flex-end;justify-content:center;gap:26px;height:230px;width:100%}
+.sil div{display:flex;flex-direction:column;align-items:center;font-size:10px;color:var(--body)}
+.sil svg{display:block}
+.map{width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{font-size:10px;border:1px solid var(--accent);color:var(--accent);padding:4px 8px;border-radius:14px}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.quick button{font-family:'Space Mono',monospace;font-size:11px;padding:10px 6px;border:1px solid #444;background:#151515;color:var(--text);border-radius:var(--radius)}
+.cta{display:block;width:100%;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;padding:12px;border:0;border-radius:var(--radius);background:var(--accent);color:#0e0e0e;margin-top:8px;cursor:pointer}
+.cta.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.hero .cta{background:#0e0e0e;color:var(--accent)}
+.lock{font-size:40px;text-align:center}
+/* share row */
+.share{display:flex;gap:6px;margin-top:10px}
+.share button{flex:1;font-family:'Space Mono',monospace;font-size:10px;padding:9px 4px;border:1px solid var(--dim);background:#151515;color:var(--text);border-radius:var(--radius);cursor:pointer}
+.share button.primary{background:var(--accent);color:#0e0e0e;border-color:var(--accent);font-weight:700}
+.share button:disabled{opacity:.35;cursor:not-allowed}
+.navhint{display:flex;justify-content:space-between;font-size:9px;color:#555;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--accent);color:#0e0e0e;font-size:11px;padding:8px 12px;border-radius:var(--radius);opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+.mocknote{font-size:8.5px;color:#555;margin-top:6px;line-height:1.4}
+
+body{display:block;padding:24px}
+.sheet{display:grid;grid-template-columns:repeat(5,361px);gap:22px;justify-content:start}
+.wrap{position:relative}
+.cid{font-size:10px;color:#666;margin:0 0 5px 2px;letter-spacing:1px}
+.cid b{color:var(--accent)}
+.sheethead{margin:0 0 18px;max-width:1900px}
+.sheethead h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;letter-spacing:1px}
+.sheethead h1 b{color:var(--accent);font-weight:400}
+.sheethead p{font-size:11px;color:#8a877c;line-height:1.5;max-width:1500px}
+section{margin-bottom:48px}
+section.couples{--accent:var(--orange)}
+.tier{position:absolute;top:8px;left:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:1px 5px;border-radius:3px;border:1px solid #333;color:#777}
+.tier.c{background:#FFD23F;color:#0e0e0e;border-color:#FFD23F;font-weight:700}
+.rt{color:var(--accent);border-bottom:1px dashed var(--accent)}
+.big.txt{font-size:62px;line-height:.9}
+.big.mid{font-size:92px}
+.big .rtbig{border:2px dashed var(--accent);padding:0 10px;border-radius:6px}
+.steps{width:100%}
+.steps .st{display:flex;justify-content:space-between;align-items:center;border-left:3px solid var(--accent);padding:7px 10px;margin:6px 0;background:#151515;font-size:10px;color:var(--body)}
+.steps .st:nth-child(2){margin-left:14px}.steps .st:nth-child(3){margin-left:28px}.steps .st:nth-child(4){margin-left:42px}
+.steps .st b{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);font-weight:400}
+.vs{display:flex;gap:10px;width:100%}
+.vs div{flex:1;border:1px solid #2a2a2a;border-radius:6px;padding:12px 8px;text-align:center;font-size:10px;color:var(--body)}
+.vs div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:54px;color:var(--text);font-weight:400;line-height:1}
+.vs div:first-child b{color:var(--accent)}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.types span{font-size:9.5px;border:1px solid #333;color:#777;padding:7px 6px;border-radius:4px;text-align:center}
+.types span.on{border-color:var(--accent);background:var(--accent);color:#0e0e0e;font-weight:700}
+.scale{width:100%;font-size:9px;color:var(--body)}
+.scale .row{display:flex;gap:3px;margin:4px 0 12px}
+.scale .row i{flex:1;height:26px;border:1px solid #333;border-radius:3px;font-style:normal;display:flex;align-items:center;justify-content:center;color:#555;font-size:10px}
+.scale .row i.q{border-color:var(--accent);color:var(--accent)}
+.cal{display:flex;gap:10px;width:100%;align-items:center}
+.cal div{flex:1;border:1px solid #333;border-radius:6px;text-align:center;padding:10px 4px;font-size:8.5px;color:var(--body);letter-spacing:1px}
+.cal div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--text);font-weight:400;letter-spacing:0;margin-top:4px}
+.cal em{font-style:normal;font-family:'Bebas Neue',sans-serif;color:var(--accent);font-size:26px}
+.months{display:flex;align-items:flex-end;gap:4px;height:110px;width:100%}
+.months div{flex:1;display:flex;flex-direction:column;align-items:center;font-size:8px;color:#666;gap:4px}
+.months div i{display:block;width:100%;height:70px;border:1px dashed #444;border-radius:2px}
+.months div.on i{background:var(--accent);border:0}
+.months div.on{color:var(--accent)}
+.tbl{width:100%;border-collapse:collapse;font-size:10px}
+.tbl td{border-bottom:1px solid #262626;padding:8px 4px;color:var(--body)}
+.tbl tr:first-child td{font-size:9px;letter-spacing:1px;color:#777}
+.tbl td:nth-child(2){color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:19px}
+.tbl td:nth-child(3){color:#555;font-family:'Bebas Neue',sans-serif;font-size:19px}
+.rulerv{position:relative;width:100%;height:170px}
+.rulerv .ax{position:absolute;left:46%;top:6px;bottom:6px;width:2px;background:#333}
+.rulerv .mk{position:absolute;left:0;right:0;height:0;font-size:9.5px;color:var(--body)}
+.rulerv .mk span{position:absolute;right:56%;transform:translateY(-50%);white-space:nowrap}
+.rulerv .mk i{position:absolute;left:calc(46% - 8px);width:18px;height:2px;background:#666;transform:translateY(-1px)}
+.rulerv .mk.on i{background:var(--accent);height:4px}
+.rulerv .mk.on span{color:var(--text);font-weight:700}
+.rulerv .mk.rtm span{left:52%;right:auto;color:var(--accent)}
+.numline{position:relative;width:100%;height:104px}
+.numline .ln{position:absolute;left:0;right:0;top:44px;height:2px;background:#333}
+.numline .tk{position:absolute;top:52px;font-size:8.5px;color:#666;transform:translateX(-50%)}
+.numline .pt{position:absolute;top:36px;width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);transform:translateX(-50%)}
+.numline .pt.ghost{background:#666}
+.numline .lb{position:absolute;font-size:9px;color:var(--body);transform:translateX(-50%);white-space:nowrap}
+ section{margin-bottom:36px}
+body{display:block}.deck{display:flex;flex-wrap:wrap;gap:22px;justify-content:center;padding:16px}.intro{max-width:760px;margin:16px auto 0;padding:0 16px;font-size:11px;color:var(--body);line-height:1.6}.cid{font-size:11px;color:var(--muted);margin:0 0 6px}.example{font-size:9px;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent);padding:2px 6px;border-radius:3px;align-self:flex-start}.big.mid{font-size:88px}</style></head>
+<body class="couples"><div class="intro"><b style="color:var(--text)">I Hereby Commit · Couples vs. the research (5 viral cards)_grokbot</b><br>Each card pairs one Sandbox 2 couples answer with a well-established survey benchmark. "Your" answers are a Sandbox 2 test submission (Oct 11, 2026), labeled as example data. Mockup by grokbot, Oct 13, 2026 CT.</div><div class="deck"><div class="wrap" id="card-C01"><div class="cid"><b>C01</b> · Who Said It First</div>
+<div class="card"><div class="inner"><span class="example">Example data · Sandbox 2 test (Oct 11, 2026)</span>
+<div class="kicker" style="margin-top:8px">First date → "I love you"</div><div class="big mid">153<small> days</small></div>
+<h2 class="head">FROM FIRST DATE TO "I LOVE YOU"</h2><p class="sub">Men start <b>thinking</b> about saying it around day <b>97</b>; women around day <b>139</b>. Most people guess the opposite. And men usually say it first.</p><div class="viz"><div class="bar"><div class="row"><span class="lbl">you two</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">153 d</span></div><div class="row"><span class="lbl">men think it</span><div class="track"><div class="fill alt" style="width:63.6%"></div></div><span class="val">97 d</span></div><div class="row"><span class="lbl">women think it</span><div class="track"><div class="fill alt" style="width:90.8%"></div></div><span class="val">139 d</span></div></div></div>
+<div class="foot"><div class="src">Ackerman, Griskevicius &amp; Li 2011, J. Personality &amp; Social Psych. 100(6), Study 2: 111 students. Your answer: Sandbox 2 first_date 2026-05-11 → ily_date 2026-10-11 (test submission).</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" id="card-C02"><div class="cid"><b>C02</b> · The App Did It</div>
+<div class="card"><div class="inner"><span class="example">Example data · Sandbox 2 test (Oct 11, 2026)</span>
+<div class="kicker" style="margin-top:8px">How you met · The League</div><div class="big mid">39<small>%</small></div>
+<h2 class="head">OF STRAIGHT COUPLES WHO MET IN 2017 MET ONLINE</h2><p class="sub">Online passed meeting through friends to become the <b>#1</b> way couples meet. You two (The League) are the new normal.</p><div class="viz"><div class="bar"><div class="row"><span class="lbl">met online</span><div class="track"><div class="fill" style="width:39%"></div></div><span class="val">39%</span></div><div class="row"><span class="lbl">met through friends</span><div class="track"><div class="fill alt" style="width:20%"></div></div><span class="val">20%</span></div></div></div>
+<div class="foot"><div class="src">Rosenfeld, Thomas &amp; Hausen 2019, PNAS 116(36): How Couples Meet and Stay Together 2017, 3,510 respondents (heterosexual couples who met in 2017). Your answer: Sandbox 2 how_met=app, how_met_app=The League (test).</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" id="card-C03"><div class="cid"><b>C03</b> · Ring Countdown</div>
+<div class="card"><div class="inner"><span class="example">Example data · Sandbox 2 test (Oct 11, 2026)</span>
+<div class="kicker" style="margin-top:8px">First date → engagement</div><div class="big mid">3<small> yrs</small></div>
+<h2 class="head">THE AVERAGE COUPLE DATES BEFORE GETTING ENGAGED</h2><p class="sub">You're <b>5 months</b> in. 70% of couples live together before the proposal. 57% discuss marriage more than a year before it happens.</p><div class="viz"><div class="bar"><div class="row"><span class="lbl">avg dating before ring</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">36 mo</span></div><div class="row"><span class="lbl">you two so far</span><div class="track"><div class="fill alt" style="width:13.9%"></div></div><span class="val">5 mo</span></div></div></div>
+<div class="foot"><div class="src">The Knot 2026 Real Weddings Study: 10,474 US couples married in 2025. Your answer: Sandbox 2 first_date 2026-05-11, not engaged (test).</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" id="card-C04"><div class="cid"><b>C04</b> · Engaged → Married</div>
+<div class="card"><div class="inner"><span class="example">Benchmark · fills in once engaged</span>
+<div class="kicker" style="margin-top:8px">Engagement date → wedding date</div><div class="big mid">14<small> mo</small></div>
+<h2 class="head">THE AVERAGE US ENGAGEMENT, RING TO "I DO"</h2><p class="sub">Roughly <b>40%</b> of couples are engaged for 11–18 months. Add your engagement and wedding dates and we'll place you on the curve.</p><div class="viz"><div class="bar"><div class="row"><span class="lbl">average engagement</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">14 mo</span></div><div class="row"><span class="lbl">engaged 11–18 mo</span><div class="track"><div class="fill alt" style="width:40%"></div></div><span class="val">~40%</span></div></div></div>
+<div class="foot"><div class="src">The Knot 2026 Real Weddings Study: 10,474 US couples married in 2025. Sandbox 2 fields: engaged date, wedding_date (none in test data yet).</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" id="card-C05"><div class="cid"><b>C05</b> · Round Two</div>
+<div class="card"><div class="inner"><span class="example">Example data · Sandbox 2 test (Oct 11, 2026)</span>
+<div class="kicker" style="margin-top:8px">Married before?</div><div class="big mid">4<small> in </small>10</div>
+<h2 class="head">NEW MARRIAGES INCLUDE SOMEONE WHO'S BEEN MARRIED BEFORE</h2><p class="sub">In <b>20%</b> of new marriages, both had been married before. You answered <b>neither</b>, so you're in the first-marriage 60%.</p><div class="viz"><div class="bar"><div class="row"><span class="lbl">at least one remarrying</span><div class="track"><div class="fill" style="width:40%"></div></div><span class="val">40%</span></div><div class="row"><span class="lbl">both remarrying</span><div class="track"><div class="fill alt" style="width:20%"></div></div><span class="val">20%</span></div><div class="row"><span class="lbl">neither (you)</span><div class="track"><div class="fill alt" style="width:60%"></div></div><span class="val">60%</span></div></div></div>
+<div class="foot"><div class="src">Pew Research Center 2014, "Four-in-Ten Couples are Saying I Do, Again," analysis of the 2013 American Community Survey. Your answer: Sandbox 2 married_before=neither (test).</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" id="card-SRC"><div class="cid"><b>SOURCES</b></div><div class="card"><div class="inner"><div class="kicker">Sources</div><h2 class="head">WHERE EVERY NUMBER COMES FROM</h2><p class="sub" style="margin:0 0 9px;font-size:10.5px">Ackerman, Griskevicius &amp; Li (2011). Let's Get Serious. JPSP 100(6):1079–1094. Study 2, n=111. <a style="color:var(--accent)" href="https://doi.org/10.1037/a0022412">link</a></p><p class="sub" style="margin:0 0 9px;font-size:10.5px">Rosenfeld, Thomas &amp; Hausen (2019). Disintermediating your friends. PNAS. HCMST 2017, n=3,510. <a style="color:var(--accent)" href="https://www.pnas.org/doi/10.1073/pnas.1908630116">link</a></p><p class="sub" style="margin:0 0 9px;font-size:10.5px">The Knot (2026). Real Weddings Study data read-out. n=10,474 couples married in 2025. <a style="color:var(--accent)" href="https://images.theknot.com/rules/2026/the-knot-real-weddings-study-data-read-out-2026.pdf">link</a></p><p class="sub" style="margin:0 0 9px;font-size:10.5px">Pew Research Center (2014). Four-in-ten couples are saying "I do," again. ACS 2013. <a style="color:var(--accent)" href="https://www.pewresearch.org/social-trends/2014/11/14/four-in-ten-couples-are-saying-i-do-again/">link</a></p><p class="sub" style="margin:0 0 9px;font-size:10.5px">Your answers: Sandbox 2 (Supabase branch ycoaslgtaaiwfwgytqlm, waitlist table), test submission Oct 11, 2026, read-only. Example data until real couples sign up. <a style="color:var(--accent)" href="#">link</a></p><div class="foot"><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div></div></body></html>

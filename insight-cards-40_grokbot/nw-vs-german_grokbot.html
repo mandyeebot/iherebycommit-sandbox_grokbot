@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>I Hereby Commit · Northwestern vs. Berlin speed dating (for Eli &amp; Paul)_grokbot</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"><style>
+:root{--bg:#0e0e0e;--text:#f0ece0;--body:#9a978c;--muted:#888;--dim:#333;--lime:#c8f135;--orange:#FF7A2F;--radius:4px;--accent:var(--lime)}
+body.couples{--accent:var(--orange)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace}
+body{min-height:100vh;display:flex;justify-content:center}
+.phone{width:393px;min-height:852px;position:relative;padding:10px 16px 18px;overflow:hidden}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--text)}
+.logo b{color:var(--accent);font-weight:400}
+.flowtoggle{display:flex;gap:4px}
+.flowtoggle button{font-family:'Space Mono',monospace;font-size:10px;padding:5px 8px;border:1px solid var(--dim);background:transparent;color:var(--muted);border-radius:var(--radius);cursor:pointer;text-transform:uppercase}
+.flowtoggle button.on{border-color:var(--accent);color:var(--bg);background:var(--accent)}
+.progress{display:flex;gap:3px;margin:6px 0 8px}
+.progress span{flex:1;height:3px;background:var(--dim);border-radius:2px}
+.progress span.done{background:var(--accent)}
+/* 9:16 story card */
+.card{width:361px;height:642px;position:relative;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid #222;cursor:pointer;user-select:none}
+.card .inner{position:absolute;inset:0;padding:26px 22px 20px;display:flex;flex-direction:column}
+.card.hero .inner{background:var(--accent);color:#0e0e0e}
+.kicker{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero .kicker{color:#0e0e0e;opacity:.75}
+.big{font-family:'Bebas Neue',sans-serif;font-size:112px;line-height:.85;color:var(--accent);letter-spacing:1px}
+.hero .big{color:#0e0e0e}
+.big small{font-size:40px}
+h2.head{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:38px;line-height:.95;letter-spacing:.5px;margin:10px 0 12px;color:var(--text)}
+.hero h2.head{color:#0e0e0e}
+.sub{font-size:12px;line-height:1.55;color:var(--body)}
+.sub b{color:var(--text);font-weight:700}
+.hero .sub{color:#1c1c1c}.hero .sub b{color:#0e0e0e}
+.viz{margin:16px 0 8px;flex:1;display:flex;align-items:center;justify-content:center}
+.foot{margin-top:auto;border-top:1px solid #262626;padding-top:8px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.hero .foot{border-top-color:rgba(0,0,0,.25)}
+.src{font-size:8.5px;line-height:1.35;color:var(--muted);max-width:245px}
+.hero .src{color:#222}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--text);white-space:nowrap}
+.hero .brand{color:#0e0e0e}
+.example{position:absolute;top:8px;right:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777;border:1px solid #333;padding:1px 5px;border-radius:3px;background:rgba(14,14,14,.6)}
+.hero .example{color:#0e0e0e;border-color:rgba(0,0,0,.35);background:transparent}
+.private{position:absolute;top:8px;left:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--bg);background:var(--muted);padding:1px 5px;border-radius:3px}
+/* dots viz */
+.dots{display:grid;grid-template-columns:repeat(14,1fr);gap:5px;width:100%}
+.dots i{display:block;width:100%;aspect-ratio:1;border-radius:50%;background:var(--dim)}
+.dots i.m{background:var(--accent)}
+.dots i.w{background:var(--text)}
+.dots i.x{background:transparent;border:1px solid #444}
+.legend{font-size:9px;color:var(--muted);margin-top:8px;display:flex;gap:12px}
+.legend em{font-style:normal;display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.bar{width:100%}
+.bar .row{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:10px;color:var(--body)}
+.bar .row .lbl{width:92px;text-align:right}
+.bar .track{flex:1;height:14px;background:#1b1b1b;border-radius:2px;position:relative}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:2px}
+.bar .fill.alt{background:#555}
+.bar .val{width:40px;font-weight:700;color:var(--text)}
+.timeline{width:100%;position:relative;height:150px}
+.timeline .line{position:absolute;left:0;right:0;top:70px;height:2px;background:#333}
+.timeline .pt{position:absolute;top:62px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+.timeline .pt.ghost{background:#555}
+.timeline .lab{position:absolute;width:90px;margin-left:-45px;text-align:center;font-size:9px;color:var(--body);line-height:1.3}
+.timeline .lab b{display:block;font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);font-weight:400}
+.sil{display:flex;align-items:flex-end;justify-content:center;gap:26px;height:230px;width:100%}
+.sil div{display:flex;flex-direction:column;align-items:center;font-size:10px;color:var(--body)}
+.sil svg{display:block}
+.map{width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{font-size:10px;border:1px solid var(--accent);color:var(--accent);padding:4px 8px;border-radius:14px}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.quick button{font-family:'Space Mono',monospace;font-size:11px;padding:10px 6px;border:1px solid #444;background:#151515;color:var(--text);border-radius:var(--radius)}
+.cta{display:block;width:100%;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;padding:12px;border:0;border-radius:var(--radius);background:var(--accent);color:#0e0e0e;margin-top:8px;cursor:pointer}
+.cta.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.hero .cta{background:#0e0e0e;color:var(--accent)}
+.lock{font-size:40px;text-align:center}
+/* share row */
+.share{display:flex;gap:6px;margin-top:10px}
+.share button{flex:1;font-family:'Space Mono',monospace;font-size:10px;padding:9px 4px;border:1px solid var(--dim);background:#151515;color:var(--text);border-radius:var(--radius);cursor:pointer}
+.share button.primary{background:var(--accent);color:#0e0e0e;border-color:var(--accent);font-weight:700}
+.share button:disabled{opacity:.35;cursor:not-allowed}
+.navhint{display:flex;justify-content:space-between;font-size:9px;color:#555;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--accent);color:#0e0e0e;font-size:11px;padding:8px 12px;border-radius:var(--radius);opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+.mocknote{font-size:8.5px;color:#555;margin-top:6px;line-height:1.4}
+
+body{display:block;padding:24px}
+.sheet{display:grid;grid-template-columns:repeat(5,361px);gap:22px;justify-content:start}
+.wrap{position:relative}
+.cid{font-size:10px;color:#666;margin:0 0 5px 2px;letter-spacing:1px}
+.cid b{color:var(--accent)}
+.sheethead{margin:0 0 18px;max-width:1900px}
+.sheethead h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;letter-spacing:1px}
+.sheethead h1 b{color:var(--accent);font-weight:400}
+.sheethead p{font-size:11px;color:#8a877c;line-height:1.5;max-width:1500px}
+section{margin-bottom:48px}
+section.couples{--accent:var(--orange)}
+.tier{position:absolute;top:8px;left:10px;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:1px 5px;border-radius:3px;border:1px solid #333;color:#777}
+.tier.c{background:#FFD23F;color:#0e0e0e;border-color:#FFD23F;font-weight:700}
+.rt{color:var(--accent);border-bottom:1px dashed var(--accent)}
+.big.txt{font-size:62px;line-height:.9}
+.big.mid{font-size:92px}
+.big .rtbig{border:2px dashed var(--accent);padding:0 10px;border-radius:6px}
+.steps{width:100%}
+.steps .st{display:flex;justify-content:space-between;align-items:center;border-left:3px solid var(--accent);padding:7px 10px;margin:6px 0;background:#151515;font-size:10px;color:var(--body)}
+.steps .st:nth-child(2){margin-left:14px}.steps .st:nth-child(3){margin-left:28px}.steps .st:nth-child(4){margin-left:42px}
+.steps .st b{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);font-weight:400}
+.vs{display:flex;gap:10px;width:100%}
+.vs div{flex:1;border:1px solid #2a2a2a;border-radius:6px;padding:12px 8px;text-align:center;font-size:10px;color:var(--body)}
+.vs div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:54px;color:var(--text);font-weight:400;line-height:1}
+.vs div:first-child b{color:var(--accent)}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.types span{font-size:9.5px;border:1px solid #333;color:#777;padding:7px 6px;border-radius:4px;text-align:center}
+.types span.on{border-color:var(--accent);background:var(--accent);color:#0e0e0e;font-weight:700}
+.scale{width:100%;font-size:9px;color:var(--body)}
+.scale .row{display:flex;gap:3px;margin:4px 0 12px}
+.scale .row i{flex:1;height:26px;border:1px solid #333;border-radius:3px;font-style:normal;display:flex;align-items:center;justify-content:center;color:#555;font-size:10px}
+.scale .row i.q{border-color:var(--accent);color:var(--accent)}
+.cal{display:flex;gap:10px;width:100%;align-items:center}
+.cal div{flex:1;border:1px solid #333;border-radius:6px;text-align:center;padding:10px 4px;font-size:8.5px;color:var(--body);letter-spacing:1px}
+.cal div b{display:block;font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--text);font-weight:400;letter-spacing:0;margin-top:4px}
+.cal em{font-style:normal;font-family:'Bebas Neue',sans-serif;color:var(--accent);font-size:26px}
+.months{display:flex;align-items:flex-end;gap:4px;height:110px;width:100%}
+.months div{flex:1;display:flex;flex-direction:column;align-items:center;font-size:8px;color:#666;gap:4px}
+.months div i{display:block;width:100%;height:70px;border:1px dashed #444;border-radius:2px}
+.months div.on i{background:var(--accent);border:0}
+.months div.on{color:var(--accent)}
+.tbl{width:100%;border-collapse:collapse;font-size:10px}
+.tbl td{border-bottom:1px solid #262626;padding:8px 4px;color:var(--body)}
+.tbl tr:first-child td{font-size:9px;letter-spacing:1px;color:#777}
+.tbl td:nth-child(2){color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:19px}
+.tbl td:nth-child(3){color:#555;font-family:'Bebas Neue',sans-serif;font-size:19px}
+.rulerv{position:relative;width:100%;height:170px}
+.rulerv .ax{position:absolute;left:46%;top:6px;bottom:6px;width:2px;background:#333}
+.rulerv .mk{position:absolute;left:0;right:0;height:0;font-size:9.5px;color:var(--body)}
+.rulerv .mk span{position:absolute;right:56%;transform:translateY(-50%);white-space:nowrap}
+.rulerv .mk i{position:absolute;left:calc(46% - 8px);width:18px;height:2px;background:#666;transform:translateY(-1px)}
+.rulerv .mk.on i{background:var(--accent);height:4px}
+.rulerv .mk.on span{color:var(--text);font-weight:700}
+.rulerv .mk.rtm span{left:52%;right:auto;color:var(--accent)}
+.numline{position:relative;width:100%;height:104px}
+.numline .ln{position:absolute;left:0;right:0;top:44px;height:2px;background:#333}
+.numline .tk{position:absolute;top:52px;font-size:8.5px;color:#666;transform:translateX(-50%)}
+.numline .pt{position:absolute;top:36px;width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);transform:translateX(-50%)}
+.numline .pt.ghost{background:#666}
+.numline .lb{position:absolute;font-size:9px;color:var(--body);transform:translateX(-50%);white-space:nowrap}
+ section{margin-bottom:36px}
+body{display:block}.deck{display:flex;flex-wrap:wrap;gap:22px;justify-content:center;padding:16px}.intro{max-width:760px;margin:16px auto 0;padding:0 16px;font-size:11px;color:var(--body);line-height:1.6}.cid{font-size:11px;color:var(--muted);margin:0 0 6px}.example{font-size:9px;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent);padding:2px 6px;border-radius:3px;align-self:flex-start}.big.mid{font-size:88px}</style></head>
+<body class=""><div class="intro"><b style="color:var(--text)">I Hereby Commit · Northwestern vs. Berlin speed dating (for Eli &amp; Paul)_grokbot</b><br>Singles cards comparing Northwestern (Joel, Eastwick &amp; Finkel) with the Berlin SPEED study (Asendorpf, Penke &amp; Back 2011), plus Columbia and Amanda's real app yes-rates. Northwestern's public release has no yes/no decisions, so yes/match cards use Berlin and Columbia. Published or reanalyzed numbers only. Mockup by grokbot, Oct 13, 2026 CT.</div><div class="deck"><div class="wrap" id="card-G01"><div class="cid"><b>G01</b> · Three Labs, One Yes-Rate</div>
+<div class="card"><div class="inner"><span class="example">Research + your real data</span>
+<div class="kicker" style="margin-top:8px">Yes-rate: speed dating vs. you</div><div class="big mid">35<small>%</small></div>
+<h2 class="head">CHANCE A BERLIN SPEED DATER WANTED TO SEE YOU AGAIN</h2><p class="sub">In Berlin, a dater was chosen by <b>34.7%</b> of partners. At Columbia, <b>42%</b> of all decisions were yes. On The League you said yes <b>74%</b> of the time. Northwestern recorded 1–9 desire, not yes/no.</p><div class="viz"><div class="bar"><div class="row"><span class="lbl">Berlin (SPEED)</span><div class="track"><div class="fill" style="width:34.7%"></div></div><span class="val">35%</span></div><div class="row"><span class="lbl">Columbia</span><div class="track"><div class="fill alt" style="width:42%"></div></div><span class="val">42%</span></div><div class="row"><span class="lbl">you, Hinge</span><div class="track"><div class="fill alt" style="width:55%"></div></div><span class="val">55%</span></div><div class="row"><span class="lbl">you, League</span><div class="track"><div class="fill alt" style="width:74%"></div></div><span class="val">74%</span></div></div></div>
+<div class="foot"><div class="src">Asendorpf, Penke &amp; Back 2011, Eur. J. Personality 25:16–30: 382 people, 18–54. Fisman &amp; Iyengar Columbia data: 8,378 decisions. Your rates: League/Hinge exports.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" id="card-G02"><div class="cid"><b>G02</b> · Mutual Yes</div>
+<div class="card"><div class="inner"><span class="example">Research data</span>
+<div class="kicker" style="margin-top:8px">Two yeses, one table</div><div class="big mid">11.5<small>%</small></div>
+<h2 class="head">OF BERLIN SPEED DATES ENDED IN A MATCH</h2><p class="sub">Columbia students matched on <b>16.5%</b>. Berlin's community sample (ages 18–54): <b>11.5%</b>. At Northwestern, where yes/no wasn't released, only <b>3.5%</b> of dates had fireworks (7+/9) on both sides.</p><div class="viz"><div class="bar"><div class="row"><span class="lbl">Columbia mutual yes</span><div class="track"><div class="fill" style="width:16.5%"></div></div><span class="val">16.5%</span></div><div class="row"><span class="lbl">Berlin mutual yes</span><div class="track"><div class="fill alt" style="width:11.5%"></div></div><span class="val">11.5%</span></div><div class="row"><span class="lbl">NW both 7+ chemistry</span><div class="track"><div class="fill alt" style="width:3.5%"></div></div><span class="val">3.5%</span></div></div></div>
+<div class="foot"><div class="src">Asendorpf et al. 2011 (382 people). Columbia (Fisman &amp; Iyengar), 4,194 dates. Northwestern (Joel, Eastwick &amp; Finkel 2017 data), 2,021 dates, reanalyzed.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" id="card-G03"><div class="cid"><b>G03</b> · Most Get One</div>
+<div class="card"><div class="inner"><span class="example">Research data</span>
+<div class="kicker" style="margin-top:8px">At least one match</div><div class="big mid">61<small>%</small></div>
+<h2 class="head">OF BERLIN SPEED DATERS LEFT WITH AT LEAST ONE MATCH</h2><p class="sub">116 men and 116 women out of 382. Each person averaged <b>1.28</b> matches and was chosen by <b>3.92</b> partners (range 0–13).</p><div class="viz"><div class="bar"><div class="row"><span class="lbl">≥1 match</span><div class="track"><div class="fill" style="width:60.7%"></div></div><span class="val">60.7%</span></div><div class="row"><span class="lbl">no match</span><div class="track"><div class="fill alt" style="width:39.3%"></div></div><span class="val">39.3%</span></div></div></div>
+<div class="foot"><div class="src">Asendorpf, Penke &amp; Back 2011, Eur. J. Personality: 382 participants, Berlin SPEED study.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" id="card-G04"><div class="cid"><b>G04</b> · 4 Minutes to Forever?</div>
+<div class="card"><div class="inner"><span class="example">Research data</span>
+<div class="kicker" style="margin-top:8px">One year later</div><div class="big mid">4<small>%</small></div>
+<h2 class="head">OF BERLIN SPEED-DATE PAIRS BECAME A RELATIONSHIP</h2><p class="sub">After a year: <b>6%</b> of speed-dating partners had sex, <b>4%</b> became a couple. Men's short-term interest raised the first; women's long-term interest raised the second.</p><div class="viz"><div class="bar"><div class="row"><span class="lbl">had sex (mating)</span><div class="track"><div class="fill" style="width:6%"></div></div><span class="val">6%</span></div><div class="row"><span class="lbl">relationship (relating)</span><div class="track"><div class="fill alt" style="width:4%"></div></div><span class="val">4%</span></div></div></div>
+<div class="foot"><div class="src">Asendorpf, Penke &amp; Back 2011: 382 participants; follow-ups at 6 weeks and 1 year (88–95% retained).</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" id="card-G05"><div class="cid"><b>G05</b> · The Picky Paradox</div>
+<div class="card"><div class="inner"><span class="example">Research data</span>
+<div class="kicker" style="margin-top:8px">Interest given vs. received</div><div class="big mid">−.25</div>
+<h2 class="head">THE MORE DATES YOU LIKED, THE LESS THEY LIKED YOU BACK</h2><p class="sub">Northwestern <b>r = −.25</b> (349 people). Columbia <b>r = −.26</b> (551). Berlin found choosier people were <b>more</b> popular, mainly men. Three labs, same story.</p><div class="viz"><div class="bar"><div class="row"><span class="lbl">Northwestern</span><div class="track"><div class="fill" style="width:24.7%"></div></div><span class="val">−.25</span></div><div class="row"><span class="lbl">Columbia</span><div class="track"><div class="fill alt" style="width:26.4%"></div></div><span class="val">−.26</span></div></div></div>
+<div class="foot"><div class="src">Joel, Eastwick &amp; Finkel 2017 data (UKDS 852716), reanalyzed, 349 people; Columbia 551 people; Asendorpf et al. 2011, 382 people.</div><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div><div class="wrap" id="card-SRC"><div class="cid"><b>SOURCES</b></div><div class="card"><div class="inner"><div class="kicker">Sources</div><h2 class="head">WHERE EVERY NUMBER COMES FROM</h2><p class="sub" style="margin:0 0 9px;font-size:10.5px">Asendorpf, Penke &amp; Back (2011). From dating to mating and relating. Eur. J. Personality 25:16–30. n=382. <a style="color:var(--accent)" href="http://larspenke.eu/pdfs/Asendorpf_Penke_Back_2011_-_Speed_dating_mating_relating.pdf">link</a></p><p class="sub" style="margin:0 0 9px;font-size:10.5px">Joel, Eastwick &amp; Finkel (2017). Is romantic desire predictable? Psych Science. Data: UKDS ReShare 852716, reanalyzed by us (349 people, 2,021 dates). <a style="color:var(--accent)" href="https://doi.org/10.1177/0956797617714580">link</a></p><p class="sub" style="margin:0 0 9px;font-size:10.5px">Fisman, Iyengar et al. Columbia speed dating 2002–04: 551 people, 8,378 decisions. <a style="color:var(--accent)" href="https://doi.org/10.1162/qjec.2006.121.2.673">link</a></p><p class="sub" style="margin:0 0 9px;font-size:10.5px">Your yes-rates: your League (2,733 calls) and Hinge exports. <a style="color:var(--accent)" href="grok-favorites.html">link</a></p><div class="foot"><div class="brand">IHEREBYCOMMIT.COM</div></div></div></div></div></div></body></html>
