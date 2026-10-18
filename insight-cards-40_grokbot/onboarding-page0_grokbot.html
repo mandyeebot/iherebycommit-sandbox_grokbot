@@ -2546,7 +2546,7 @@ html.s3y66w #screen-9 .w61-chip.w70-chip .w61-cv::before { content: '\00b7 '; }
       <div id="p0-fields">
         <div class="field-group who-unit" id="p0-ms" style="margin-bottom:0;"><!-- path-specific status: singles = marital_status (Never married / Separated / Divorced / Widowed); couples = relationship_stage (Committed / Engaged / Married) -->
           <label class="field-label" id="p0-ms-label">Marital status</label>
-          <div class="toggle-group p0-ms-tg" id="p0-ms-tg" style="margin-bottom:0;"></div>
+          <div class="toggle-group ms-tg p0-ms-tg" id="p0-ms-tg" style="margin-bottom:0;"></div>
           <div class="field-error" id="err-p0_status">Required</div>
         </div>
       </div>
@@ -14981,27 +14981,10 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
 <style>
   #p0-fields { display: flex; flex-direction: column; gap: var(--u-row, 10px); }
   #p0-fields .who-unit, #p0-fields .cr-pair { margin-bottom: 0 !important; }
-  #p0-fields #who-dl-row:has(> .who-unit + .who-unit) { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
-  #p0-fields #who-dl-row > .who-unit { min-width: 0; }
-  #p0-fields #who-dl-row .field-error + div { display: none !important; }
-  #p0-ms .p0-ms-tg { display: grid; grid-template-columns: repeat(var(--p0n, 4), 1fr); gap: 6px; }
-  #p0-fields #who-gender .toggle-btn { height: 38px; min-height: 0; padding-top: 0; padding-bottom: 0; }
-  #p0-fields #who-gender:not(.collapsed) { display: grid; grid-template-columns: 64px 1fr; align-items: center; column-gap: 8px; }
-  #p0-fields #who-gender:not(.collapsed) > .field-label { margin: 0 !important; }
-  #p0-fields #who-gender:not(.collapsed) > .who-cond, #p0-fields #who-gender:not(.collapsed) > .field-error { grid-column: 1 / -1; }
-  #p0-fields #who-gender .toggle-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  #p0-ms .p0-ms-tg .toggle-btn { white-space: normal; line-height: 1.05; padding: 0 2px; min-height: 0; height: 38px; font-size: 13px; letter-spacing: 0.02em; overflow: hidden; }
-  .p0-blurb { margin-top: 10px; font-size: 10.75px; line-height: 16px; color: var(--muted); }
+  .p0-blurb { margin-top: 16px; font-size: 14px; line-height: 22px; color: var(--text); } /* blurb = the app's answer/body text size (field-group 14px), not sub-text */
   .p0-blurb p { margin: 0; }
-  .p0-blurb strong { color: var(--text); font-weight: 400; }
-  .p0-blurb .p0-kick { display: block; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
-  .p0-blurb sup { color: var(--accent); cursor: pointer; }
-  /* page 0: labels sit inside the boxes (same look as the collapsed rows and the Location row), so the open inputs take one row each */
-  #p0-nm-row .field-group, #p0-fields #who-dob, #p0-fields #who-email { position: relative; }
-  #p0-nm-row .field-group > .field-label, #p0-fields #who-dob > .field-label, #p0-fields #who-email > .field-label { position: absolute; top: 8px; left: 16px; margin: 0 !important; z-index: 1; pointer-events: none; line-height: 12px; }
-  #p0-nm-row input.field-input, #p0-fields #birthdate, #p0-fields #email { padding-top: 22px !important; padding-bottom: 6px !important; height: 54px; min-height: 54px; }
-  #p0-fields .wya-row-k { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-  #p0-fields .wya-rowbox { height: 54px; min-height: 54px; }
+  .p0-blurb strong { color: var(--accent); font-weight: 400; }
+  .p0-blurb sup { color: var(--accent); cursor: pointer; font-size: 10px; line-height: 0; vertical-align: super; }
   #rh-wrap { display: flex; flex-direction: column; gap: var(--u-row, 10px); }
   #rh-sec { border-top: 1px solid #333; padding-top: 10px; }
   #rh-body { display: flex; flex-direction: column; gap: var(--u-row, 10px); }
@@ -15031,7 +15014,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
 <script>
 (function () {
   var Q = new URLSearchParams(location.search);
-  var VER = String(Q.get('ver') || 'B').toUpperCase() === 'A' ? 'A' : 'B'; // Amanda Oct 18 4:36 AM: B is the default
+  var VER = 'B'; // Version A removed (Amanda picked B, Oct 18)
   var STEP = String(Q.get('step') || 'page0').toLowerCase();
   var COUPLE = /^coup|^partner/i.test(Q.get('path') || '');
   window.P0_VER_grokbot = VER;
@@ -15069,7 +15052,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
               couple: [['relationship', 'COMMITTED'], ['engaged', 'ENGAGED'], ['married', 'MARRIED']] };
   function p0RenderStatus() {
     var couple = state.status === 'partnered', list = couple ? P0S.couple : P0S.single, g = $('p0-ms-tg'), l = $('p0-ms-label'); if (!g) return;
-    if (l) l.textContent = couple ? 'Relationship status' : 'Marital status';
+    if (l) l.textContent = couple ? 'What\'s your relationship status?' : 'What\'s your marital status?';
     g.style.setProperty('--p0n', list.length);
     g.innerHTML = list.map(function (o) { return '<button type="button" class="toggle-btn" data-p0ms="' + o[0] + '" onclick="p0Ms_grokbot(\'' + o[0] + '\')">' + o[1] + '</button>'; }).join('');
     var cur = state.currentStatus_grokbot; if (cur && !list.some(function (o) { return o[0] === cur; })) cur = state.currentStatus_grokbot = null;
