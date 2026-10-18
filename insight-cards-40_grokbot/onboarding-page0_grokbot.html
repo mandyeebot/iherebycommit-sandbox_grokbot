@@ -66,7 +66,7 @@
        s3j: s3i + K5 condensed on-page Age / Height range sliders (like Distance).
        Built from s3i: production 2026-10-05p3 + K5 Religion / Income / Degree on Who You Are + I am a | Name half-row once Name is done.
        Saves faked. Not indexed. -->
-  <!-- ONBOARDING PAGE 0 MOCKUP _grokbot (Oct 18 2026): copy of the sports-preview branch (iherebycommit-sandbox2-sports-preview-grokbot worker) + new PAGE 0 (name, DOB, location, current status, email, blurb, I HEREBY COMMIT) before Who You Are; Who You Are without those fields. ?ver=A adds a RELATIONSHIP HISTORY section with Skip; ?ver=B = branch minus moved fields. ?step=page0 | whoyouare | landing, ?path=couple. Every supabase call faked (as the branch). -->
+  <!-- ONBOARDING PAGE 0 MOCKUP _grokbot (Oct 18 2026): copy of the sports-preview branch (iherebycommit-sandbox2-sports-preview-grokbot worker) + new PAGE 0 (name, DOB, location, Census-style marital status + lives_with_partner Yes/No, email, blurb, I HEREBY COMMIT) before Who You Are; Who You Are without those fields. ?ver=A adds a RELATIONSHIP HISTORY section with Skip; ?ver=B = branch minus moved fields. ?step=page0 | whoyouare | landing, ?path=couple. Every supabase call faked (as the branch). -->
   <!-- SPORTS PREVIEW _grokbot: copy of live Sandbox 2 build 2026-10-17-sb2-s3y198 + Sports (Which sports do you play? + Highest level achieved per sport) on Who You Are, right after Instruments. ALL saves faked (no database). Worker iherebycommit-sandbox2-sports-preview-grokbot. -->
   <meta name="robots" content="noindex,nofollow">
   <script>/* IDEAL_V2_grokbot: ?ideal=A (drag the tab under the track, default) | B (tap the track to set the ideal) | off (branch pin) */ (function () { var v = String(new URLSearchParams(location.search).get('ideal') || 'A').toUpperCase(); window.IDL_V2_grokbot = v === 'OFF' ? null : (v === 'B' ? 'B' : 'A'); if (window.IDL_V2_grokbot) document.documentElement.classList.add('idl2', 'idl2-' + window.IDL_V2_grokbot); })();</script>
@@ -2545,16 +2545,25 @@ html.s3y66w #screen-9 .w61-chip.w70-chip .w61-cv::before { content: '\00b7 '; }
       <div class="screen-headline">FIRST, THE <span class="accent">BASICS</span></div>
       <div id="p0-fields">
         <div class="field-group who-unit" id="p0-ms" style="margin-bottom:0;">
-          <label class="field-label">Current status</label>
+          <label class="field-label">Marital status</label>
           <div class="toggle-group p0-ms-tg" style="margin-bottom:0;">
             <button type="button" class="toggle-btn" data-p0ms="never_married" onclick="p0Ms_grokbot('never_married')">NEVER MARRIED</button>
             <button type="button" class="toggle-btn" data-p0ms="married" onclick="p0Ms_grokbot('married')">MARRIED</button>
-            <button type="button" class="toggle-btn" data-p0ms="living_with_partner" onclick="p0Ms_grokbot('living_with_partner')">LIVING WITH A PARTNER</button>
             <button type="button" class="toggle-btn" data-p0ms="separated" onclick="p0Ms_grokbot('separated')">SEPARATED</button>
             <button type="button" class="toggle-btn" data-p0ms="divorced" onclick="p0Ms_grokbot('divorced')">DIVORCED</button>
             <button type="button" class="toggle-btn" data-p0ms="widowed" onclick="p0Ms_grokbot('widowed')">WIDOWED</button>
           </div>
           <div class="field-error" id="err-p0_status">Required</div>
+        </div>
+        <div class="field-group who-unit" id="p0-lwp" style="margin-bottom:0;"><!-- lives_with_partner (separate from legal marital status, Census-style) -->
+          <div class="p0-lwp-row">
+            <label class="field-label" style="margin:0;">Do you live with a partner?</label>
+            <div class="toggle-group p0-lwp-tg" style="margin-bottom:0;">
+              <button type="button" class="toggle-btn" data-p0lwp="yes" onclick="p0Lwp_grokbot('yes')">YES</button>
+              <button type="button" class="toggle-btn" data-p0lwp="no" onclick="p0Lwp_grokbot('no')">NO</button>
+            </div>
+          </div>
+          <div class="field-error" id="err-p0_lives_with_partner">Required</div>
         </div>
       </div>
       <div class="p0-blurb" id="p0-blurb"></div>
@@ -14988,11 +14997,14 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
 <style>
   #p0-fields { display: flex; flex-direction: column; gap: var(--u-row, 10px); }
   #p0-fields .who-unit, #p0-fields .cr-pair { margin-bottom: 0 !important; }
-  #p0-fields #who-dl-row { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
+  #p0-fields #who-dl-row:has(> .who-unit + .who-unit) { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
   #p0-fields #who-dl-row > .who-unit { min-width: 0; }
   #p0-fields #who-dl-row .field-error + div { display: none !important; }
-  #p0-ms .p0-ms-tg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  #p0-ms .p0-ms-tg .toggle-btn { white-space: nowrap; line-height: 1.1; padding: 0 2px; min-height: 0; height: 36px; font-size: 13px; letter-spacing: 0.02em; overflow: hidden; text-overflow: ellipsis; }
+  #p0-ms .p0-ms-tg { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+  #p0-ms .p0-ms-tg .toggle-btn { white-space: normal; line-height: 1.05; padding: 0 2px; min-height: 0; height: 40px; font-size: 13px; letter-spacing: 0.02em; overflow: hidden; }
+  #p0-lwp .p0-lwp-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  #p0-lwp .p0-lwp-tg { display: grid; grid-template-columns: 64px 64px; gap: 5px; flex: none; }
+  #p0-lwp .p0-lwp-tg .toggle-btn { height: 34px; min-height: 0; padding: 0; font-size: 13px; }
   .p0-blurb { margin-top: 10px; font-size: 11px; line-height: 1.5; color: var(--muted); }
   .p0-blurb b { color: var(--text); font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; }
   .p0-blurb .p0-s { color: var(--text); white-space: nowrap; }
@@ -15032,7 +15044,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   window.P0_VER_grokbot = VER;
   document.documentElement.classList.add('p0-ver-' + VER);
   var $ = function (i) { return document.getElementById(i); };
-  try { MS_LAB_grokbot.married = 'Married'; MS_LAB_grokbot.living_with_partner = 'Living with a partner'; } catch (e) {}
+  try { MS_LAB_grokbot.married = 'Married'; } catch (e) {}
   var MOVED = ['who-name', 'who-dob', 'who-loc', 'who-email'];
   var SEC = ['who-div', 'who-lastrel', 'who-lhm', 'who-breakup'];
 
@@ -15066,6 +15078,16 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     else { state.maritalStatus = v; try { msNever_grokbot(); } catch (x) {} try { if (window.dvApply_s3y168) dvApply_s3y168(); crSync(); } catch (x) {} }
   };
 
+  // lives_with_partner: its own Yes/No (Census keeps legal marital status and cohabitation separate). Couples: prefills the
+  // Your Partner 'live together' question (which also has Part time there).
+  window.p0Lwp_grokbot = function (v) {
+    state.livesWithPartnerP0_grokbot = v;
+    document.querySelectorAll('#p0-lwp [data-p0lwp]').forEach(function (b) { b.classList.toggle('selected', b.dataset.p0lwp === v); });
+    var e = $('err-p0_lives_with_partner'); if (e) e.classList.remove('visible');
+    if (state.status === 'partnered') { try { setLivesWithPartner(v); } catch (x) {} }
+  };
+  (function () { var o = window.idealPay_grokbot; window.idealPay_grokbot = function () { var r = (typeof o === 'function' ? o.apply(this, arguments) : {}) || {};
+    r.lives_with_partner = state.livesWithPartnerP0_grokbot === 'yes' ? true : state.livesWithPartnerP0_grokbot === 'no' ? false : null; return r; }; })();
   window.p0Next_grokbot = function () {
     var ok = true;
     function err(id, show, msg) { var e = $('err-' + id); if (e) { if (msg) e.textContent = msg; e.classList.toggle('visible', !!show); } var i = $(id); if (i) i.classList.toggle('error', !!show); if (show) ok = false; }
@@ -15075,6 +15097,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     err('postal_code', !state.wya, 'Required');
     var em = _crV('email'); err('email', !em || !isValidEmail(em), em ? 'Invalid' : 'Required');
     err('p0_status', !state.currentStatus_grokbot, 'Required');
+    err('p0_lives_with_partner', !state.livesWithPartnerP0_grokbot, 'Required');
     if (!ok) { try { crExpandErrors(); } catch (x) {} return; }
     try { logEvent('screen_completed', 'page_zero'); } catch (x) {}
     showScreen(1, 'forward');
@@ -15140,7 +15163,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var bd = $('birthdate'); bd.value = '1990-03-04'; state.birthdateTouched = true; try { _syncDefaultStyles(); } catch (x) {}
     try { _wyaSet({ lat: 30.2672, lng: -97.7431, source: 'mockup', label: 'Austin, TX', cc: 'US', zip: '78701' }); } catch (x) {}
     $('email').value = 'amanda@example.com';
-    p0Ms_grokbot(Q.get('status') || (COUPLE ? 'married' : 'never_married'));
+    p0Ms_grokbot(Q.get('status') || (COUPLE ? 'married' : 'never_married')); p0Lwp_grokbot(Q.get('lwp') || (COUPLE ? 'yes' : 'no'));
     try { crRefresh(); } catch (x) {}
   }
   window.addEventListener('load', function () {
