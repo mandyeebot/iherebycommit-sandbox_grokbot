@@ -14981,6 +14981,13 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
 <style>
   #p0-fields { display: flex; flex-direction: column; gap: var(--u-row, 10px); }
   #p0-fields .who-unit, #p0-fields .cr-pair { margin-bottom: 0 !important; }
+  /* Date of birth | Location side by side, same pattern as First | Last name (2 x 1fr, 10px gap, label above, 54px box) */
+  #p0-fields #who-dl-row { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; align-items: start; }
+  #p0-fields #who-dl-row > .who-unit { min-width: 0; }
+  html.wya-c #p0-fields #who-loc .wya-labrow { position: static; width: auto; height: auto; overflow: visible; clip: auto; margin: 0 0 8px; }
+  #p0-fields #who-loc .wya-row-k, #p0-fields #who-loc .wya-row-edit { display: none; } /* half width: the whole box is the tap target, so the EDIT tag goes to give the value room */
+  #p0-fields #who-loc .wya-rowbox { height: 54px; min-height: 54px; box-sizing: border-box; padding-top: 0; padding-bottom: 0; align-items: center; }
+  #p0-fields #who-loc .wya-row-v { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-height: 1.3; }
   .p0-blurb { margin-top: 16px; font-size: 14px; line-height: 22px; color: var(--text); } /* blurb = the app's answer/body text size (field-group 14px), not sub-text */
   .p0-blurb p { margin: 0; }
   .p0-blurb strong { color: var(--accent); font-weight: 400; }
