@@ -14991,10 +14991,17 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   #p0-fields #who-gender:not(.collapsed) > .who-cond, #p0-fields #who-gender:not(.collapsed) > .field-error { grid-column: 1 / -1; }
   #p0-fields #who-gender .toggle-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
   #p0-ms .p0-ms-tg .toggle-btn { white-space: normal; line-height: 1.05; padding: 0 2px; min-height: 0; height: 38px; font-size: 13px; letter-spacing: 0.02em; overflow: hidden; }
-  .p0-blurb { margin-top: 7px; font-size: 11px; line-height: 1.5; color: var(--muted); }
-  .p0-blurb b { color: var(--text); font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; }
-  .p0-blurb .p0-s { color: var(--text); white-space: nowrap; }
-  .p0-blurb .p0-a { color: var(--accent); padding: 0 2px; }
+  .p0-blurb { margin-top: 10px; font-size: 10.75px; line-height: 16px; color: var(--muted); }
+  .p0-blurb p { margin: 0; }
+  .p0-blurb strong { color: var(--text); font-weight: 400; }
+  .p0-blurb .p0-kick { display: block; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .p0-blurb sup { color: var(--accent); cursor: pointer; }
+  /* page 0: labels sit inside the boxes (same look as the collapsed rows and the Location row), so the open inputs take one row each */
+  #p0-nm-row .field-group, #p0-fields #who-dob, #p0-fields #who-email { position: relative; }
+  #p0-nm-row .field-group > .field-label, #p0-fields #who-dob > .field-label, #p0-fields #who-email > .field-label { position: absolute; top: 8px; left: 16px; margin: 0 !important; z-index: 1; pointer-events: none; line-height: 12px; }
+  #p0-nm-row input.field-input, #p0-fields #birthdate, #p0-fields #email { padding-top: 22px !important; padding-bottom: 6px !important; height: 54px; min-height: 54px; }
+  #p0-fields .wya-row-k { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  #p0-fields .wya-rowbox { height: 54px; min-height: 54px; }
   #rh-wrap { display: flex; flex-direction: column; gap: var(--u-row, 10px); }
   #rh-sec { border-top: 1px solid #333; padding-top: 10px; }
   #rh-body { display: flex; flex-direction: column; gap: var(--u-row, 10px); }
@@ -15046,13 +15053,14 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
 
   function strip() { var st = CR_STEPS[1]; for (var i = st.length - 1; i >= 0; i--) if (MOVED.indexOf(st[i][0]) >= 0) st.splice(i, 1); }
 
+  // Mission copy, from the landing page (lp-subhead + lp-priority) and the 'Why we ask' privacy note. No new claims.
   function blurb() {
     var b = $('p0-blurb'); if (!b) return;
     var couple = state.status === 'partnered';
-    var steps = couple ? ['Who you are', 'Your partner', 'Your relationship', 'Family &amp; intentions', 'Your public self']
-                       : ['Who you are', 'What you want', 'Intentions &amp; family', 'What matters most', 'Your public self'];
-    b.innerHTML = '<b>Next:</b> ' + steps.map(function (t) { return '<span class="p0-s">' + t + '</span>'; }).join(' <span class="p0-a">\u2192</span> ') +
-      '. Private by default.';
+    var a = 'Science has been studying love with sophomores more in need of a psych credit than a life partner.<sup class="fn-ref" data-fn="1">\u00b9</sup> The online dating industry stops paying attention at the match. ';
+    b.innerHTML = '<p>' + a + (couple
+      ? 'We\u2019re fixing both with a first-of-its-kind experiment designed with the best scientists in the field, studying singles and couples to get some answers about <strong>what makes a relationship last</strong>.'
+      : 'We\u2019re fixing both with a first-of-its-kind experiment designed with the best scientists in the field, to get you on the right dates and get some answers about <strong>what makes a relationship last</strong>.') + '</p>';
   }
 
   // ---- path-specific status. Singles: the branch's marital_status (same 4 values as Who You Are had).
