@@ -19,13 +19,13 @@
   footer { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #555; padding: 8px 24px 24px; }
 </style></head><body>
 <header><h1>PAGE 0 · <span>4 WAYS</span> + YOUR PLEDGE</h1>
-<p>Manifesto-first page 0 designs, each at 393×660, singles and couples. Every field is real and required (name, date of birth, gender, location, email, status); the copy comes from the landing page only. Variants 2 and 3 open with a personal pledge, switchable with &amp;pledge=A|B|C (A is the default); type a first name to see it fill in. Tap into any frame to try it, or open it full screen. The current layout (5829c15) is <a href="onboarding-page0_grokbot.html?p0=0">p0=0</a>.</p></header>
+<p>Manifesto-first page 0 designs, each at 393×660, singles and couples. Every field is real and required (name, date of birth, gender, location, email, status); the copy comes from the landing page only. Variants 2 and 3 open with a personal pledge, switchable with &amp;pledge=A|B|C (A is the default); type a name and pick gender and status to see the deed-style pledge fill in (“I, Amanda Bradford, an unmarried woman, hereby commit…”). Tap into any frame to try it, or open it full screen. The current layout (5829c15) is <a href="onboarding-page0_grokbot.html?p0=0">p0=0</a>.</p></header>
 <div id="rows"></div>
 <footer>Mockup from sports-preview · nothing is saved</footer>
 <script>
 var V = [[1, 'Manifesto + pact card', 'Big home-page headline and body up top; a compact "sign the pact" card above the button.'],
-         [2, 'Mad-Libs', 'Your personal pledge as the headline, with your name typed into it; the other fields live inside one sentence you fill in.'],
-         [3, 'The pledge (contract)', 'A paper contract: your personal pledge (your first name fills in live), a signature block, and the button as your signature.'],
+         [2, 'Mad-Libs', 'Your personal pledge as the headline: "I, [first] [last], [your status ▾], hereby commit…" (one picker sets gender + status, deed-style); the rest live in one sentence.'],
+         [3, 'The pledge (contract)', 'A paper contract: "I, Amanda Bradford, an unmarried woman, hereby commit…" fills in live from the signature block, deed-style; the button is your signature.'],
          [4, 'Full-bleed hero', 'A home-page hero in the accent colour with the rotating headlines, then a tight two-column micro form.']];
 var R = document.getElementById('rows'), ver = new URLSearchParams(location.search).get('v') || '';
 var PLW = { A: '"…to science, to help unlock one of the least-studied questions in human life: what makes love last…"', B: '"…to the science of lasting love, so people everywhere can learn how to choose a partner who fits…"', C: '"…to science, to help answer the biggest unstudied question we all face…"' };
