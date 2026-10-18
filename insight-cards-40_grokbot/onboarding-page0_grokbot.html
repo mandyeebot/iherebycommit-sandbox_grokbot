@@ -15244,6 +15244,14 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2 #p0v .pv-body { margin-top: 12px; }
   .p0v-2 #p0v .pv-foot { margin-top: auto; padding-top: 12px; }
 
+  .p0v-2 #p0v .pv-h.pv-pledge { font-size: 31px; line-height: 1.02; margin-top: 12px; text-transform: uppercase; }
+  .p0v-2 #p0v .pv-pledge input.pv-nm { display: inline-block; vertical-align: baseline; height: 1.02em; padding: 0 1px; border: 0; border-bottom: 3px solid var(--accent); border-radius: 0; background: transparent; color: var(--accent); font: inherit; font-family: 'Bebas Neue', sans-serif; letter-spacing: .005em; text-transform: uppercase; min-width: 2em; }
+  .p0v-2 #p0v .pv-pledge input.pv-nm::placeholder { color: rgba(240,236,224,.35); text-transform: uppercase; font-size: inherit !important; font-family: inherit !important; letter-spacing: inherit !important; }
+  .p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad { box-shadow: none; border-bottom-color: #FF7A2F !important; }
+  .p0v-2 #p0v .pv-lib { margin-top: 10px; line-height: 36px; }
+  .p0v-3 #p0v .pv-h.pv-pledge { font-size: 31px; line-height: 1.0; }
+  .p0v-3 #p0v .pv-name { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 3px; text-decoration-skip-ink: none; padding: 0 2px; }
+  .p0v-3 #p0v .pv-name.empty { color: rgba(14,14,14,.35); }
   /* 3 · the pledge (contract on paper) */
   html.p0v-3 #p0v { background: #f0ece0; color: #0e0e0e; }
   .p0v-3 #p0v .pv-top { color: rgba(14,14,14,.6); }
@@ -15326,6 +15334,16 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var GO = '<button type="button" class="pv-go" data-go="1">I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>';
   var MSG = '';
   var TAG = '<div class="pv-tag">Mockup from sports-preview \u00b7 not saved</div>';
+  // Amanda Oct 18: the manifesto is a personal pledge. &pledge=A (default) | B | C. Couples: 'our love story'.
+  var PL = String(Q.get('pledge') || 'A').toUpperCase(); if (!/^[ABC]$/.test(PL)) PL = 'A';
+  var PLEDGE = {
+    A: [' to science, to help unlock one of the least-studied questions in human life: ', 'what makes love last', ', so everyone can choose the partner who\u2019s right for their happiness and their goals.'],
+    B: [' to ', 'the science of lasting love', ', so people everywhere can learn how to choose a partner who fits their life, their happiness and their goals.'],
+    C: [' to science, to help answer the biggest unstudied question we all face: ', 'how to choose a partner we\u2019ll still be happy with for life', '.'] };
+  function pledge(nameHTML, inline) {
+    var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
+    return 'I, ' + nameHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') + p[0] + '<span class="' + k + '">' + p[1] + '</span>' + p[2];
+  }
   function nw(x) { return '<span style="white-space:nowrap">' + x + '</span>'; }
   function f(lab, ctl, full) { return '<label class="' + (full ? 'pv-full' : '') + '"><span class="pv-lab">' + lab + '</span>' + ctl + '</label>'; }
 
@@ -15339,19 +15357,17 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       '<div class="pv-full">' + gp() + '</div><div class="pv-full">' + sp() + '</div><div class="pv-full">' + inp('email', 'Email', 'email', 'email') + '</div></div>' +
       '<div class="pv-foot">' + MSG + GO + '</div></div>';
     if (V === 2) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() + WM +
-      '<h1 class="pv-h">I hereby commit my love life to science. <span class="ac">For the good of humanity.</span></h1>' +
-      '<div class="pv-lib">I\'m ' + nw('<input class="p0c" data-b="first_name" placeholder="first" size="6" autocomplete="given-name" aria-label="First name">') + ' ' +
-      nw('<input class="p0c" data-b="last_name" placeholder="last name" size="9" autocomplete="family-name" aria-label="Last name">,') + ' a ' + nw(sel('gender', GL, 'man / woman / \u2026')) +
+      '<h1 class="pv-h pv-pledge" data-fit="1">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), true) + '</h1>' +
+      '<div class="pv-lib">I\'m a ' + nw(sel('gender', GL, 'man / woman / \u2026')) +
       ' born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ' +
       (c ? 'My partner and I are ' + nw(sel('status', CL, 'committed / engaged / married') + '.') : 'I\'m ' + nw(sel('status', SL, 'never married / \u2026') + '.')) +
       ' Reach me at ' + nw('<input class="p0c" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">.') + '</div>' +
-      '<p class="pv-body">' + SOPH + ' ' + MATCH + '</p>' +
+      '<p class="pv-body" data-opt="1">' + SOPH + '</p>' +
       '<div class="pv-foot">' + MSG + GO + '</div></div>';
     if (V === 3) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() +
       '<div class="pv-lab">The pledge</div>' +
-      '<h1 class="pv-h">I hereby commit my love life to science. <span class="hl">For the good of humanity.</span></h1>' +
-      '<ol><li><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li><span>' + SOPH + '</span></li><li><span>' +
-      (c ? 'To do this we need to study both singles and couples, of all ages.' : MATCH) + '</span></li></ol>' +
+      '<h1 class="pv-h pv-pledge" data-fit="1">' + pledge('<span class="pv-name" data-ph="your name"></span>,') + '</h1>' +
+      '<ol><li data-opt="2"><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li data-opt="1"><span>' + SOPH + '</span></li></ol>' +
       '<div class="pv-sig">' + f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
       f('Date of birth', dob()) + f('Where you live', loc('City')) + f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1) + f('Email', inp('email', 'you@example.com', 'email', 'email'), 1) + '</div>' +
       '<div class="pv-foot">' + MSG + '<button type="button" class="pv-go" data-go="1"><i>X</i>I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button></div></div>';
@@ -15376,7 +15392,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       if (b === 'gender' && el.tagName === 'SELECT' && state.gender) el.value = state.gender;
       if (b === 'status' && el.tagName === 'SELECT' && state.currentStatus_grokbot) el.value = state.currentStatus_grokbot;
     });
-    refresh();
+    refresh(); nameSync(); fit();
+    setTimeout(function () { fit(); }, 400); try { document.fonts.ready.then(function () { fit(); }); } catch (e) {}
     clearInterval(slideT);
     if (V === 4) { var i = 0; slideT = setInterval(function () { if (!$('pv-sl') || Q.get('still')) return; i = (i + 1) % SLIDES.length; var s = $('pv-sl'); s.style.opacity = 0; setTimeout(function () { s.innerHTML = SLIDES[i]; s.style.opacity = 1; root.querySelectorAll('#pv-dots i').forEach(function (d, k) { d.classList.toggle('on', k === i); }); }, 350); }, 3200); }
   }
@@ -15389,6 +15406,27 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     if (state.gender) root.querySelectorAll('[data-b=gender]').forEach(function (e) { e.classList.remove('p0-bad'); });
     if (state.currentStatus_grokbot) root.querySelectorAll('[data-b=status]').forEach(function (e) { e.classList.remove('p0-bad'); });
   }
+  var _cv;
+  function textW(el, t) { _cv = _cv || document.createElement('canvas').getContext('2d'); var cs = getComputedStyle(el); _cv.font = cs.fontSize + ' ' + cs.fontFamily; var ls = parseFloat(cs.letterSpacing) || 0; return _cv.measureText(t).width + ls * t.length; }
+  function nameSync() {
+    if (!root) return;
+    var fnm = ($('first_name') || {}).value || '';
+    root.querySelectorAll('.pv-name').forEach(function (n) { n.textContent = fnm.trim() || '[' + n.dataset.ph + ']'; n.classList.toggle('empty', !fnm.trim()); });
+    root.querySelectorAll('input.pv-nm').forEach(function (el) { el.style.width = Math.ceil(textW(el, el.value || el.placeholder) + 6) + 'px'; });
+  }
+  // fit: hide optional supporting lines (highest data-opt first), then step the pledge size down, until nothing scrolls
+  function fit(shrinkOnly) {
+    if (!root) return;
+    var opts = [].slice.call(root.querySelectorAll('[data-opt]')).sort(function (a, b) { return b.dataset.opt - a.dataset.opt; });
+    var hs = [].slice.call(root.querySelectorAll('[data-fit]'));
+    if (!shrinkOnly) { opts.forEach(function (o) { o.style.display = ''; }); hs.forEach(function (h) { h.style.fontSize = ''; }); }
+    nameSync();
+    var over = function () { return root.scrollHeight > root.clientHeight + 1; };
+    for (var i = 0; i < opts.length && over(); i++) if (opts[i].style.display !== 'none') opts[i].style.display = 'none';
+    var guard = 0; while (over() && guard++ < 8) { hs.forEach(function (h) { h.style.fontSize = (parseFloat(getComputedStyle(h).fontSize) - 1) + 'px'; }); nameSync(); }
+    root.dataset.fit = opts.filter(function (o) { return o.style.display === 'none'; }).length + ' hidden; ' + (hs[0] ? getComputedStyle(hs[0]).fontSize : '');
+  }
+  var _fitT; function fitSoon(full) { clearTimeout(_fitT); _fitT = setTimeout(function () { fit(full !== true ? true : false); }, 120); } // typing only ever shrinks, so the layout never jumps back and forth
   function push(el) {
     var b = el.dataset.b, v = el.value;
     el.classList.remove('p0-bad');
@@ -15396,6 +15434,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     else if (b === 'status') { try { p0Ms_grokbot(v); } catch (e) {} }
     else if (b === 'birthdate') { var r = $('birthdate'); r.value = v; state.birthdateTouched = !!v; r.classList.remove('is-default'); el.classList.toggle('empty', !v); ['input', 'change'].forEach(function (t) { r.dispatchEvent(new Event(t, { bubbles: true })); }); }
     else { var r2 = $(b); if (r2) { r2.value = v; r2.dispatchEvent(new Event('input', { bubbles: true })); } }
+    if (b === 'first_name' || b === 'last_name') { root.querySelectorAll('[data-b=' + b + ']').forEach(function (o) { if (o !== el) o.value = v; }); nameSync(); fitSoon(); }
     refresh();
   }
   var ERR = { gender: 'gender', first_name: 'first_name', last_name: 'last_name', birthdate: 'birthdate', postal_code: 'loc', email: 'email', p0_status: 'status' };
@@ -15421,7 +15460,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var _ss = showScreen; showScreen = function (id, dir) { var r = _ss.apply(this, arguments); if (id === 10) render(); return r; };
   var _cs = changeStatus; changeStatus = function () { var r = _cs.apply(this, arguments); setTimeout(function () { if (state.currentScreen === 10) render(); }, 0); return r; };
   setInterval(refresh, 400);
-  window.P0V_grokbot = V;
+  window.P0V_grokbot = V; window.P0PL_grokbot = PL;
+  window.addEventListener('resize', function () { fitSoon(true); });
 })();
 </script>
 <!-- /PAGE0_VARIANTS_GROKBOT -->
