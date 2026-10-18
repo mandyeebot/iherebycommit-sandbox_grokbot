@@ -15178,5 +15178,253 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
 </script>
 <!-- /PAGE0_MOCKUP_GROKBOT -->
 
+<!-- PAGE0_VARIANTS_GROKBOT (Oct 18 2026): &p0=1..4 manifesto-first page 0 designs; &p0=0 (default) = 5829c15 layout.
+     Compact controls proxy the real page-0 inputs (first_name, last_name, birthdate, email, setGender, the WYA map sheet, p0Ms_grokbot),
+     so the existing validation (p0Next_grokbot) and the rest of the flow are unchanged. Copy = landing page copy only. -->
+<style>
+  #p0v { display: none; }
+  html.p0v #screen-10 > .screen-content, html.p0v #screen-10 > .bottom-action, html.p0v #screen-10 > .progress-container, html.p0v #screen-10 > .applying-badge { display: none !important; }
+  html.p0v #screen-10.active #p0v { display: flex; }
+  #p0v { position: fixed; inset: 0; z-index: 20; flex-direction: column; overflow-y: auto; overflow-x: hidden; background: var(--bg); color: var(--text); font-family: 'Space Mono', monospace; -webkit-font-smoothing: antialiased; }
+  #p0v * { box-sizing: border-box; }
+  #p0v .pv-pad { padding: 0 24px; }
+  #p0v .pv-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: rgba(240,236,224,.55); height: 34px; flex-shrink: 0; }
+  #p0v .pv-top button { background: none; border: 0; padding: 0; color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; }
+  #p0v .pv-top .pv-path { color: var(--accent); }
+  #p0v .pv-top .pv-edit { text-decoration: underline; text-underline-offset: 3px; }
+  #p0v .pv-wm { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: .06em; line-height: 1; padding-bottom: 6px; border-bottom: 3px solid var(--accent); }
+  #p0v .pv-wm b { font-weight: 400; color: var(--accent); }
+  #p0v .pv-h { font-family: 'Bebas Neue', sans-serif; text-transform: uppercase; line-height: .92; letter-spacing: .005em; margin: 0; font-weight: 400; }
+  #p0v .ac { color: var(--accent); }
+  #p0v .pv-body { font-size: 14px; line-height: 1.55; color: rgba(240,236,224,.82); margin: 0; }
+  #p0v .pv-body strong { color: var(--accent); font-weight: 400; }
+  #p0v sup.fn-ref { color: var(--accent); font-size: 12px; font-weight: 700; line-height: 0; vertical-align: .45em; padding: 0 2px; cursor: pointer; }
+  #p0v .pv-lab { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: rgba(240,236,224,.55); }
+  /* compact controls */
+  #p0v .p0c { height: 32px; width: 100%; min-width: 0; padding: 0 10px; background: transparent; color: var(--text); border: 1px solid rgba(240,236,224,.28); border-radius: var(--radius, 4px); font: 14px 'Space Mono', monospace; outline: none; -webkit-appearance: none; appearance: none; text-align: left; }
+  #p0v .p0c::placeholder { color: rgba(240,236,224,.42); }
+  #p0v .p0c:focus { border-color: var(--accent); }
+  #p0v input[type=date].p0c { padding-right: 4px; }
+  #p0v input[type=date].p0c.empty { color: rgba(240,236,224,.42); }
+  #p0v input[type=date].p0c::-webkit-calendar-picker-indicator { filter: invert(1); opacity: .45; margin-left: 2px; }
+  #p0v button.p0c { cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #p0v button.p0c.empty { color: rgba(240,236,224,.42); }
+  #p0v .p0pills { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; }
+  #p0v .p0p { height: 28px; min-width: 0; padding: 0 4px; background: transparent; color: var(--text); border: 1px solid rgba(240,236,224,.28); border-radius: var(--radius, 4px); font: 14px/1 'Bebas Neue', sans-serif; letter-spacing: .03em; cursor: pointer; white-space: nowrap; overflow: hidden; }
+  #p0v .p0p.on { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  #p0v .p0-bad { border-color: #FF7A2F !important; box-shadow: 0 0 0 1px #FF7A2F; }
+  #p0v .p0pills.p0-bad { box-shadow: none; border: 0 !important; }
+  #p0v .p0pills.p0-bad .p0p { border-color: #FF7A2F; }
+  #p0v .pv-go { position: relative; }
+  #p0v .pv-go.has-msg { padding-bottom: 14px; }
+  #p0v .pv-msg { position: absolute; left: 0; right: 0; bottom: 7px; font: 10px/12px 'Space Mono', monospace; letter-spacing: .04em; text-transform: none; color: inherit; opacity: .8; text-align: center; } /* the error rides inside the button, so it never adds scroll or covers a field */
+  #p0v .pv-msg:empty { display: none; }
+  #p0v .pv-go { display: block; width: 100%; height: 60px; border: 0; border-radius: var(--radius, 4px); background: var(--accent); color: var(--bg); font: 30px/1 'Bebas Neue', sans-serif; letter-spacing: .08em; cursor: pointer; }
+  #p0v .pv-foot { padding-bottom: 18px !important; } /* room for the fixed MOCKUP footer */
+  #p0v .pv-tag { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: rgba(240,236,224,.35); text-align: center; padding: 6px 0 8px; }
+
+  /* 1 · manifesto + pact card */
+  .p0v-1 #p0v .pv-h { font-size: 42px; margin-top: 12px; }
+  .p0v-1 #p0v .pv-body { margin-top: 10px; }
+  .p0v-1 #p0v .pv-card { margin-top: auto; border: 1px solid var(--accent); border-radius: var(--radius, 4px); padding: 8px 10px 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 12px !important; }
+  .p0v-1 #p0v .pv-card > .pv-full { grid-column: 1 / -1; }
+  .p0v-1 #p0v .pv-card .pv-lab { color: var(--accent); margin-bottom: 2px; display: flex; justify-content: space-between; }
+  .p0v-1 #p0v .pv-foot { padding-top: 10px; }
+
+  /* 2 · mad-libs */
+  .p0v-2 #p0v .pv-h { font-size: 40px; margin-top: 10px; }
+  .p0v-2 #p0v .pv-lib { margin-top: 14px; font-size: 16px; line-height: 40px; color: var(--text); }
+  .p0v-2 #p0v .pv-lib .p0c, .p0v-2 #p0v .pv-lib select { display: inline-block; vertical-align: baseline; width: auto; height: 30px; padding: 0 2px; border: 0; border-bottom: 2px solid rgba(240,236,224,.5); border-radius: 0; font: 16px 'Space Mono', monospace; color: var(--accent); background: transparent; -webkit-appearance: none; appearance: none; }
+  .p0v-2 #p0v .pv-lib .p0c::placeholder { color: rgba(240,236,224,.38); }
+  .p0v-2 #p0v .pv-lib .empty, .p0v-2 #p0v .pv-lib select:invalid { color: rgba(240,236,224,.38); }
+  .p0v-2 #p0v .pv-lib .p0c:focus, .p0v-2 #p0v .pv-lib select:focus { border-bottom-color: var(--accent); }
+  .p0v-2 #p0v .pv-lib .p0-bad { box-shadow: none; border-bottom-color: #FF7A2F !important; }
+  .p0v-2 #p0v .pv-lib select option { color: #0e0e0e; }
+  .p0v-2 #p0v .pv-lib input[type=date].p0c { width: 146px; }
+  .p0v-2 #p0v .pv-body { margin-top: 12px; }
+  .p0v-2 #p0v .pv-foot { margin-top: auto; padding-top: 12px; }
+
+  /* 3 · the pledge (contract on paper) */
+  html.p0v-3 #p0v { background: #f0ece0; color: #0e0e0e; }
+  .p0v-3 #p0v .pv-top { color: rgba(14,14,14,.6); }
+  .p0v-3 #p0v .pv-top .pv-path { color: #0e0e0e; background: var(--accent); padding: 1px 4px; }
+  .p0v-3 #p0v .pv-lab { color: rgba(14,14,14,.6); }
+  .p0v-3 #p0v .pv-h { font-size: 34px; margin-top: 4px; color: #0e0e0e; }
+  .p0v-3 #p0v .hl { background: var(--accent); color: #0e0e0e; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .p0v-3 #p0v ol { list-style: none; margin: 10px 0 0; padding: 0; counter-reset: cl; }
+  .p0v-3 #p0v ol li { counter-increment: cl; display: grid; grid-template-columns: 26px 1fr; font-size: 14px; line-height: 1.45; color: #0e0e0e; margin-bottom: 4px; }
+  .p0v-3 #p0v ol li::before { content: counter(cl, decimal-leading-zero); font-size: 10px; letter-spacing: .1em; padding-top: 3px; color: rgba(14,14,14,.55); }
+  .p0v-3 #p0v sup.fn-ref { color: #0e0e0e; }
+  .p0v-3 #p0v .pv-sig { margin-top: auto; border-top: 2px solid #0e0e0e; padding-top: 8px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 12px; row-gap: 4px; margin-top: 10px !important; }
+  .p0v-3 #p0v .pv-sig .pv-full { grid-column: 1 / -1; }
+  .p0v-3 #p0v .pv-sig label { display: block; }
+  .p0v-3 #p0v .pv-sig .pv-lab { font-size: 9px; line-height: 12px; display: block; margin-top: 1px; }
+  .p0v-3 #p0v .p0c { height: 26px; border: 0; border-bottom: 1px solid #0e0e0e; border-radius: 0; padding: 0 2px; color: #0e0e0e; background: transparent; }
+  .p0v-3 #p0v .p0c::placeholder, .p0v-3 #p0v .p0c.empty, .p0v-3 #p0v input[type=date].p0c.empty { color: rgba(14,14,14,.4); }
+  .p0v-3 #p0v input[type=date].p0c::-webkit-calendar-picker-indicator { filter: none; }
+  .p0v-3 #p0v .p0p { height: 26px; color: #0e0e0e; border-color: rgba(14,14,14,.35); }
+  .p0v-3 #p0v .p0p.on { background: #0e0e0e; border-color: #0e0e0e; color: var(--accent); }
+  .p0v-3 #p0v .p0-bad { box-shadow: none; border-bottom: 2px solid #FF7A2F !important; }
+  .p0v-3 #p0v .pv-go { background: #0e0e0e; color: var(--accent); display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .p0v-3 #p0v .pv-go i { font-style: normal; font-family: 'Space Mono', monospace; font-size: 18px; color: #f0ece0; }
+  .p0v-3 #p0v .pv-foot { padding-top: 10px; }
+  .p0v-3 #p0v .pv-tag { color: rgba(14,14,14,.45); }
+
+  /* 4 · full-bleed hero + micro form */
+  .p0v-4 #p0v .pv-hero { background: var(--accent); color: #0e0e0e; padding-bottom: 12px; }
+  .p0v-4 #p0v .pv-hero .pv-top { color: rgba(14,14,14,.65); }
+  .p0v-4 #p0v .pv-hero .pv-top .pv-path { color: #0e0e0e; font-weight: 700; }
+  .p0v-4 #p0v .pv-hero .pv-wm { border-bottom-color: #0e0e0e; }
+  .p0v-4 #p0v .pv-hero .pv-wm b { color: #0e0e0e; }
+  .p0v-4 #p0v .pv-slide { font-family: 'Bebas Neue', sans-serif; text-transform: uppercase; font-size: 42px; line-height: .92; margin-top: 8px; height: 156px; display: flex; align-items: flex-end; }
+  .p0v-4 #p0v .pv-slide span { transition: opacity .35s; }
+  .p0v-4 #p0v .pv-slide .cl-g { color: #f0ece0; -webkit-text-stroke: 0; background: #0e0e0e; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .p0v-4 #p0v .pv-dots { display: flex; gap: 6px; margin-top: 10px; }
+  .p0v-4 #p0v .pv-dots i { width: 6px; height: 6px; border-radius: 3px; background: rgba(14,14,14,.3); }
+  .p0v-4 #p0v .pv-dots i.on { width: 22px; background: #0e0e0e; }
+  .p0v-4 #p0v .pv-body { margin-top: 10px; }
+  .p0v-4 #p0v .pv-micro { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; column-gap: 8px; row-gap: 4px; padding-top: 10px; }
+  .p0v-4 #p0v .pv-micro .pv-full { grid-column: 1 / -1; }
+  .p0v-4 #p0v .pv-micro .pv-lab { font-size: 9px; line-height: 12px; display: block; margin-bottom: 1px; }
+  .p0v-4 #p0v .p0c { height: 30px; }
+  .p0v-4 #p0v .pv-foot { padding-top: 10px; }
+</style>
+<script>
+(function () {
+  var Q = new URLSearchParams(location.search), V = parseInt(Q.get('p0') || '0', 10);
+  if (!(V >= 1 && V <= 4)) return;
+  var H = document.documentElement; H.classList.add('p0v', 'p0v-' + V);
+  var $ = function (i) { return document.getElementById(i); };
+  var SL = [['never_married', 'Never married'], ['separated', 'Separated'], ['divorced', 'Divorced'], ['widowed', 'Widowed']];
+  var CL = [['relationship', 'Committed'], ['engaged', 'Engaged'], ['married', 'Married']];
+  var GL = [['man', 'Man'], ['woman', 'Woman'], ['non-binary', 'Non-binary']];
+  var FN = '<sup class="fn-ref" data-fn="1">\u00b9</sup>';
+  var SOPH = 'Science has been studying love with sophomores more in need of a psych credit than a life partner.' + FN;
+  var MATCH = 'The online dating industry stops paying attention at the match.';
+  var SLIDES = [
+    "It's the biggest decision of your life. <span class=\"cl-g\">It's never been studied like one.</span>",
+    "It's time to solve for <span class=\"cl-g\">relationship retention,</span> not app retention.",
+    "Getting a match is easy. <span class=\"cl-g\">Picking a life partner isn't.</span>",
+    "It's 2026. Dating apps <span class=\"cl-g\">still</span> can't predict who'll last.",
+    "An algorithm picked your last match. <span class=\"cl-g\">Nobody checked if it worked.</span>",
+    "Which matches become lasting marriages? <span class=\"cl-g\">Nobody knows. Yet.</span>",
+    "Stop looksmaxxing. <span class=\"cl-g\">Start longevity-maxxing.</span>"];
+  function couple() { return state.status === 'partnered'; }
+  function stat() { return couple() ? CL : SL; }
+  function top() {
+    var n = 1, t = 7; try { n = getStepNum(10); t = getPath().length; } catch (e) {}
+    return '<div class="pv-top"><button type="button" onclick="goBack(10)" aria-label="Back">\u2190 Step ' + n + ' of ' + t + '</button>' +
+      '<span><span class="pv-path">' + (couple() ? 'Couple' : 'Single') + '</span> \u00b7 <button type="button" class="pv-edit" onclick="changeStatus()">Edit</button></span></div>';
+  }
+  var WM = '<div class="pv-wm">I HEREBY <b>COMMIT</b></div>';
+  function inp(b, ph, type, ac) { return '<input class="p0c" data-b="' + b + '" type="' + (type || 'text') + '" placeholder="' + ph + '"' + (ac ? ' autocomplete="' + ac + '"' : '') + ' aria-label="' + ph + '">'; }
+  function dob() { return '<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">'; }
+  function loc(ph) { return '<button type="button" class="p0c empty" data-b="loc" data-ph="' + ph + '" aria-label="Where you live">' + ph + '</button>'; }
+  function gp() { return '<div class="p0pills" data-b="gender" role="group" aria-label="I am a">' + GL.map(function (g) { return '<button type="button" class="p0p" data-g="' + g[0] + '">' + g[1] + '</button>'; }).join('') + '</div>'; }
+  function sp() { return '<div class="p0pills" data-b="status" role="group" aria-label="' + (couple() ? 'Relationship status' : 'Marital status') + '">' + stat().map(function (s) { return '<button type="button" class="p0p" data-s="' + s[0] + '">' + s[1] + '</button>'; }).join('') + '</div>'; }
+  function sel(b, list, ph) { return '<select data-b="' + b + '" required aria-label="' + ph + '"><option value="" disabled selected hidden>' + ph + '</option>' + list.map(function (o) { return '<option value="' + o[0] + '">' + o[1].toLowerCase() + '</option>'; }).join('') + '</select>'; }
+  var GO = '<button type="button" class="pv-go" data-go="1">I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>';
+  var MSG = '';
+  var TAG = '<div class="pv-tag">Mockup from sports-preview \u00b7 not saved</div>';
+  function nw(x) { return '<span style="white-space:nowrap">' + x + '</span>'; }
+  function f(lab, ctl, full) { return '<label class="' + (full ? 'pv-full' : '') + '"><span class="pv-lab">' + lab + '</span>' + ctl + '</label>'; }
+
+  function html() {
+    var c = couple();
+    if (V === 1) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() + WM +
+      '<h1 class="pv-h">It\'s the biggest decision of your life. <span class="ac">It\'s never been studied like one.</span></h1>' +
+      '<p class="pv-body">' + SOPH + ' ' + MATCH + '</p>' +
+      '<div class="pv-card" style="margin-top:auto;"><div class="pv-lab pv-full"><span>Sign the pact</span><span>' + (c ? 'Couple' : 'Single') + '</span></div>' +
+      inp('first_name', 'First name', 'text', 'given-name') + inp('last_name', 'Last name', 'text', 'family-name') + dob() + loc('Where you live') +
+      '<div class="pv-full">' + gp() + '</div><div class="pv-full">' + sp() + '</div><div class="pv-full">' + inp('email', 'Email', 'email', 'email') + '</div></div>' +
+      '<div class="pv-foot">' + MSG + GO + '</div></div>';
+    if (V === 2) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() + WM +
+      '<h1 class="pv-h">I hereby commit my love life to science. <span class="ac">For the good of humanity.</span></h1>' +
+      '<div class="pv-lib">I\'m ' + nw('<input class="p0c" data-b="first_name" placeholder="first" size="6" autocomplete="given-name" aria-label="First name">') + ' ' +
+      nw('<input class="p0c" data-b="last_name" placeholder="last name" size="9" autocomplete="family-name" aria-label="Last name">,') + ' a ' + nw(sel('gender', GL, 'man / woman / \u2026')) +
+      ' born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ' +
+      (c ? 'My partner and I are ' + nw(sel('status', CL, 'committed / engaged / married') + '.') : 'I\'m ' + nw(sel('status', SL, 'never married / \u2026') + '.')) +
+      ' Reach me at ' + nw('<input class="p0c" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">.') + '</div>' +
+      '<p class="pv-body">' + SOPH + ' ' + MATCH + '</p>' +
+      '<div class="pv-foot">' + MSG + GO + '</div></div>';
+    if (V === 3) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() +
+      '<div class="pv-lab">The pledge</div>' +
+      '<h1 class="pv-h">I hereby commit my love life to science. <span class="hl">For the good of humanity.</span></h1>' +
+      '<ol><li><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li><span>' + SOPH + '</span></li><li><span>' +
+      (c ? 'To do this we need to study both singles and couples, of all ages.' : MATCH) + '</span></li></ol>' +
+      '<div class="pv-sig">' + f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
+      f('Date of birth', dob()) + f('Where you live', loc('City')) + f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1) + f('Email', inp('email', 'you@example.com', 'email', 'email'), 1) + '</div>' +
+      '<div class="pv-foot">' + MSG + '<button type="button" class="pv-go" data-go="1"><i>X</i>I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button></div></div>';
+    // 4
+    return '<div class="pv-hero"><div class="pv-pad">' + top() + WM +
+      '<div class="pv-slide"><span id="pv-sl">' + SLIDES[0] + '</span></div><div class="pv-dots" id="pv-dots">' + SLIDES.map(function (s, i) { return '<i class="' + (i ? '' : 'on') + '"></i>'; }).join('') + '</div></div></div>' +
+      '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' +
+      '<p class="pv-body">' + SOPH + '</p>' +
+      '<div class="pv-micro">' + f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
+      f('Born', dob()) + f('Lives in', loc('City')) + f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1) + f('Email', inp('email', 'you@example.com', 'email', 'email'), 1) + '</div>' +
+      '<div class="pv-foot">' + MSG + GO + '</div></div>';
+  }
+
+  var root, lastPath, slideT;
+  function render() {
+    if (!root) { root = document.createElement('div'); root.id = 'p0v'; $('screen-10').appendChild(root); }
+    root.innerHTML = html(); lastPath = state.status;
+    root.querySelectorAll('[data-b]').forEach(function (el) {
+      var b = el.dataset.b, r = $(b);
+      if (r && /^(first_name|last_name|email)$/.test(b)) el.value = r.value || '';
+      if (b === 'birthdate' && state.birthdateTouched && r && r.value) { el.value = r.value; el.classList.remove('empty'); }
+      if (b === 'gender' && el.tagName === 'SELECT' && state.gender) el.value = state.gender;
+      if (b === 'status' && el.tagName === 'SELECT' && state.currentStatus_grokbot) el.value = state.currentStatus_grokbot;
+    });
+    refresh();
+    clearInterval(slideT);
+    if (V === 4) { var i = 0; slideT = setInterval(function () { if (!$('pv-sl') || Q.get('still')) return; i = (i + 1) % SLIDES.length; var s = $('pv-sl'); s.style.opacity = 0; setTimeout(function () { s.innerHTML = SLIDES[i]; s.style.opacity = 1; root.querySelectorAll('#pv-dots i').forEach(function (d, k) { d.classList.toggle('on', k === i); }); }, 350); }, 3200); }
+  }
+  function refresh() {
+    if (!root) return;
+    if (lastPath !== state.status) return render();
+    root.querySelectorAll('[data-g]').forEach(function (b) { b.classList.toggle('on', b.dataset.g === state.gender); });
+    root.querySelectorAll('[data-s]').forEach(function (b) { b.classList.toggle('on', b.dataset.s === state.currentStatus_grokbot); });
+    root.querySelectorAll('[data-b=loc]').forEach(function (b) { var l = state.wya && state.wya.label; b.textContent = l || b.dataset.ph; b.classList.toggle('empty', !l); if (l) b.classList.remove('p0-bad'); });
+    if (state.gender) root.querySelectorAll('[data-b=gender]').forEach(function (e) { e.classList.remove('p0-bad'); });
+    if (state.currentStatus_grokbot) root.querySelectorAll('[data-b=status]').forEach(function (e) { e.classList.remove('p0-bad'); });
+  }
+  function push(el) {
+    var b = el.dataset.b, v = el.value;
+    el.classList.remove('p0-bad');
+    if (b === 'gender') { try { setGender(v); } catch (e) {} }
+    else if (b === 'status') { try { p0Ms_grokbot(v); } catch (e) {} }
+    else if (b === 'birthdate') { var r = $('birthdate'); r.value = v; state.birthdateTouched = !!v; r.classList.remove('is-default'); el.classList.toggle('empty', !v); ['input', 'change'].forEach(function (t) { r.dispatchEvent(new Event(t, { bubbles: true })); }); }
+    else { var r2 = $(b); if (r2) { r2.value = v; r2.dispatchEvent(new Event('input', { bubbles: true })); } }
+    refresh();
+  }
+  var ERR = { gender: 'gender', first_name: 'first_name', last_name: 'last_name', birthdate: 'birthdate', postal_code: 'loc', email: 'email', p0_status: 'status' };
+  function go() {
+    try { p0Next_grokbot(); } catch (e) { console.error(e); }
+    if (state.currentScreen !== 10) return;
+    var bad = [], msg = 'Fill in the highlighted fields to commit.';
+    Object.keys(ERR).forEach(function (k) { var e = $('err-' + k); if (e && e.classList.contains('visible')) { bad.push(ERR[k]); if (k === 'birthdate' && /18/.test(e.textContent)) msg = '18+ only.'; if (k === 'email' && /Invalid/.test(e.textContent) && bad.length === 1) msg = 'That email doesn\u2019t look right.'; } });
+    root.querySelectorAll('[data-b]').forEach(function (el) { el.classList.toggle('p0-bad', bad.indexOf(el.dataset.b) >= 0); });
+    var m = $('pv-msg'); if (m) { m.textContent = bad.length ? msg : ''; m.parentNode.classList.toggle('has-msg', !!bad.length); }
+    try { document.querySelector('#screen-10 .screen-content').scrollTop = 0; } catch (e) {}
+  }
+  document.addEventListener('input', function (e) { var t = e.target; if (root && root.contains(t) && t.dataset && t.dataset.b) push(t); }, true);
+  document.addEventListener('change', function (e) { var t = e.target; if (root && root.contains(t) && t.dataset && t.dataset.b) push(t); }, true);
+  document.addEventListener('click', function (e) {
+    if (!root || !root.contains(e.target)) return;
+    var g = e.target.closest('[data-g]'), s = e.target.closest('[data-s]'), l = e.target.closest('[data-b=loc]'), k = e.target.closest('[data-go]');
+    if (g) { try { setGender(g.dataset.g); } catch (x) {} refresh(); }
+    if (s) { try { p0Ms_grokbot(s.dataset.s); } catch (x) {} refresh(); }
+    if (l) { e.preventDefault(); try { wyaOpenSheet(); } catch (x) { console.error(x); } }
+    if (k) go();
+  });
+  var _ss = showScreen; showScreen = function (id, dir) { var r = _ss.apply(this, arguments); if (id === 10) render(); return r; };
+  var _cs = changeStatus; changeStatus = function () { var r = _cs.apply(this, arguments); setTimeout(function () { if (state.currentScreen === 10) render(); }, 0); return r; };
+  setInterval(refresh, 400);
+  window.P0V_grokbot = V;
+})();
+</script>
+<!-- /PAGE0_VARIANTS_GROKBOT -->
+
 </body>
 </html>

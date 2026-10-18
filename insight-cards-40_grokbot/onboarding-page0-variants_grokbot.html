@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>MOCKUP · Page 0 variants (from sports-preview)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #0e0e0e; color: #f0ece0; font-family: 'Space Mono', monospace; }
+  header { padding: 24px 24px 8px; }
+  h1 { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 44px; line-height: .95; margin: 0; }
+  h1 span { color: #c8f135; }
+  header p { font-size: 12px; color: rgba(240,236,224,.6); max-width: 760px; line-height: 1.5; }
+  header a { color: #c8f135; }
+  h2 { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 26px; letter-spacing: .04em; margin: 18px 24px 8px; }
+  h2.c { color: #FF7A2F; } h2.s { color: #c8f135; }
+  .row { display: flex; gap: 24px; overflow-x: auto; padding: 0 24px 16px; }
+  figure { margin: 0; flex: 0 0 auto; }
+  figcaption { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; max-width: 393px; line-height: 1.5; }
+  figcaption b { color: #c8f135; font-weight: 400; } figcaption a { color: rgba(240,236,224,.6); }
+  iframe { width: 393px; height: 660px; border: 1px solid #333; border-radius: 4px; background: #0e0e0e; display: block; }
+  footer { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #555; padding: 8px 24px 24px; }
+</style></head><body>
+<header><h1>PAGE 0 · <span>4 WAYS</span></h1>
+<p>Manifesto-first page 0 designs, each at 393×660, singles and couples. Every field is real and required (name, date of birth, gender, location, email, status); the copy comes from the landing page only. Tap into any frame to try it, or open it full screen. The current layout (5829c15) is <a href="onboarding-page0_grokbot.html?p0=0">p0=0</a>.</p></header>
+<div id="rows"></div>
+<footer>Mockup from sports-preview · nothing is saved</footer>
+<script>
+var V = [[1, 'Manifesto + pact card', 'Big home-page headline and body up top; a compact "sign the pact" card above the button.'],
+         [2, 'Mad-Libs', 'The pledge as the headline; the fields live inside one sentence you fill in.'],
+         [3, 'The pledge (contract)', 'A paper contract: numbered clauses, a signature block, and the button as your signature.'],
+         [4, 'Full-bleed hero', 'A home-page hero in the accent colour with the rotating headlines, then a tight two-column micro form.']];
+var R = document.getElementById('rows'), ver = new URLSearchParams(location.search).get('v') || '';
+[['Singles', 's', ''], ['Couples', 'c', '&path=couple']].forEach(function (p) {
+  var h = document.createElement('h2'); h.className = p[1]; h.textContent = p[0]; R.appendChild(h);
+  var row = document.createElement('div'); row.className = 'row'; R.appendChild(row);
+  V.forEach(function (v) {
+    var u = 'onboarding-page0_grokbot.html?p0=' + v[0] + p[2] + (ver ? '&v=' + ver : '');
+    var f = document.createElement('figure');
+    f.innerHTML = '<figcaption><b>' + v[0] + ' · ' + v[1] + '</b><br>' + v[2] + ' <a href="' + u + '" target="_blank" rel="noopener">open ↗</a></figcaption><iframe src="' + u + '" title="Variant ' + v[0] + ' ' + p[0] + '" loading="lazy"></iframe>';
+    row.appendChild(f);
+  });
+});
+</script></body></html>
