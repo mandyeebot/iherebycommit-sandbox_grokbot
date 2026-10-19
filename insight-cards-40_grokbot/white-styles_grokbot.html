@@ -16672,6 +16672,10 @@ html.ws.ws-FORM.ws-FORM .who-unit.collapsed .who-cond-v { -webkit-text-fill-colo
 html.ws.ws-FORM.ws-FORM:not(.ws-C) body :is(#screen-1, #screen-2, #screen-3) .who-unit:not(.collapsed) :is(select, input:not([type=checkbox]):not([type=radio]):not([type=range]), .race-select, .field-input) { background:var(--hi) !important; background-color:var(--hi) !important; border:0 !important; box-shadow:none !important; color:#0e0e0e !important; -webkit-text-fill-color:#0e0e0e !important; }
 html.ws.ws-FORM.ws-FORM body :is(#screen-1, #screen-2, #screen-3, #screen-4, #screen-5, .bottom-action, .screen) .btn-primary.btn-primary { background:#0e0e0e !important; background-color:#0e0e0e !important; color:var(--hi) !important; -webkit-text-fill-color:var(--hi) !important; border:0 !important; box-shadow:none !important; }
 html.ws.ws-AB body .cp-sheet .cp-sheet-head .cp-sheet-title { font:400 24px/1.02 'Bebas Neue', sans-serif !important; letter-spacing:.03em !important; text-transform:uppercase !important; color:#0e0e0e !important; -webkit-text-fill-color:#0e0e0e !important; }
+/* privacy line under each sheet header (&privline=1, default on in AB2) */
+.ws-privline { display:flex; align-items:flex-start; gap:5px; flex:none; margin:0; padding:0 20px 9px; font:400 10.5px/1.35 'Space Mono', monospace; letter-spacing:0; color:#0e0e0e; opacity:1; }
+.ws-privline svg { flex:none; width:9px; height:11px; margin-top:1px; color:currentColor; }
+html:not(.ws) .ws-privline, html.ws-C .cp-sheet[style*="0e0e0e"] .ws-privline { color:#f0ece0; }
 </style>
 <script id="ws-demo-grokbot">
 /* white-styles_grokbot &demo=filled: sample answers for every Who You Are field so the step renders fully collapsed (mockup only, never saved) */
@@ -16732,6 +16736,24 @@ html.ws.ws-AB body .cp-sheet .cp-sheet-head .cp-sheet-title { font:400 24px/1.02
       T(function () { openRacePanel(); }); setTimeout(function () { T(function () { toggleRace('White'); }); T(function () { toggleRace('Hispanic / Latino'); }); }, 400);
     }
   }, 1000); });
+})();
+/* &privline=1 (default ON for wstyle=AB2): privacy line fixed under every sheet's question header (mockup only) */
+(function () {
+  var Q = new URLSearchParams(location.search), w = String(Q.get('wstyle') || '').toUpperCase(), pl = Q.get('privline');
+  if (!(pl === '1' || (pl !== '0' && w === 'AB2'))) return;
+  document.documentElement.classList.add('ws-pl');
+  var TXT = 'Used for research only \u2014 answers are private, encrypted & anonymized always.';
+  var LOCK = '<svg viewBox="0 0 12 14" aria-hidden="true"><rect x="1.5" y="6" width="9" height="7" rx="1.2" fill="currentColor"/><path d="M3.5 6V4.2a2.5 2.5 0 0 1 5 0V6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+  function add() {
+    [].forEach.call(document.querySelectorAll('[role=dialog]'), function (d) {
+      if (/^(Footnote|Why we ask)$/i.test(d.getAttribute('aria-label') || '')) return;
+      var h = d.querySelector('.cp-sheet-head') || d.querySelector('[class*=head]') || d.querySelector('[class*=title]'); if (!h) return;
+      var n = h.nextElementSibling; if (n && n.classList.contains('ws-privline')) return;
+      var p = document.createElement('div'); p.className = 'ws-privline'; p.innerHTML = LOCK + '<span>' + TXT + '</span>'; h.parentNode.insertBefore(p, h.nextSibling);
+    });
+  }
+  var t = 0; function soon() { if (!t) t = setTimeout(function () { t = 0; add(); }, 30); }
+  document.addEventListener('DOMContentLoaded', function () { add(); new MutationObserver(soon).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['hidden'] }); });
 })();
 </script>
 </body>
