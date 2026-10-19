@@ -15133,6 +15133,17 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.thw .il-note { color: #0e0e0e !important; border: 1.5px solid #0e0e0e !important; background: #fffdf7; }
   html.thw .il-link { background: var(--accent) !important; color: #0e0e0e !important; border: 1.5px solid #0e0e0e !important; }
   html.thw .il-link.il-edit, html.thw .dc-irow .dc-go.il-edit { background: #fffdf7 !important; border-color: #0e0e0e !important; color: #0e0e0e !important; font-weight: 700; }
+  /* ---- Amanda 2:18 AM: IDEAL tags on white (Ethnicities / Religion / Politics): never black on black, never faint dashed grey ---- */
+  html.thw .ethx-tag-grokbot { font-size: 10px; font-weight: 700; opacity: 1 !important; color: #0e0e0e !important; background: transparent !important; border: 1.5px solid #0e0e0e !important; }
+  html.thw .ethx-tag-grokbot.avail { color: #0e0e0e !important; background: #fffdf7 !important; border: 1.5px solid #0e0e0e !important; }
+  html.thw .ethx-tag-grokbot.on { color: var(--accent) !important; background: #0e0e0e !important; border: 1.5px solid #0e0e0e !important; }
+  html.thw .ethx-tag-grokbot.on::before { content: '\2713\00a0'; }
+  html.thw .ethx-note-grokbot { color: #3a3832 !important; font-size: 11px; }
+  html:not(.thw) .ethx-tag-grokbot { color: #f0ece0; border: 1px solid #8a857a; opacity: 1; font-size: 10px; } /* black: no faint dashed grey (red-mode rule) */
+  html:not(.thw) .ethx-tag-grokbot.avail { border-color: #f0ece0; }
+  html:not(.thw) .ethx-tag-grokbot.on { color: #0e0e0e; background: #f0ece0; }
+  html:not(.thw) .ethx-tag-grokbot.on::before { content: '\2713\00a0'; }
+  html:not(.thw) .ethx-note-grokbot { color: #f0ece0; font-size: 11px; }
 </style>
 <div id="p0-hold" hidden></div>
 <script>
@@ -15409,6 +15420,24 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     q.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !_wyaOpts.length) { e.preventDefault(); e.stopImmediatePropagation(); geocodeTyped(q.value.trim()); } }, true);
     q.addEventListener('focus', loadUSP);
   });
+})();
+
+(function () {
+  // ---- Amanda 2:18 AM: 'Any' and specific options are mutually exclusive again on partner Ethnicities / Religion / Politics
+  // (picking a specific unticks Any; ticking Any clears the specifics and their IDEAL marks). &anyx=0 restores the Oct 18 3:19 AM coexist rule.
+  if (new URLSearchParams(location.search).get('anyx') === '0') return;
+  function wrap(fn, mode, work, k) {
+    var o = window[fn]; if (typeof o !== 'function' || o._x) return;
+    var w = function (label) {
+      if (label === 'Any') { if (state[mode] !== 'any') { state[work] = []; try { var M = window._idealMock_grokbot; if (M && M[k]) Object.keys(M[k]).forEach(function (x) { delete M[k][x]; }); } catch (e) {} } }
+      else if (state[mode] === 'any' && (state[work] || []).indexOf(label) < 0) { state[work] = []; state[mode] = null; }
+      return o.apply(this, arguments);
+    };
+    w._x = 1; window[fn] = w;
+    if (state[mode] === 'any' && (state[work] || []).length) state[work] = []; // old mixed state from before
+  }
+  function go() { wrap('toggleEth', '_ethMode', '_ethWork', 'eth'); wrap('toggleRel', '_relMode', '_relWork', 'rel'); wrap('togglePol', '_polMode', '_polWork', 'pol'); }
+  if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
 })();
 </script>
 <!-- /PAGE0_MOCKUP_GROKBOT -->
