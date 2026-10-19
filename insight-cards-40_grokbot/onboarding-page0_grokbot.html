@@ -15967,9 +15967,10 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   // Amanda Oct 19 5:07 AM: &copy=truth opt-in copy (truth oath pledge, no privacy paragraph, two small lines under COMMIT); &truthhl=0 drops the orange on the oath
   var TRUTH = Q.get('copy') === 'truth', THL = Q.get('truthhl') !== '0';
   // Amanda Oct 19 6:19 AM: &copy=oath (sound-mind oath, no orange for singles, optional phone behind '+ Add a phone number' with an SMS legal bubble, one combined line under COMMIT); &contact=below puts the contact lines under the signature
-  var OATH2 = Q.get('copy') === 'oath2'; // Amanda Oct 19 6:39 AM: oath2 = oath in every way except the pledge copy
+  var OATH3 = Q.get('copy') === 'oath3'; // Amanda Oct 19 7:55 AM: oath3 = oath2 + [height] blank + new copy
+  var OATH2 = Q.get('copy') === 'oath2' || OATH3; // Amanda Oct 19 6:39 AM: oath2 = oath in every way except the pledge copy
   var OATH = (Q.get('copy') === 'oath' || OATH2) && !TRUTH, CBELOW = OATH && Q.get('contact') === 'below', CINLINE = OATH && Q.get('contact') === 'inline'; // Amanda Oct 19 7:05 AM: &contact=inline - compact email | phone boxes under the signature's name/date row, no 'Reach me at' / '+ Add'
-  if (OATH) { H.classList.add('p0c-oath'); if (OATH2) H.classList.add('p0c-oath2'); if (CBELOW) H.classList.add('p0c-below'); if (CINLINE) H.classList.add('p0c-inline');
+  if (OATH) { H.classList.add('p0c-oath'); if (OATH2) H.classList.add('p0c-oath2'); if (OATH3) H.classList.add('p0c-oath3'); if (CBELOW) H.classList.add('p0c-below'); if (CINLINE) H.classList.add('p0c-inline');
     LEG = '<p class="pv-legal pv-legal3">This doesn\u2019t enroll you in anything or make your profile public \u2014 both come later, with their own opt-in. Your answers stay private and we publish findings in aggregate only. By committing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a> and confirm you\u2019re 18+.</p>'; }
   if (OATH && !window._p0ph_grokbot) { window._p0ph_grokbot = 1;
     var phTip = function (row, on) { if (row) row.classList.toggle('ph-tip', !!on); };
@@ -16039,6 +16040,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   }  var LOC_WORST = 'Rancho Santa Margarita, CA'; // longest real 'City, ST'
   function pledge(nameHTML, statHTML, dobHTML, locHTML) {
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
+    if (PL === 'E' && OATH3) return 'I, ' + nameHTML + ' ' + String(statHTML).replace(/,(\s*(<\/span>)?)$/, '$1') + ' of ' + nw('<span class="pv-gsv pv-htv empty" data-b="height" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Height">[height]</span>') + ' in height, born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the whole truth &amp; nothing but the truth.' +
+      '<span class="pl-vow">To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person, to find love that will last, <span class="pl-punch"><span class="' + k + '">till deletion do us part.</span></span></span>';
     if (PL === 'E' && OATH2) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the truth, the whole truth, and nothing but the truth \u2014 including my height, age, and intentions.' +
       '<span class="pl-vow">To have and to hold these truths, from this day forward, for better or worse, for richer or for poorer, in video and in person, to find love that will last, <span class="pl-punch"><span class="' + k + '">till data do us part.</span></span></span>';
     if (PL === 'E' && OATH) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the truth, the whole truth, and nothing but the truth \u2014 including about my height, my age, and my intentions.' +
@@ -16140,6 +16143,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var bdv = ($('birthdate') || {}).value || '', bd = (state.birthdateTouched && /^\d{4}-\d{2}-\d{2}$/.test(bdv)) ? bdv.slice(5, 7) + '/' + bdv.slice(8, 10) + '/' + bdv.slice(2, 4) : ''; // MM/DD/YY
     root.querySelectorAll('.pv-dobs, .pv-dobv').forEach(function (n) { n.textContent = (worst || !bd) ? '[birth date]' : bd; n.classList.toggle('empty', !bd || worst); });
     root.querySelectorAll('.pv-phrow').forEach(function (n) { if (state.phone_grokbot) n.classList.add('ph-on'); });
+    root.querySelectorAll('.pv-htv').forEach(function (n) { var h = state.height_grokbot; n.textContent = h ? htFmt(h) : '[height]'; n.classList.toggle('empty', !h); if (h) n.classList.remove('p0-miss'); });
     root.querySelectorAll('.pv-sms').forEach(function (n) { n.hidden = !(worst || state.phone_grokbot); if (!state.phone_grokbot) { var c = n.querySelector('input'); if (c) c.checked = false; } });
     var lt = locText();
     root.querySelectorAll('.pv-locs, .pv-locv').forEach(function (n) { n.textContent = worst ? (lt || LOC_WORST) : (lt || '[your city]'); n.classList.toggle('empty', !lt && !worst); if (lt) n.classList.remove('p0-bad'); });
@@ -16333,6 +16337,22 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var TRIED = false;
   function phoneOk() { if (OATH && !String(state.phone_grokbot || '').length) return true; return !root || !root.querySelector('[data-b=phone]') || String(state.phone_grokbot || '').length === 10; }
   window.p0PhoneOk_grokbot = function () { return phoneOk(); };
+  // ---- [height] picker (oath3): 4'0"-7'6" in a small bottom sheet; mockup only (kept in state.height_grokbot, not sent)
+  function htFmt(h) { return Math.floor(h / 12) + '\'' + (h % 12) + '\u2033'; }
+  function htSet(h) { state.height_grokbot = h || null; try { localStorage.setItem('p0_height_grokbot', String(h || '')); } catch (e) {} if (root) root.querySelectorAll('.pv-htv').forEach(function (n) { n.textContent = h ? htFmt(h) : '[height]'; n.classList.toggle('empty', !h); n.classList.remove('p0-miss'); }); try { countMsg(); } catch (e) {} }
+  window.p0SetHeight_grokbot = htSet;
+  function htClose() { var sh = document.getElementById('p0ht'); if (sh) sh.classList.remove('on'); }
+  function htOpen() {
+    var sh = document.getElementById('p0ht');
+    if (!sh) { sh = document.createElement('div'); sh.id = 'p0ht'; var b = '';
+      for (var h = 48; h <= 90; h++) b += '<button type="button" data-h="' + h + '">' + Math.floor(h / 12) + '\u2032' + (h % 12) + '\u2033</button>';
+      sh.innerHTML = '<div class="ht-bg"></div><div class="ht-sh" role="dialog" aria-label="Your height"><div class="ht-hd"><span>Your height</span><button type="button" class="ht-x" aria-label="Close">\u00d7</button></div><div class="ht-grid">' + b + '</div></div>';
+      document.body.appendChild(sh);
+      sh.addEventListener('click', function (e) { var t = e.target.closest('[data-h]'); if (t) { htSet(+t.dataset.h); htClose(); return; } if (e.target.closest('.ht-x') || e.target.classList.contains('ht-bg')) htClose(); }); }
+    var cur = state.height_grokbot || 66; sh.querySelectorAll('[data-h]').forEach(function (x) { x.classList.toggle('on', +x.dataset.h === state.height_grokbot); x.classList.toggle('def', !state.height_grokbot && +x.dataset.h === 66); });
+    sh.classList.add('on'); var t = sh.querySelector('[data-h="' + cur + '"]'), g = sh.querySelector('.ht-grid'); if (t && g) g.scrollTop = Math.max(0, t.offsetTop - g.clientHeight / 2);
+  }
+  if (OATH3) { try { var _hs = +localStorage.getItem('p0_height_grokbot'); if (_hs >= 48 && _hs <= 90) state.height_grokbot = _hs; } catch (e) {} }
   function missing() {
     var m = {}, v = function (id) { var e = $(id); return String(e && e.value || '').trim(); };
     if (!state.gender) m.gender = 1; if (!state.currentStatus_grokbot) m.status = 1;
@@ -16342,6 +16362,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var em = v('email'); if (!em) m.email = 1; else { try { if (!isValidEmail(em)) m.email = 2; } catch (e) {} }
     if (!phoneOk()) m.phone = state.phone_grokbot ? 2 : 1;
     if (SG && !sigOk()) m.sig = 1;
+    if (OATH3 && !state.height_grokbot) m.height = 1;
     if (m.gender || m.status) m.genstat = 1;
     return m;
   }
@@ -16357,6 +16378,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var m = missing(), el = [].slice.call(root.querySelectorAll('[data-b]')).find(function (e) { return m[e.dataset.b]; }); if (!el) return;
     var k = el.dataset.b;
     if (k === 'genstat') return gsOpen(el.closest('.pv-gsw'));
+    if (k === 'height') return htOpen();
     if (el.classList.contains('pv-dobi')) { if (!state.birthdateTouched && !el.value) el.value = '1990-01-01'; el._opened = 1; try { el.showPicker(); } catch (x) { el.focus(); } return; }
     if (k === 'loc') { try { wyaOpenSheet(); } catch (x) {} return; }
     if (k === 'gender' || k === 'status') { var p = el.querySelector('.p0p'); if (p) p.focus(); return; }
@@ -16374,6 +16396,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     if (l) { e.preventDefault(); try { wyaOpenSheet(); } catch (x) { console.error(x); } }
     if (e.target.closest('.pv-sigclr')) { SIGS = []; sigInit(); return; }
     var gw = e.target.closest('.pv-gsw'); if (gw) { e.preventDefault(); gsOpen(gw); return; }
+    if (e.target.closest('.pv-htv')) { e.preventDefault(); htOpen(); return; }
     if (k) go();
     var di = e.target.closest('.pv-dobi'); if (di) { if (!state.birthdateTouched && !di.value) di.value = '1990-01-01'; di._opened = 1; if (di.showPicker) { try { di.showPicker(); } catch (x) {} } }
   });
@@ -16487,6 +16510,19 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.p0c-inline #p0v .pv-oci .pv-phtip { left: auto; right: 0; }
   html.p0c-inline #p0v .pv-oci .pv-phtip::after { left: auto; right: 40px; }
   html.p0c-inline.p0v-2:not(.p0v-2w) #p0v .pv-oci input:focus { box-shadow: inset 0 0 0 2px #f0ece0; }
+  /* oath3 height blank + picker sheet */
+  html.p0c-oath3 #p0v .pv-htv { cursor: pointer; }
+  #p0ht { display: none; position: fixed; inset: 0; z-index: 9999; }
+  #p0ht.on { display: block; }
+  #p0ht .ht-bg { position: absolute; inset: 0; background: rgba(14,14,14,.45); }
+  #p0ht .ht-sh { position: absolute; left: 0; right: 0; bottom: 0; background: #f0ece0; color: #0e0e0e; padding: 14px 16px calc(16px + env(safe-area-inset-bottom)); box-shadow: 0 -8px 24px rgba(0,0,0,.2); }
+  #p0ht .ht-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font: 22px/1 'Bebas Neue', sans-serif; letter-spacing: .04em; text-transform: uppercase; }
+  #p0ht .ht-x { background: none; border: 0; font: 22px/1 'Space Mono', monospace; color: inherit; padding: 0 4px; cursor: pointer; }
+  #p0ht .ht-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-height: 236px; overflow-y: auto; -webkit-overflow-scrolling: touch; position: relative; }
+  #p0ht .ht-grid button { height: 40px; border: 1.5px solid #0e0e0e; background: transparent; color: #0e0e0e; font: 14px/1 'Space Mono', monospace; cursor: pointer; border-radius: 0; }
+  #p0ht .ht-grid button.def { border-style: dashed; }
+  #p0ht .ht-grid button.on { background: #c8f135; }
+  body.couples-flow #p0ht .ht-grid button.on { background: #FF7A2F; }
   html.p0v #p0v .pv-foot .pv-legal.pv-legal3 { height: auto !important; padding: 5px 0 4px !important; font-size: 10px !important; line-height: 12px !important; letter-spacing: -.02em !important; text-align: left; }
   html.p0v #p0v .pv-pledge .pl-punch, html.p0v #p0v .pv-pledge .pl-punch > span { line-height: 0 !important; } /* the 1.08em punchline must not push its line down */
   #p0v.pv-clip .pv-body, #p0v.pv-clip .pv-filler { font-size: 12px !important; line-height: 1.25 !important; } /* last resort before any scroll (v3 + sign + long copy) */
@@ -16508,6 +16544,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     r.querySelectorAll('select[data-b=genstat]').forEach(function (el) { var o = [].find.call(el.options, function (o) { return o.value === 'woman|' + V.st; }) || [].find.call(el.options, function (o) { return o.value.indexOf('woman|') === 0; }); if (o) set(el, o.value); });
     var g = r.querySelector('[data-g=woman]'); if (g) g.click(); var sb = r.querySelector('[data-s="' + V.st + '"]') || r.querySelector('[data-s]'); if (sb) sb.click();
     try { _wyaSet({ lat: V.lat, lng: V.lng, label: V.city, cc: 'US', zip: V.zip, source: 'demo' }); } catch (e) {}
+    try { if (window.p0SetHeight_grokbot) window.p0SetHeight_grokbot(69); } catch (e) {}
     r.querySelectorAll('input[data-b]').forEach(function (el) { if (vals[el.dataset.b]) set(el, vals[el.dataset.b]); });
     if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
   }
