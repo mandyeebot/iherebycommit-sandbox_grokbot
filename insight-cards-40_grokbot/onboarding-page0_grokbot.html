@@ -16165,7 +16165,10 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var pl = root.querySelector('.pv-pledge'); if (!pl) return; var W = pl.clientWidth, fs = parseFloat(getComputedStyle(pl).fontSize), tight = root.classList.contains('pv-clip');
     var maxW = Math.floor(W - .45 * fs) * (tight ? .62 : 1);
     var nms = root.querySelectorAll('.pv-pledge input.pv-nm'); var sum = 0; nms.forEach(function (el) { sum += parseFloat(el.style.width) || el.offsetWidth; });
-    nms.forEach(function (el) { var w = parseFloat(el.style.width) || 0; if (w > maxW) el.style.width = maxW + 'px'; var nwp = el.closest('.nw, [style*="nowrap"]') || el.parentNode; if (nwp && nwp !== pl) nwp.classList.toggle('pv-nmwrap', sum + .3 * fs > W); });
+    // Amanda Oct 19 10:08 AM: a very long name never takes the whole line - the box stops where its ',' still fits on the same line; the text scrolls inside / ellipsizes
+    var cW = 0; try { cW = textW(pl, ',') + 2; } catch (e) { cW = .3 * fs; } var nmMax = Math.floor(Math.min(maxW, W - cW - 2));
+    var iW = 0; try { iW = textW(pl, 'I, ') + 2; } catch (e) { iW = .8 * fs; }
+    nms.forEach(function (el, ix) { var w = parseFloat(el.style.width) || 0, cap = ix === 0 ? Math.floor(Math.min(nmMax, W - iW - 2)) : nmMax; /* first name stays on line 1 after 'I, ' */ if (w > cap) el.style.width = cap + 'px'; var nwp = el.closest('.nw, [style*="nowrap"]') || el.parentNode; if (nwp && nwp !== pl) nwp.classList.toggle('pv-nmwrap', sum + .3 * fs > W); });
     root.querySelectorAll('.pv-pledge button.pv-locv').forEach(function (b) { b.classList.remove('pv-lclip'); b.style.maxWidth = ''; if (b.scrollWidth > maxW || tight) { b.classList.add('pv-lclip'); b.style.maxWidth = maxW + 'px'; } });
   }
   // fit: hide optional supporting lines (highest data-opt first), then step the pledge size down, until nothing scrolls
@@ -16197,7 +16200,11 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       (ds.length ? ds : [Math.min.apply(null, all)]).forEach(function (d) { n++; if (mn === null || d < mn) mn = d; if (mx === null || d > mx) mx = d; }); }
     return { min: mn, max: mx, n: n };
   }
-  window.p0HlGap_grokbot = hlGap; window.p0HlBands_grokbot = hlBands;
+  window.p0HlGap_grokbot = hlGap;
+  // iOS scrolls overflow-hidden boxes to reveal a focused input; the pledge and the (non-scrolling) page must stay put, so 'I,' never disappears
+  document.addEventListener('scroll', function (e) { var t = e.target; if (!root || !t || t.nodeType !== 1) return;
+    if (t.classList && t.classList.contains('pv-pledge') && root.contains(t)) { if (t.scrollTop) t.scrollTop = 0; if (t.scrollLeft) t.scrollLeft = 0; }
+    else if (t === root && root.scrollHeight - root.clientHeight <= 2 && root.scrollTop) root.scrollTop = 0; }, true); window.p0HlBands_grokbot = hlBands;
   // Amanda Oct 19 8:31 AM: every block on a line paints the same band as the plain spans (content top + .08em, .97em tall), so the line gap is the same for all
   // fields: the city button's band is placed from its own text box, the name inputs are shifted by their offset from the 'I,' text on line 1
   function alignBands() {
@@ -16219,9 +16226,11 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var pb0 = h.querySelector('i.pv-bl0'), tn1 = h.firstChild; while (tn1 && (tn1.nodeType !== 3 || !tn1.data.trim())) tn1 = tn1.nextSibling; if (!pb0 || !tn1) return;
     var k1 = tn1.data.search(/\S/); R.setStart(tn1, k1); R.setEnd(tn1, k1 + 1); var c1 = R.getClientRects()[0]; if (!c1) return;
     var off1 = pb0.getBoundingClientRect().top - (c1.top + .08 * parseFloat(getComputedStyle(h).fontSize));
-    h.querySelectorAll('input.pv-nm').forEach(function (n) { var pb = n.previousElementSibling; if (!pb || !pb.classList.contains('pv-bl')) { pb = document.createElement('i'); pb.className = 'pv-bl'; n.parentNode.insertBefore(pb, n); }
-      n.style.position = 'relative'; var cur = parseFloat(n.style.top) || 0, top0 = n.getBoundingClientRect().top - cur;
-      n.style.top = (pb.getBoundingClientRect().top - off1 - top0).toFixed(2) + 'px'; });
+    var dIn = null; h.querySelectorAll('input.pv-nm').forEach(function (n) { var pb = n.previousElementSibling; if (!pb || !pb.classList.contains('pv-bl')) { pb = document.createElement('i'); pb.className = 'pv-bl'; n.parentNode.insertBefore(pb, n); }
+      n.style.position = 'relative'; var cur = parseFloat(n.style.top) || 0, r0 = n.getBoundingClientRect(), top0 = r0.top - cur, pt = pb.getBoundingClientRect().top;
+      // the probe may sit at the end of the previous line when the name wraps: only trust it on the input's own line; the offset is the same for every name box
+      if (pt > top0 && pt < top0 + r0.height * 1.2) dIn = pt - off1 - top0; n._top0 = top0; });
+    if (dIn !== null) h.querySelectorAll('input.pv-nm').forEach(function (n) { n.style.top = dIn.toFixed(2) + 'px'; });
   }
   function capGap() { var g = hlGap(); return g && g.n ? g.min : null; }
   window.p0CapGap_grokbot = capGap;
@@ -16370,7 +16379,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     Object.keys(ERR).forEach(function (k) { var e = $('err-' + k); if (e && e.classList.contains('visible')) { bad.push(ERR[k]); if (k === 'birthdate' && /18/.test(e.textContent)) msg = '18+ only.'; if (k === 'email' && /Invalid/.test(e.textContent) && bad.length === 1) msg = 'That email doesn\u2019t look right.'; } });
     root.querySelectorAll('[data-b]').forEach(function (el) { var k = el.dataset.b; el.classList.toggle('p0-bad', bad.indexOf(k) >= 0 || (k === 'genstat' && (bad.indexOf('gender') >= 0 || bad.indexOf('status') >= 0))); });
     if (EM === 'old') { var m = $('pv-msg'); if (m) { m.textContent = bad.length ? msg : ''; m.parentNode.classList.toggle('has-msg', !!bad.length); } }
-    else { TRIED = true; countMsg(); var miss = [].slice.call(root.querySelectorAll('.p0-miss'));
+    else { TRIED = true; if (REQ) { var rq = couple() ? 'black' : REQ; document.documentElement.classList.toggle('p0rq-orange', rq === 'orange'); document.documentElement.classList.toggle('p0rq-black', rq === 'black'); } /* couples: blanks are already orange -> black required look */ countMsg(); var miss = [].slice.call(root.querySelectorAll('.p0-miss'));
       miss.forEach(function (el) { el.classList.remove('p0-anim'); void el.offsetWidth; el.classList.add('p0-anim'); }); setTimeout(function () { miss.forEach(function (el) { el.classList.remove('p0-anim'); }); }, 800);
       if (EM === 'B' || REQ) focusFirst(); }
     try { document.querySelector('#screen-10 .screen-content').scrollTop = 0; } catch (e) {}
@@ -16649,6 +16658,10 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.p0rq.p0btn-black #p0v .pv-go .pv-msg, html.p0rq #p0v .pv-go .pv-msg { color: #FF7A2F !important; opacity: 1 !important; }
   #p0ht .ht-w { scroll-snap-type: none !important; touch-action: none; overscroll-behavior: contain; } /* JS drags + snaps (iOS) */
   #p0ht .ht-sh { z-index: 2; touch-action: none; }
+  html.p0v #p0v .pv-pledge input.pv-nm { text-overflow: ellipsis; overflow: hidden; }
+  /* Amanda Oct 19 10:10 AM (copy=oath3): couples = colour inverse of singles - orange blanks (as before) + LIME emphasis phrases; signature, email and phone stay lime */
+  html.p0c-oath3.p0v body.couples-flow #p0v .pv-pledge .pl-or, html.p0c-oath3.p0v body.couples-flow #p0v .pv-pledge .pl-punch .pl-or.pl-or { --blk: #c8f135; background-image: linear-gradient(#c8f135, #c8f135) !important; color: #0e0e0e !important; }
+  html.p0c-oath3.p0c-inline body.couples-flow #p0v .pv-oci input { background: #c8f135; }
 </style>
 
 <script>
