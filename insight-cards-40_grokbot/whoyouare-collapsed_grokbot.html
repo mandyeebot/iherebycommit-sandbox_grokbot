@@ -189,7 +189,7 @@
     var v = Q.get('v') ? '&v=' + encodeURIComponent(Q.get('v')) : '';
     var L = [['black', 'Current black (s3y223)'], ['blackfix', 'Black + red-mode fixes'], ['A', 'A · Lab form'], ['A2', 'A2 · Lab + orange'], ['B', 'B · Brutalist (thinner)'], ['AB', 'AB · Lab x Brutalist'], ['AB2', 'AB2 · AB + orange EDIT'], ['AB2dark', 'AB2dark · AB2 on black'], ['blackfix2', 'Blackfix2 · orange EDIT'], ['form', 'Form rows (sign page)']];
     var h = '<h2>Who You Are · fully collapsed (20 cards)</h2><div class="row">';
-    L.forEach(function (x) { var u = '?style=' + x[0] + v + (Q.get('state') ? '&state=' + encodeURIComponent(Q.get('state')) : '') + (Q.get('path') ? '&path=' + encodeURIComponent(Q.get('path')) : '') + (Q.get('edit') ? '&edit=' + encodeURIComponent(Q.get('edit')) : '') + (Q.get('nums') ? '&nums=' + encodeURIComponent(Q.get('nums')) : ''); h += '<figure><figcaption>' + x[1] + ' · <a href="' + u + '" target="_blank">open</a></figcaption><div class="fr"><iframe src="' + u + '"></iframe></div></figure>'; });
+    L.forEach(function (x) { var u = '?style=' + x[0] + v + (Q.get('state') ? '&state=' + encodeURIComponent(Q.get('state')) : '') + (Q.get('path') ? '&path=' + encodeURIComponent(Q.get('path')) : '') + (Q.get('edit') ? '&edit=' + encodeURIComponent(Q.get('edit')) : '') + (Q.get('nums') ? '&nums=' + encodeURIComponent(Q.get('nums')) : '') + (Q.get('pencil') ? '&pencil=' + encodeURIComponent(Q.get('pencil')) : ''); h += '<figure><figcaption>' + x[1] + ' · <a href="' + u + '" target="_blank">open</a></figcaption><div class="fr"><iframe src="' + u + '"></iframe></div></figure>'; });
     B.innerHTML = h + '</div>';
     var fit = function () { var k = Math.min(1, (innerHeight - 90) / 660); document.querySelectorAll('.fr').forEach(function (f) { f.style.transform = k < 1 ? 'scale(' + k + ')' : ''; f.style.marginBottom = k < 1 ? (660 * (k - 1)) + 'px' : ''; f.style.marginRight = k < 1 ? (393 * (k - 1)) + 'px' : ''; }); };
     addEventListener('resize', fit); fit();
@@ -198,7 +198,13 @@
   var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
   var white = /^(A|A2|B|AB|AB2)$/.test(st);
   var ip = Q.get('state') === 'inprogress', cpl = Q.get('path') === 'couple', pen = Q.get('edit') === 'pencil', nums = Q.get('nums') === '1';
-  var PEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4 20l1.2-4.8L15.6 4.8a2.1 2.1 0 0 1 3 3L8.2 18.2z"/><path d="M13.6 6.8l3.6 3.6"/></svg>';
+  var PENS = {
+    0: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4 20l1.2-4.8L15.6 4.8a2.1 2.1 0 0 1 3 3L8.2 18.2z"/><path d="M13.6 6.8l3.6 3.6"/></svg>',
+    1: '<svg viewBox="0 0 24 24" shape-rendering="geometricPrecision" aria-hidden="true"><path fill="currentColor" d="M17 2L22 7L8.5 20.5L2 22L3.5 15.5Z"/></svg>',
+    2: '<svg viewBox="0 0 24 24" shape-rendering="geometricPrecision" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="10" aria-hidden="true"><path d="M17 3.5L20.5 7L8 19.5L3.5 20.5L4.5 16Z"/><path d="M14.5 6L18 9.5"/></svg>',
+    3: '<svg viewBox="0 0 24 24" shape-rendering="geometricPrecision" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M21.5 2.5L12 5L2.5 21.5L19 12ZM13.4 10.6m-1.7 0a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0Z"/></svg>'
+  };
+  var PEN = PENS[/^[0-3]$/.test(Q.get('pencil') || '') ? Q.get('pencil') : '1'];
   var card = function (k, v) { return pen ? '<div class="c"><span class="k">' + esc(k) + '</span><span class="v" title="' + esc(v) + '">' + esc(v) + '</span><button type="button" class="e pn" aria-label="Edit ' + esc(k) + '">' + PEN + '</button></div>' : '<div class="c" role="button" tabindex="0" aria-label="Edit ' + esc(k) + '"><span class="k">' + esc(k) + '</span><span class="v" title="' + esc(v) + '">' + esc(v) + '</span><span class="e">Edit</span></div>'; };
   B.className = (st === 'blackfix2' ? 's-blackfix bf2' : 's-' + st) + (st === 'AB2dark' && nums ? ' qtags' : '') + (ip ? ' ip' : '') + (cpl ? ' couple' : '') + (pen ? ' pen' : '') + (white ? ' w' : '') + (/^(A|A2|AB|AB2)$/.test(st) ? ' grid-paper' + (nums ? ' qtags' : '') : '') + (/^AB2?$/.test(st) && Q.get('btn') === 'black' ? ' btn-black' : '') + (st === 'AB2' && Q.get('edit') === 'brand' ? ' edit-brand' : '');
   var D = [['Gender', 'Woman'], ['Name', 'Amanda Bradford'], ['Date of birth', 'Jan 1, 1984'], ['Location', 'Austin, TX'], ['Marital status', 'Never married'], ['Have kids', 'Yes (2)'],
