@@ -15967,6 +15967,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   // Amanda Oct 19 5:07 AM: &copy=truth opt-in copy (truth oath pledge, no privacy paragraph, two small lines under COMMIT); &truthhl=0 drops the orange on the oath
   var TRUTH = Q.get('copy') === 'truth', THL = Q.get('truthhl') !== '0';
   // Amanda Oct 19 6:19 AM: &copy=oath (sound-mind oath, no orange for singles, optional phone behind '+ Add a phone number' with an SMS legal bubble, one combined line under COMMIT); &contact=below puts the contact lines under the signature
+  var PAIRHL = Q.get('copy') === 'oath3' && /^(orange|lime)$/.test(Q.get('pairhl') || '') ? Q.get('pairhl') : ''; // Amanda Oct 19 9:26 AM: opt-in word highlights in para 2
+  function ph(w) { return '<span class="pl-em pl-ph pl-ph-' + PAIRHL + '">' + w + '</span>'; }
   var OATH3 = Q.get('copy') === 'oath3'; // Amanda Oct 19 7:55 AM: oath3 = oath2 + [height] blank + new copy
   var OATH2 = Q.get('copy') === 'oath2' || OATH3; // Amanda Oct 19 6:39 AM: oath2 = oath in every way except the pledge copy
   var OATH = (Q.get('copy') === 'oath' || OATH2) && !TRUTH, CBELOW = OATH && Q.get('contact') === 'below', CINLINE = OATH && Q.get('contact') === 'inline'; // Amanda Oct 19 7:05 AM: &contact=inline - compact email | phone boxes under the signature's name/date row, no 'Reach me at' / '+ Add'
@@ -16041,7 +16043,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   function pledge(nameHTML, statHTML, dobHTML, locHTML) {
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
     if (PL === 'E' && OATH3) return 'I, ' + nameHTML + ' ' + String(statHTML).replace(/,(\s*(<\/span>)?)$/, '$1') + ' of ' + nw('<span class="pv-gsv pv-htv empty" data-b="height" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Height">[height]</span>') + ' in height, born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, <span class="pl-em pl-or">hereby commit to tell the whole truth &amp; nothing but the truth</span>.' + // Amanda Oct 19 8:49 AM: orange
-      '<span class="pl-vow">To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person, to <span class="pl-em pl-or">find love that will last</span>, <span class="pl-punch"><span class="' + k + ' pl-or">till deletion do us part.</span></span></span>'; // Amanda Oct 19 9:18 AM: whole TILL DELETION DO US PART. orange; 8:48 AM: FIND LOVE THAT WILL LAST in orange (also for singles)
+      '<span class="pl-vow">To have and to hold these truths, from this day forward, ' + (PAIRHL ? 'for ' + ph('richer') + ' for ' + ph('poorer') + ', for ' + ph('younger') + ' for ' + ph('older') + ', ' + ph('in video') + ' or ' + ph('in person') + ', <span class="pl-em pl-or">to find love that will last</span>,' : 'for richer for poorer, for younger for older, in video or in person, to <span class="pl-em pl-or">find love that will last</span>,') + ' <span class="pl-punch"><span class="' + k + ' pl-or">till deletion do us part.</span></span></span>'; // Amanda Oct 19 9:18 AM: whole TILL DELETION DO US PART. orange; 8:48 AM: FIND LOVE THAT WILL LAST in orange (also for singles)
     if (PL === 'E' && OATH2) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the truth, the whole truth, and nothing but the truth \u2014 including my height, age, and intentions.' +
       '<span class="pl-vow">To have and to hold these truths, from this day forward, for better or worse, for richer or for poorer, in video and in person, to find love that will last, <span class="pl-punch"><span class="' + k + '">till data do us part.</span></span></span>';
     if (PL === 'E' && OATH) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the truth, the whole truth, and nothing but the truth \u2014 including about my height, my age, and my intentions.' +
@@ -16173,7 +16175,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   function hlBands() {
     var h = root && root.querySelector('.pv-pledge'); if (!h) return [];
     var out = [];
-    h.querySelectorAll('.pv-gsv,.pv-dobv,button.pv-locv,input.pv-nm,.pl-em,.pl-or,.pl-punch .ac,.pl-punch .hl,.pv-name,.pv-stat,.pv-dobs,.pv-locs').forEach(function (e) {
+    h.querySelectorAll('.pv-gsv,.pv-dobv,button.pv-locv,input.pv-nm,.pl-em,.pl-or,.pl-ph,.pl-punch .ac,.pl-punch .hl,.pv-name,.pv-stat,.pv-dobs,.pv-locs').forEach(function (e) {
       var cs = getComputedStyle(e), bi = cs.backgroundImage, grad = bi && bi !== 'none';
       if (!grad && cs.backgroundColor === 'rgba(0, 0, 0, 0)') return;
       var lastL = function (v) { var a = String(v).split(','); return a[a.length - 1].trim(); }; /* multi-layer (couples-black rim): the last layer is the full band */
@@ -16606,6 +16608,10 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.p0c-oath3 #p0v .pv-pledge .pl-or { text-decoration: none !important; }
   html.p0v #p0v .pv-pledge .pv-dg { vertical-align: baseline !important; position: relative; top: -.9em; } /* the deed dagger is drawn raised but no longer makes its line taller (uneven gaps) */
   html.p0c-oath3.p0v #p0v .pv-pledge .pl-punch .pl-or.pl-or { --blk: #FF7A2F; background-image: linear-gradient(#FF7A2F, #FF7A2F) !important; color: #0e0e0e !important; text-decoration: none !important; } /* Amanda 9:18 AM: whole punchline orange (beats the lime punch rules) */
+  /* Amanda Oct 19 9:26 AM: &pairhl=orange|lime (copy=oath3) - RICHER / POORER / YOUNGER / OLDER / IN VIDEO / IN PERSON blocks */
+  html.p0c-oath3 #p0v .pv-pledge .pl-ph { background: linear-gradient(var(--blk), var(--blk)) 0 var(--bt) / 100% .97em no-repeat !important; color: #0e0e0e !important; text-decoration: none !important; padding: 0 3px !important; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  html.p0c-oath3 #p0v .pv-pledge .pl-ph.pl-ph-orange { --blk: #FF7A2F; }
+  html.p0c-oath3 #p0v .pv-pledge .pl-ph.pl-ph-lime { --blk: #c8f135; }
 </style>
 
 <script>
