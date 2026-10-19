@@ -19,32 +19,32 @@
   footer { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #555; padding: 8px 24px 24px; }
 </style></head><body>
 <header><h1>PAGE 0 · <span>4 WAYS</span> + YOUR PLEDGE</h1>
-<p>Manifesto-first page 0 designs, each at 393×660, singles and couples. Every field is real and required (name, date of birth, gender, location, email, status); the copy comes from the landing page only. Variants 2 and 3 open with a personal pledge, switchable with &amp;pledge=D|A|B|C (D is the default); type a name and pick gender and status to see the deed-style pledge fill in (“I, Amanda Bradford, an unmarried woman, hereby commit…”). Tap into any frame to try it, or open it full screen. The current layout (5829c15) is <a href="onboarding-page0_grokbot.html?p0=0">p0=0</a>.</p></header>
+<p>Manifesto-first page 0 designs, each at 393×660, singles and couples. Every field is real and required (name, date of birth, gender, location, email, status); the copy comes from the landing page only. Variants 2 and 3 open with a personal pledge, switchable with &amp;pledge=E|D|A|B|C (E is the default); type a name, pick gender and status, and add your birth date and city to see the deed-style pledge fill in (“I, Amanda Bradford, an unmarried woman, born 11/19/84, domiciled in Austin, Texas, hereby commit…”). Tap into any frame to try it, or open it full screen. The current layout (5829c15) is <a href="onboarding-page0_grokbot.html?p0=0">p0=0</a>.</p></header>
 <div id="rows"></div>
 <footer>Mockup from sports-preview · nothing is saved</footer>
 <script>
 var V = [[1, 'Manifesto + pact card', 'Big home-page headline and body up top; a compact "sign the pact" card above the button.'],
-         [2, 'Mad-Libs', 'Your personal pledge as the headline: "I, [first] [last], [your status ▾], hereby commit…" (one picker sets gender + status, deed-style); the rest live in one sentence.'],
-         [3, 'The pledge (contract)', 'A paper contract: "I, Amanda Bradford, an unmarried woman, hereby commit…" fills in live from the signature block, deed-style; the button is your signature.'],
+         [2, 'Mad-Libs', 'Your personal pledge as the headline: "I, [first] [last], [your status ▾], born [birth date], domiciled in [your city], hereby commit…" (one picker sets gender + status, deed-style); the rest live in one sentence.'],
+         [3, 'The pledge (contract)', 'A paper contract: "I, Amanda Bradford, an unmarried woman, born 11/19/84, domiciled in Austin, Texas, hereby commit…" fills in live from the signature block, deed-style; the button is your signature.'],
          [4, 'Full-bleed hero', 'A home-page hero in the accent colour with the rotating headlines, then a tight two-column micro form.']];
 var R = document.getElementById('rows'), ver = new URLSearchParams(location.search).get('v') || '';
-var PLW = { D: '"…for the explicit purpose of maximizing relationship retention and relationship satisfaction (and maybe even lifespan). For better, for worse, for longer, for happier. Till data do us part."', A: '"…to science, to help unlock one of the least-studied questions in human life: what makes love last…"', B: '"…to the science of lasting love, so people everywhere can learn how to choose a partner who fits…"', C: '"…to science, to help answer the biggest unstudied question we all face…"' };
+var PLW = { E: '"…born [birth date], domiciled in [your city], hereby commit my love life to science, to aid humanity in its quest to maximize relationship retention and life satisfaction, simultaneously. For better, for worse, for longer, for happier. Till data do us part."', D: '"…for the explicit purpose of maximizing relationship retention and relationship satisfaction (and maybe even lifespan). For better, for worse, for longer, for happier. Till data do us part."', A: '"…to science, to help unlock one of the least-studied questions in human life: what makes love last…"', B: '"…to the science of lasting love, so people everywhere can learn how to choose a partner who fits…"', C: '"…to science, to help answer the biggest unstudied question we all face…"' };
 var NM = { 2: '2 · Mad-Libs', 3: '3 · The pledge (contract)' };
 function pledgeRows(PLS, title) { window.PLS = PLS;
-  var h0 = document.createElement('h2'); h0.className = 's'; h0.textContent = title; if (PLS[0] !== 'D') h0.style.marginTop = '36px'; h0.style.fontSize = '32px'; R.appendChild(h0);
+  var h0 = document.createElement('h2'); h0.className = 's'; h0.textContent = title; if (PLS[0] !== 'E') h0.style.marginTop = '36px'; h0.style.fontSize = '32px'; R.appendChild(h0);
   [['Singles', 's', ''], ['Couples', 'c', '&path=couple']].forEach(function (p) {
     var h = document.createElement('h2'); h.className = p[1]; h.textContent = p[0] + (p[2] ? ' (\u201cour love story\u201d)' : ' (\u201cmy love life\u201d)'); R.appendChild(h);
     var row = document.createElement('div'); row.className = 'row'; R.appendChild(row);
-    [2, 3].forEach(function (v) { (window.PLS || ['D']).forEach(function (pl) {
+    [2, 3].forEach(function (v) { (window.PLS || ['E']).forEach(function (pl) {
       var u = 'onboarding-page0_grokbot.html?p0=' + v + '&pledge=' + pl + p[2] + (ver ? '&v=' + ver : '');
       var f = document.createElement('figure');
-      f.innerHTML = '<figcaption><b>' + NM[v] + ' · pledge ' + pl + (pl === 'D' ? ' (default)' : '') + '</b><br>' + PLW[pl] + ' <a href="' + u + '" target="_blank" rel="noopener">open ↗</a></figcaption><iframe src="' + u + '" title="Variant ' + v + ' pledge ' + pl + ' ' + p[0] + '" loading="lazy"></iframe>';
+      f.innerHTML = '<figcaption><b>' + NM[v] + ' · pledge ' + pl + (pl === 'E' ? ' (default)' : '') + '</b><br>' + PLW[pl] + ' <a href="' + u + '" target="_blank" rel="noopener">open ↗</a></figcaption><iframe src="' + u + '" title="Variant ' + v + ' pledge ' + pl + ' ' + p[0] + '" loading="lazy"></iframe>';
       row.appendChild(f);
     }); });
   });
 }
-pledgeRows(['D'], 'Pledge D (new default) · variants 2 and 3');
-pledgeRows(['A', 'B', 'C'], 'Earlier pledges A, B, C · variants 2 and 3');
+pledgeRows(['E'], 'Pledge E (new default) · variants 2 and 3');
+pledgeRows(['D', 'A', 'B', 'C'], 'Earlier pledges D, A, B, C · variants 2 and 3');
 (function () { var h1 = document.createElement('h2'); h1.className = 's'; h1.textContent = 'All 4 variants'; h1.style.fontSize = '32px'; h1.style.marginTop = '36px'; R.appendChild(h1); })();
 [['Singles', 's', ''], ['Couples', 'c', '&path=couple']].forEach(function (p) {
   var h = document.createElement('h2'); h.className = p[1]; h.textContent = p[0]; R.appendChild(h);
