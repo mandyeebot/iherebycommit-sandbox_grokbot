@@ -16684,6 +16684,10 @@ html.ws-sheetlab:not(.ws-C) .cp-sheet :is(.cp-sheet-head, .cp-list, .cp-foot, .w
 html.ws-sheetlab:not(.ws-C) .cp-sheet .race-opt:not(.selected) { background:transparent !important; }
 html.ws-sheetlab:not(.ws-C) .cp-sheet .race-opt.selected { background:var(--accent) !important; }
 html.ws-sheetlab:not(.ws-C) .cp-sheet .race-box { background-color:#fffdf7; }
+/* privacy line v2 (Amanda 3:12): "Private by default", one line, ~3px under the header's last line, tight gap to the first section label */
+.ws-privline { margin-top:-5px !important; padding-bottom:5px !important; align-items:center !important; white-space:nowrap; line-height:14px !important; }
+.ws-privline svg { margin-top:0 !important; }
+.cp-sheet .ws-privline + .cp-list > .ed-sec:first-child, html .cp-sheet .ws-privline + .cp-list > :first-child.ed-sec { padding-top:6px !important; margin-top:0 !important; }
 </style>
 <script id="ws-demo-grokbot">
 /* white-styles_grokbot &demo=filled: sample answers for every Who You Are field so the step renders fully collapsed (mockup only, never saved) */
@@ -16750,7 +16754,7 @@ html.ws-sheetlab:not(.ws-C) .cp-sheet .race-box { background-color:#fffdf7; }
   var Q = new URLSearchParams(location.search), w = String(Q.get('wstyle') || '').toUpperCase(), pl = Q.get('privline');
   if (!(pl === '1' || (pl !== '0' && w === 'AB2'))) return;
   document.documentElement.classList.add('ws-pl');
-  var TXT = 'Used for research only \u2014 answers are private, encrypted & anonymized always.';
+  var TXT = 'Private by default';
   var LOCK = '<svg viewBox="0 0 12 14" aria-hidden="true"><rect x="1.5" y="6" width="9" height="7" rx="1.2" fill="currentColor"/><path d="M3.5 6V4.2a2.5 2.5 0 0 1 5 0V6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
   function add() {
     [].forEach.call(document.querySelectorAll('[role=dialog]'), function (d) {
