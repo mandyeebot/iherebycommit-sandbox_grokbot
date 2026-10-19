@@ -16022,7 +16022,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       o += '<optgroup label="' + g[1] + '">' + stat().map(function (st) { return '<option value="' + g[0] + '|' + st[0] + '">' + phrase(g[0], st[0]) + ({ never_married: ' (never married)', divorced: ' (divorced)' }[st[0]] || '') + '</option>'; }).join('') + '</optgroup>';
     });
     // the visible phrase is wrapping text; a transparent native picker sits on top of it, so a long phrase can wrap onto two lines
-    return '<span class="pv-gsw" role="button" tabindex="0" aria-haspopup="dialog"><span class="pv-gsv empty">your status</span><span class="pv-car" aria-hidden="true">\u25be</span><select class="pv-gs" data-b="genstat" required aria-label="' + (couple() ? 'Gender and relationship status' : 'Gender and marital status') + '">' + o + '</select></span>';
+    return '<span class="pv-gsw" role="button" tabindex="0" aria-haspopup="dialog"><span class="pv-gsv empty">your status</span><span class="pv-car" aria-hidden="true"></span><select class="pv-gs" data-b="genstat" required aria-label="' + (couple() ? 'Gender and relationship status' : 'Gender and marital status') + '">' + o + '</select></span>';
   }
   var USST = { AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', CA: 'California', CO: 'Colorado', CT: 'Connecticut', DE: 'Delaware', DC: 'District of Columbia', FL: 'Florida', GA: 'Georgia', HI: 'Hawaii', ID: 'Idaho', IL: 'Illinois', IN: 'Indiana', IA: 'Iowa', KS: 'Kansas', KY: 'Kentucky', LA: 'Louisiana', ME: 'Maine', MD: 'Maryland', MA: 'Massachusetts', MI: 'Michigan', MN: 'Minnesota', MS: 'Mississippi', MO: 'Missouri', MT: 'Montana', NE: 'Nebraska', NV: 'Nevada', NH: 'New Hampshire', NJ: 'New Jersey', NM: 'New Mexico', NY: 'New York', NC: 'North Carolina', ND: 'North Dakota', OH: 'Ohio', OK: 'Oklahoma', OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina', SD: 'South Dakota', TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia', WA: 'Washington', WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming', PR: 'Puerto Rico' };
   // Amanda Oct 19 1:23 AM: always the actual city + 2-letter state ('Walnut Creek, CA'), never a metro / region or a spelled-out state
@@ -16040,8 +16040,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   }  var LOC_WORST = 'Rancho Santa Margarita, CA'; // longest real 'City, ST'
   function pledge(nameHTML, statHTML, dobHTML, locHTML) {
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
-    if (PL === 'E' && OATH3) return 'I, ' + nameHTML + ' ' + String(statHTML).replace(/,(\s*(<\/span>)?)$/, '$1') + ' of ' + nw('<span class="pv-gsv pv-htv empty" data-b="height" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Height">[height]</span>') + ' in height, born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the whole truth &amp; nothing but the truth.' +
-      '<span class="pl-vow">To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person, to find love that will last, <span class="pl-punch"><span class="' + k + '">till deletion do us part.</span></span></span>';
+    if (PL === 'E' && OATH3) return 'I, ' + nameHTML + ' ' + String(statHTML).replace(/,(\s*(<\/span>)?)$/, '$1') + ' of ' + nw('<span class="pv-gsv pv-htv empty" data-b="height" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Height">[height]</span>') + ' in height, born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, <span class="pl-em pl-or">hereby commit to tell the whole truth &amp; nothing but the truth</span>.' + // Amanda Oct 19 8:49 AM: orange
+      '<span class="pl-vow">To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person, to <span class="pl-em pl-or">find love that will last</span>, <span class="pl-punch"><span class="' + k + '">till <span class="pl-or pl-or-in">deletion</span> do us part.</span></span></span>'; // Amanda Oct 19 8:47/8:48 AM: DELETION + FIND LOVE THAT WILL LAST in orange (also for singles)
     if (PL === 'E' && OATH2) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the truth, the whole truth, and nothing but the truth \u2014 including my height, age, and intentions.' +
       '<span class="pl-vow">To have and to hold these truths, from this day forward, for better or worse, for richer or for poorer, in video and in person, to find love that will last, <span class="pl-punch"><span class="' + k + '">till data do us part.</span></span></span>';
     if (PL === 'E' && OATH) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the truth, the whole truth, and nothing but the truth \u2014 including about my height, my age, and my intentions.' +
@@ -16149,7 +16149,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     root.querySelectorAll('.pv-locs, .pv-locv').forEach(function (n) { n.textContent = worst ? (lt || LOC_WORST) : (lt || '[your city]'); n.classList.toggle('empty', !lt && !worst); if (lt) n.classList.remove('p0-bad'); });
     if (ph) L = ph; // a chosen status lays out as itself (picking only ever frees room)
     root.querySelectorAll('.pv-stat').forEach(function (n) { n.textContent = worst ? L : (ph || '[' + n.dataset.ph + ']'); n.classList.toggle('empty', !ph && !worst); });
-    root.querySelectorAll('input.pv-nm').forEach(function (el) { var t = el.value || el.placeholder; if (worst) t = big(t, el.dataset.b === 'first_name' ? 'Amanda' : 'Bradford'); el.style.width = Math.ceil(textW(el, t.toUpperCase()) + 12) + 'px'; });
+    root.querySelectorAll('input.pv-nm').forEach(function (el) { var t = el.value || el.placeholder; if (worst) t = big(t, el.dataset.b === 'first_name' ? 'Amanda' : 'Bradford'); el.style.width = Math.ceil(textW(el, t.toUpperCase()) + 9) + 'px'; /* Amanda Oct 19 8:31 AM: 4px padding each side + 1px for the text cursor (was +12: a 5px gap inside the block before the next word) */ });
     root.querySelectorAll('select.pv-gs').forEach(function (el) {
       var cur = state.gender && state.currentStatus_grokbot ? state.gender + '|' + state.currentStatus_grokbot : '';
       if (el.value !== cur && (cur || el.value)) { el.value = cur; if (el.value !== cur) el.selectedIndex = 0; }
@@ -16167,21 +16167,60 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   }
   // fit: hide optional supporting lines (highest data-opt first), then step the pledge size down, until nothing scrolls
   var FITMAX = 40, FLOOR = 14; // Amanda Oct 19 2:59 AM: floor 14px; below that the name / city blanks clip (ellipsis) instead of scrolling
-  // Amanda Oct 19 2:57 AM: lines as tight as possible - the cap tops of each line ~1.5px under the highlight block of the line above, never touching
-  var GAP = 1.5, LHK = .841; // Bebas: band bottom 1.05em below the content top, cap top .209em below it -> gap = lh - .841em
-  function capGap() {
-    var h = root && root.querySelector('.pv-pledge'); if (!h) return null;
-    var bands = [], caps = [];
-    h.querySelectorAll('.pv-gsv,.pv-dobv,button.pv-locv,input.pv-nm,.pl-em,.pl-punch .ac,.pl-punch .hl,.pv-name,.pv-stat,.pv-dobs,.pv-locs').forEach(function (e) { var cs = getComputedStyle(e), bi = cs.backgroundImage;
-      if ((bi === 'none' || !bi) && cs.backgroundColor === 'rgba(0, 0, 0, 0)') return; var efs = parseFloat(cs.fontSize);
-      [].forEach.call(e.getClientRects(), function (r) { var t, b; if (e.tagName === 'INPUT') { t = r.top; b = r.bottom; } else { t = r.top + (e.tagName === 'BUTTON' ? .065 : .08) * efs; b = t + .97 * efs; } bands.push({ t: t, b: b, l: r.left, r: r.right }); }); });
-    var tw = document.createTreeWalker(h, NodeFilter.SHOW_TEXT), n, R = document.createRange();
-    while ((n = tw.nextNode())) { if (!n.data.trim()) continue; var pe = n.parentElement; if (pe.closest('input,select,button.pv-locv,.pv-gsv,.pv-dobv,sup')) continue; var efs = parseFloat(getComputedStyle(pe).fontSize);
-      for (var i = 0; i < n.length; i++) { if (/\s/.test(n.data[i])) continue; R.setStart(n, i); R.setEnd(n, i + 1); var r = R.getBoundingClientRect(); if (!r.width) continue; caps.push({ t: r.top + .209 * efs, l: r.left, r: r.right }); } }
-    var lh = parseFloat(getComputedStyle(h).lineHeight), g = null;
-    caps.forEach(function (C) { bands.forEach(function (B) { if (C.r <= B.l || C.l >= B.r) return; var d = C.t - B.b; if (d < -lh * .5 || d > lh * .6) return; if (g === null || d < g) g = d; }); });
-    return g;
+  // Amanda Oct 19 8:31 AM: highlight blocks of consecutive lines NEARLY touching - 0.5-1px between one line's block bottom and the next line's block top,
+  // never overlapping, never more than 1px. Line height is fixed by that gap; any leftover height goes to a bigger font (or sits below the pledge), never into line spacing.
+  var GAP = .75, LHK = .97; // painted block = .97em (background-size), so line-height = .97em + gap; LHK is re-calibrated from the measured blocks
+  function hlBands() {
+    var h = root && root.querySelector('.pv-pledge'); if (!h) return [];
+    var out = [];
+    h.querySelectorAll('.pv-gsv,.pv-dobv,button.pv-locv,input.pv-nm,.pl-em,.pl-or,.pl-punch .ac,.pl-punch .hl,.pv-name,.pv-stat,.pv-dobs,.pv-locs').forEach(function (e) {
+      var cs = getComputedStyle(e), bi = cs.backgroundImage, grad = bi && bi !== 'none';
+      if (!grad && cs.backgroundColor === 'rgba(0, 0, 0, 0)') return;
+      var lastL = function (v) { var a = String(v).split(','); return a[a.length - 1].trim(); }; /* multi-layer (couples-black rim): the last layer is the full band */
+      var sz = grad ? (lastL(cs.backgroundSize).split(' ')[1] || '') : '', py = grad ? (lastL(cs.backgroundPosition).split(' ')[1] || '0px') : '0px';
+      [].forEach.call(e.getClientRects(), function (r) { if (!r.width) return; var t = r.top, b = r.bottom;
+        if (grad && /px$/.test(sz) && /px$/.test(py)) { t = r.top + parseFloat(py); b = Math.min(r.bottom, t + parseFloat(sz)); }
+        out.push({ t: t, b: b, l: r.left, r: r.right, c: (t + b) / 2 }); }); });
+    return out;
   }
+  function hlGap() { // {min,max,n}: gaps between highlight blocks on consecutive lines (block pairs that stack; if none stack, any pair of the two lines)
+    var h = root && root.querySelector('.pv-pledge'); if (!h) return null;
+    var lh = parseFloat(getComputedStyle(h).lineHeight), B = hlBands().sort(function (x, y) { return x.c - y.c; }), L = [];
+    B.forEach(function (x) { var g = L[L.length - 1]; if (g && x.c - g.c < lh * .4) g.a.push(x); else L.push({ c: x.c, a: [x] }); });
+    var mn = null, mx = null, n = 0;
+    for (var i = 1; i < L.length; i++) { if (L[i].c - L[i - 1].c > lh * 1.5) continue;
+      var ds = [], all = [];
+      L[i - 1].a.forEach(function (A) { L[i].a.forEach(function (C) { var d = C.t - A.b; all.push(d); if (C.r > A.l && C.l < A.r) ds.push(d); }); });
+      (ds.length ? ds : [Math.min.apply(null, all)]).forEach(function (d) { n++; if (mn === null || d < mn) mn = d; if (mx === null || d > mx) mx = d; }); }
+    return { min: mn, max: mx, n: n };
+  }
+  window.p0HlGap_grokbot = hlGap; window.p0HlBands_grokbot = hlBands;
+  // Amanda Oct 19 8:31 AM: every block on a line paints the same band as the plain spans (content top + .08em, .97em tall), so the line gap is the same for all
+  // fields: the city button's band is placed from its own text box, the name inputs are shifted by their offset from the 'I,' text on line 1
+  function alignBands() {
+    var h = root && root.querySelector('.pv-pledge'); if (!h) return; var R = document.createRange();
+    h.querySelectorAll('button.pv-locv').forEach(function (b) { var t = b.firstChild; while (t && t.nodeType !== 3) t = t.firstChild || t.nextSibling; if (!t || !t.data.length) return;
+      R.selectNodeContents(t); var tr = R.getClientRects()[0], br = b.getClientRects()[0]; if (!tr || !br) return; var efs = parseFloat(getComputedStyle(b).fontSize);
+      b.style.setProperty('--bt', (tr.top - br.top + .08 * efs).toFixed(2) + 'px'); b.style.removeProperty('background-position'); });
+    // the bigger punchline (1.08em) paints the SAME band as a normal line (same height, same offset from the baseline), so its gap matches the rest
+    (function () { var tn0 = h.firstChild; while (tn0 && (tn0.nodeType !== 3 || !tn0.data.trim())) tn0 = tn0.nextSibling; if (!tn0) return;
+      var pb0 = h.querySelector('i.pv-bl0'); if (!pb0) { pb0 = document.createElement('i'); pb0.className = 'pv-bl pv-bl0'; h.insertBefore(pb0, tn0); }
+      var k0 = tn0.data.search(/\S/); R.setStart(tn0, k0); R.setEnd(tn0, k0 + 1); var c0 = R.getClientRects()[0]; if (!c0) return;
+      var f = parseFloat(getComputedStyle(h).fontSize), off = pb0.getBoundingClientRect().top - (c0.top + .08 * f);
+      h.querySelectorAll('.pl-punch .ac, .pl-punch .hl').forEach(function (e) { if (Math.abs(parseFloat(getComputedStyle(e).fontSize) - f) < .01) return;
+        var pb = e.querySelector(':scope > i.pv-bl'); if (!pb) { pb = document.createElement('i'); pb.className = 'pv-bl'; e.insertBefore(pb, e.firstChild); }
+        var r = e.getClientRects()[0]; if (!r) return; var y = (pb.getBoundingClientRect().top - off - r.top).toFixed(2) + 'px';
+        [e].concat([].slice.call(e.querySelectorAll('.pl-or-in'))).forEach(function (x) { var rx = x.getClientRects()[0]; var yy = rx ? (pb.getBoundingClientRect().top - off - rx.top).toFixed(2) + 'px' : y;
+          x.style.setProperty('background-position', '0 ' + yy, 'important'); x.style.setProperty('background-size', '100% ' + (.97 * f).toFixed(2) + 'px', 'important'); }); }); })();
+    // name boxes: band top = their own baseline - (baseline - band top of the plain text), whatever line they wrapped to
+    var pb0 = h.querySelector('i.pv-bl0'), tn1 = h.firstChild; while (tn1 && (tn1.nodeType !== 3 || !tn1.data.trim())) tn1 = tn1.nextSibling; if (!pb0 || !tn1) return;
+    var k1 = tn1.data.search(/\S/); R.setStart(tn1, k1); R.setEnd(tn1, k1 + 1); var c1 = R.getClientRects()[0]; if (!c1) return;
+    var off1 = pb0.getBoundingClientRect().top - (c1.top + .08 * parseFloat(getComputedStyle(h).fontSize));
+    h.querySelectorAll('input.pv-nm').forEach(function (n) { var pb = n.previousElementSibling; if (!pb || !pb.classList.contains('pv-bl')) { pb = document.createElement('i'); pb.className = 'pv-bl'; n.parentNode.insertBefore(pb, n); }
+      n.style.position = 'relative'; var cur = parseFloat(n.style.top) || 0, top0 = n.getBoundingClientRect().top - cur;
+      n.style.top = (pb.getBoundingClientRect().top - off1 - top0).toFixed(2) + 'px'; });
+  }
+  function capGap() { var g = hlGap(); return g && g.n ? g.min : null; }
   window.p0CapGap_grokbot = capGap;
   function fit(shrinkOnly) {
     if (!root) return;
@@ -16193,21 +16232,21 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     // Amanda: never cut copy (data-opt paragraphs stay); the font search below makes room
     var lates = [].slice.call(root.querySelectorAll('[data-late]'));
     if (!shrinkOnly) lates.forEach(function (o) { o.style.display = ''; });
-    var plh = root.querySelector('.pv-pledge'); var setF = function (f) { hs.forEach(function (h) { h.style.fontSize = f + 'px'; }); if (plh) plh.style.setProperty('line-height', (LHK + GAP / f).toFixed(4), 'important'); nameSync(W); };
+    var plh = root.querySelector('.pv-pledge'); var setF = function (f) { hs.forEach(function (h) { h.style.fontSize = f + 'px'; }); if (plh) plh.style.setProperty('line-height', (LHK + GAP / f).toFixed(4), 'important'); nameSync(W); alignBands(); };
     var step = function () { setF(parseFloat(getComputedStyle(hs[0]).fontSize) - .5); };
     var floor = function () { return hs.length ? parseFloat(hs[0].dataset.min || 0) : 0; };
     // Amanda Oct 19 1:14 AM: the pledge takes every free pixel (binary search to 0.25px), no reserved gaps
     var best = function () { var lo = FLOOR, hi = FITMAX; setF(lo); if (over()) return lo; while (hi - lo > .25) { var mid = (lo + hi) / 2; setF(mid); if (over()) hi = mid; else lo = mid; } lo = Math.floor(lo * 4) / 4; setF(lo); return lo; };
     if (hs.length && !shrinkOnly) {
-      var tune = function () { // final touch on the line spacing only, never at the price of a scroll
-        for (var k2 = 0; k2 < 8; k2++) { var g1 = capGap(); if (g1 === null || !plh || (g1 >= 1 && g1 <= 2)) break;
-          var fz = parseFloat(getComputedStyle(plh).fontSize), prev = plh.style.getPropertyValue('line-height'), lhn = parseFloat(getComputedStyle(plh).lineHeight) / fz + (GAP - g1) / fz;
+      var tune = function () { // never stretch: only ever opens a too-tight (overlapping / <0.5px) spacing, shrinking the font if that would scroll
+        for (var k2 = 0; k2 < 12; k2++) { var g1 = hlGap(); if (!g1 || !g1.n || !plh || g1.min >= .5) break;
+          var fz = parseFloat(getComputedStyle(plh).fontSize), prev = plh.style.getPropertyValue('line-height'), lhn = parseFloat(getComputedStyle(plh).lineHeight) / fz + (.6 - g1.min) / fz;
           plh.style.setProperty('line-height', lhn.toFixed(4), 'important');
-          if (over()) { plh.style.setProperty('line-height', prev, 'important'); if (g1 < 1 && fz > FLOOR) { setF(fz - .25); continue; } break; } } };
-      var run = function () { var f = best(); for (var it = 0; it < 4; it++) { var g0 = capGap(); if (g0 === null || Math.abs(g0 - GAP) <= .35) break; LHK = Math.max(.8, Math.min(1, LHK + (GAP - g0) / f)); f = best(); } tune(); return f; };
+          if (over()) { plh.style.setProperty('line-height', prev, 'important'); if (fz > FLOOR) { setF(fz - .25); continue; } break; } } };
+      var run = function () { var f = best(); for (var it = 0; it < 6; it++) { var g0 = hlGap(); if (!g0 || !g0.n) break; var mid = (g0.min + g0.max) / 2; if (g0.min >= .5 && g0.max <= 1 && Math.abs(mid - GAP) <= .15) break; LHK = Math.max(.85, Math.min(1.2, LHK + (GAP - mid) / f)); f = best(); } tune(); return f; };
       root.classList.remove('pv-clip'); root.classList.remove('pv-tight'); var f0 = run();
       root.classList.remove('pv-tight'); if (f0 < 17) { root.classList.add('pv-tight'); f0 = run(); } /* small pledge: tighten the supporting copy first */ if (over()) { root.classList.add('pv-clip'); nameSync(W); f0 = run(); }
-      root.dataset.gap = String(capGap());
+      alignBands(); var gg = hlGap(); root.dataset.gap = String(gg && gg.n ? gg.min : null); root.dataset.gapmax = String(gg && gg.n ? gg.max : null);
     } else { var guard = 0; while (over() && guard++ < 40 && hs.length) step(); }
     setTimeout(sigInit, 0);
     var deed = root.querySelector('.pv-deed'); root.querySelectorAll('.pv-pledge .pv-dg').forEach(function (d) { d.style.display = deed && deed.style.display !== 'none' ? '' : 'none'; });
@@ -16339,18 +16378,37 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   window.p0PhoneOk_grokbot = function () { return phoneOk(); };
   // ---- [height] picker (oath3): 4'0"-7'6" in a small bottom sheet; mockup only (kept in state.height_grokbot, not sent)
   function htFmt(h) { return Math.floor(h / 12) + '\'' + (h % 12) + '\u2033'; }
-  function htSet(h) { state.height_grokbot = h || null; try { localStorage.setItem('p0_height_grokbot', String(h || '')); } catch (e) {} if (root) root.querySelectorAll('.pv-htv').forEach(function (n) { n.textContent = h ? htFmt(h) : '[height]'; n.classList.toggle('empty', !h); n.classList.remove('p0-miss'); }); try { countMsg(); } catch (e) {} }
+  function htSet(h) { state.height_grokbot = h || null; try { localStorage.setItem('p0_height_grokbot', String(h || '')); } catch (e) {} if (root) root.querySelectorAll('.pv-htv').forEach(function (n) { n.textContent = h ? htFmt(h) : '[height]'; n.classList.toggle('empty', !h); n.classList.remove('p0-miss'); }); try { countMsg(); } catch (e) {} if (root) fitSoon(true); }
   window.p0SetHeight_grokbot = htSet;
+  // Amanda Oct 19 8:47 AM: height = iOS-style wheel sheet like the birthday picker (feet 4-7 | inches 0-11, max 7'6"), DONE commits
+  var HT_ROW = 36;
   function htClose() { var sh = document.getElementById('p0ht'); if (sh) sh.classList.remove('on'); }
+  function htWheelPaint(w) { var c = w.scrollTop + w.clientHeight / 2; [].forEach.call(w.children, function (it) { if (!it.dataset.v) return; var d = (it.offsetTop + HT_ROW / 2 - c) / HT_ROW, a = Math.max(-3, Math.min(3, d));
+      it.style.transform = 'rotateX(' + (-a * 22) + 'deg) scale(' + (1 - Math.abs(a) * .04) + ')'; it.style.opacity = String(Math.max(.18, 1 - Math.abs(a) * .28)); it.classList.toggle('sel', Math.abs(d) < .5); }); }
+  function htIdx(w) { return Math.max(0, Math.min(w.querySelectorAll('[data-v]').length - 1, Math.round(w.scrollTop / HT_ROW))); }
+  function htTo(w, i, smooth) { if (smooth && w.scrollTo) w.scrollTo({ top: i * HT_ROW, behavior: 'smooth' }); else w.scrollTop = i * HT_ROW; htWheelPaint(w); }
+  function htCap(sh, smooth) { var ft = sh.querySelector('.ht-ft'), inch = sh.querySelector('.ht-in'), f = 4 + htIdx(ft);
+    [].forEach.call(inch.querySelectorAll('[data-v]'), function (x) { x.classList.toggle('dis', f === 7 && +x.dataset.v > 6); });
+    if (f === 7 && htIdx(inch) > 6) htTo(inch, 6, smooth); }
   function htOpen() {
     var sh = document.getElementById('p0ht');
-    if (!sh) { sh = document.createElement('div'); sh.id = 'p0ht'; var b = '';
-      for (var h = 48; h <= 90; h++) b += '<button type="button" data-h="' + h + '">' + Math.floor(h / 12) + '\u2032' + (h % 12) + '\u2033</button>';
-      sh.innerHTML = '<div class="ht-bg"></div><div class="ht-sh" role="dialog" aria-label="Your height"><div class="ht-hd"><span>Your height</span><button type="button" class="ht-x" aria-label="Close">\u00d7</button></div><div class="ht-grid">' + b + '</div></div>';
+    if (!sh) { sh = document.createElement('div'); sh.id = 'p0ht';
+      var col = function (cls, from, to, unit, lab) { var o = '<div class="ht-col"><div class="ht-w ' + cls + '" tabindex="0" role="listbox" aria-label="' + lab + '"><div class="ht-pad"></div>';
+        for (var v = from; v <= to; v++) o += '<div class="ht-it" role="option" data-v="' + v + '">' + v + '<span class="ht-u">' + unit + '</span></div>'; return o + '<div class="ht-pad"></div></div></div>'; };
+      sh.innerHTML = '<div class="ht-bg"></div><div class="ht-sh" role="dialog" aria-label="Your height"><div class="ht-bar"><span class="ht-t">Height</span><button type="button" class="ht-done">Done</button></div>' +
+        '<div class="ht-wheels"><div class="ht-band"></div>' + col('ht-ft', 4, 7, '\u2032', 'Feet') + col('ht-in', 0, 11, '\u2033', 'Inches') + '</div></div>';
       document.body.appendChild(sh);
-      sh.addEventListener('click', function (e) { var t = e.target.closest('[data-h]'); if (t) { htSet(+t.dataset.h); htClose(); return; } if (e.target.closest('.ht-x') || e.target.classList.contains('ht-bg')) htClose(); }); }
-    var cur = state.height_grokbot || 66; sh.querySelectorAll('[data-h]').forEach(function (x) { x.classList.toggle('on', +x.dataset.h === state.height_grokbot); x.classList.toggle('def', !state.height_grokbot && +x.dataset.h === 66); });
-    sh.classList.add('on'); var t = sh.querySelector('[data-h="' + cur + '"]'), g = sh.querySelector('.ht-grid'); if (t && g) g.scrollTop = Math.max(0, t.offsetTop - g.clientHeight / 2);
+      [].forEach.call(sh.querySelectorAll('.ht-w'), function (w) { var t;
+        w.addEventListener('scroll', function () { htWheelPaint(w); clearTimeout(t); t = setTimeout(function () { htTo(w, htIdx(w), true); htCap(sh, true); }, 110); }, { passive: true });
+        w.addEventListener('click', function (e) { var it = e.target.closest('[data-v]'); if (it && !it.classList.contains('dis')) { htTo(w, [].indexOf.call(w.querySelectorAll('[data-v]'), it), true); setTimeout(function () { htCap(sh, true); }, 260); } });
+        w.addEventListener('keydown', function (e) { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); htTo(w, htIdx(w) + (e.key === 'ArrowDown' ? 1 : -1), true); setTimeout(function () { htCap(sh, true); }, 260); } }); });
+      sh.addEventListener('click', function (e) {
+        if (e.target.closest('.ht-done')) { var f = 4 + htIdx(sh.querySelector('.ht-ft')), i = htIdx(sh.querySelector('.ht-in')); htSet(Math.min(90, f * 12 + i)); htClose(); return; }
+        if (e.target.classList.contains('ht-bg')) htClose(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && sh.classList.contains('on')) htClose(); }); }
+    var cur = state.height_grokbot || 66;
+    sh.classList.add('on');
+    htTo(sh.querySelector('.ht-ft'), Math.floor(cur / 12) - 4); htTo(sh.querySelector('.ht-in'), cur % 12); htCap(sh);
   }
   if (OATH3) { try { var _hs = +localStorage.getItem('p0_height_grokbot'); if (_hs >= 48 && _hs <= 90) state.height_grokbot = _hs; } catch (e) {} }
   function missing() {
@@ -16514,18 +16572,39 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.p0c-oath3 #p0v .pv-htv { cursor: pointer; }
   #p0ht { display: none; position: fixed; inset: 0; z-index: 9999; }
   #p0ht.on { display: block; }
-  #p0ht .ht-bg { position: absolute; inset: 0; background: rgba(14,14,14,.45); }
-  #p0ht .ht-sh { position: absolute; left: 0; right: 0; bottom: 0; background: #f0ece0; color: #0e0e0e; padding: 14px 16px calc(16px + env(safe-area-inset-bottom)); box-shadow: 0 -8px 24px rgba(0,0,0,.2); }
-  #p0ht .ht-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font: 22px/1 'Bebas Neue', sans-serif; letter-spacing: .04em; text-transform: uppercase; }
-  #p0ht .ht-x { background: none; border: 0; font: 22px/1 'Space Mono', monospace; color: inherit; padding: 0 4px; cursor: pointer; }
-  #p0ht .ht-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-height: 236px; overflow-y: auto; -webkit-overflow-scrolling: touch; position: relative; }
-  #p0ht .ht-grid button { height: 40px; border: 1.5px solid #0e0e0e; background: transparent; color: #0e0e0e; font: 14px/1 'Space Mono', monospace; cursor: pointer; border-radius: 0; }
-  #p0ht .ht-grid button.def { border-style: dashed; }
-  #p0ht .ht-grid button.on { background: #c8f135; }
-  body.couples-flow #p0ht .ht-grid button.on { background: #FF7A2F; }
+  #p0ht .ht-bg { position: absolute; inset: 0; background: rgba(0,0,0,.28); }
+  #p0ht .ht-sh { position: absolute; left: 0; right: 0; bottom: 0; background: #d1d3d9; color: #000; padding-bottom: env(safe-area-inset-bottom); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif; }
+  #p0ht .ht-bar { display: flex; justify-content: space-between; align-items: center; height: 44px; padding: 0 16px; background: #f7f7f8; border-top: .5px solid #b5b8be; border-bottom: .5px solid #c6c8cd; }
+  #p0ht .ht-t { font-size: 15px; color: #6b6e75; }
+  #p0ht .ht-done { background: none; border: 0; padding: 8px 0 8px 12px; font: 600 17px/1 -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif; color: #007aff; cursor: pointer; }
+  #p0ht .ht-wheels { position: relative; display: flex; justify-content: center; gap: 0; height: 216px; padding: 0 24px; background: #d1d3d9; -webkit-user-select: none; user-select: none; }
+  #p0ht .ht-band { position: absolute; left: 12px; right: 12px; top: 90px; height: 36px; border-radius: 8px; background: rgba(255,255,255,.55); pointer-events: none; }
+  #p0ht .ht-col { position: relative; width: 104px; height: 216px; perspective: 600px; }
+  #p0ht .ht-w { position: relative; height: 216px; overflow-y: scroll; scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; outline: none;
+    -webkit-mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent); mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent); }
+  #p0ht .ht-w::-webkit-scrollbar { display: none; }
+  #p0ht .ht-pad { height: 90px; }
+  #p0ht .ht-it { height: 36px; line-height: 36px; text-align: center; font-size: 22px; color: #000; scroll-snap-align: center; cursor: pointer; transform-origin: 50% 50%; font-variant-numeric: tabular-nums; }
+  #p0ht .ht-it .ht-u { margin-left: 1px; }
+  #p0ht .ht-it.dis { color: #9a9ca2; }
+
   html.p0v #p0v .pv-foot .pv-legal.pv-legal3 { height: auto !important; padding: 5px 0 4px !important; font-size: 10px !important; line-height: 12px !important; letter-spacing: -.02em !important; text-align: left; }
   html.p0v #p0v .pv-pledge .pl-punch, html.p0v #p0v .pv-pledge .pl-punch > span { line-height: 0 !important; } /* the 1.08em punchline must not push its line down */
   #p0v.pv-clip .pv-body, #p0v.pv-clip .pv-filler { font-size: 12px !important; line-height: 1.25 !important; } /* last resort before any scroll (v3 + sign + long copy) */
+  /* Amanda Oct 19 8:31 AM: big gap after the status field - the caret (a fallback-font \u25be outside the block) sat between the block and the next word.
+     Now it is a drawn triangle INSIDE the block, so after the block comes one normal word space, like every other field */
+  html.p0v #p0v .pv-pledge .pv-car { display: none !important; }
+  html.p0v #p0v .pv-pledge input.pv-nm { margin-top: -.3em !important; margin-bottom: -.3em !important; } /* a name box must never make its line taller (a wrapped last name pushed its line ~0.7px down = uneven gaps) */
+  html.p0v #p0v .pv-pledge .pv-gsw .pv-gsv::after { content: '\2060'; display: inline; margin-left: .14em; padding-left: .3em; /* word joiner: the caret never wraps away from the last word */
+    background: linear-gradient(to bottom left, currentColor 50%, transparent 50%) 0 .45em / .15em .19em no-repeat, linear-gradient(to bottom right, currentColor 50%, transparent 50%) .15em .45em / .15em .19em no-repeat !important; }
+  /* Amanda Oct 19 8:47/8:48 AM (copy=oath3): DELETION and FIND LOVE THAT WILL LAST get an orange block with black text (singles too, couples too), same band as every block;
+     DELETION sits inside the lime punch block with no padding, so lime and orange butt edge to edge */
+  html.p0c-oath3 #p0v .pv-pledge .pl-or { --blk: #FF7A2F; background: linear-gradient(#FF7A2F, #FF7A2F) 0 var(--bt) / 100% .97em no-repeat !important; color: #0e0e0e !important; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-top: 0 !important; padding-bottom: 0 !important; }
+  html.p0c-oath3 #p0v .pv-pledge .pl-em.pl-or { padding-left: 4px !important; padding-right: 4px !important; }
+  html.p0c-oath3 #p0v .pv-pledge .pl-or-in { padding: 0 !important; font-size: 1em !important; }
+  #p0v .pv-pledge i.pv-bl { display: inline-block; width: 0; height: 0; margin: 0; padding: 0; vertical-align: baseline; }
+  html.p0c-oath3 #p0v .pv-pledge .pl-or { text-decoration: none !important; }
+  html.p0v #p0v .pv-pledge .pv-dg { vertical-align: baseline !important; position: relative; top: -.9em; } /* the deed dagger is drawn raised but no longer makes its line taller (uneven gaps) */
 </style>
 
 <script>
