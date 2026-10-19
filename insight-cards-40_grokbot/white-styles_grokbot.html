@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="s3y66w s3y49w s3y29s2 s3y28s2 s3y27s2 s3y26s2 s3y25s2 s3y24s2 s3y23s2 s3y22s2 s3y21s2 s3y20s2 s3y19s2 s3y18s2 s3y17s2 s3y16s2 s3y15s2 s3y14s2 s3y13s2 s3y12s2 s3y11s2 s3y10s2 s3y9s2 s3y8 s3y7 s3y6 s3y5 s3y4 s3y3 s3y2 s3y1 s3y s3x s3x-left s3w s3v s3u s3t cp v-f vi vj vk vk2 vk4 vk5 wya wya-c gmap vk-al-box k4s-boxed">
 <head>
-<script>/* white-styles_grokbot: &wstyle=A|B|C|D implies the white theme (and p0=2w on page 0) */(function(){try{var u=new URL(location.href),q=u.searchParams,w=String(q.get('wstyle')||'').toUpperCase();if(!/^(A|B|C|D|A2|AB|AB2|FORM)$/.test(w))return;var st=String(q.get('step')||'page0').toLowerCase(),ch=0;if(!q.get('theme')){q.set('theme','white');ch=1;}if(st==='page0'&&!q.get('p0')){q.set('p0','2w');ch=1;}if(ch)history.replaceState(history.state,'',u.toString());var H=document.documentElement;H.classList.add('ws','ws-'+w);if(w.length>1)H.classList.add('ws-'+w[0]);if(w==='AB2'){H.classList.add('ws-AB');if(String(q.get('edit')||'')==='brand')H.classList.add('edit-brand');}if(q.get('nums')==='1')H.classList.add('ws-nums');var sb=String(q.get('sheetbg')||'').toLowerCase();if(sb==='lab'||(w==='AB2'&&sb!=='plain'&&sb!=='0'))H.classList.add('ws-sheetlab');var bt=String(q.get('btn')||'').toLowerCase();if(bt==='green'||((w==='AB'||w==='AB2')&&bt!=='black'))H.classList.add('wsbtn-green');}catch(e){}})();</script>
+<script>/* white-styles_grokbot: &wstyle=A|B|C|D implies the white theme (and p0=2w on page 0) */(function(){try{var u=new URL(location.href),q=u.searchParams,w=String(q.get('wstyle')||'').toUpperCase();if(!/^(A|B|C|D|A2|AB|AB2|FORM)$/.test(w))return;var st=String(q.get('step')||'page0').toLowerCase(),ch=0;if(!q.get('theme')){q.set('theme','white');ch=1;}if(st==='page0'&&!q.get('p0')){q.set('p0','2w');ch=1;}if(ch)history.replaceState(history.state,'',u.toString());var H=document.documentElement;H.classList.add('ws','ws-'+w);if(w.length>1)H.classList.add('ws-'+w[0]);if(w==='AB2'){H.classList.add('ws-AB');if(String(q.get('edit')||'')==='brand')H.classList.add('edit-brand');}if(q.get('nums')==='1')H.classList.add('ws-nums');if(q.get('grid')==='soft')H.classList.add('ws-gridsoft');if(q.get('edit')==='pencil'){H.classList.add('ws-pen');H.classList.add('ws-pen'+(/^[0-3]$/.test(q.get('pencil')||'')?q.get('pencil'):'2'));}var sb=String(q.get('sheetbg')||'').toLowerCase();if(sb==='lab'||(w==='AB2'&&sb!=='plain'&&sb!=='0'))H.classList.add('ws-sheetlab');var bt=String(q.get('btn')||'').toLowerCase();if(bt==='green'||((w==='AB'||w==='AB2')&&bt!=='black'))H.classList.add('wsbtn-green');}catch(e){}})();</script>
   <!-- (s3y213 _grokbot): s3y212 + singles Last breakup sheet heading is one neutral question for every marital status: 'When did your last relationship end?' (Divorced / Separated / Widowed / never married). -->
   <!-- (s3y211 _grokbot): s3y210 + split-row pass keeps an open row above the pair made from the collapsed rows after it (EDIT Seeking reopens at the top of What You Want) + singles Widowed / Separated reuse the Divorced Last breakup sheet (own labels; Widowed: no Why ended). -->
   <!-- (s3y210 _grokbot): s3y209 + What You Want EDIT Distance keeps already-shown Age / Height in place (they were hidden while Degree stayed, so Degree sat right under Distance). First pass unchanged. -->
@@ -15953,8 +15953,11 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var SIGPAD = '<div class="pv-sigwrap"><div class="pv-sigpad" data-b="sig"><span class="pv-sighint">draw your signature</span><span class="pv-sx" aria-hidden="true">X</span><canvas class="pv-sigc" aria-label="Signature pad: draw your signature"></canvas></div><div class="pv-sigrow"><span class="pv-siglab">Sign here</span><button type="button" class="pv-sigclr">Clear</button></div>' + SIGCAP + '</div>';
   var SIGC = SG && SST === 'C' ? '<div class="pv-sigline" data-fit="1" data-min="10"><span class="pv-sgd">Signed,</span><div class="pv-sigpad" data-b="sig"><span class="pv-sighint">draw your signature</span><span class="pv-sx" aria-hidden="true">X</span><canvas class="pv-sigc" aria-label="Signature pad: draw your signature"></canvas></div></div><div class="pv-sigrow pv-sigrow-c"><span class="pv-signame"></span><span class="pv-sigdate"></span><button type="button" class="pv-sigclr">Clear</button></div>' : '';
   if (SST === 'C') SIGPAD = '';
-  var GO = SG ? SIGPAD + '<button type="button" class="pv-go" data-go="1">I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>' : '<button type="button" class="pv-go" data-go="1">I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>';
+  var GO = SG ? '<button type="button" class="pv-go" data-go="1">I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>' : '<button type="button" class="pv-go" data-go="1">I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>';
   var MSG = '';
+  // Amanda Oct 19 2:57 AM: placeholder paragraph to preview the fit with more copy (&filler=0 hides it)
+  var FILLER = Q.get('filler') === '0' ? '' : '<p class="pv-body pv-filler">[Placeholder copy] This paragraph stands in for text that will be written later. It is here only to show how the page fits with a few more lines. The final wording may be shorter or longer than this. Replace it before launch.</p>';
+  var SIGB = SG ? SIGPAD : ''; // the signature block now sits with the content (just above where it ends), the COMMIT button at the bottom like the steps' NEXT
   var TAG = '<div class="pv-tag">Mockup from sports-preview \u00b7 not saved</div>';
   // Amanda Oct 18: the manifesto is a personal pledge. &pledge=A (default) | B | C. Couples: 'our love story'.
   var PL = String(Q.get('pledge') || 'E').toUpperCase(); if (!/^[ABCDE]$/.test(PL)) PL = 'E'; // Amanda Oct 18 8:35 PM: pledge E is the default (D/A/B/C stay reachable)
@@ -16033,20 +16036,20 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       '<div class="pv-full">' + gp() + '</div><div class="pv-full">' + sp() + '</div><div class="pv-full">' + inp('email', 'Email', 'email', 'email') + '</div></div>' +
       '<div class="pv-foot">' + MSG + GO + '</div></div>';
     if (V === 2) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() + (DL ? '' : WM) + // D: the pledge itself says I HEREBY COMMIT
-      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 21 : 26) + '">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), gsSel() + ',', nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,'), nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,')) + '</h1>' + SIGC +
+      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 21 : 26) + '">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" maxlength="30" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" maxlength="30" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), gsSel() + ',', nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,'), nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,')) + '</h1>' + SIGC +
       '<div class="pv-lib">' + (PL === 'E' ? '' : 'Born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ') +
       'Reach me at ' + (PE ? nw('<input class="p0c pv-em" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">') + '<br>or ' + nw(TEL + '.') : nw('<input class="p0c" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">.')) + '</div>' +
-      (DL ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') +
+      (DL ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') + FILLER + SIGB +
       '<div class="pv-foot">' + MSG + GO + (PE ? LEG : '') + '</div></div>';
     if (V === 3) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() +
       (DL ? '' : '<div class="pv-lab">The pledge</div>') +
-      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 19 : DL ? 23 : 26) + '">' + pledge(IN3 ? nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,') : '<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,', IN3 ? nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,') : '<span class="pv-dobs" data-ph="birth date"></span>,', IN3 ? nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,') : '<span class="pv-locs"></span>,') + '</h1>' + SIGC +
+      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 19 : DL ? 23 : 26) + '">' + pledge(IN3 ? nw('<input class="p0c pv-nm" data-b="first_name" maxlength="30" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" maxlength="30" placeholder="last" autocomplete="family-name" aria-label="Last name">,') : '<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,', IN3 ? nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,') : '<span class="pv-dobs" data-ph="birth date"></span>,', IN3 ? nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,') : '<span class="pv-locs"></span>,') + '</h1>' + SIGC +
       '<p class="pv-deed" data-opt="1"><sup class="pv-dg">\u2020</sup> Status worded the way a property deed records it.</p>' +
-      (DL && !CLS ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
+      (DL && !CLS ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' + FILLER : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
       '<ol><li data-opt="3"><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li data-opt="2"><span>' + SOPH + '</span></li></ol>') +
       '<div class="pv-sig">' + (IN3 ? '' : f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
       f('Date of birth', dob()) + f('Where you live', loc('City'))) + (DL ? fi('I am a', gp()) + fi('Status', sp()) : f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1)) + (PE ? '<div class="pv-full pv-row2">' + fi('Email', inp('email', 'you@example.com', 'email', 'email').replace('class="p0c"', 'class="p0c pv-em"')) + fi('Phone', TEL) + '</div>' : f('Email', inp('email', 'you@example.com', 'email', 'email'), 1)) + '</div>' +
-      '<div class="pv-foot">' + MSG + (SG ? GO : '<button type="button" class="pv-go" data-go="1"><i>X</i>I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>') + (PE ? LEG : '') + '</div></div>';
+      SIGB + '<div class="pv-foot">' + MSG + (SG ? GO : '<button type="button" class="pv-go" data-go="1"><i>X</i>I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>') + (PE ? LEG : '') + '</div></div>';
     // 4
     return '<div class="pv-hero"><div class="pv-pad">' + top() + WM +
       '<div class="pv-slide"><span id="pv-sl">' + SLIDES[0] + '</span></div><div class="pv-dots" id="pv-dots">' + SLIDES.map(function (s, i) { return '<i class="' + (i ? '' : 'on') + '"></i>'; }).join('') + '</div></div></div>' +
@@ -16113,9 +16116,34 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       if (el.value !== cur && (cur || el.value)) { el.value = cur; if (el.value !== cur) el.selectedIndex = 0; }
       var v = el.parentNode.querySelector('.pv-gsv'); if (v) { v.textContent = worst ? L : (ph || 'your status'); v.classList.toggle('empty', !ph && !worst); }
     });
+    capBlanks();
+  }
+  // long values: blanks grow with the text, but never past the line - first + last may break onto two lines, then each clips; the city ellipsizes
+  function capBlanks() {
+    var pl = root.querySelector('.pv-pledge'); if (!pl) return; var W = pl.clientWidth, fs = parseFloat(getComputedStyle(pl).fontSize), tight = root.classList.contains('pv-clip');
+    var maxW = Math.floor(W - .45 * fs) * (tight ? .62 : 1);
+    var nms = root.querySelectorAll('.pv-pledge input.pv-nm'); var sum = 0; nms.forEach(function (el) { sum += parseFloat(el.style.width) || el.offsetWidth; });
+    nms.forEach(function (el) { var w = parseFloat(el.style.width) || 0; if (w > maxW) el.style.width = maxW + 'px'; var nwp = el.closest('.nw, [style*="nowrap"]') || el.parentNode; if (nwp && nwp !== pl) nwp.classList.toggle('pv-nmwrap', sum + .3 * fs > W); });
+    root.querySelectorAll('.pv-pledge button.pv-locv').forEach(function (b) { b.classList.remove('pv-lclip'); b.style.maxWidth = ''; if (b.scrollWidth > maxW || tight) { b.classList.add('pv-lclip'); b.style.maxWidth = maxW + 'px'; } });
   }
   // fit: hide optional supporting lines (highest data-opt first), then step the pledge size down, until nothing scrolls
-  var FITMAX = 40;
+  var FITMAX = 40, FLOOR = 14; // Amanda Oct 19 2:59 AM: floor 14px; below that the name / city blanks clip (ellipsis) instead of scrolling
+  // Amanda Oct 19 2:57 AM: lines as tight as possible - the cap tops of each line ~1.5px under the highlight block of the line above, never touching
+  var GAP = 1.5, LHK = .841; // Bebas: band bottom 1.05em below the content top, cap top .209em below it -> gap = lh - .841em
+  function capGap() {
+    var h = root && root.querySelector('.pv-pledge'); if (!h) return null;
+    var bands = [], caps = [];
+    h.querySelectorAll('.pv-gsv,.pv-dobv,button.pv-locv,input.pv-nm,.pl-em,.pl-punch .ac,.pl-punch .hl,.pv-name,.pv-stat,.pv-dobs,.pv-locs').forEach(function (e) { var cs = getComputedStyle(e), bi = cs.backgroundImage;
+      if ((bi === 'none' || !bi) && cs.backgroundColor === 'rgba(0, 0, 0, 0)') return; var efs = parseFloat(cs.fontSize);
+      [].forEach.call(e.getClientRects(), function (r) { var t, b; if (e.tagName === 'INPUT') { t = r.top; b = r.bottom; } else { t = r.top + (e.tagName === 'BUTTON' ? .065 : .08) * efs; b = t + .97 * efs; } bands.push({ t: t, b: b, l: r.left, r: r.right }); }); });
+    var tw = document.createTreeWalker(h, NodeFilter.SHOW_TEXT), n, R = document.createRange();
+    while ((n = tw.nextNode())) { if (!n.data.trim()) continue; var pe = n.parentElement; if (pe.closest('input,select,button.pv-locv,.pv-gsv,.pv-dobv,sup')) continue; var efs = parseFloat(getComputedStyle(pe).fontSize);
+      for (var i = 0; i < n.length; i++) { if (/\s/.test(n.data[i])) continue; R.setStart(n, i); R.setEnd(n, i + 1); var r = R.getBoundingClientRect(); if (!r.width) continue; caps.push({ t: r.top + .209 * efs, l: r.left, r: r.right }); } }
+    var lh = parseFloat(getComputedStyle(h).lineHeight), g = null;
+    caps.forEach(function (C) { bands.forEach(function (B) { if (C.r <= B.l || C.l >= B.r) return; var d = C.t - B.b; if (d < -lh * .5 || d > lh * .6) return; if (g === null || d < g) g = d; }); });
+    return g;
+  }
+  window.p0CapGap_grokbot = capGap;
   function fit(shrinkOnly) {
     if (!root) return;
     var opts = [].slice.call(root.querySelectorAll('[data-opt]')).sort(function (a, b) { return b.dataset.opt - a.dataset.opt; });
@@ -16123,19 +16151,24 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     if (!shrinkOnly) { opts.forEach(function (o) { o.style.display = ''; }); hs.forEach(function (h) { h.style.fontSize = ''; h.style.removeProperty('line-height'); }); }
     var W = false; nameSync(W); // Amanda Oct 19 1:14 AM: fit the pledge to what's actually on the page (refit after every pick / on blur), no reserved worst case
     var over = function () { return root.scrollHeight > root.clientHeight; };
-    for (var i = 0; i < opts.length && over(); i++) if (opts[i].style.display !== 'none') opts[i].style.display = 'none';
+    // Amanda: never cut copy (data-opt paragraphs stay); the font search below makes room
     var lates = [].slice.call(root.querySelectorAll('[data-late]'));
     if (!shrinkOnly) lates.forEach(function (o) { o.style.display = ''; });
-    var setF = function (f) { hs.forEach(function (h) { h.style.fontSize = f + 'px'; }); nameSync(W); };
+    var plh = root.querySelector('.pv-pledge'); var setF = function (f) { hs.forEach(function (h) { h.style.fontSize = f + 'px'; }); if (plh) plh.style.setProperty('line-height', (LHK + GAP / f).toFixed(4), 'important'); nameSync(W); };
     var step = function () { setF(parseFloat(getComputedStyle(hs[0]).fontSize) - .5); };
     var floor = function () { return hs.length ? parseFloat(hs[0].dataset.min || 0) : 0; };
     // Amanda Oct 19 1:14 AM: the pledge takes every free pixel (binary search to 0.25px), no reserved gaps
-    var best = function () { var lo = 12, hi = FITMAX; setF(lo); if (over()) return lo; while (hi - lo > .25) { var mid = (lo + hi) / 2; setF(mid); if (over()) hi = mid; else lo = mid; } lo = Math.floor(lo * 4) / 4; setF(lo); return lo; };
+    var best = function () { var lo = FLOOR, hi = FITMAX; setF(lo); if (over()) return lo; while (hi - lo > .25) { var mid = (lo + hi) / 2; setF(mid); if (over()) hi = mid; else lo = mid; } lo = Math.floor(lo * 4) / 4; setF(lo); return lo; };
     if (hs.length && !shrinkOnly) {
-      var f0 = best();
-      // Amanda Oct 19 1:14 AM: don't cut copy - the paragraph always stays
-      // leftover height (less than one more line at the next size) goes into the pledge's line spacing, up to 1.22 (Amanda 1:12 AM: 1.18–1.22)
-      var pl = root.querySelector('.pv-pledge'); if (pl) { var lo = 1.18, hi = 1.22; pl.style.setProperty('line-height', hi, 'important'); if (over()) { while (hi - lo > .005) { var m2 = (lo + hi) / 2; pl.style.setProperty('line-height', m2, 'important'); if (over()) hi = m2; else lo = m2; } pl.style.setProperty('line-height', lo.toFixed(3), 'important'); } }
+      var tune = function () { // final touch on the line spacing only, never at the price of a scroll
+        for (var k2 = 0; k2 < 8; k2++) { var g1 = capGap(); if (g1 === null || !plh || (g1 >= 1 && g1 <= 2)) break;
+          var fz = parseFloat(getComputedStyle(plh).fontSize), prev = plh.style.getPropertyValue('line-height'), lhn = parseFloat(getComputedStyle(plh).lineHeight) / fz + (GAP - g1) / fz;
+          plh.style.setProperty('line-height', lhn.toFixed(4), 'important');
+          if (over()) { plh.style.setProperty('line-height', prev, 'important'); if (g1 < 1 && fz > FLOOR) { setF(fz - .25); continue; } break; } } };
+      var run = function () { var f = best(); for (var it = 0; it < 4; it++) { var g0 = capGap(); if (g0 === null || Math.abs(g0 - GAP) <= .35) break; LHK = Math.max(.8, Math.min(1, LHK + (GAP - g0) / f)); f = best(); } tune(); return f; };
+      root.classList.remove('pv-clip'); root.classList.remove('pv-tight'); var f0 = run();
+      root.classList.remove('pv-tight'); if (f0 < 17) { root.classList.add('pv-tight'); f0 = run(); } /* small pledge: tighten the supporting copy first */ if (over()) { root.classList.add('pv-clip'); nameSync(W); f0 = run(); }
+      root.dataset.gap = String(capGap());
     } else { var guard = 0; while (over() && guard++ < 40 && hs.length) step(); }
     setTimeout(sigInit, 0);
     var deed = root.querySelector('.pv-deed'); root.querySelectorAll('.pv-pledge .pv-dg').forEach(function (d) { d.style.display = deed && deed.style.display !== 'none' ? '' : 'none'; });
@@ -16336,6 +16369,55 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.p0btn-black #p0v .pv-go .pv-msg { color: #f0ece0 !important; }
   html.p0btn-black.p0v-2:not(.p0v-2w) #p0v .pv-go { box-shadow: inset 0 0 0 1.5px #f0ece0; }
 </style>
+
+<style>
+  /* ---- Amanda Oct 19 2:57 AM: I HEREBY COMMIT sits at the bottom exactly like the steps' NEXT (24px sides, 345x63, 22px Bebas .1em, square),
+     the terms line in the band under it where the steps have '<- BACK' (53px black / 49px cream, measured on whoyouare) ---- */
+  #p0v .pv-pad { padding-bottom: 0 !important; }
+  html.p0v #p0v .pv-pad .pv-foot, #p0v .pv-pad .pv-foot { margin-top: auto !important; padding: 8px 0 0 !important; flex: none; }
+  #p0v .pv-foot .pv-go, .p0v-sg #p0v .pv-foot .pv-go, .p0v-sg.p0v-3 #p0v .pv-foot .pv-go { height: 63px !important; font-size: 22px !important; line-height: 1 !important; letter-spacing: .1em !important; border-radius: 0 !important; margin: 0 !important; }
+  #p0v .pv-foot .pv-go i { font-size: 22px; }
+  #p0v .pv-foot .pv-legal { box-sizing: border-box; height: 53px; margin: 0 !important; padding: 4px 0 0 !important; overflow: hidden; }
+  .p0v-2w #p0v .pv-foot .pv-legal, .p0v-3 #p0v .pv-foot .pv-legal { height: 49px; }
+  .p0v-2:not(.p0v-2w) #p0v .pv-foot .pv-legal { line-height: 16px !important; }
+  html.p0v #p0v .pv-pad .pv-foot:not(:has(.pv-legal)) { padding-bottom: 53px !important; }
+  html.p0v.p0v-2w #p0v .pv-pad .pv-foot:not(:has(.pv-legal)), html.p0v.p0v-3 #p0v .pv-pad .pv-foot:not(:has(.pv-legal)) { padding-bottom: 49px !important; }
+  #p0v .pv-sigwrap { margin-top: 8px; margin-bottom: 0 !important; }
+  #p0v .pv-filler { margin-top: 6px; }
+</style>
+
+<style>
+  #p0v .pv-nmwrap { white-space: normal !important; }
+  #p0v .pv-pledge button.pv-locv.pv-lclip { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* at the 14px floor: tighter supporting copy + a shorter signature pad, so long values never scroll */
+  #p0v.pv-tight .pv-body, #p0v.pv-tight .pv-filler { line-height: 1.3 !important; }
+  #p0v.pv-tight .pv-body { margin-top: 6px !important; }
+  #p0v.pv-tight .pv-sigwrap .pv-sigpad { height: 36px !important; }
+  #p0v.pv-clip .pv-body, #p0v.pv-clip .pv-filler { font-size: 12px !important; line-height: 1.25 !important; } /* last resort before any scroll (v3 + sign + long copy) */
+</style>
+
+<script>
+// Amanda Oct 19 2:59 AM: &demo=long / &demo=longest prefill the page with long real values (stress test of the fit)
+(function () {
+  var D = new URLSearchParams(location.search).get('demo'); if (D !== 'long' && D !== 'longest') return;
+  var cp = /path=couple/.test(location.search);
+  var V = D === 'long' ? { first: 'Alexandria', last: 'Montgomery-Fitzgerald', st: cp ? 'engaged' : 'divorced', city: 'Rancho Santa Margarita, CA', lat: 33.64, lng: -117.6, zip: '92688', email: 'alexandria.montgomery@example.com' }
+                       : { first: 'Alexandra-Josefina', last: 'Montgomery-Fitzgerald', st: cp ? 'committed' : 'separated', city: 'Village of Grosse Pointe Shores, MI', lat: 42.45, lng: -82.87, zip: '48236', email: 'alexandra-josefina.montgomery-fitzgerald@example.com' };
+  function set(el, v) { var d = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(el), 'value'); d.set.call(el, v); ['input', 'change', 'blur'].forEach(function (t) { el.dispatchEvent(new Event(t, { bubbles: true })); }); }
+  function go() {
+    var r = document.getElementById('p0v'); if (!r || !r.querySelector('.pv-pledge')) return setTimeout(go, 150);
+    var vals = { first_name: V.first, last_name: V.last, email: V.email, birthdate: '1984-11-19' };
+    r.querySelectorAll('input[data-b]').forEach(function (el) { if (vals[el.dataset.b]) set(el, vals[el.dataset.b]); });
+    r.querySelectorAll('input[type=tel]').forEach(function (el) { set(el, '5125550123'); });
+    r.querySelectorAll('select[data-b=genstat]').forEach(function (el) { var o = [].find.call(el.options, function (o) { return o.value === 'woman|' + V.st; }) || [].find.call(el.options, function (o) { return o.value.indexOf('woman|') === 0; }); if (o) set(el, o.value); });
+    var g = r.querySelector('[data-g=woman]'); if (g) g.click(); var sb = r.querySelector('[data-s="' + V.st + '"]') || r.querySelector('[data-s]'); if (sb) sb.click();
+    try { _wyaSet({ lat: V.lat, lng: V.lng, label: V.city, cc: 'US', zip: V.zip, source: 'demo' }); } catch (e) {}
+    r.querySelectorAll('input[data-b]').forEach(function (el) { if (vals[el.dataset.b]) set(el, vals[el.dataset.b]); });
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  }
+  window.addEventListener('load', function () { setTimeout(go, 400); });
+})();
+</script>
 
 <style id="ws-styles-grokbot">
   /* ===== WHITE STYLES A-D (&wstyle=A|B|C|D), white-styles_grokbot.html only. Amanda Oct 19: bolder, higher-contrast white. ===== */
@@ -16688,6 +16770,21 @@ html.ws-sheetlab:not(.ws-C) .cp-sheet .race-box { background-color:#fffdf7; }
 .ws-privline { margin-top:-5px !important; padding-bottom:5px !important; align-items:center !important; white-space:nowrap; line-height:14px !important; }
 .ws-privline svg { margin-top:0 !important; }
 .cp-sheet .ws-privline + .cp-list > .ed-sec:first-child, html .cp-sheet .ws-privline + .cp-list > :first-child.ed-sec { padding-top:6px !important; margin-top:0 !important; }
+
+/* &edit=pencil (default icon 2, &pencil=0|1|3): EDIT text on collapsed cards becomes a pencil (CSS mask in currentColor); whole card stays the tap target */
+html.ws-pen .who-cond-edit { font-size:0 !important; letter-spacing:0 !important; line-height:0 !important; width:14px !important; min-width:14px; height:14px !important; padding:0 !important; border:0 !important; background:none !important; text-decoration:none !important; position:relative; display:inline-flex !important; align-self:center; color:#E05A10 !important; -webkit-text-fill-color:#E05A10 !important; }
+html.ws-pen body.couples-flow .who-cond-edit { color:#0e0e0e !important; -webkit-text-fill-color:#0e0e0e !important; }
+html.ws-pen.ws-C .who-cond-edit, html.ws-pen:not(.ws) .who-cond-edit { color:#FF7A2F !important; -webkit-text-fill-color:#FF7A2F !important; } html.ws-pen.ws-C body.couples-flow .who-cond-edit, html.ws-pen:not(.ws) body.couples-flow .who-cond-edit { color:#f0ece0 !important; -webkit-text-fill-color:#f0ece0 !important; }
+html.ws-pen .who-cond-edit::before { content:''; position:absolute; inset:0; background:currentColor; -webkit-mask:var(--pen-svg) center / 14px 14px no-repeat; mask:var(--pen-svg) center / 14px 14px no-repeat; }
+html.ws-pen2 { --pen-svg:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22miter%22%20stroke-linecap%3D%22square%22%20stroke-miterlimit%3D%2210%22%3E%3Cpath%20d%3D%22M17%203.5L20.5%207L8%2019.5L3.5%2020.5L4.5%2016Z%22/%3E%3Cpath%20d%3D%22M14.5%206L18%209.5%22/%3E%3C/svg%3E"); }
+html.ws-pen1 { --pen-svg:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M17%202L22%207L8.5%2020.5L2%2022L3.5%2015.5Z%22/%3E%3C/svg%3E"); }
+html.ws-pen3 { --pen-svg:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23000%22%20fill-rule%3D%22evenodd%22%20d%3D%22M21.5%202.5L12%205L2.5%2021.5L19%2012ZM11.7%2010.6a1.7%201.7%200%201%200%203.4%200a1.7%201.7%200%201%200%20-3.4%200Z%22/%3E%3C/svg%3E"); }
+html.ws-pen0 { --pen-svg:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M4%2020l1.2-4.8L15.6%204.8a2.1%202.1%200%200%201%203%203L8.2%2018.2z%22/%3E%3Cpath%20d%3D%22M13.6%206.8l3.6%203.6%22/%3E%3C/svg%3E"); }
+html.ws.ws-pen.ws-pen:not(.ws-C) .who-unit.collapsed > .who-cond .who-cond-edit:not([style*=background]), html.ws.ws-pen.ws-pen .who-unit .who-cond .who-cond-edit { font-size:0 !important; letter-spacing:0 !important; line-height:0 !important; color:#E05A10 !important; -webkit-text-fill-color:transparent !important; background:none !important; border:0 !important; padding:0 !important; }
+html.ws.ws-pen.ws-pen body.couples-flow .who-unit .who-cond .who-cond-edit, html.ws.ws-pen.ws-pen:not(.ws-C) body.couples-flow .who-unit.collapsed > .who-cond .who-cond-edit:not([style*=background]) { color:#0e0e0e !important; }
+html.ws.ws-pen.ws-pen.ws-C .who-unit .who-cond .who-cond-edit { color:#FF7A2F !important; }
+/* grid values = page 0 &bg=lab (cream rgba(14,14,14,.07) 1px / 16px); &grid=soft halves the line opacity for comparison */
+html.ws-gridsoft.ws-A .screen, html.ws-gridsoft.ws-sheetlab:not(.ws-C) .cp-sheet, html.ws-gridsoft.ws-sheetlab:not(.ws-C) [role=dialog].cp-sheet { background-image:linear-gradient(rgba(14,14,14,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(14,14,14,.035) 1px, transparent 1px) !important; }
 </style>
 <script id="ws-demo-grokbot">
 /* white-styles_grokbot &demo=filled: sample answers for every Who You Are field so the step renders fully collapsed (mockup only, never saved) */

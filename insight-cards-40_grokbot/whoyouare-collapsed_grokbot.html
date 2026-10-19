@@ -101,7 +101,7 @@
   /* blackfix2 = blackfix + EDIT as bold orange text, no block */
   body.s-blackfix.bf2 .e { color:#FF7A2F; font-size:12px; text-decoration:none; letter-spacing:.06em; }
   /* AB2dark = AB2 inverted onto black: dark graph paper, near-black cards w/ 1.5px cream outline, cream text (no grey), cream number tags, bold orange EDIT, lime NEXT (green edge dropped: #3f5a00 is 2.5:1 on black) */
-  body.s-AB2dark { background:#0e0e0e; color:#f0ece0; background-image:linear-gradient(rgba(240,236,224,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(240,236,224,.07) 1px, transparent 1px); background-size:16px 16px; }
+  body.s-AB2dark { background:#0e0e0e; color:#f0ece0; background-image:linear-gradient(rgba(240,236,224,.075) 1px, transparent 1px), linear-gradient(90deg, rgba(240,236,224,.075) 1px, transparent 1px); /* = page 0 p0=2&bg=lab */ background-size:16px 16px; }
   body.s-AB2dark .prog i { height:5px; box-shadow:inset 0 0 0 1.5px #f0ece0; } body.s-AB2dark .prog i.on { background:#f0ece0; }
   body.s-AB2dark .lab { color:#f0ece0; font-weight:700; font-size:11px; } body.s-AB2dark .lab b { background:#c8f135; color:#0e0e0e; } body.s-AB2dark .lab u { color:#f0ece0; }
   body.s-AB2dark h1 em { background:#c8f135; color:#0e0e0e; }
@@ -165,6 +165,10 @@
   body.pen.s-form.ip .c .e.pn { grid-column:3; grid-row:1; }
   body.pen.s-form.ip .c .v { grid-column:2; }
 
+  /* &grid=soft: half-opacity grid lines for comparison */
+  body.gsoft.grid-paper { background-image:linear-gradient(rgba(14,14,14,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(14,14,14,.035) 1px, transparent 1px); }
+  body.gsoft.s-AB2dark { background-image:linear-gradient(rgba(240,236,224,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(240,236,224,.04) 1px, transparent 1px); }
+
   /* &style=all: six phones side by side */
   body.all { background:#0e0e0e; color:#f0ece0; padding:12px 16px; height:auto; }
   body.all h2 { font:400 30px 'Bebas Neue', sans-serif; margin:0 0 8px; letter-spacing:.02em; }
@@ -189,7 +193,7 @@
     var v = Q.get('v') ? '&v=' + encodeURIComponent(Q.get('v')) : '';
     var L = [['black', 'Current black (s3y223)'], ['blackfix', 'Black + red-mode fixes'], ['A', 'A · Lab form'], ['A2', 'A2 · Lab + orange'], ['B', 'B · Brutalist (thinner)'], ['AB', 'AB · Lab x Brutalist'], ['AB2', 'AB2 · AB + orange EDIT'], ['AB2dark', 'AB2dark · AB2 on black'], ['blackfix2', 'Blackfix2 · orange EDIT'], ['form', 'Form rows (sign page)']];
     var h = '<h2>Who You Are · fully collapsed (20 cards)</h2><div class="row">';
-    L.forEach(function (x) { var u = '?style=' + x[0] + v + (Q.get('state') ? '&state=' + encodeURIComponent(Q.get('state')) : '') + (Q.get('path') ? '&path=' + encodeURIComponent(Q.get('path')) : '') + (Q.get('edit') ? '&edit=' + encodeURIComponent(Q.get('edit')) : '') + (Q.get('nums') ? '&nums=' + encodeURIComponent(Q.get('nums')) : '') + (Q.get('pencil') ? '&pencil=' + encodeURIComponent(Q.get('pencil')) : ''); h += '<figure><figcaption>' + x[1] + ' · <a href="' + u + '" target="_blank">open</a></figcaption><div class="fr"><iframe src="' + u + '"></iframe></div></figure>'; });
+    L.forEach(function (x) { var u = '?style=' + x[0] + v + (Q.get('state') ? '&state=' + encodeURIComponent(Q.get('state')) : '') + (Q.get('path') ? '&path=' + encodeURIComponent(Q.get('path')) : '') + (Q.get('edit') ? '&edit=' + encodeURIComponent(Q.get('edit')) : '') + (Q.get('nums') ? '&nums=' + encodeURIComponent(Q.get('nums')) : '') + (Q.get('pencil') ? '&pencil=' + encodeURIComponent(Q.get('pencil')) : '') + (Q.get('grid') ? '&grid=' + encodeURIComponent(Q.get('grid')) : ''); h += '<figure><figcaption>' + x[1] + ' · <a href="' + u + '" target="_blank">open</a></figcaption><div class="fr"><iframe src="' + u + '"></iframe></div></figure>'; });
     B.innerHTML = h + '</div>';
     var fit = function () { var k = Math.min(1, (innerHeight - 90) / 660); document.querySelectorAll('.fr').forEach(function (f) { f.style.transform = k < 1 ? 'scale(' + k + ')' : ''; f.style.marginBottom = k < 1 ? (660 * (k - 1)) + 'px' : ''; f.style.marginRight = k < 1 ? (393 * (k - 1)) + 'px' : ''; }); };
     addEventListener('resize', fit); fit();
@@ -204,9 +208,9 @@
     2: '<svg viewBox="0 0 24 24" shape-rendering="geometricPrecision" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="10" aria-hidden="true"><path d="M17 3.5L20.5 7L8 19.5L3.5 20.5L4.5 16Z"/><path d="M14.5 6L18 9.5"/></svg>',
     3: '<svg viewBox="0 0 24 24" shape-rendering="geometricPrecision" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M21.5 2.5L12 5L2.5 21.5L19 12ZM13.4 10.6m-1.7 0a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0Z"/></svg>'
   };
-  var PEN = PENS[/^[0-3]$/.test(Q.get('pencil') || '') ? Q.get('pencil') : '1'];
+  var PEN = PENS[/^[0-3]$/.test(Q.get('pencil') || '') ? Q.get('pencil') : '2'];
   var card = function (k, v) { return pen ? '<div class="c"><span class="k">' + esc(k) + '</span><span class="v" title="' + esc(v) + '">' + esc(v) + '</span><button type="button" class="e pn" aria-label="Edit ' + esc(k) + '">' + PEN + '</button></div>' : '<div class="c" role="button" tabindex="0" aria-label="Edit ' + esc(k) + '"><span class="k">' + esc(k) + '</span><span class="v" title="' + esc(v) + '">' + esc(v) + '</span><span class="e">Edit</span></div>'; };
-  B.className = (st === 'blackfix2' ? 's-blackfix bf2' : 's-' + st) + (st === 'AB2dark' && nums ? ' qtags' : '') + (ip ? ' ip' : '') + (cpl ? ' couple' : '') + (pen ? ' pen' : '') + (white ? ' w' : '') + (/^(A|A2|AB|AB2)$/.test(st) ? ' grid-paper' + (nums ? ' qtags' : '') : '') + (/^AB2?$/.test(st) && Q.get('btn') === 'black' ? ' btn-black' : '') + (st === 'AB2' && Q.get('edit') === 'brand' ? ' edit-brand' : '');
+  B.className = (st === 'blackfix2' ? 's-blackfix bf2' : 's-' + st) + (st === 'AB2dark' && nums ? ' qtags' : '') + (ip ? ' ip' : '') + (cpl ? ' couple' : '') + (pen ? ' pen' : '') + (Q.get('grid') === 'soft' ? ' gsoft' : '') + (white ? ' w' : '') + (/^(A|A2|AB|AB2)$/.test(st) ? ' grid-paper' + (nums ? ' qtags' : '') : '') + (/^AB2?$/.test(st) && Q.get('btn') === 'black' ? ' btn-black' : '') + (st === 'AB2' && Q.get('edit') === 'brand' ? ' edit-brand' : '');
   var D = [['Gender', 'Woman'], ['Name', 'Amanda Bradford'], ['Date of birth', 'Jan 1, 1984'], ['Location', 'Austin, TX'], ['Marital status', 'Never married'], ['Have kids', 'Yes (2)'],
     ['Last breakup', 'Aug 2026'], ['Height', '5\u201910\u201d'], ['Race', 'White'], ['Education', 'MBA'], ['Industry', 'Marketing'], ['Title', 'Founder ceo'],
     ['Income', '$100k\u2013150k'], ['Religion', 'Christian \u00b7 Non-denominational'], ['Politics', 'Moderate'], ['Languages', 'English +1'], ['Sports', 'Volleyball, Running'],
