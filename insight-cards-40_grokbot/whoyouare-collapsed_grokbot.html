@@ -169,6 +169,10 @@
   body.gsoft.grid-paper { background-image:linear-gradient(rgba(14,14,14,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(14,14,14,.035) 1px, transparent 1px); }
   body.gsoft.s-AB2dark { background-image:linear-gradient(rgba(240,236,224,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(240,236,224,.04) 1px, transparent 1px); }
 
+  /* blackfix &border=soft (1px #6a6a6a) / &border=softer (1px #555); default 1.5px #8a8a8a */
+  body.s-blackfix.bd-soft .c { border:1px solid #6a6a6a; }
+  body.s-blackfix.bd-softer .c { border:1px solid #555; }
+
   /* &style=all: six phones side by side */
   body.all { background:#0e0e0e; color:#f0ece0; padding:12px 16px; height:auto; }
   body.all h2 { font:400 30px 'Bebas Neue', sans-serif; margin:0 0 8px; letter-spacing:.02em; }
@@ -193,7 +197,7 @@
     var v = Q.get('v') ? '&v=' + encodeURIComponent(Q.get('v')) : '';
     var L = [['black', 'Current black (s3y223)'], ['blackfix', 'Black + red-mode fixes'], ['A', 'A · Lab form'], ['A2', 'A2 · Lab + orange'], ['B', 'B · Brutalist (thinner)'], ['AB', 'AB · Lab x Brutalist'], ['AB2', 'AB2 · AB + orange EDIT'], ['AB2dark', 'AB2dark · AB2 on black'], ['blackfix2', 'Blackfix2 · orange EDIT'], ['form', 'Form rows (sign page)']];
     var h = '<h2>Who You Are · fully collapsed (20 cards)</h2><div class="row">';
-    L.forEach(function (x) { var u = '?style=' + x[0] + v + (Q.get('state') ? '&state=' + encodeURIComponent(Q.get('state')) : '') + (Q.get('path') ? '&path=' + encodeURIComponent(Q.get('path')) : '') + (Q.get('edit') ? '&edit=' + encodeURIComponent(Q.get('edit')) : '') + (Q.get('nums') ? '&nums=' + encodeURIComponent(Q.get('nums')) : '') + (Q.get('pencil') ? '&pencil=' + encodeURIComponent(Q.get('pencil')) : '') + (Q.get('grid') ? '&grid=' + encodeURIComponent(Q.get('grid')) : ''); h += '<figure><figcaption>' + x[1] + ' · <a href="' + u + '" target="_blank">open</a></figcaption><div class="fr"><iframe src="' + u + '"></iframe></div></figure>'; });
+    L.forEach(function (x) { var u = '?style=' + x[0] + v + (Q.get('state') ? '&state=' + encodeURIComponent(Q.get('state')) : '') + (Q.get('path') ? '&path=' + encodeURIComponent(Q.get('path')) : '') + (Q.get('edit') ? '&edit=' + encodeURIComponent(Q.get('edit')) : '') + (Q.get('nums') ? '&nums=' + encodeURIComponent(Q.get('nums')) : '') + (Q.get('pencil') ? '&pencil=' + encodeURIComponent(Q.get('pencil')) : '') + (Q.get('grid') ? '&grid=' + encodeURIComponent(Q.get('grid')) : '') + (Q.get('border') ? '&border=' + encodeURIComponent(Q.get('border')) : ''); h += '<figure><figcaption>' + x[1] + ' · <a href="' + u + '" target="_blank">open</a></figcaption><div class="fr"><iframe src="' + u + '"></iframe></div></figure>'; });
     B.innerHTML = h + '</div>';
     var fit = function () { var k = Math.min(1, (innerHeight - 90) / 660); document.querySelectorAll('.fr').forEach(function (f) { f.style.transform = k < 1 ? 'scale(' + k + ')' : ''; f.style.marginBottom = k < 1 ? (660 * (k - 1)) + 'px' : ''; f.style.marginRight = k < 1 ? (393 * (k - 1)) + 'px' : ''; }); };
     addEventListener('resize', fit); fit();
@@ -210,7 +214,7 @@
   };
   var PEN = PENS[/^[0-3]$/.test(Q.get('pencil') || '') ? Q.get('pencil') : '2'];
   var card = function (k, v) { return pen ? '<div class="c"><span class="k">' + esc(k) + '</span><span class="v" title="' + esc(v) + '">' + esc(v) + '</span><button type="button" class="e pn" aria-label="Edit ' + esc(k) + '">' + PEN + '</button></div>' : '<div class="c" role="button" tabindex="0" aria-label="Edit ' + esc(k) + '"><span class="k">' + esc(k) + '</span><span class="v" title="' + esc(v) + '">' + esc(v) + '</span><span class="e">Edit</span></div>'; };
-  B.className = (st === 'blackfix2' ? 's-blackfix bf2' : 's-' + st) + (st === 'AB2dark' && nums ? ' qtags' : '') + (ip ? ' ip' : '') + (cpl ? ' couple' : '') + (pen ? ' pen' : '') + (Q.get('grid') === 'soft' ? ' gsoft' : '') + (white ? ' w' : '') + (/^(A|A2|AB|AB2)$/.test(st) ? ' grid-paper' + (nums ? ' qtags' : '') : '') + (/^AB2?$/.test(st) && Q.get('btn') === 'black' ? ' btn-black' : '') + (st === 'AB2' && Q.get('edit') === 'brand' ? ' edit-brand' : '');
+  B.className = (st === 'blackfix2' ? 's-blackfix bf2' : 's-' + st) + (st === 'AB2dark' && nums ? ' qtags' : '') + (ip ? ' ip' : '') + (cpl ? ' couple' : '') + (pen ? ' pen' : '') + (Q.get('grid') === 'soft' ? ' gsoft' : '') + (/^(soft|softer)$/.test(Q.get('border') || '') ? ' bd-' + Q.get('border') : '') + (white ? ' w' : '') + (/^(A|A2|AB|AB2)$/.test(st) ? ' grid-paper' + (nums ? ' qtags' : '') : '') + (/^AB2?$/.test(st) && Q.get('btn') === 'black' ? ' btn-black' : '') + (st === 'AB2' && Q.get('edit') === 'brand' ? ' edit-brand' : '');
   var D = [['Gender', 'Woman'], ['Name', 'Amanda Bradford'], ['Date of birth', 'Jan 1, 1984'], ['Location', 'Austin, TX'], ['Marital status', 'Never married'], ['Have kids', 'Yes (2)'],
     ['Last breakup', 'Aug 2026'], ['Height', '5\u201910\u201d'], ['Race', 'White'], ['Education', 'MBA'], ['Industry', 'Marketing'], ['Title', 'Founder ceo'],
     ['Income', '$100k\u2013150k'], ['Religion', 'Christian \u00b7 Non-denominational'], ['Politics', 'Moderate'], ['Languages', 'English +1'], ['Sports', 'Volleyball, Running'],
