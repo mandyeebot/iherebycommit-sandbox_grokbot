@@ -15360,12 +15360,32 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #FF7A2F; }
   .p0v-3 #p0v .p0c.p0-bad::placeholder, .p0v-3 #p0v .p0c.p0-bad.empty { color: rgba(14,14,14,.45); }
   .p0v-3 #p0v .p0pills.p0-bad .p0p:not(.on) { background: transparent; border-color: #FF7A2F; }
+  /* v3: v2's plain 'what you're signing up for' paragraph (default) */
+  .p0v-3 #p0v .pv-sign { margin-top: 6px; color: #0e0e0e; }
+  /* 2w · Mad-Libs on white (cream, as v3): same layout and copy; blocks + punchline keep the accent with black ink */
+  html.p0v-2w #p0v { background: #f0ece0; color: #0e0e0e; --text: #0e0e0e; }
+  .p0v-2w #p0v .pv-top { color: rgba(14,14,14,.6); }
+  .p0v-2w #p0v .pv-top .pv-path { color: #0e0e0e; background: var(--accent); padding: 1px 4px; }
+  .p0v-2w #p0v .pv-lab { color: rgba(14,14,14,.6); }
+  .p0v-2w #p0v .pv-h { color: #0e0e0e; }
+  .p0v-2w #p0v .pv-body { color: rgba(14,14,14,.82); }
+  .p0v-2w #p0v .pv-body strong, .p0v-2w #p0v sup.fn-ref { color: #0e0e0e; }
+  .p0v-2w #p0v .pv-lib { color: #0e0e0e; }
+  .p0v-2w #p0v .pl-punch .ac { background: var(--accent); color: #0e0e0e; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .p0v-2w #p0v .pv-car { color: #0e0e0e; }
+  .p0v-2w #p0v .pv-go { color: #0e0e0e; }
+  .p0v-2w #p0v .pv-tag { color: rgba(14,14,14,.45); }
+  .p0v-2w #p0v .pv-pledge input.pv-nm.p0-bad::placeholder, .p0v-2w #p0v .pv-lib .p0-bad::placeholder { color: rgba(14,14,14,.5); }
+  .p0v-2w #p0v button.pv-locv.p0-bad.empty, .p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-gsv.empty, .p0v-2w #p0v .pv-dobw:has(.p0-bad) .pv-dobv.empty, .p0v-2w #p0v .pv-lib .p0-bad.empty { color: rgba(14,14,14,.5); }
+  .p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #FF7A2F; }
 </style>
 <script>
 (function () {
   var Q = new URLSearchParams(location.search), V = parseInt(Q.get('p0') || '0', 10);
   if (!(V >= 1 && V <= 4)) return;
   var H = document.documentElement; H.classList.add('p0v', 'p0v-' + V);
+  if (V === 2 && (/^2w$/i.test(Q.get('p0') || '') || String(Q.get('theme') || '').toLowerCase() === 'white')) H.classList.add('p0v-2w'); // Amanda Oct 18 9:07 PM: white version of the Mad-Libs page, same layout
+  var CLS = Q.get('clauses') === '1'; // v3: numbered 01-03 clauses only on request; default is v2's paragraph
   var $ = function (i) { return document.getElementById(i); };
   var SL = [['never_married', 'Never married'], ['separated', 'Separated'], ['divorced', 'Divorced'], ['widowed', 'Widowed']];
   var CL = [['relationship', 'Committed'], ['engaged', 'Engaged'], ['married', 'Married']];
@@ -15472,7 +15492,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       (DL ? '' : '<div class="pv-lab">The pledge</div>') +
       '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (DL ? 23 : 26) + '">' + pledge('<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,', '<span class="pv-dobs" data-ph="birth date"></span>,', '<span class="pv-locs"></span>,') + '</h1>' +
       '<p class="pv-deed" data-opt="1"><sup class="pv-dg">\u2020</sup> Status worded the way a property deed records it.</p>' +
-      (DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
+      (DL && !CLS ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
       '<ol><li data-opt="3"><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li data-opt="2"><span>' + SOPH + '</span></li></ol>') +
       '<div class="pv-sig">' + f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
       f('Date of birth', dob()) + f('Where you live', loc('City')) + (DL ? fi('I am a', gp()) + fi('Status', sp()) : f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1)) + f('Email', inp('email', 'you@example.com', 'email', 'email'), 1) + '</div>' +
