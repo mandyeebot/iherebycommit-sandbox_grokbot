@@ -15264,6 +15264,22 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-3 #p0v .pv-dg { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px; line-height: 0; vertical-align: .9em; padding: 0 1px; color: #0e0e0e; }
   .p0v-3 #p0v .pv-deed { margin: 6px 0 0; font-size: 11px; line-height: 15px; color: rgba(14,14,14,.6); }
   .p0v-3 #p0v .pv-deed .pv-dg { font-size: 11px; vertical-align: .3em; }
+  /* pledge D: billboard rhythm */
+  #p0v .pl-paren { font-size: .62em; letter-spacing: .03em; opacity: .62; white-space: nowrap; }
+  #p0v .pl-vow { display: block; margin-top: .14em; }
+  #p0v .pl-punch { display: block; font-size: 1.22em; line-height: 1; margin-top: .1em; }
+  .p0v-3 #p0v .pl-punch .hl { padding: 0 6px; }
+  .p0v-2 #p0v .pv-sign { margin-top: 10px; }
+  .p0v-3 #p0v ol.pv-terms { margin-top: 4px; }
+  .p0v-3 #p0v ol.pv-terms li { margin-bottom: 0; line-height: 1.36; }
+  html.pl-D.p0v-3 #p0v .pv-sig { row-gap: 3px; margin-top: 6px !important; }
+  html.pl-D.p0v-3 #p0v .pv-foot { padding-top: 6px; }
+  html.pl-D.p0v-2 #p0v .pv-lib { line-height: 34px; margin-top: 8px; }
+  html.pl-D.p0v-2 #p0v .pv-h.pv-pledge { margin-top: 4px; }
+  .p0v-3 #p0v .pv-sig .pv-inl { display: grid; grid-template-columns: 40px 1fr; align-items: center; column-gap: 4px; }
+  .p0v-3 #p0v .pv-sig .pv-inl .p0pills { gap: 4px; }
+  .p0v-3 #p0v .pv-sig .pv-inl .p0p { font-size: 13px; letter-spacing: .01em; padding: 0 2px; }
+  .p0v-3 #p0v .pv-sig .pv-inl > .pv-lab { margin: 0; }
   /* 3 · the pledge (contract on paper) */
   html.p0v-3 #p0v { background: #f0ece0; color: #0e0e0e; }
   .p0v-3 #p0v .pv-top { color: rgba(14,14,14,.6); }
@@ -15347,7 +15363,10 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var MSG = '';
   var TAG = '<div class="pv-tag">Mockup from sports-preview \u00b7 not saved</div>';
   // Amanda Oct 18: the manifesto is a personal pledge. &pledge=A (default) | B | C. Couples: 'our love story'.
-  var PL = String(Q.get('pledge') || 'A').toUpperCase(); if (!/^[ABC]$/.test(PL)) PL = 'A';
+  var PL = String(Q.get('pledge') || 'D').toUpperCase(); if (!/^[ABCD]$/.test(PL)) PL = 'D'; // Amanda Oct 18 7:05 PM: pledge D is the default
+  H.classList.add('pl-' + PL);
+  var SIGN = 'You\u2019ll join real studies designed with the best scientists in the field. Over time you can choose to add your wearable and financial data, so we can learn what actually makes love last.';
+  var TERMS = ['Real studies with the best scientists in the field.', 'Optional, later: your wearable and financial data.', 'All to learn what actually makes love last.'];
   var PLEDGE = {
     A: [' to science, to help unlock one of the least-studied questions in human life: ', 'what makes love last', ', so everyone can choose the partner who\u2019s right for their happiness and their goals.'],
     B: [' to ', 'the science of lasting love', ', so people everywhere can learn how to choose a partner who fits their life, their happiness and their goals.'],
@@ -15377,9 +15396,13 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   }
   function pledge(nameHTML, statHTML) {
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
+    if (PL === 'D') return 'I, ' + nameHTML + ' ' + statHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') +
+      ' to science, for the explicit purpose of maximizing relationship retention and relationship satisfaction <span class="pl-paren">(and maybe even lifespan).</span>' +
+      '<span class="pl-vow">For better, for worse, for longer, for happier.</span><span class="pl-punch"><span class="' + k + '">Till data do us part.</span></span>';
     return 'I, ' + nameHTML + ' ' + statHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') + p[0] + '<span class="' + k + '">' + p[1] + '</span>' + p[2];
   }
   function nw(x) { return '<span style="white-space:nowrap">' + x + '</span>'; }
+  function fi(lab, ctl) { return '<label class="pv-full pv-inl"><span class="pv-lab">' + lab + '</span>' + ctl + '</label>'; } // label beside the pills (pledge D, saves a row each)
   function f(lab, ctl, full) { return '<label class="' + (full ? 'pv-full' : '') + '"><span class="pv-lab">' + lab + '</span>' + ctl + '</label>'; }
 
   function html() {
@@ -15391,19 +15414,20 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       inp('first_name', 'First name', 'text', 'given-name') + inp('last_name', 'Last name', 'text', 'family-name') + dob() + loc('Where you live') +
       '<div class="pv-full">' + gp() + '</div><div class="pv-full">' + sp() + '</div><div class="pv-full">' + inp('email', 'Email', 'email', 'email') + '</div></div>' +
       '<div class="pv-foot">' + MSG + GO + '</div></div>';
-    if (V === 2) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() + WM +
-      '<h1 class="pv-h pv-pledge" data-fit="1">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), gsSel() + ',' ) + '</h1>' +
+    if (V === 2) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() + (PL === 'D' ? '' : WM) + // D: the pledge itself says I HEREBY COMMIT
+      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="26">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), gsSel() + ',' ) + '</h1>' +
       '<div class="pv-lib">Born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ' +
       'Reach me at ' + nw('<input class="p0c" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">.') + '</div>' +
-      '<p class="pv-body" data-opt="1">' + SOPH + '</p>' +
+      (PL === 'D' ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') +
       '<div class="pv-foot">' + MSG + GO + '</div></div>';
     if (V === 3) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() +
-      '<div class="pv-lab">The pledge</div>' +
-      '<h1 class="pv-h pv-pledge" data-fit="1">' + pledge('<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,') + '</h1>' +
+      (PL === 'D' ? '' : '<div class="pv-lab">The pledge</div>') +
+      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (PL === 'D' ? 23 : 26) + '">' + pledge('<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,') + '</h1>' +
       '<p class="pv-deed" data-opt="1"><sup class="pv-dg">\u2020</sup> Status worded the way a property deed records it.</p>' +
-      '<ol><li data-opt="3"><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li data-opt="2"><span>' + SOPH + '</span></li></ol>' +
+      (PL === 'D' ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
+      '<ol><li data-opt="3"><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li data-opt="2"><span>' + SOPH + '</span></li></ol>') +
       '<div class="pv-sig">' + f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
-      f('Date of birth', dob()) + f('Where you live', loc('City')) + f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1) + f('Email', inp('email', 'you@example.com', 'email', 'email'), 1) + '</div>' +
+      f('Date of birth', dob()) + f('Where you live', loc('City')) + (PL === 'D' ? fi('I am a', gp()) + fi('Status', sp()) : f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1)) + f('Email', inp('email', 'you@example.com', 'email', 'email'), 1) + '</div>' +
       '<div class="pv-foot">' + MSG + '<button type="button" class="pv-go" data-go="1"><i>X</i>I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button></div></div>';
     // 4
     return '<div class="pv-hero"><div class="pv-pad">' + top() + WM +
@@ -15468,10 +15492,17 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var W = !shrinkOnly; nameSync(W);
     var over = function () { return root.scrollHeight > root.clientHeight; };
     for (var i = 0; i < opts.length && over(); i++) if (opts[i].style.display !== 'none') opts[i].style.display = 'none';
-    var guard = 0; while (over() && guard++ < 8) { hs.forEach(function (h) { h.style.fontSize = (parseFloat(getComputedStyle(h).fontSize) - 1) + 'px'; }); nameSync(W); }
+    var lates = [].slice.call(root.querySelectorAll('[data-late]'));
+    if (!shrinkOnly) lates.forEach(function (o) { o.style.display = ''; });
+    var step = function () { hs.forEach(function (h) { h.style.fontSize = (parseFloat(getComputedStyle(h).fontSize) - 1) + 'px'; }); nameSync(W); };
+    var floor = function () { return hs.length ? parseFloat(hs[0].dataset.min || 0) : 0; };
+    var guard = 0; while (over() && guard++ < 12 && hs.length && parseFloat(getComputedStyle(hs[0]).fontSize) > floor()) step(); // pledge D: shrink a little before giving up the 'what you're signing up for' line
+    for (var j = 0; j < lates.length && over(); j++) lates[j].style.display = 'none';
+    guard = 0; while (over() && guard++ < 10) step();
+    if (lates.some(function (o) { return o.style.display === 'none'; })) { var top0 = 31; guard = 0; while (!over() && guard++ < 10 && parseFloat(getComputedStyle(hs[0]).fontSize) < top0) { hs.forEach(function (h) { h.style.fontSize = (parseFloat(getComputedStyle(h).fontSize) + 1) + 'px'; }); nameSync(W); } if (over()) step(); } // a dropped line gives its room back to the pledge
     var deed = root.querySelector('.pv-deed'); root.querySelectorAll('.pv-pledge .pv-dg').forEach(function (d) { d.style.display = deed && deed.style.display !== 'none' ? '' : 'none'; });
     nameSync(false);
-    root.dataset.fit = opts.filter(function (o) { return o.style.display === 'none'; }).length + ' hidden; ' + (hs[0] ? getComputedStyle(hs[0]).fontSize : '');
+    root.dataset.fit = opts.concat(lates).filter(function (o) { return o.style.display === 'none'; }).map(function (o) { return o.className || o.tagName; }).join('+') + ' hidden; ' + (hs[0] ? getComputedStyle(hs[0]).fontSize : '');
   }
   var _fitT; function fitSoon(full) { clearTimeout(_fitT); _fitT = setTimeout(function () { fit(full !== true ? true : false); }, 120); } // typing only ever shrinks, so the layout never jumps back and forth
   function push(el) {
