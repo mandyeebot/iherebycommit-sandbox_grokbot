@@ -15387,6 +15387,27 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-3 #p0v .pv-dobv.empty { color: rgba(14,14,14,.5); }
   .p0v-3 #p0v .pv-dobw input.pv-dobi { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; margin: 0; padding: 0; border: 0; font-size: 16px; cursor: pointer; -webkit-appearance: none; appearance: none; }
   .p0v-3 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-3 #p0v .pv-dobw:has(.p0-bad) .pv-dobv { background: transparent !important; box-shadow: inset 0 0 0 2px #FF7A2F !important; border: 0 !important; }
+  /* v3 pledge E: the city blank is the location tap target (map sheet), as v2 */
+  .p0v-3 #p0v button.pv-locv { display: inline; border: 0; margin: 0; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; text-align: left; -webkit-appearance: none; appearance: none;
+    background: var(--accent); color: #0e0e0e; padding: 0 4px; border-radius: 0; -webkit-box-decoration-break: clone; box-decoration-break: clone; box-shadow: none; }
+  .p0v-3 #p0v button.pv-locv.empty { color: rgba(14,14,14,.5); }
+  .p0v-3 #p0v button.pv-locv.p0-bad { background: transparent !important; box-shadow: inset 0 0 0 2px #FF7A2F !important; }
+  /* Amanda Oct 18 10:59 PM: two brand colours - inputs wear --accent (lime singles / orange couples), emphasis wears the other (--emph) */
+  #p0v { --emph: #FF7A2F; }
+  body.couples-flow #p0v { --emph: #c8f135; }
+  .p0v-2 #p0v .pl-em, .p0v-2 #p0v .pl-punch .ac { color: var(--emph); background: none; padding: 0; }
+  .p0v-2w #p0v .pl-em, .p0v-2w #p0v .pl-punch .ac, .p0v-3 #p0v .pl-em, .p0v-3 #p0v .pl-punch .hl { background: var(--emph); color: #0e0e0e; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  /* error: no fill, thick dashed outline in the ink colour (cream on black, black on cream), never confused with an orange input */
+  .p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-2 #p0v button.pv-locv.p0-bad, .p0v-2 #p0v .pv-lib .p0-bad,
+  .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv, .p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv,
+  .p0v-3 #p0v .p0c.p0-bad, .p0v-3 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-3 #p0v .pv-dobw:has(.p0-bad) .pv-dobv, .p0v-3 #p0v button.pv-locv.p0-bad {
+    background: transparent !important; box-shadow: none !important; border: 0 !important; outline: 3px dashed #f0ece0 !important; outline-offset: -3px !important; }
+  .p0v-2w #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-2w #p0v button.pv-locv.p0-bad, .p0v-2w #p0v .pv-lib .p0-bad,
+  .p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-gsv, .p0v-2w #p0v .pv-dobw:has(.p0-bad) .pv-dobv,
+  .p0v-3 #p0v .p0c.p0-bad, .p0v-3 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-3 #p0v .pv-dobw:has(.p0-bad) .pv-dobv, .p0v-3 #p0v button.pv-locv.p0-bad { outline-color: #0e0e0e !important; }
+  .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #f0ece0; }
+  .p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #0e0e0e; }
+  .p0v-3 #p0v .p0pills.p0-bad .p0p:not(.on) { background: transparent; border: 2px dashed #0e0e0e; }
 </style>
 <script>
 (function () {
@@ -15472,8 +15493,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   function pledge(nameHTML, statHTML, dobHTML, locHTML) {
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
     if (PL === 'E') return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') +
-      ' to science, to aid humanity in its quest to maximize relationship retention and satisfaction, simultaneously.' +
-      '<span class="pl-vow">For better, not for worse. For longer, for happier. <span class="pl-punch"><span class="' + k + '">Till data do us part.</span></span></span>';
+      ' to science, to aid humanity in its quest to maximize <span class="pl-em">relationship retention and satisfaction</span>, simultaneously.' +
+      '<span class="pl-vow">For better, not for worse. For longer, and for happier. <span class="pl-punch"><span class="' + k + '">Till data do us part.</span></span></span>';
     if (PL === 'D') return 'I, ' + nameHTML + ' ' + statHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') +
       ' to science, for the explicit purpose of maximizing relationship retention and relationship satisfaction <span class="pl-paren">(and maybe even lifespan).</span>' +
       '<span class="pl-vow">For better, for worse, for longer, for happier. <span class="pl-punch"><span class="' + k + '">Till data do us part.</span></span></span>';
@@ -15500,11 +15521,11 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       '<div class="pv-foot">' + MSG + GO + '</div></div>';
     if (V === 3) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() +
       (DL ? '' : '<div class="pv-lab">The pledge</div>') +
-      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (DL ? 23 : 26) + '">' + pledge(IN3 ? nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,') : '<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,', IN3 ? nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,') : '<span class="pv-dobs" data-ph="birth date"></span>,', '<span class="pv-locs"></span>,') + '</h1>' +
+      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (DL ? 23 : 26) + '">' + pledge(IN3 ? nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,') : '<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,', IN3 ? nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,') : '<span class="pv-dobs" data-ph="birth date"></span>,', IN3 ? '<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,' : '<span class="pv-locs"></span>,') + '</h1>' +
       '<p class="pv-deed" data-opt="1"><sup class="pv-dg">\u2020</sup> Status worded the way a property deed records it.</p>' +
       (DL && !CLS ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
       '<ol><li data-opt="3"><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li data-opt="2"><span>' + SOPH + '</span></li></ol>') +
-      '<div class="pv-sig">' + (IN3 ? f('Where you live', loc('City'), 1) : f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
+      '<div class="pv-sig">' + (IN3 ? '' : f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
       f('Date of birth', dob()) + f('Where you live', loc('City'))) + (DL ? fi('I am a', gp()) + fi('Status', sp()) : f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1)) + f('Email', inp('email', 'you@example.com', 'email', 'email'), 1) + '</div>' +
       '<div class="pv-foot">' + MSG + '<button type="button" class="pv-go" data-go="1"><i>X</i>I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button></div></div>';
     // 4
