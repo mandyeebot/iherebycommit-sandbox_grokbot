@@ -15395,7 +15395,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   /* Amanda Oct 18 10:59 PM: two brand colours - inputs wear --accent (lime singles / orange couples), emphasis wears the other (--emph) */
   #p0v { --emph: #FF7A2F; }
   body.couples-flow #p0v { --emph: #c8f135; }
-  .p0v-2 #p0v .pl-em, .p0v-2 #p0v .pl-punch .ac { color: var(--emph); background: none; padding: 0; }
+  .p0v-2 #p0v .pl-em, .p0v-2 #p0v .pl-punch .ac { background: var(--emph); color: #0e0e0e; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; } /* Amanda Oct 18 11:28 PM: blocks on black too */
   .p0v-2w #p0v .pl-em, .p0v-2w #p0v .pl-punch .ac, .p0v-3 #p0v .pl-em, .p0v-3 #p0v .pl-punch .hl { background: var(--emph); color: #0e0e0e; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   /* error: no fill, thick dashed outline in the ink colour (cream on black, black on cream), never confused with an orange input */
   .p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-2 #p0v button.pv-locv.p0-bad, .p0v-2 #p0v .pv-lib .p0-bad,
@@ -15408,6 +15408,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #f0ece0; }
   .p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #0e0e0e; }
   .p0v-3 #p0v .p0pills.p0-bad .p0p:not(.on) { background: transparent; border: 2px dashed #0e0e0e; }
+  .p0v-2 #p0v .pl-em { padding: 0; } /* Amanda Oct 18 11:27 PM: no side padding on the emphasis block in 2w, so it doesn't cost a size step */
 </style>
 <script>
 (function () {
@@ -15493,7 +15494,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   function pledge(nameHTML, statHTML, dobHTML, locHTML) {
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
     if (PL === 'E') return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') +
-      ' to science, to aid humanity in its quest to maximize <span class="pl-em">relationship retention and satisfaction</span>, simultaneously.' +
+      ' to science, to aid humanity in its quest to <span class="pl-em">maximize relationship retention and satisfaction</span>, simultaneously.' +
       '<span class="pl-vow">For better, not for worse. For longer, and for happier. <span class="pl-punch"><span class="' + k + '">Till data do us part.</span></span></span>';
     if (PL === 'D') return 'I, ' + nameHTML + ' ' + statHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') +
       ' to science, for the explicit purpose of maximizing relationship retention and relationship satisfaction <span class="pl-paren">(and maybe even lifespan).</span>' +
