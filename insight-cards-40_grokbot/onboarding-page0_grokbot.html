@@ -15966,6 +15966,25 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var LEG = '<p class="pv-legal">By committing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a> and confirm you\u2019re 18+.</p>';
   // Amanda Oct 19 5:07 AM: &copy=truth opt-in copy (truth oath pledge, no privacy paragraph, two small lines under COMMIT); &truthhl=0 drops the orange on the oath
   var TRUTH = Q.get('copy') === 'truth', THL = Q.get('truthhl') !== '0';
+  // Amanda Oct 19 6:19 AM: &copy=oath (sound-mind oath, no orange for singles, optional phone behind '+ Add a phone number' with an SMS legal bubble, one combined line under COMMIT); &contact=below puts the contact lines under the signature
+  var OATH = Q.get('copy') === 'oath' && !TRUTH, CBELOW = OATH && Q.get('contact') === 'below';
+  if (OATH) { H.classList.add('p0c-oath'); if (CBELOW) H.classList.add('p0c-below');
+    LEG = '<p class="pv-legal pv-legal3">This doesn\u2019t enroll you in anything or make your profile public \u2014 both come later, with their own opt-in. Your answers stay private and we publish findings in aggregate only. By committing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a> and confirm you\u2019re 18+.</p>'; }
+  if (OATH && !window._p0ph_grokbot) { window._p0ph_grokbot = 1;
+    var phTip = function (row, on) { if (row) row.classList.toggle('ph-tip', !!on); };
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('#p0v .pv-addph');
+      if (a) { e.preventDefault(); var row = a.closest('.pv-phrow'); row.classList.add('ph-on'); phTip(row, 1); var t = row.querySelector('input'); if (t) setTimeout(function () { t.focus(); }, 0); return; }
+      var x = e.target.closest && e.target.closest('#p0v .pv-phx'); if (x) { e.preventDefault(); phTip(x.closest('.pv-phrow'), 0); return; }
+      if (!(e.target.closest && e.target.closest('#p0v .pv-phrow'))) document.querySelectorAll('#p0v .pv-phrow.ph-tip').forEach(function (r) { phTip(r, 0); });
+    }, true);
+    document.addEventListener('focusin', function (e) { if (e.target.matches && e.target.matches('#p0v .pv-phrow input')) phTip(e.target.closest('.pv-phrow'), 1); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') document.querySelectorAll('#p0v .pv-phrow.ph-tip').forEach(function (r) { phTip(r, 0); }); });
+  }
+  var OTEL = '<input class="p0c pv-tel" data-b="phone" type="tel" inputmode="tel" placeholder="phone" size="15" autocomplete="tel" aria-label="Phone (optional)">';
+  var OTIP = '<span class="pv-phtip" role="note"><button type="button" class="pv-phx" aria-label="Dismiss">\u00d7</button>Texts from Hatch Labs about the study. Not required to apply. Msg frequency varies, msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="#terms">Terms</a> \u00b7 <a href="#privacy">Privacy</a></span>';
+  var OCONTACT = '<div class="pv-lib pv-oc"><div class="pv-ocrow">Reach me at ' + nw('<input class="p0c pv-em" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">') + '</div>' +
+    '<div class="pv-ocrow pv-phrow"><button type="button" class="pv-addph">+ Add a phone number</button><span class="pv-phw">or ' + OTEL + OTIP + '</span></div></div>';
   if (TRUTH) { H.classList.add('p0c-truth'); LEG = '<p class="pv-legal pv-legal2"><span class="pv-l1">This doesn\u2019t enroll you in anything or make your profile public \u2014 both come later, with their own opt-in. Your answers stay private and we publish findings in aggregate only.</span><span class="pv-l2">By committing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a> and confirm you\u2019re 18+.</span></p>'; }
   function telFmt(d) { d = String(d || ''); return d.length > 6 ? '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6) : d.length > 3 ? '(' + d.slice(0, 3) + ') ' + d.slice(3) : d; }
   var IN3 = V === 3 && PL === 'E'; // Amanda Oct 18 10:16 PM: v3 pledge E - name + birth date blanks are the inputs (not repeated in the signature block)
@@ -16018,6 +16037,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   }  var LOC_WORST = 'Rancho Santa Margarita, CA'; // longest real 'City, ST'
   function pledge(nameHTML, statHTML, dobHTML, locHTML) {
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
+    if (PL === 'E' && OATH) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the truth, the whole truth, and nothing but the truth \u2014 including about my height, my age, and my intentions.' +
+      '<span class="pl-vow">To have and to hold, from this day forward, for better, for worse, for richer for poorer, for shorter for older, in video and in person, <span class="pl-punch"><span class="' + k + '">till data do us part.</span></span></span>';
     if (PL === 'E' && TRUTH) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' hereby swear to tell ' + (THL ? '<span class="pl-em">the truth, the whole truth, and nothing but the truth</span>' : 'the truth, the whole truth, and nothing but the truth') +
       ' \u2014 including about my height, my age, and my intentions \u2014 and to commit ' + (couple() ? 'our love story' : 'my love life') + ' to science, to aid humanity in understanding how relationships last.' +
       '<span class="pl-vow">For better, for worse, for richer, for poorer, in sickness and in health, to love and to cherish, <span class="pl-punch"><span class="' + k + '">till data do us part.</span></span></span>';
@@ -16044,15 +16065,15 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       '<div class="pv-foot">' + MSG + GO + '</div></div>';
     if (V === 2) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() + (DL ? '' : WM) + // D: the pledge itself says I HEREBY COMMIT
       '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 21 : 26) + '">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" maxlength="30" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" maxlength="30" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), gsSel() + ',', nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,'), nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,')) + '</h1>' + SIGC +
-      '<div class="pv-lib">' + (PL === 'E' ? '' : 'Born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ') +
-      'Reach me at ' + (PE ? nw('<input class="p0c pv-em" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">') + '<br>or ' + nw(TEL + '.') : nw('<input class="p0c" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">.')) + '</div>' +
-      (DL ? (TRUTH ? '' : '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>') : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') + FILLER + SIGB +
+      (OATH ? (CBELOW ? '' : OCONTACT) + '<div class="pv-libx" hidden>' : '<div class="pv-lib">') + (PL === 'E' ? '' : 'Born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ') +
+(OATH ? '</div>' :       'Reach me at ' + (PE ? nw('<input class="p0c pv-em" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">') + '<br>or ' + nw(TEL + '.') : nw('<input class="p0c" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">.')) + '</div>') +
+      (DL ? (TRUTH || OATH ? '' : '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>') : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') + FILLER + SIGB + (CBELOW ? OCONTACT : '') +
       '<div class="pv-foot">' + MSG + GO + (PE ? LEG : '') + '</div></div>';
     if (V === 3) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() +
       (DL ? '' : '<div class="pv-lab">The pledge</div>') +
       '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 19 : DL ? 23 : 26) + '">' + pledge(IN3 ? nw('<input class="p0c pv-nm" data-b="first_name" maxlength="30" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" maxlength="30" placeholder="last" autocomplete="family-name" aria-label="Last name">,') : '<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,', IN3 ? nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,') : '<span class="pv-dobs" data-ph="birth date"></span>,', IN3 ? nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,') : '<span class="pv-locs"></span>,') + '</h1>' + SIGC +
       '<p class="pv-deed" data-opt="1"><sup class="pv-dg">\u2020</sup> Status worded the way a property deed records it.</p>' +
-      (DL && !CLS ? (TRUTH ? '' : '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>') + FILLER : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
+      (DL && !CLS ? (TRUTH || OATH ? '' : '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>') + FILLER : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
       '<ol><li data-opt="3"><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li data-opt="2"><span>' + SOPH + '</span></li></ol>') +
       '<div class="pv-sig">' + (IN3 ? '' : f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
       f('Date of birth', dob()) + f('Where you live', loc('City'))) + (DL ? fi('I am a', gp()) + fi('Status', sp()) : f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1)) + (PE ? '<div class="pv-full pv-row2">' + fi('Email', inp('email', 'you@example.com', 'email', 'email').replace('class="p0c"', 'class="p0c pv-em"')) + fi('Phone', TEL) + '</div>' : f('Email', inp('email', 'you@example.com', 'email', 'email'), 1)) + '</div>' +
@@ -16112,6 +16133,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     root.querySelectorAll('.pv-name').forEach(function (n) { n.textContent = worst ? big(full, 'Amanda Bradford') : (full || '[' + n.dataset.ph + ']'); n.classList.toggle('empty', !full && !worst); });
     var bdv = ($('birthdate') || {}).value || '', bd = (state.birthdateTouched && /^\d{4}-\d{2}-\d{2}$/.test(bdv)) ? bdv.slice(5, 7) + '/' + bdv.slice(8, 10) + '/' + bdv.slice(2, 4) : ''; // MM/DD/YY
     root.querySelectorAll('.pv-dobs, .pv-dobv').forEach(function (n) { n.textContent = (worst || !bd) ? '[birth date]' : bd; n.classList.toggle('empty', !bd || worst); });
+    root.querySelectorAll('.pv-phrow').forEach(function (n) { if (state.phone_grokbot) n.classList.add('ph-on'); });
     root.querySelectorAll('.pv-sms').forEach(function (n) { n.hidden = !(worst || state.phone_grokbot); if (!state.phone_grokbot) { var c = n.querySelector('input'); if (c) c.checked = false; } });
     var lt = locText();
     root.querySelectorAll('.pv-locs, .pv-locv').forEach(function (n) { n.textContent = worst ? (lt || LOC_WORST) : (lt || '[your city]'); n.classList.toggle('empty', !lt && !worst); if (lt) n.classList.remove('p0-bad'); });
@@ -16303,7 +16325,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   }
   // ---- required-field treatments (new): live count in the button, marks on the blanks still missing after a COMMIT tap
   var TRIED = false;
-  function phoneOk() { return !root || !root.querySelector('[data-b=phone]') || String(state.phone_grokbot || '').length === 10; }
+  function phoneOk() { if (OATH && !String(state.phone_grokbot || '').length) return true; return !root || !root.querySelector('[data-b=phone]') || String(state.phone_grokbot || '').length === 10; }
   window.p0PhoneOk_grokbot = function () { return phoneOk(); };
   function missing() {
     var m = {}, v = function (id) { var e = $(id); return String(e && e.value || '').trim(); };
@@ -16428,6 +16450,25 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   #p0v .pv-legal2 .pv-l1, #p0v .pv-legal2 .pv-l2 { display: block; }
   #p0v .pv-legal2 .pv-l2 { margin-top: 2px; }
   html.p0c-truth #p0v .pv-pledge .pl-em { margin: 0; }
+  /* &copy=oath */
+  html.p0c-oath #p0v, html.p0c-oath body.couples-flow #p0v { --emph: #c8f135; }
+  html.p0c-oath body:not(.couples-flow) #p0v .pv-pledge .pl-punch .ac, html.p0c-oath body:not(.couples-flow) #p0v .pv-pledge .pl-punch .hl { --blk: #c8f135; }
+  html.p0c-oath #p0v .pv-oc { margin-top: 10px; line-height: 30px; }
+  html.p0c-oath #p0v .pv-oc .pv-ocrow { position: relative; min-height: 30px; }
+  html.p0c-oath #p0v .pv-oc .pv-phrow { height: 26px; display: flex; align-items: center; }
+  html.p0c-oath #p0v .pv-addph { background: none; border: 0; padding: 0; margin: 0; font: 11px/1 'Space Mono', monospace; color: inherit; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; opacity: .8; }
+  html.p0c-oath #p0v .pv-phw { display: none; position: relative; }
+  html.p0c-oath #p0v .pv-phrow.ph-on .pv-addph { display: none; }
+  html.p0c-oath #p0v .pv-phrow.ph-on .pv-phw { display: inline-block; }
+  html.p0c-oath #p0v .pv-phtip { display: none; position: absolute; left: 0; bottom: calc(100% + 9px); width: 300px; box-sizing: border-box; padding: 8px 24px 8px 10px; background: #0e0e0e; color: #f0ece0; font: 10px/13px 'Space Mono', monospace; letter-spacing: 0; text-align: left; white-space: normal; z-index: 30; box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+  html.p0c-oath #p0v .pv-phtip::after { content: ''; position: absolute; left: 34px; top: 100%; border: 7px solid transparent; border-top-color: #0e0e0e; }
+  html.p0c-oath #p0v .pv-phrow.ph-on.ph-tip .pv-phtip { display: block; }
+  html.p0c-oath #p0v .pv-phtip a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  html.p0c-oath #p0v .pv-phx { position: absolute; top: 3px; right: 4px; width: 18px; height: 18px; padding: 0; border: 0; background: none; color: inherit; font: 15px/18px 'Space Mono', monospace; cursor: pointer; }
+  html.p0c-oath.p0v-2:not(.p0v-2w) #p0v .pv-phtip { background: #f0ece0; color: #0e0e0e; }
+  html.p0c-oath.p0v-2:not(.p0v-2w) #p0v .pv-phtip::after { border-top-color: #f0ece0; }
+  html.p0c-below #p0v .pv-oc { margin-top: 6px; }
+  html.p0v #p0v .pv-foot .pv-legal.pv-legal3 { height: auto !important; padding: 5px 0 4px !important; font-size: 10px !important; line-height: 12px !important; letter-spacing: -.02em !important; text-align: left; }
   html.p0v #p0v .pv-pledge .pl-punch, html.p0v #p0v .pv-pledge .pl-punch > span { line-height: 0 !important; } /* the 1.08em punchline must not push its line down */
   #p0v.pv-clip .pv-body, #p0v.pv-clip .pv-filler { font-size: 12px !important; line-height: 1.25 !important; } /* last resort before any scroll (v3 + sign + long copy) */
 </style>
