@@ -15968,7 +15968,9 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var IN3 = V === 3 && PL === 'E'; // Amanda Oct 18 10:16 PM: v3 pledge E - name + birth date blanks are the inputs (not repeated in the signature block)
   var DL = PL === 'D' || PL === 'E'; // D and E share the billboard layout
   H.classList.add('pl-' + PL); if (PL === 'E') H.classList.add('pl-D');
-  var SIGN = 'You\u2019ll join real studies designed with the best scientists in the field. Over time you can choose to add your wearable and financial data, so we can learn what actually makes love last.';
+  // Amanda Oct 19 4:37 AM: privacy paragraph replaces 'You'll join real studies...' in every variant (couples: 'including your partner')
+  var PRIV = function (c) { return 'Everything you share stays private in a secure, encrypted database, is de-identified for research, and is never shared with third parties. We use it to shape our research and product, and we only publish aggregated insights about what predicts lasting compatibility. No other users' + (c ? ', including your partner,' : '') + ' will ever see your private data. This survey does <b class="pv-not">NOT</b> make your profile public or enroll you in a study; both come later, once the study design is final. If you\u2019re selected, you\u2019ll choose separately what to make public, share with matches, and share with researchers, each with its own explicit opt-in.'; };
+  var SIGN = PRIV(Q.get('path') === 'couple');
   var TERMS = ['Real studies with the best scientists in the field.', 'Optional, later: your wearable and financial data.', 'All to learn what actually makes love last.'];
   var PLEDGE = {
     A: [' to science, to help unlock one of the least-studied questions in human life: ', 'what makes love last', ', so everyone can choose the partner who\u2019s right for their happiness and their goals.'],
@@ -16038,13 +16040,13 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 21 : 26) + '">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" maxlength="30" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" maxlength="30" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), gsSel() + ',', nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,'), nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,')) + '</h1>' + SIGC +
       '<div class="pv-lib">' + (PL === 'E' ? '' : 'Born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ') +
       'Reach me at ' + (PE ? nw('<input class="p0c pv-em" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">') + '<br>or ' + nw(TEL + '.') : nw('<input class="p0c" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">.')) + '</div>' +
-      (DL ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') + FILLER + SIGB +
+      (DL ? '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>' : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') + FILLER + SIGB +
       '<div class="pv-foot">' + MSG + GO + (PE ? LEG : '') + '</div></div>';
     if (V === 3) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() +
       (DL ? '' : '<div class="pv-lab">The pledge</div>') +
       '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 19 : DL ? 23 : 26) + '">' + pledge(IN3 ? nw('<input class="p0c pv-nm" data-b="first_name" maxlength="30" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" maxlength="30" placeholder="last" autocomplete="family-name" aria-label="Last name">,') : '<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,', IN3 ? nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,') : '<span class="pv-dobs" data-ph="birth date"></span>,', IN3 ? nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,') : '<span class="pv-locs"></span>,') + '</h1>' + SIGC +
       '<p class="pv-deed" data-opt="1"><sup class="pv-dg">\u2020</sup> Status worded the way a property deed records it.</p>' +
-      (DL && !CLS ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' + FILLER : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
+      (DL && !CLS ? '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>' + FILLER : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
       '<ol><li data-opt="3"><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li data-opt="2"><span>' + SOPH + '</span></li></ol>') +
       '<div class="pv-sig">' + (IN3 ? '' : f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
       f('Date of birth', dob()) + f('Where you live', loc('City'))) + (DL ? fi('I am a', gp()) + fi('Status', sp()) : f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1)) + (PE ? '<div class="pv-full pv-row2">' + fi('Email', inp('email', 'you@example.com', 'email', 'email').replace('class="p0c"', 'class="p0c pv-em"')) + fi('Phone', TEL) + '</div>' : f('Email', inp('email', 'you@example.com', 'email', 'email'), 1)) + '</div>' +
@@ -16408,6 +16410,14 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.p0v-sg.p0v-2:not(.p0v-2w):not(.p0s-C) #p0v .pv-sigwrap .pv-sigcap { color: rgba(240,236,224,.7) !important; }
   html.p0v-sg.p0v-2:not(.p0v-2w):not(.p0s-C) #p0v .pv-sigwrap .pv-signame.empty { color: rgba(240,236,224,.45) !important; }
   html.p0v-sg:not(.p0s-C) #p0v.pv-tight .pv-sigwrap .pv-sigpad { height: 44px !important; }
+  /* privacy paragraph: same mono, smaller so the pledge keeps its size; NOT emphasized */
+  html.p0v #p0v .pv-body.pv-priv { font-size: 11px !important; line-height: 1.42 !important; letter-spacing: 0 !important; }
+  html.p0v #p0v.pv-tight .pv-body.pv-priv { line-height: 1.32 !important; }
+  html.p0v #p0v.pv-clip .pv-body.pv-priv { font-size: 10.5px !important; line-height: 1.28 !important; }
+  #p0v .pv-priv .pv-not { font-weight: 700; letter-spacing: .04em; }
+  /* Amanda Oct 19 4:38 AM: no extra gap between 'SIMULTANEOUSLY.' and 'FOR BETTER...' - same pitch as every other pledge line */
+  html.p0v #p0v .pv-pledge .pl-vow { margin-top: 0 !important; padding-top: 0 !important; }
+  html.p0v #p0v .pv-pledge .pl-punch, html.p0v #p0v .pv-pledge .pl-punch > span { line-height: 0 !important; } /* the 1.08em punchline must not push its line down */
   #p0v.pv-clip .pv-body, #p0v.pv-clip .pv-filler { font-size: 12px !important; line-height: 1.25 !important; } /* last resort before any scroll (v3 + sign + long copy) */
 </style>
 
