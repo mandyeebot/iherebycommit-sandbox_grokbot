@@ -16431,7 +16431,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     if (!root || EM === 'old') return; var m = missing(), els = [], seen = {};
     root.querySelectorAll('[data-b]').forEach(function (el) { var k = el.dataset.b; if (k === 'sms') return; var on = !!m[k]; var ve = visEl(el); ve.classList.toggle('p0-miss', TRIED && on); if (on && !seen[k]) { seen[k] = 1; els.push(k); } });
     var n = els.length, t = '';
-    if (n) { if (!TRIED) t = n + ' to go'; else if (n === 1 && m.email === 2) t = 'That email doesn\u2019t look right.'; else if (n === 1 && m.phone === 2) t = 'Phone needs 10 digits.'; else if (n === 1 && m.birthdate === 2) t = '18+ only.'; else t = 'Fill in ' + n + ' more to commit'; }
+    if (n) { if (!TRIED) t = ''; /* Amanda Oct 19 9:51 AM: no 'N to go' counter in the button */ else if (n === 1 && m.email === 2) t = 'That email doesn\u2019t look right.'; else if (n === 1 && m.phone === 2) t = 'Phone needs 10 digits.'; else if (n === 1 && m.birthdate === 2) t = '18+ only.'; else t = 'Fill in ' + n + ' more to commit'; }
     var b = $('pv-msg'); if (b && b.textContent !== t) { b.textContent = t; } if (b) { b.parentNode.classList.toggle('has-msg', !!t); b.parentNode.classList.toggle('pv-pre', !TRIED); }
   }
   function focusFirst() {
