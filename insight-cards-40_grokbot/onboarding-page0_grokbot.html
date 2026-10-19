@@ -15016,6 +15016,23 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.idl2-B .idl-pin-grokbot .idl-cap { top: 27px; }
   html.idl2 .idl-layer-grokbot { top: -6px; bottom: -40px; }
   html.idl2-B .idl-on-grokbot::after { content: 'TAP THE TRACK TO SET YOUR IDEAL'; position: absolute; right: 0; bottom: -38px; font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .08em; color: #555; pointer-events: none; }
+
+  /* &theme=white (and p0=2w): the later steps in v2w's cream theme. Default black theme untouched. */
+  html.thw { --bg: #f0ece0; --text: #0e0e0e; --body: #4a4740; --muted: #6b675e; --dim: #c9c3b4; }
+  html.thw body::before { opacity: 0.025; }
+
+  html.thw .accent { background: var(--accent); color: #0e0e0e !important; padding: 0 .06em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  html.thw .lab-badge-s3y117 strong { background: var(--accent); color: #0e0e0e !important; padding: 1px 4px; }
+  html.thw .pd-sub { color: #4a4740 !important; }
+  html.thw .btn-primary, html.thw .toggle-btn.selected, html.thw .cp-done-btm, html.thw .race-opt.selected { color: #0e0e0e !important; }
+  html.thw .who-cond-edit, html.thw .idl-v-grokbot, html.thw .wya-link { color: #0e0e0e !important; }
+  html.thw .who-cond-edit { text-decoration: underline; text-underline-offset: 3px; }
+  html.thw .idl-v-grokbot { background: var(--accent); padding: 0 3px; }
+  html.thw .cp-sheet, html.thw .sn-card { background: #f0ece0 !important; color: #0e0e0e; border-color: #c9c3b4 !important; }
+  html.thw .cp-backdrop { background: rgba(14,14,14,.35) !important; }
+  html.thw input[type=range]::-webkit-slider-thumb { box-shadow: 0 0 0 2px #0e0e0e; }
+  html.thw input[type=range]::-moz-range-thumb { box-shadow: 0 0 0 2px #0e0e0e; }
+  html.thw .idl-head { box-shadow: 0 0 0 1.5px #0e0e0e; }
 </style>
 <div id="p0-hold" hidden></div>
 <script>
@@ -15026,6 +15043,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var COUPLE = /^coup|^partner/i.test(Q.get('path') || '');
   window.P0_VER_grokbot = VER;
   document.documentElement.classList.add('p0-ver-' + VER);
+  if (String(Q.get('theme') || '').toLowerCase() === 'white' || /^2w$/i.test(Q.get('p0') || '')) document.documentElement.classList.add('thw'); // Amanda Oct 18 11:52 PM: steps after page 0 in v2w's cream theme
   var $ = function (i) { return document.getElementById(i); };
   try { MS_LAB_grokbot.married = 'Married'; } catch (e) {}
   var MOVED = ['who-gender', 'who-name', 'who-dob', 'who-loc', 'who-email'];
