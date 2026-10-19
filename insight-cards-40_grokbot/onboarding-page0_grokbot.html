@@ -15964,6 +15964,9 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var TEL = '<input class="p0c pv-tel" data-b="phone" type="tel" inputmode="tel" placeholder="phone" size="15" autocomplete="tel" aria-label="Phone" required>'; // Amanda Oct 19 1:09 AM: phone is required (10-digit US), no '(optional)'
   var SMS = '<label class="pv-sms" hidden><input type="checkbox" data-b="sms"><span>Text me study updates. Msg &amp; data rates may apply. Reply STOP to opt out.</span></label>';
   var LEG = '<p class="pv-legal">By committing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a> and confirm you\u2019re 18+.</p>';
+  // Amanda Oct 19 5:07 AM: &copy=truth opt-in copy (truth oath pledge, no privacy paragraph, two small lines under COMMIT); &truthhl=0 drops the orange on the oath
+  var TRUTH = Q.get('copy') === 'truth', THL = Q.get('truthhl') !== '0';
+  if (TRUTH) { H.classList.add('p0c-truth'); LEG = '<p class="pv-legal pv-legal2"><span class="pv-l1">This doesn\u2019t enroll you in anything or make your profile public \u2014 both come later, with their own opt-in. Your answers stay private and we publish findings in aggregate only.</span><span class="pv-l2">By committing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a> and confirm you\u2019re 18+.</span></p>'; }
   function telFmt(d) { d = String(d || ''); return d.length > 6 ? '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6) : d.length > 3 ? '(' + d.slice(0, 3) + ') ' + d.slice(3) : d; }
   var IN3 = V === 3 && PL === 'E'; // Amanda Oct 18 10:16 PM: v3 pledge E - name + birth date blanks are the inputs (not repeated in the signature block)
   var DL = PL === 'D' || PL === 'E'; // D and E share the billboard layout
@@ -16015,6 +16018,9 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   }  var LOC_WORST = 'Rancho Santa Margarita, CA'; // longest real 'City, ST'
   function pledge(nameHTML, statHTML, dobHTML, locHTML) {
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
+    if (PL === 'E' && TRUTH) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' hereby swear to tell ' + (THL ? '<span class="pl-em">the truth, the whole truth, and nothing but the truth</span>' : 'the truth, the whole truth, and nothing but the truth') +
+      ' \u2014 including about my height, my age, and my intentions \u2014 and to commit ' + (couple() ? 'our love story' : 'my love life') + ' to science, to aid humanity in understanding how relationships last.' +
+      '<span class="pl-vow">For better, for worse, for richer, for poorer, in sickness and in health, to love and to cherish, <span class="pl-punch"><span class="' + k + '">till data do us part.</span></span></span>';
     if (PL === 'E') return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') +
       ' to science, to aid humanity in its quest to understand how to <span class="pl-em">maximize relationship longevity and satisfaction</span>, simultaneously.' + // Amanda Oct 18 11:49 PM
       '<span class="pl-vow">For better, for worse, for richer, for poorer, in sickness and in health, to love and to cherish, <span class="pl-punch"><span class="' + k + '">till data do us part.</span></span></span>';
@@ -16040,13 +16046,13 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 21 : 26) + '">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" maxlength="30" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" maxlength="30" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), gsSel() + ',', nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,'), nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,')) + '</h1>' + SIGC +
       '<div class="pv-lib">' + (PL === 'E' ? '' : 'Born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ') +
       'Reach me at ' + (PE ? nw('<input class="p0c pv-em" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">') + '<br>or ' + nw(TEL + '.') : nw('<input class="p0c" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">.')) + '</div>' +
-      (DL ? '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>' : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') + FILLER + SIGB +
+      (DL ? (TRUTH ? '' : '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>') : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') + FILLER + SIGB +
       '<div class="pv-foot">' + MSG + GO + (PE ? LEG : '') + '</div></div>';
     if (V === 3) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() +
       (DL ? '' : '<div class="pv-lab">The pledge</div>') +
       '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 19 : DL ? 23 : 26) + '">' + pledge(IN3 ? nw('<input class="p0c pv-nm" data-b="first_name" maxlength="30" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" maxlength="30" placeholder="last" autocomplete="family-name" aria-label="Last name">,') : '<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,', IN3 ? nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,') : '<span class="pv-dobs" data-ph="birth date"></span>,', IN3 ? nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,') : '<span class="pv-locs"></span>,') + '</h1>' + SIGC +
       '<p class="pv-deed" data-opt="1"><sup class="pv-dg">\u2020</sup> Status worded the way a property deed records it.</p>' +
-      (DL && !CLS ? '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>' + FILLER : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
+      (DL && !CLS ? (TRUTH ? '' : '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>') + FILLER : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
       '<ol><li data-opt="3"><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li data-opt="2"><span>' + SOPH + '</span></li></ol>') +
       '<div class="pv-sig">' + (IN3 ? '' : f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
       f('Date of birth', dob()) + f('Where you live', loc('City'))) + (DL ? fi('I am a', gp()) + fi('Status', sp()) : f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1)) + (PE ? '<div class="pv-full pv-row2">' + fi('Email', inp('email', 'you@example.com', 'email', 'email').replace('class="p0c"', 'class="p0c pv-em"')) + fi('Phone', TEL) + '</div>' : f('Email', inp('email', 'you@example.com', 'email', 'email'), 1)) + '</div>' +
@@ -16417,6 +16423,11 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   #p0v .pv-priv .pv-not { font-weight: 700; letter-spacing: .04em; }
   /* Amanda Oct 19 4:38 AM: no extra gap between 'SIMULTANEOUSLY.' and 'FOR BETTER...' - same pitch as every other pledge line */
   html.p0v #p0v .pv-pledge .pl-vow { margin-top: 0 !important; padding-top: 0 !important; }
+  /* &copy=truth: two small lines under COMMIT; the slot grows only as much as they need (COMMIT moves up by the excess over 49px) */
+  html.p0v #p0v .pv-foot .pv-legal.pv-legal2 { height: auto !important; padding: 5px 0 4px !important; font-size: 10px !important; line-height: 12px !important; letter-spacing: -.035em !important; margin: 0 -8px !important; }
+  #p0v .pv-legal2 .pv-l1, #p0v .pv-legal2 .pv-l2 { display: block; }
+  #p0v .pv-legal2 .pv-l2 { margin-top: 2px; }
+  html.p0c-truth #p0v .pv-pledge .pl-em { margin: 0; }
   html.p0v #p0v .pv-pledge .pl-punch, html.p0v #p0v .pv-pledge .pl-punch > span { line-height: 0 !important; } /* the 1.08em punchline must not push its line down */
   #p0v.pv-clip .pv-body, #p0v.pv-clip .pv-filler { font-size: 12px !important; line-height: 1.25 !important; } /* last resort before any scroll (v3 + sign + long copy) */
 </style>
