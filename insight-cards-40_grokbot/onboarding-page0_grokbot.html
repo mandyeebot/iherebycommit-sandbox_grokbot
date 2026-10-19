@@ -9200,7 +9200,7 @@ window.addEventListener('load', () => {
   if (chips && window.MutationObserver) new MutationObserver(() => { if (partnerCity) hideError('partner_city'); }).observe(chips, { childList: true, subtree: true });
 });
 </script>
-<div style="position:fixed;right:6px;bottom:4px;z-index:50;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#555;pointer-events:none;text-transform:uppercase;">MOCKUP from sports-preview · not saved</div>
+<div class="mock-ft-grokbot" style="position:fixed;right:6px;bottom:4px;z-index:50;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#555;pointer-events:none;text-transform:uppercase;">MOCKUP from sports-preview · not saved</div>
 
 <script>
 // s3p: every empty select is grey (placeholder colour), on every screen. Untouched defaults (heights) keep their own rule.
@@ -15033,6 +15033,87 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.thw input[type=range]::-webkit-slider-thumb { box-shadow: 0 0 0 2px #0e0e0e; }
   html.thw input[type=range]::-moz-range-thumb { box-shadow: 0 0 0 2px #0e0e0e; }
   html.thw .idl-head { box-shadow: 0 0 0 1.5px #0e0e0e; }
+
+  /* ---- Amanda Oct 19 1:15 AM: white theme - never lime / light orange / light grey on cream. Location sheet first */
+  html.thw { --muted: #4a4740; --dim: #8a857a; }
+  html.thw .wya-gps, html.thw #wya-gps-c { color: #0e0e0e !important; font-weight: 700; }
+  html.thw .wya-gps-ic { border-color: #0e0e0e !important; background: var(--accent); }
+  html.thw #wya-cq, html.thw .cp-sheet .field-input { background: #fffdf7 !important; color: #0e0e0e !important; border: 1.5px solid #0e0e0e !important; }
+  html.thw #wya-cq::placeholder, html.thw .cp-sheet .field-input::placeholder, html.thw .field-input::placeholder { color: #4a4740 !important; opacity: 1; }
+  html.thw .wya-ctip, html.thw .wya-city, html.thw .wya-row-v.empty { color: #4a4740 !important; }
+  html.thw .wya-city.set { color: #0e0e0e !important; background: var(--accent); padding: 0 4px; }
+  html.thw .wya-cmap, html.thw #wya-map-c, html.thw .wya-map-wrap, html.thw #wya-map { background: #e9e4d6 !important; border-color: #0e0e0e !important; }
+  html.thw #wya-map-c .leaflet-tile-pane, html.thw #wya-map .leaflet-tile-pane { filter: saturate(.55) contrast(.95) !important; } /* light map on cream */
+  html.thw #wya-map-c .leaflet-control-zoom a { background: #f0ece0 !important; color: #0e0e0e !important; border-color: #0e0e0e !important; }
+  html.thw #wya-map-c .leaflet-control-attribution { background: rgba(240,236,224,.85) !important; color: #4a4740 !important; }
+  html.thw #wya-map-c .leaflet-control-attribution a { color: #0e0e0e !important; }
+  html.thw .wya-pin { border-color: #0e0e0e; box-shadow: 0 0 0 2px #0e0e0e, 0 3px 8px rgba(0,0,0,.35); }
+  html.thw .wya-row-edit, html.thw .wya-link, html.thw .cp-edit { color: #0e0e0e !important; text-decoration: underline; text-underline-offset: 3px; }
+  html.thw .cp-x { color: #0e0e0e !important; }
+  html.thw .cp-sheet-title, html.thw .cp-sheet .race-opt-txt, html.thw .race-opt { color: #0e0e0e !important; }
+  html.thw .race-box { border-color: #0e0e0e !important; }
+  html.thw .race-opt.selected .race-box { background: var(--accent) !important; border-color: #0e0e0e !important; }
+  html.thw .race-opt.selected .race-box::after { background: #0e0e0e !important; border-color: #0e0e0e !important; }
+  html.thw .race-opt-sub, html.thw .race-sheet .race-opt small, html.thw .cp-sheet .sub, html.thw .cp-sheet .muted { color: #4a4740 !important; }
+  /* suggestion list: white theme = cream panel, 1.5px black border, black text, lime active row; black theme = cream text on dark */
+  .wya-sug { background: #1a1a1a; }
+  .wya-opt { color: #f0ece0 !important; }
+  .wya-opt b { font-weight: 700; color: inherit; }
+  .wya-opt .sub, .wya-opt.none { color: rgba(240,236,224,.7) !important; }
+  .wya-opt.active, .wya-opt:hover, .wya-opt:focus { background: #33332f; }
+  html.thw .wya-sug { background: #fffdf7 !important; border: 1.5px solid #0e0e0e !important; box-shadow: 0 8px 20px rgba(14,14,14,.18) !important; }
+  html.thw .wya-opt { color: #0e0e0e !important; border-top-color: #c9c3b4 !important; }
+  html.thw .wya-opt .k { color: #0e0e0e !important; }
+  html.thw .wya-opt .sub, html.thw .wya-opt.none { color: #4a4740 !important; }
+  html.thw .wya-opt.active, html.thw .wya-opt:hover, html.thw .wya-opt:focus { background: var(--accent) !important; color: #0e0e0e !important; }
+  .wya-opt.go { cursor: pointer; }
+
+  /* ---- Amanda Oct 19 1:25 AM: in-sheet question labels (HOW MANY?, THEIR AGES, ...) = the s3y132 last-relationship sheet section header
+     (.ed-sec: Space Mono, uppercase, letter-spaced) scaled up to sit above the 14px answers, bold, full-contrast ink; both themes */
+  .cp-sheet .ed-sec, .cp-sheet .kk-sec, .cp-sheet .wmm-grp, .cp-sheet .spp.ed-sec, .cp-sheet .cp-sec, #kk-panel .kk-sec, .cp-sheet .field-label {
+    font-family: 'Space Mono', monospace !important; font-size: 15px !important; line-height: 1.3 !important; font-weight: 700 !important; letter-spacing: .06em !important; text-transform: uppercase !important;
+    color: var(--text) !important; padding: 14px 12px 6px !important; }
+  /* ---- white theme: never light text on lime / orange, no faint radios, borders or labels */
+  html.thw .btn-primary, html.thw .cp-box, html.thw .cp-done, html.thw .toggle-btn.selected, html.thw .cp-done-btm { color: #0e0e0e !important; -webkit-text-fill-color: #0e0e0e; }
+  html.thw #kk-panel .kk-age.kk-filled { color: #0e0e0e !important; -webkit-text-fill-color: #0e0e0e !important; }
+  html.thw .toggle-btn, html.thw .cp-sheet .field-input, html.thw #kk-panel input, html.thw #kk-panel button.kk-n, html.thw .race-select, html.thw .who-cond, html.thw .field-input { border: 1.5px solid #0e0e0e !important; }
+  html.thw .toggle-btn.selected, html.thw #kk-panel .kk-age.kk-filled { border-color: #0e0e0e !important; }
+  html.thw .race-box { border: 1.5px solid #0e0e0e !important; background: transparent !important; }
+  html.thw .race-opt.selected .race-box, html.thw .kk-radio.selected .race-box { background: transparent !important; border-color: #0e0e0e !important; }
+  html.thw .race-opt.selected .race-box::after, html.thw .kk-radio.selected .race-box::after { background: #0e0e0e !important; border-color: #0e0e0e !important; }
+  html.thw .race-opt[aria-pressed="true"] .race-box, html.thw .race-opt[aria-pressed="true"].selected .race-box { background: var(--accent) !important; }
+  html.thw .field-label, html.thw .who-cond-k, html.thw .screen-label, html.thw .kk-sec, html.thw .field-hint, html.thw .hint, html.thw .sub, html.thw .race-opt-sub { color: #3a3832 !important; }
+  html.thw .field-input::placeholder, html.thw input::placeholder { color: #4a4740 !important; opacity: 1; }
+  html.thw .wya-mapfail { background: #e9e4d6 !important; color: #0e0e0e !important; }
+  html.thw .wya-mapfail * { color: #0e0e0e !important; }
+  #wya-cq::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
+  .wya-opt > span.lab { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* ---- Amanda Oct 19 1:29 AM: selected rows always readable. White: lime row (orange couples), black text, black ring + black tick / dot */
+  html.thw .race-opt:active, html.thw .race-opt:hover, html.thw .race-opt:focus, html.thw .cp-row:active, html.thw .cp-row:hover, html.thw .wya-opt:active { background: rgba(14,14,14,.06) !important; color: #0e0e0e !important; }
+  html.thw .race-opt.selected, html.thw .race-opt[aria-pressed="true"], html.thw .race-opt[aria-checked="true"], html.thw .kk-radio.selected, html.thw .cp-row.selected, html.thw .cp-row[aria-selected="true"], html.thw .cp-row[aria-pressed="true"] {
+    background: var(--accent) !important; color: #0e0e0e !important; }
+  html.thw .race-opt.selected *, html.thw .race-opt[aria-pressed="true"] *, html.thw .kk-radio.selected *, html.thw .cp-row.selected * { color: #0e0e0e !important; }
+  html.thw .race-sheet .race-box, html.thw .race-box, html.thw .cp-box { border: 1.5px solid #0e0e0e !important; background: transparent !important; }
+  html.thw .race-opt.selected .race-box, html.thw .race-opt[aria-pressed="true"] .race-box, html.thw .kk-radio.selected .race-box { background: transparent !important; border-color: #0e0e0e !important; }
+  html.thw .race-sheet .race-opt.selected .race-box::after, html.thw .race-opt.selected .race-box::after { border-color: #0e0e0e !important; background: transparent !important; color: #0e0e0e !important; }
+  html.thw .cp-sheet .race-opt[role="radio"].selected .race-box::after, html.thw .s121-sheet .race-opt.selected .race-box::after, html.thw .cp-sheet .kk-radio.selected .race-box::after, html.thw .cp-sheet .race-opt[data-lr].selected .race-box::after {
+    content: '' !important; left: 50% !important; top: 50% !important; width: 10px !important; height: 10px !important; border: 0 !important; border-radius: 50% !important; background: #0e0e0e !important; transform: translate(-50%, -50%) !important; }
+  html.thw .race-opt { border-bottom-color: #c9c3b4 !important; }
+
+  /* ---- Amanda Oct 19 1:27 AM: red Color Tint readability on the BLACK theme (page 1 steps). No grey text: cream, hierarchy by size / caps / spacing */
+  html:not(.thw) { --muted: #f0ece0; --body: #f0ece0; }
+  html:not(.thw) .screen-label, html:not(.thw) .field-label, html:not(.thw) .btn-ghost, html:not(.thw) .change-link, html:not(.thw) .k4-val, html:not(.thw) .race-select-text.empty,
+  html:not(.thw) .idl-cap, html:not(.thw) .idl-sep-grokbot, html:not(.thw) .idl-in-grokbot, html:not(.thw) .who-cond-k, html:not(.thw) .screen-sub, html:not(.thw) .screen-subline, html:not(.thw) .pd-sub,
+  html:not(.thw) .field-hint, html:not(.thw) .wya-ctip, html:not(.thw) .wya-city, html:not(.thw) .ed-sec, html:not(.thw) .kk-sec, html:not(.thw) .race-opt-sub, html:not(.thw) .cp-sheet .sub { color: #f0ece0 !important; opacity: 1 !important; }
+  html:not(.thw) .screen:not(#screen-10) input::placeholder, html:not(.thw) .cp-sheet input::placeholder { color: rgba(240,236,224,.85) !important; }
+  html:not(.thw) .screen-label, html:not(.thw) .change-link, html:not(.thw) .field-label, html:not(.thw) .idl-cap, html:not(.thw) .who-cond-k, html:not(.thw) .who-cond-edit, html:not(.thw) .lab-badge-s3y117 { font-size: max(12px, 1em) !important; }
+  html:not(.thw) .screen-label, html:not(.thw) .field-label, html:not(.thw) .idl-cap, html:not(.thw) .change-link, html:not(.thw) .who-cond-edit { font-size: 12px !important; }
+  html:not(.thw) .btn-ghost, html:not(.thw) .k4-val, html:not(.thw) .race-select-text, html:not(.thw) .pd-sub { font-size: 14px !important; }
+  html:not(.thw) .race-sheet .race-box, html:not(.thw) .race-box { border-color: #f0ece0 !important; }
+  html:not(.thw) .mock-ft-grokbot { display: none !important; }
+  /* couples orange on black: orange words get a cream underline so they still read when orange collapses under a red tint */
+  html:not(.thw) body.couples-flow .accent, html:not(.thw) body.couples-flow .lab-badge-s3y117 strong { text-decoration: underline; text-decoration-color: #f0ece0; text-decoration-thickness: 3px; text-underline-offset: 5px; }
 </style>
 <div id="p0-hold" hidden></div>
 <script>
@@ -15102,7 +15183,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     err('postal_code', !state.wya, 'Required');
     var em = _crV('email'); err('email', !em || !isValidEmail(em), em ? 'Invalid' : 'Required');
     err('p0_status', !state.currentStatus_grokbot, 'Required');
-    if (window.p0SigOk_grokbot && !window.p0SigOk_grokbot()) ok = false; // &sign=1: a drawn signature is required too
+    if (window.p0SigOk_grokbot && !window.p0SigOk_grokbot()) ok = false;
+    if (window.p0PhoneOk_grokbot && !window.p0PhoneOk_grokbot()) ok = false; // Amanda Oct 19 1:09 AM: phone required (10 digits) // &sign=1: a drawn signature is required too
     if (!ok) { try { crExpandErrors(); } catch (x) {} return; }
     if (window.p0SigData_grokbot) { var sg = window.p0SigData_grokbot(); if (sg) { state.signaturePng_grokbot = sg; state.signedAt_grokbot = new Date().toISOString(); } } // faked save: kept in page-0 state only, never sent
     try { logEvent('screen_completed', 'page_zero'); } catch (x) {}
@@ -15195,6 +15277,85 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     }, 900);
   });
 })();
+
+(function () {
+  // ---- Amanda Oct 19 1:17 AM: location search. Cause: the box only searched a fixed list of 439 popular cities (162 US), so Chapel Hill / Marfa
+  // never matched, whatever the punctuation. Now: that list + every US Census place (32k, us_places_grokbot.txt), 'City,ST' / 'City ST' /
+  // 'City State' parsing, 5-digit zips, and Search/Enter geocodes the typed text (OpenStreetMap Nominatim) when nothing is suggested.
+  var USP = null, uspP = null;
+  var STN = { AL: 'alabama', AK: 'alaska', AZ: 'arizona', AR: 'arkansas', CA: 'california', CO: 'colorado', CT: 'connecticut', DE: 'delaware', DC: 'district of columbia', FL: 'florida', GA: 'georgia', HI: 'hawaii', ID: 'idaho', IL: 'illinois', IN: 'indiana', IA: 'iowa', KS: 'kansas', KY: 'kentucky', LA: 'louisiana', ME: 'maine', MD: 'maryland', MA: 'massachusetts', MI: 'michigan', MN: 'minnesota', MS: 'mississippi', MO: 'missouri', MT: 'montana', NE: 'nebraska', NV: 'nevada', NH: 'new hampshire', NJ: 'new jersey', NM: 'new mexico', NY: 'new york', NC: 'north carolina', ND: 'north dakota', OH: 'ohio', OK: 'oklahoma', OR: 'oregon', PA: 'pennsylvania', RI: 'rhode island', SC: 'south carolina', SD: 'south dakota', TN: 'tennessee', TX: 'texas', UT: 'utah', VT: 'vermont', VA: 'virginia', WA: 'washington', WV: 'west virginia', WI: 'wisconsin', WY: 'wyoming', PR: 'puerto rico' };
+  var NTS = {}; Object.keys(STN).forEach(function (k) { NTS[STN[k]] = k; });
+  function fold(x) { return String(x == null ? '' : x).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[.'\u2019]/g, '').replace(/[^a-z0-9]+/g, ' ').trim(); }
+  function loadUSP() { if (uspP) return uspP; uspP = fetch(new URL('us_places_grokbot.txt', document.baseURI).href).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) { USP = t.split('\n').map(function (l, i) { var a = l.split('|'); return { city: a[0], st: a[1], lat: +a[2], lng: +a[3], f: fold(a[0]), r: i }; }).filter(function (o) { return o.city; }); return USP; }).catch(function () { uspP = null; return []; }); return uspP; }
+  function parseQ(t) { // -> { q: folded city part, st: 'NC' or '' }
+    var f = fold(t), w = f.split(' '), st = '';
+    if (w.length > 1) {
+      var last = w[w.length - 1].toUpperCase();
+      if (last.length === 2 && STN[last]) { st = last; w = w.slice(0, -1); }
+      else for (var n = 3; n >= 1; n--) { if (w.length > n && NTS[w.slice(-n).join(' ')]) { st = NTS[w.slice(-n).join(' ')]; w = w.slice(0, -n); break; } }
+    }
+    return { q: w.join(' '), st: st };
+  }
+  function stOf(c) { if (c.country !== 'US') return ''; var m = String(c.label || '').match(/,\s*([A-Z]{2})\s*$/); if (m) return m[1]; return NTS[fold(c.region)] || ''; }
+  function boldLab(label, q) { var e = function (x) { return String(x).replace(/[&<>"]/g, function (ch) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]; }); }; var n = q.length, i = 0, j = 0, out = ''; // bold the typed prefix of the city name
+    var fl = fold(label); if (!q || fl.indexOf(q) !== 0) return e(label);
+    for (i = 0; i < label.length && j < n; i++) { var ch = fold(label[i]); if (ch) j += ch.length; else if (label[i] === ' ' && q[j] === ' ') j++; }
+    return '<b>' + e(label.slice(0, i)) + '</b>' + e(label.slice(i)); }
+  function findPlaces(t, limit) {
+    var p = parseQ(t), q = p.q, out = [], seen = {};
+    if (!q) return out;
+    var add = function (c, tier, rank) { var k = fold(c.label); if (seen[k]) return; seen[k] = 1; out.push({ c: c, tier: tier, rank: rank }); };
+    try { _searchPartnerCities(q, 40).forEach(function (c, i) { if (p.st && stOf(c) !== p.st) return; var tier = c._names.indexOf(q) >= 0 ? 0 : 1; add(c, tier, i - 1000); }); } catch (e) {}
+    (USP || []).forEach(function (o) {
+      if (p.st && o.st !== p.st) return;
+      if (out.some(function (h) { return h.c.country === 'US' && stOf(h.c) === o.st && Math.abs(h.c.lat - o.lat) < .15 && Math.abs(h.c.lng - o.lng) < .15; })) return; // 'Boise City' = Boise
+      var tier = o.f === q ? 0 : o.f.indexOf(q) === 0 ? 1 : (' ' + o.f).indexOf(' ' + q) >= 0 ? 2 : 9; if (tier > 2) return;
+      add({ label: o.city + ', ' + o.st, city: o.city, region: STN[o.st], country: 'US', lat: o.lat, lng: o.lng }, tier, o.r);
+    });
+    out.sort(function (a, b) { return a.tier - b.tier || a.rank - b.rank; });
+    return out.slice(0, limit).map(function (h) { return h.c; });
+  }
+  var _geoBusy = 0;
+  function geocodeTyped(t) {
+    if (!t || _geoBusy) return; _geoBusy = 1;
+    try { _wyaShow('Looking up ' + t + '\u2026'); } catch (e) {}
+    fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&accept-language=en&countrycodes=us&q=' + encodeURIComponent(t))
+      .then(function (r) { return r.json(); }).then(function (d) {
+        _geoBusy = 0; var g = d && d[0]; if (!g) { try { _wyaShow('Couldn\u2019t find \u201c' + t + '\u201d. Try a zip, or tap the map.', 'err'); } catch (e) {} return; }
+        var a = g.address || {}, city = a.city || a.town || a.village || a.hamlet || a.borough || a.suburb || a.county || String(g.display_name).split(',')[0];
+        var st = NTS[fold(a.state)] || ''; var label = city + (st ? ', ' + st : '');
+        _wyaPick({ city: { label: label, city: city, region: a.state || null, country: 'US', lat: +g.lat, lng: +g.lon } });
+      }).catch(function () { _geoBusy = 0; try { _wyaShow('Search is offline. Try a zip, or tap the map.', 'err'); } catch (e) {} });
+  }
+  try {
+    _wyaSuggest = function () {
+      var q = document.getElementById(_wyaQ.q), list = document.getElementById(_wyaQ.list), t = q.value.trim();
+      if (!t || (state.wya && WYA_OPT === 'B' && t === q.dataset.shown)) { list.hidden = true; q.setAttribute('aria-expanded', 'false'); return; }
+      var zone = WYA_OPT === 'C' ? document.getElementById('wya-map-c') : q.closest('.screen-content');
+      var zb = zone ? zone.getBoundingClientRect().bottom - (WYA_OPT === 'C' ? 8 : parseFloat(getComputedStyle(zone).paddingBottom)) : 400;
+      var rows = Math.max(1, Math.min(5, Math.floor((zb - q.getBoundingClientRect().bottom - 6) / 44)));
+      var zip = /^\d{5}(-\d{4})?$/.test(t) ? t.slice(0, 5) : /^\d/.test(t) ? t : '';
+      if (!PARTNER_CITIES.length) loadPartnerCities().then(function () { if (q.value.trim() === t) _wyaSuggest(); });
+      if (!USP) loadUSP().then(function () { if (q.value.trim() === t) _wyaSuggest(); });
+      var cities = zip ? [] : findPlaces(t, rows), pq = parseQ(t).q;
+      _wyaOpts = (zip ? [{ zip: zip }] : []).concat(cities.map(function (c) { return { city: c }; }));
+      list.replaceChildren();
+      if (!_wyaOpts.length) { var d0 = document.createElement('div'); d0.className = 'wya-opt none go'; d0.textContent = (USP ? 'Search for \u201c' + t + '\u201d' : 'Searching\u2026'); d0.addEventListener('click', function () { geocodeTyped(t); }); list.appendChild(d0); }
+      _wyaOpts.forEach(function (o, i) {
+        var d = document.createElement('div'); d.className = 'wya-opt' + (i ? '' : ' active'); d.dataset.i = i; d.setAttribute('role', 'option');
+        if (o.zip) { d.innerHTML = '<span class="k"></span><span class="sub">zip code</span>'; d.children[0].textContent = o.zip; } else d.innerHTML = '<span class="lab">' + boldLab(o.city.label, pq) + '</span>';
+        list.appendChild(d);
+      });
+      _wyaAct = 0; list.hidden = false; q.setAttribute('aria-expanded', 'true');
+    };
+  } catch (e) { console.error(e); }
+  window.addEventListener('load', function () {
+    var q = document.getElementById('wya-cq'); if (!q) return;
+    q.setAttribute('type', 'search'); q.setAttribute('autocomplete', 'off'); q.setAttribute('name', 'wya-place-search'); q.setAttribute('data-form-type', 'other'); // Safari: no Contacts AutoFill bar over the suggestions
+    q.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !_wyaOpts.length) { e.preventDefault(); e.stopImmediatePropagation(); geocodeTyped(q.value.trim()); } }, true);
+    q.addEventListener('focus', loadUSP);
+  });
+})();
 </script>
 <!-- /PAGE0_MOCKUP_GROKBOT -->
 
@@ -15232,9 +15393,9 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   #p0v .p0pills { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; }
   #p0v .p0p { height: 28px; min-width: 0; padding: 0 4px; background: transparent; color: var(--text); border: 1px solid rgba(240,236,224,.28); border-radius: var(--radius, 4px); font: 14px/1 'Bebas Neue', sans-serif; letter-spacing: .03em; cursor: pointer; white-space: nowrap; overflow: hidden; }
   #p0v .p0p.on { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-  #p0v .p0-bad { border-color: #FF7A2F !important; box-shadow: 0 0 0 1px #FF7A2F; }
-  #p0v .p0pills.p0-bad { box-shadow: none; border: 0 !important; }
-  #p0v .p0pills.p0-bad .p0p { border-color: #FF7A2F; }
+  html.p0e-old #p0v .p0-bad { border-color: #FF7A2F !important; box-shadow: 0 0 0 1px #FF7A2F; }
+  html.p0e-old #p0v .p0pills.p0-bad { box-shadow: none; border: 0 !important; }
+  html.p0e-old #p0v .p0pills.p0-bad .p0p { border-color: #FF7A2F; }
   #p0v .pv-go { position: relative; }
   #p0v .pv-go.has-msg { padding-bottom: 14px; }
   #p0v .pv-msg { position: absolute; left: 0; right: 0; bottom: 7px; font: 10px/12px 'Space Mono', monospace; letter-spacing: .04em; text-transform: none; color: inherit; opacity: .8; text-align: center; } /* the error rides inside the button, so it never adds scroll or covers a field */
@@ -15258,7 +15419,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2 #p0v .pv-lib .p0c::placeholder { color: rgba(240,236,224,.38); }
   .p0v-2 #p0v .pv-lib .empty, .p0v-2 #p0v .pv-lib select:invalid { color: rgba(240,236,224,.38); }
   .p0v-2 #p0v .pv-lib .p0c:focus, .p0v-2 #p0v .pv-lib select:focus { border-bottom-color: var(--accent); }
-  .p0v-2 #p0v .pv-lib .p0-bad { box-shadow: none; border-bottom-color: #FF7A2F !important; }
+  html.p0e-old.p0v-2 #p0v .pv-lib .p0-bad { box-shadow: none; border-bottom-color: #FF7A2F !important; }
   .p0v-2 #p0v .pv-lib select option { color: #0e0e0e; }
   .p0v-2 #p0v .pv-lib input[type=date].p0c { width: 146px; }
   .p0v-2 #p0v .pv-body { margin-top: 12px; }
@@ -15267,7 +15428,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2 #p0v .pv-h.pv-pledge { font-size: 31px; line-height: 1.02; margin-top: 12px; text-transform: uppercase; }
   .p0v-2 #p0v .pv-pledge input.pv-nm { display: inline-block; vertical-align: baseline; height: 1.02em; padding: 0 1px; border: 0; border-bottom: 3px solid var(--accent); border-radius: 0; background: transparent; color: var(--accent); font: inherit; font-family: 'Bebas Neue', sans-serif; letter-spacing: .005em; text-transform: uppercase; min-width: 2em; }
   .p0v-2 #p0v .pv-pledge input.pv-nm::placeholder { color: rgba(240,236,224,.35); text-transform: uppercase; font-size: inherit !important; font-family: inherit !important; letter-spacing: inherit !important; }
-  .p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad { box-shadow: none; border-bottom-color: #FF7A2F !important; }
+  html.p0e-old.p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad { box-shadow: none; border-bottom-color: #FF7A2F !important; }
   .p0v-2 #p0v .pv-lib { margin-top: 10px; line-height: 36px; }
   .p0v-3 #p0v .pv-h.pv-pledge { font-size: 31px; line-height: 1.0; }
   .p0v-3 #p0v .pv-name { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 3px; text-decoration-skip-ink: none; padding: 0 2px; }
@@ -15275,7 +15436,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2 #p0v .pv-gsw { position: relative; cursor: pointer; }
   .p0v-2 #p0v .pv-gsv { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 4px; text-decoration-skip-ink: none; }
   .p0v-2 #p0v .pv-gsv.empty { color: rgba(240,236,224,.35); }
-  .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv { text-decoration-color: #FF7A2F; }
+  html.p0e-old.p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv { text-decoration-color: #FF7A2F; }
   .p0v-2 #p0v .pv-gsw select.pv-gs { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; margin: 0; padding: 0; border: 0; font-size: 16px; -webkit-appearance: none; appearance: none; cursor: pointer; }
   .p0v-2 #p0v .pv-gsw select.pv-gs option, .p0v-2 #p0v .pv-gsw select.pv-gs optgroup { color: #0e0e0e; font: 16px 'Space Mono', monospace; }
   .p0v-2 #p0v .pv-pledge .pv-car { color: var(--accent); font-size: .5em; vertical-align: .35em; margin-left: 2px; pointer-events: none; }
@@ -15303,13 +15464,13 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2 #p0v .pv-dobw { position: relative; cursor: pointer; }
   .p0v-2 #p0v .pv-dobv { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 4px; text-decoration-skip-ink: none; }
   .p0v-2 #p0v .pv-dobv.empty { color: rgba(240,236,224,.35); }
-  .p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv { text-decoration-color: #FF7A2F; }
+  html.p0e-old.p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv { text-decoration-color: #FF7A2F; }
   .p0v-2 #p0v .pv-dobw input.pv-dobi { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; margin: 0; padding: 0; border: 0; font-size: 16px; cursor: pointer; -webkit-appearance: none; appearance: none; }
   .p0v-3 #p0v .pv-dobs { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 3px; text-decoration-skip-ink: none; padding: 0 2px; }
   .p0v-3 #p0v .pv-dobs.empty { color: rgba(14,14,14,.35); }
   .p0v-2 #p0v button.pv-locv { display: inline; background: none; border: 0; padding: 0; margin: 0; font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--accent); cursor: pointer; text-align: left; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 4px; text-decoration-skip-ink: none; -webkit-appearance: none; appearance: none; }
   .p0v-2 #p0v button.pv-locv.empty { color: rgba(240,236,224,.35); }
-  .p0v-2 #p0v button.pv-locv.p0-bad { box-shadow: none; text-decoration-color: #FF7A2F; }
+  html.p0e-old.p0v-2 #p0v button.pv-locv.p0-bad { box-shadow: none; text-decoration-color: #FF7A2F; }
   .p0v-3 #p0v .pv-locs { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 3px; text-decoration-skip-ink: none; padding: 0 2px; }
   .p0v-3 #p0v .pv-locs.empty { color: rgba(14,14,14,.35); }
   /* 3 · the pledge (contract on paper) */
@@ -15332,7 +15493,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-3 #p0v input[type=date].p0c::-webkit-calendar-picker-indicator { filter: none; }
   .p0v-3 #p0v .p0p { height: 26px; color: #0e0e0e; border-color: rgba(14,14,14,.35); }
   .p0v-3 #p0v .p0p.on { background: #0e0e0e; border-color: #0e0e0e; color: var(--accent); }
-  .p0v-3 #p0v .p0-bad { border-bottom-color: #FF7A2F !important; box-shadow: 0 1px 0 #FF7A2F; } /* same 1px border, so an error never adds height */
+  html.p0e-old.p0v-3 #p0v .p0-bad { border-bottom-color: #FF7A2F !important; box-shadow: 0 1px 0 #FF7A2F; } /* same 1px border, so an error never adds height */
   .p0v-3 #p0v .pv-go { background: #0e0e0e; color: var(--accent); display: flex; align-items: center; justify-content: center; gap: 14px; }
   .p0v-3 #p0v .pv-go i { font-style: normal; font-family: 'Space Mono', monospace; font-size: 18px; color: #f0ece0; }
   .p0v-3 #p0v .pv-foot { padding-top: 8px; }
@@ -15372,14 +15533,13 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2 #p0v .pv-pledge input.pv-nm:focus, .p0v-2 #p0v .pv-lib .p0c:focus, .p0v-3 #p0v .p0c:focus { outline: 2px solid currentColor; outline-offset: -2px; }
   .p0v-3 #p0v .p0p:not(.on) { background: var(--accent); border-color: var(--accent); color: #0e0e0e; }
   /* error: orange outline, fill removed */
-  .p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-2 #p0v button.pv-locv.p0-bad, .p0v-2 #p0v .pv-lib .p0-bad,
-  .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv, .p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv, .p0v-3 #p0v .p0c.p0-bad {
+  html.p0e-old.p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad, html.p0e-old.p0v-2 #p0v button.pv-locv.p0-bad, html.p0e-old.p0v-2 #p0v .pv-lib .p0-bad,  html.p0e-old.p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv, html.p0e-old.p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv, html.p0e-old.p0v-3 #p0v .p0c.p0-bad {
     background: transparent !important; box-shadow: inset 0 0 0 2px #FF7A2F !important; border: 0 !important; }
-  .p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad::placeholder, .p0v-2 #p0v .pv-lib .p0-bad::placeholder { color: rgba(240,236,224,.45); }
-  .p0v-2 #p0v button.pv-locv.p0-bad.empty, .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv.empty, .p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv.empty, .p0v-2 #p0v .pv-lib .p0-bad.empty { color: rgba(240,236,224,.45); }
-  .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #FF7A2F; }
-  .p0v-3 #p0v .p0c.p0-bad::placeholder, .p0v-3 #p0v .p0c.p0-bad.empty { color: rgba(14,14,14,.45); }
-  .p0v-3 #p0v .p0pills.p0-bad .p0p:not(.on) { background: transparent; border-color: #FF7A2F; }
+  html.p0e-old.p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad::placeholder, html.p0e-old.p0v-2 #p0v .pv-lib .p0-bad::placeholder { color: rgba(240,236,224,.45); }
+  html.p0e-old.p0v-2 #p0v button.pv-locv.p0-bad.empty, html.p0e-old.p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv.empty, html.p0e-old.p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv.empty, html.p0e-old.p0v-2 #p0v .pv-lib .p0-bad.empty { color: rgba(240,236,224,.45); }
+  html.p0e-old.p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #FF7A2F; }
+  html.p0e-old.p0v-3 #p0v .p0c.p0-bad::placeholder, html.p0e-old.p0v-3 #p0v .p0c.p0-bad.empty { color: rgba(14,14,14,.45); }
+  html.p0e-old.p0v-3 #p0v .p0pills.p0-bad .p0p:not(.on) { background: transparent; border-color: #FF7A2F; }
   /* v3: v2's plain 'what you're signing up for' paragraph (default) */
   .p0v-3 #p0v .pv-sign { margin-top: 6px; color: #0e0e0e; }
   /* 2w · Mad-Libs on white (cream, as v3): same layout and copy; blocks + punchline keep the accent with black ink */
@@ -15395,9 +15555,9 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2w #p0v .pv-car { color: #0e0e0e; }
   .p0v-2w #p0v .pv-go { color: #0e0e0e; }
   .p0v-2w #p0v .pv-tag { color: rgba(14,14,14,.45); }
-  .p0v-2w #p0v .pv-pledge input.pv-nm.p0-bad::placeholder, .p0v-2w #p0v .pv-lib .p0-bad::placeholder { color: rgba(14,14,14,.5); }
-  .p0v-2w #p0v button.pv-locv.p0-bad.empty, .p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-gsv.empty, .p0v-2w #p0v .pv-dobw:has(.p0-bad) .pv-dobv.empty, .p0v-2w #p0v .pv-lib .p0-bad.empty { color: rgba(14,14,14,.5); }
-  .p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #FF7A2F; }
+  html.p0e-old.p0v-2w #p0v .pv-pledge input.pv-nm.p0-bad::placeholder, html.p0e-old.p0v-2w #p0v .pv-lib .p0-bad::placeholder { color: rgba(14,14,14,.5); }
+  html.p0e-old.p0v-2w #p0v button.pv-locv.p0-bad.empty, html.p0e-old.p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-gsv.empty, html.p0e-old.p0v-2w #p0v .pv-dobw:has(.p0-bad) .pv-dobv.empty, html.p0e-old.p0v-2w #p0v .pv-lib .p0-bad.empty { color: rgba(14,14,14,.5); }
+  html.p0e-old.p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #FF7A2F; }
   /* v3 pledge E: name + birth date are typed/picked right in the pledge, same highlight block as v2 */
   .p0v-3 #p0v .pv-pledge input.pv-nm { display: inline-block; vertical-align: baseline; height: 1.0em; border: 0; border-radius: 0; font: inherit; font-family: 'Bebas Neue', sans-serif; letter-spacing: .005em; text-transform: uppercase; min-width: 2em; background: var(--accent); color: #0e0e0e; padding: 0 4px; box-shadow: none; }
   .p0v-3 #p0v .pv-pledge input.pv-nm::placeholder { color: rgba(14,14,14,.5); text-transform: uppercase; font-size: inherit !important; font-family: inherit !important; letter-spacing: inherit !important; }
@@ -15406,12 +15566,12 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-3 #p0v .pv-dobv { background: var(--accent); color: #0e0e0e; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   .p0v-3 #p0v .pv-dobv.empty { color: rgba(14,14,14,.5); }
   .p0v-3 #p0v .pv-dobw input.pv-dobi { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; margin: 0; padding: 0; border: 0; font-size: 16px; cursor: pointer; -webkit-appearance: none; appearance: none; }
-  .p0v-3 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-3 #p0v .pv-dobw:has(.p0-bad) .pv-dobv { background: transparent !important; box-shadow: inset 0 0 0 2px #FF7A2F !important; border: 0 !important; }
+  html.p0e-old.p0v-3 #p0v .pv-pledge input.pv-nm.p0-bad, html.p0e-old.p0v-3 #p0v .pv-dobw:has(.p0-bad) .pv-dobv { background: transparent !important; box-shadow: inset 0 0 0 2px #FF7A2F !important; border: 0 !important; }
   /* v3 pledge E: the city blank is the location tap target (map sheet), as v2 */
   .p0v-3 #p0v button.pv-locv { display: inline; border: 0; margin: 0; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; text-align: left; -webkit-appearance: none; appearance: none;
     background: var(--accent); color: #0e0e0e; padding: 0 4px; border-radius: 0; -webkit-box-decoration-break: clone; box-decoration-break: clone; box-shadow: none; }
   .p0v-3 #p0v button.pv-locv.empty { color: rgba(14,14,14,.5); }
-  .p0v-3 #p0v button.pv-locv.p0-bad { background: transparent !important; box-shadow: inset 0 0 0 2px #FF7A2F !important; }
+  html.p0e-old.p0v-3 #p0v button.pv-locv.p0-bad { background: transparent !important; box-shadow: inset 0 0 0 2px #FF7A2F !important; }
   /* Amanda Oct 18 10:59 PM: two brand colours - inputs wear --accent (lime singles / orange couples), emphasis wears the other (--emph) */
   #p0v { --emph: #FF7A2F; }
   body.couples-flow #p0v { --emph: #c8f135; }
@@ -15419,16 +15579,12 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2w #p0v .pl-em, .p0v-2w #p0v .pl-punch .ac { background: var(--emph); color: #0e0e0e; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   .p0v-2w #p0v .pl-em, .p0v-2w #p0v .pl-punch .ac, .p0v-3 #p0v .pl-em, .p0v-3 #p0v .pl-punch .hl { background: var(--emph); color: #0e0e0e; padding: 0 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   /* error: no fill, thick dashed outline in the ink colour (cream on black, black on cream), never confused with an orange input */
-  .p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-2 #p0v button.pv-locv.p0-bad, .p0v-2 #p0v .pv-lib .p0-bad,
-  .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv, .p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv,
-  .p0v-3 #p0v .p0c.p0-bad, .p0v-3 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-3 #p0v .pv-dobw:has(.p0-bad) .pv-dobv, .p0v-3 #p0v button.pv-locv.p0-bad {
+  html.p0e-old.p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad, html.p0e-old.p0v-2 #p0v button.pv-locv.p0-bad, html.p0e-old.p0v-2 #p0v .pv-lib .p0-bad,  html.p0e-old.p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv, html.p0e-old.p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv,  html.p0e-old.p0v-3 #p0v .p0c.p0-bad, html.p0e-old.p0v-3 #p0v .pv-pledge input.pv-nm.p0-bad, html.p0e-old.p0v-3 #p0v .pv-dobw:has(.p0-bad) .pv-dobv, html.p0e-old.p0v-3 #p0v button.pv-locv.p0-bad {
     background: transparent !important; box-shadow: none !important; border: 0 !important; outline: 3px dashed #f0ece0 !important; outline-offset: -3px !important; }
-  .p0v-2w #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-2w #p0v button.pv-locv.p0-bad, .p0v-2w #p0v .pv-lib .p0-bad,
-  .p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-gsv, .p0v-2w #p0v .pv-dobw:has(.p0-bad) .pv-dobv,
-  .p0v-3 #p0v .p0c.p0-bad, .p0v-3 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-3 #p0v .pv-dobw:has(.p0-bad) .pv-dobv, .p0v-3 #p0v button.pv-locv.p0-bad { outline-color: #0e0e0e !important; }
-  .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #f0ece0; }
-  .p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #0e0e0e; }
-  .p0v-3 #p0v .p0pills.p0-bad .p0p:not(.on) { background: transparent; border: 2px dashed #0e0e0e; }
+  html.p0e-old.p0v-2w #p0v .pv-pledge input.pv-nm.p0-bad, html.p0e-old.p0v-2w #p0v button.pv-locv.p0-bad, html.p0e-old.p0v-2w #p0v .pv-lib .p0-bad,  html.p0e-old.p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-gsv, html.p0e-old.p0v-2w #p0v .pv-dobw:has(.p0-bad) .pv-dobv,  html.p0e-old.p0v-3 #p0v .p0c.p0-bad, html.p0e-old.p0v-3 #p0v .pv-pledge input.pv-nm.p0-bad, html.p0e-old.p0v-3 #p0v .pv-dobw:has(.p0-bad) .pv-dobv, html.p0e-old.p0v-3 #p0v button.pv-locv.p0-bad { outline-color: #0e0e0e !important; }
+  html.p0e-old.p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #f0ece0; }
+  html.p0e-old.p0v-2w #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #0e0e0e; }
+  html.p0e-old.p0v-3 #p0v .p0pills.p0-bad .p0p:not(.on) { background: transparent; border: 2px dashed #0e0e0e; }
   .p0v-2w #p0v .pl-em { padding: 0; } /* Amanda Oct 18 11:27 PM: no side padding on the emphasis block in 2w, so it doesn't cost a size step */
   /* &sign=1: signature pad in the input-highlight block, a contract signature line */
   .p0v-sg #p0v .pv-sigwrap { margin-bottom: 8px; }
@@ -15441,8 +15597,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-sg #p0v .pv-sigclr { position: absolute; right: 6px; top: 3px; z-index: 2; background: none; border: 0; padding: 3px 4px; font: 9px/1 'Space Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: #0e0e0e; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
   .p0v-sg #p0v .pv-sigcap { display: flex; justify-content: space-between; margin-top: 3px; font: 9px/12px 'Space Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: rgba(14,14,14,.7); }
   .p0v-sg #p0v .pv-signame.empty { color: rgba(14,14,14,.4); }
-  .p0v-sg #p0v .pv-sigpad.p0-bad { background: transparent; outline: 3px dashed #0e0e0e; outline-offset: -3px; }
-  .p0v-sg #p0v .pv-sigpad.p0-bad .pv-siglab { color: #0e0e0e; }
+  html.p0e-old.p0v-sg #p0v .pv-sigpad.p0-bad { background: transparent; outline: 3px dashed #0e0e0e; outline-offset: -3px; }
+  html.p0e-old.p0v-sg #p0v .pv-sigpad.p0-bad .pv-siglab { color: #0e0e0e; }
   .p0v-sg #p0v .pv-go { height: 52px; }
   .p0v-sg #p0v .pv-go.pv-dim { opacity: .4; }
   .p0v-sg.p0v-3 #p0v .pv-go { font-size: 28px; }
@@ -15469,7 +15625,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-pe.p0v-3 #p0v .pv-h.pv-pledge { line-height: .98; }
   /* Safari / Chrome AutoFill paints filled fields yellow: keep the exact input-highlight colour */
   #p0v input:-webkit-autofill, #p0v input:-webkit-autofill:hover, #p0v input:-webkit-autofill:focus, #p0v input:autofill { -webkit-box-shadow: 0 0 0 1000px var(--accent) inset !important; box-shadow: 0 0 0 1000px var(--accent) inset !important; -webkit-text-fill-color: #0e0e0e !important; caret-color: #0e0e0e; transition: background-color 99999s 0s; }
-  #p0v input.p0-bad:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px transparent inset !important; box-shadow: none !important; }
+  html.p0e-old #p0v input.p0-bad:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px transparent inset !important; box-shadow: none !important; }
   .p0v-pe #p0v .pv-sms { line-height: 12px; }
   .p0v-pe #p0v .pv-legal { line-height: 12px; }
   html.p0v-pe.p0v-2 #p0v .pv-lib { line-height: 30px; margin-top: 8px; }
@@ -15480,6 +15636,116 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-2 #p0v .pv-gsw:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
   .p0v-2 #p0v .pv-lib input.pv-em { width: 200px; max-width: none; }
   .p0v-3 #p0v .pv-sig .pv-inl > .p0c { width: 100%; }
+
+  /* ---- Amanda Oct 19 1:09 AM: required-field treatments (&err=A|B|C|D; old = dashed). Blanks keep their fill; placeholder ink stays solid black */
+  html:not(.p0e-old) #p0v .pv-pledge input.pv-nm::placeholder, html:not(.p0e-old) #p0v .pv-lib .p0c::placeholder, html:not(.p0e-old) #p0v .p0c::placeholder { color: #0e0e0e; opacity: 1; }
+  html:not(.p0e-old) #p0v .pv-gsv.empty, html:not(.p0e-old) #p0v .pv-dobv.empty, html:not(.p0e-old) #p0v button.pv-locv.empty, html:not(.p0e-old) #p0v .pv-lib .empty,
+  html:not(.p0e-old) #p0v .pv-name.empty, html:not(.p0e-old) #p0v .pv-stat.empty, html:not(.p0e-old) #p0v .pv-dobs.empty, html:not(.p0e-old) #p0v .pv-locs.empty, html:not(.p0e-old) #p0v .p0c.empty { color: #0e0e0e; }
+  html:not(.p0e-old) #p0v .pv-go .pv-msg { opacity: 1; font-weight: 700; }
+  html:not(.p0e-old) #p0v .pv-go.pv-pre .pv-msg { opacity: .7; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; }
+  #p0v .p0-miss { position: relative; }
+  /* A: corner dot in the other brand colour + one gentle shake */
+  .p0e-A #p0v .p0-miss { background-image: radial-gradient(circle at calc(100% - 5px) 5px, var(--emph) 0 3px, #0e0e0e 3.2px 4.2px, transparent 4.6px) !important; background-repeat: no-repeat !important; }
+  .p0e-A #p0v .p0pills.p0-miss { background-image: radial-gradient(circle at calc(100% - 4px) 4px, var(--emph) 0 3px, #0e0e0e 3.2px 4.2px, transparent 4.6px) !important; position: relative; z-index: 1; }
+  .p0e-A #p0v .p0pills.p0-miss .p0p:last-child { position: relative; z-index: -1; }
+  @keyframes p0shake { 0%, 100% { left: 0; } 18% { left: -4px; } 36% { left: 4px; } 54% { left: -3px; } 72% { left: 2px; } }
+  .p0e-A #p0v .p0-anim { animation: p0shake .45s ease-in-out; }
+  /* B: no marks; the first blank opens, the missing ones pulse once */
+  @keyframes p0pulseD { 0% { box-shadow: 0 0 0 0 rgba(14,14,14,.55); } 100% { box-shadow: 0 0 0 9px rgba(14,14,14,0); } }
+  @keyframes p0pulseL { 0% { box-shadow: 0 0 0 0 rgba(240,236,224,.6); } 100% { box-shadow: 0 0 0 9px rgba(240,236,224,0); } }
+  .p0e-B #p0v .p0-anim { animation: p0pulseD .75s ease-out; }
+  .p0e-B.p0v-2:not(.p0v-2w) #p0v .p0-anim { animation-name: p0pulseL; }
+  /* C: missing blanks switch to the other brand colour, solid, as a group */
+  .p0e-C #p0v .p0-miss { background-color: var(--emph) !important; }
+  .p0e-C #p0v .p0pills.p0-miss { background: none !important; }
+  .p0e-C #p0v .p0pills.p0-miss .p0p:not(.on) { background: var(--emph) !important; border-color: var(--emph) !important; }
+  /* D: a 2px signature line under each missing blank (ink colour) */
+  .p0e-D #p0v .p0-miss { box-shadow: 0 2px 0 0 #0e0e0e !important; }
+  .p0e-D.p0v-2:not(.p0v-2w) #p0v .p0-miss { box-shadow: 0 2px 0 0 #f0ece0 !important; }
+  .p0e-D #p0v .p0pills.p0-miss { box-shadow: none !important; }
+  .p0e-D #p0v .p0pills.p0-miss .p0p:not(.on) { box-shadow: 0 2px 0 0 #0e0e0e; }
+  /* status sheet, step 2: back link to 'I am a...' */
+  .s121-sheet .pv-gchg { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 6px 12px 12px; font: 13px/1.3 'Space Mono', monospace; letter-spacing: .02em; color: var(--text); cursor: pointer; }
+  #s121-list .race-opt[data-pvg] { min-height: 64px !important; font-size: 18px !important; }
+  #s121-list .race-opt[data-pvg] .race-opt-txt { font-size: 18px !important; }
+  .s121-sheet .pv-gchg u { text-underline-offset: 2px; }
+
+  /* ---- Amanda Oct 19 1:12 AM: pledge line-height 1.18; every highlight block is a cap-height band (0.97em) drawn inside its own line box,
+     so no block touches the glyphs of the line above or below (Bebas content area is 1.21em, caps 0.71em) */
+  html.p0v #p0v .pv-h.pv-pledge { line-height: 1.18 !important; }
+  #p0v { --blk: var(--accent); --bt: .08em; }
+  #p0v .pv-pledge .pv-gsv, #p0v .pv-pledge .pv-dobv, #p0v .pv-pledge button.pv-locv, .p0v-3 #p0v .pv-pledge .pv-name, .p0v-3 #p0v .pv-pledge .pv-stat, .p0v-3 #p0v .pv-pledge .pv-dobs, .p0v-3 #p0v .pv-pledge .pv-locs,
+  .p0v-2w #p0v .pv-pledge .pl-em, .p0v-2w #p0v .pv-pledge .pl-punch .ac, .p0v-3 #p0v .pv-pledge .pl-em, .p0v-3 #p0v .pv-pledge .pl-punch .hl, .p0v-3 #p0v .pv-pledge .hl {
+    background: linear-gradient(var(--blk), var(--blk)) 0 var(--bt) / 100% .97em no-repeat !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+  .p0v-2w #p0v .pv-pledge .pl-em, .p0v-2w #p0v .pv-pledge .pl-punch .ac, .p0v-3 #p0v .pv-pledge .pl-em, .p0v-3 #p0v .pv-pledge .pl-punch .hl, .p0v-3 #p0v .pv-pledge .hl { --blk: var(--emph); }
+  #p0v .pv-pledge button.pv-locv { line-height: inherit; --bt: .065em; vertical-align: baseline; }
+  #p0v .pv-pledge input.pv-nm { height: .97em !important; }
+  .p0v-2 #p0v .pv-pledge .pl-punch .ac { font-size: 1em; }
+  /* error marks follow the block band */
+  .p0e-C #p0v .pv-pledge span.p0-miss, .p0e-C #p0v .pv-pledge button.p0-miss { --blk: var(--emph); background-color: transparent !important; }
+  .p0e-C #p0v input.p0-miss { background-color: var(--emph) !important; }
+  .p0e-A #p0v .pv-pledge span.p0-miss, .p0e-A #p0v .pv-pledge button.p0-miss {
+    background: radial-gradient(circle at calc(100% - 5px) calc(var(--bt) + 5px), var(--emph) 0 3px, #0e0e0e 3.2px 4.2px, transparent 4.6px) 0 0 / 100% 100% no-repeat, linear-gradient(var(--blk), var(--blk)) 0 var(--bt) / 100% .97em no-repeat !important; }
+  .p0e-D #p0v .pv-pledge span.p0-miss, .p0e-D #p0v .pv-pledge button.p0-miss { box-shadow: none !important;
+    background: linear-gradient(var(--ink, #0e0e0e), var(--ink, #0e0e0e)) 0 calc(var(--bt) + .97em) / 100% 2px no-repeat, linear-gradient(var(--blk), var(--blk)) 0 var(--bt) / 100% .97em no-repeat !important; }
+  .p0v-2:not(.p0v-2w) #p0v { --ink: #f0ece0; }
+
+  /* ---- Amanda Oct 19 1:14 AM: room for a bigger pledge - 13px supporting paragraph, tighter gaps, v3 email + phone on one row */
+  .p0v-pe #p0v .pv-body.pv-sign { font-size: 13px; line-height: 1.42; }
+  html.p0v-pe.p0v-2 #p0v .pv-lib { margin-top: 6px; }
+  html.p0v-pe #p0v .pv-foot { padding-top: 6px; }
+  html.p0v-pe #p0v .pv-top { height: 30px; }
+  .p0v-3 #p0v .pv-sig .pv-row2 { display: grid; grid-template-columns: 1.45fr 1fr; column-gap: 10px; }
+  .p0v-3 #p0v .pv-sig .pv-row2 .pv-inl { grid-template-columns: auto 1fr; }
+  /* ---- signature styles (sign=1): no solid block, the button stays the only one */
+  .p0v-sg #p0v .pv-sigwrap { margin-bottom: 8px; }
+  .p0v-sg #p0v .pv-sigpad { position: relative; background: transparent !important; outline: 0 !important; color: #0e0e0e; }
+  .p0v-sg #p0v .pv-sigpad::after { content: ''; position: absolute; left: 30px; right: 4px; bottom: 9px; height: 1.5px; background: currentColor; pointer-events: none; }
+  .p0v-sg #p0v .pv-sx { position: absolute; left: 4px; bottom: 6px; font: 26px/1 'Bebas Neue', sans-serif; color: currentColor; pointer-events: none; }
+  .p0v-sg #p0v .pv-sighint { position: absolute; left: 34px; bottom: 15px; font: italic 13px/1 Georgia, 'Times New Roman', serif; color: rgba(14,14,14,.55); pointer-events: none; }
+  .p0v-sg #p0v .pv-sigpad.signed .pv-sighint { display: none; }
+  .p0v-sg #p0v .pv-sigrow { display: flex; justify-content: space-between; align-items: baseline; margin-top: 2px; font: 9px/12px 'Space Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: #0e0e0e; }
+  .p0v-sg #p0v .pv-sigrow .pv-siglab { position: static; font: inherit; color: inherit; opacity: 1; }
+  .p0v-sg #p0v .pv-sigrow .pv-sigclr { position: static; padding: 0 0 0 8px; font: inherit; color: #0e0e0e; text-decoration: underline; text-underline-offset: 2px; }
+  .p0v-sg #p0v .pv-sigcap { margin-top: 1px; color: #3a3832; }
+  .p0v-sg #p0v .pv-signame.empty { color: #4a4740; }
+  .p0s-A #p0v .pv-sigwrap .pv-sigpad { height: 50px; }
+  .p0s-B #p0v .pv-sigwrap .pv-sigpad { height: 54px; border: 1px solid #0e0e0e; border-radius: 4px; }
+  .p0s-B #p0v .pv-sigpad::after { left: 30px; right: 10px; bottom: 11px; }
+  .p0s-B #p0v .pv-sx { bottom: 8px; left: 8px; }
+  /* C: 'Signed, X____' in the pledge's own type, right under it */
+  .p0s-C #p0v .pv-sigline { display: flex; align-items: flex-end; gap: .2em; margin-top: 2px; font-family: 'Bebas Neue', sans-serif; text-transform: uppercase; color: #0e0e0e; line-height: 1; }
+  .p0s-C #p0v .pv-sgd { padding-bottom: 6px; flex: 0 0 auto; }
+  .p0s-C #p0v .pv-sigline .pv-sigpad { flex: 1 1 auto; height: 1.75em; }
+  .p0s-C #p0v .pv-sigline .pv-sx { font-size: 1em; bottom: 6px; }
+  .p0s-C #p0v .pv-sigline .pv-sighint { font-size: 13px; bottom: 13px; left: 1.25em; }
+  .p0s-C #p0v .pv-sigline .pv-sigpad::after { left: 1.05em; right: 0; bottom: 6px; }
+  .p0s-C #p0v .pv-sigrow-c { justify-content: flex-start; gap: 10px; margin-top: 1px; color: #3a3832; }
+  .p0s-C #p0v .pv-sigrow-c .pv-sigclr { margin-left: auto; }
+  .p0v-sg #p0v .pv-sigpad.p0-miss { background-color: transparent !important; }
+  html:not(.p0e-old).p0v-sg #p0v .pv-go.pv-dim { opacity: 1; } /* the live count says what's missing; no washed-out button */
+  .p0e-C.p0v-sg #p0v .pv-sigpad.p0-miss { color: var(--emph); }
+  .p0e-C.p0v-sg #p0v .pv-sigpad.p0-miss::after { height: 3px; }
+  .p0e-D.p0v-sg #p0v .pv-sigpad.p0-miss { box-shadow: none !important; }
+  .p0e-D.p0v-sg #p0v .pv-sigpad.p0-miss::after { height: 3px; }
+
+  /* Amanda Oct 19 1:23 AM: the legal line overlapped the fixed MOCKUP footer - footer hidden on page 0, its reserved room goes to the pledge */
+  html.p0v-on .mock-ft-grokbot { display: none !important; }
+  html.p0v #p0v .pv-foot { padding-bottom: 10px !important; }
+
+  /* ---- Amanda Oct 19 1:27 AM: red Color Tint readability, black v2 (and v3's greys): no grey text, 12px min labels, 14px body + legal */
+  .p0v-2:not(.p0v-2w) #p0v .pv-top, .p0v-2:not(.p0v-2w) #p0v .pv-body, .p0v-2:not(.p0v-2w) #p0v .pv-legal, .p0v-2:not(.p0v-2w) #p0v .pv-lab { color: #f0ece0 !important; }
+  .p0v-3 #p0v .pv-top, .p0v-3 #p0v .pv-lab, .p0v-3 #p0v .pv-legal, .p0v-2w #p0v .pv-top, .p0v-2w #p0v .pv-legal, .p0v-2w #p0v .pv-body { color: #0e0e0e !important; }
+  .p0v-2:not(.p0v-2w) #p0v .pv-top { font-size: 12px; letter-spacing: .12em; }
+  .p0v-2:not(.p0v-2w) #p0v .pv-body.pv-sign { font-size: 14px; line-height: 1.38; }
+  .p0v-2:not(.p0v-2w) #p0v .pv-legal { font-size: 14px !important; line-height: 17px !important; }
+  .p0v-2:not(.p0v-2w) #p0v .pv-go .pv-msg { font-size: 12px; }
+  .p0v-2:not(.p0v-2w) #p0v .pv-car { color: #f0ece0; }
+  /* couples, black: orange blocks get a 2px cream rim (still a field when orange collapses in red); orange words get a cream underline */
+  .p0v-2:not(.p0v-2w) body.couples-flow #p0v .pv-pledge .pv-gsv, .p0v-2:not(.p0v-2w) body.couples-flow #p0v .pv-pledge .pv-dobv, .p0v-2:not(.p0v-2w) body.couples-flow #p0v .pv-pledge button.pv-locv {
+    background: linear-gradient(var(--blk), var(--blk)) 2px calc(var(--bt) + 2px) / calc(100% - 4px) calc(.97em - 4px) no-repeat, linear-gradient(#f0ece0, #f0ece0) 0 var(--bt) / 100% .97em no-repeat !important; }
+  html.p0v-2:not(.p0v-2w) body.couples-flow #p0v input.p0c { outline: 2px solid #f0ece0; outline-offset: -2px; }
+  .p0v-2:not(.p0v-2w) body.couples-flow #p0v .pv-top .pv-path, .p0v-2:not(.p0v-2w) body.couples-flow #p0v .pl-em, .p0v-2:not(.p0v-2w) body.couples-flow #p0v .pl-punch .ac { text-decoration: underline; text-decoration-color: #f0ece0; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 </style>
 <script>
 (function () {
@@ -15487,9 +15753,10 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   if (!(V >= 1 && V <= 4)) return;
   var H = document.documentElement; H.classList.add('p0v', 'p0v-' + V);
   if (V === 2 && (/^2w$/i.test(Q.get('p0') || '') || String(Q.get('theme') || '').toLowerCase() === 'white')) H.classList.add('p0v-2w'); // Amanda Oct 18 9:07 PM: white version of the Mad-Libs page, same layout
+  var EM = String(Q.get('err') || '').toUpperCase(); EM = EM === 'OLD' ? 'old' : /^[ABCD]$/.test(EM) ? EM : 'A'; H.classList.add('p0e-' + EM); // Amanda Oct 19 1:09 AM: required-field treatments &err=A|B|C|D (A default), old = dashed outlines
   var CLS = Q.get('clauses') === '1'; // v3: numbered 01-03 clauses only on request; default is v2's paragraph
   var $ = function (i) { return document.getElementById(i); };
-  var SL = [['never_married', 'Never married'], ['separated', 'Separated'], ['divorced', 'Divorced'], ['widowed', 'Widowed']];
+  var SL = [['never_married', 'Never married'], ['divorced', 'Divorced'], ['separated', 'Separated'], ['widowed', 'Widowed']]; // Amanda Oct 19 1:11 AM: unmarried options clustered first
   var CL = [['relationship', 'Committed'], ['engaged', 'Engaged'], ['married', 'Married']];
   var GL = [['man', 'Man'], ['woman', 'Woman'], ['non-binary', 'Non-binary']];
   var FN = '<sup class="fn-ref" data-fn="1">\u00b9</sup>';
@@ -15519,14 +15786,18 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   function sel(b, list, ph) { return '<select data-b="' + b + '" required aria-label="' + ph + '"><option value="" disabled selected hidden>' + ph + '</option>' + list.map(function (o) { return '<option value="' + o[0] + '">' + o[1].toLowerCase() + '</option>'; }).join('') + '</select>'; }
   var SG = Q.get('sign') === '1' && (V === 3 || H.classList.contains('p0v-2w')); // Amanda Oct 18 11:35 PM: &sign=1 - draw your signature (v3 + 2w only)
   if (SG) H.classList.add('p0v-sg');
-  var SIGPAD = '<div class="pv-sigwrap"><div class="pv-sigpad" data-b="sig"><span class="pv-siglab">Sign here</span><button type="button" class="pv-sigclr">Clear</button><span class="pv-sx" aria-hidden="true">X</span><canvas class="pv-sigc" aria-label="Signature pad: draw your signature"></canvas></div><div class="pv-sigcap"><span class="pv-signame"></span><span class="pv-sigdate"></span></div></div>';
+  var SST = String(Q.get('sigstyle') || 'A').toUpperCase(); if (!/^[ABC]$/.test(SST)) SST = 'A'; if (SG) H.classList.add('p0s-' + SST); // Amanda Oct 19 1:14 AM: the COMMIT button is the only solid block at the bottom - A paper line (default), B thin outline, C 'Signed, X___' under the pledge
+  var SIGCAP = '<div class="pv-sigcap"><span class="pv-signame"></span><span class="pv-sigdate"></span></div>';
+  var SIGPAD = '<div class="pv-sigwrap"><div class="pv-sigpad" data-b="sig"><span class="pv-sighint">draw your signature</span><span class="pv-sx" aria-hidden="true">X</span><canvas class="pv-sigc" aria-label="Signature pad: draw your signature"></canvas></div><div class="pv-sigrow"><span class="pv-siglab">Sign here</span><button type="button" class="pv-sigclr">Clear</button></div>' + SIGCAP + '</div>';
+  var SIGC = SG && SST === 'C' ? '<div class="pv-sigline" data-fit="1" data-min="10"><span class="pv-sgd">Signed,</span><div class="pv-sigpad" data-b="sig"><span class="pv-sighint">draw your signature</span><span class="pv-sx" aria-hidden="true">X</span><canvas class="pv-sigc" aria-label="Signature pad: draw your signature"></canvas></div></div><div class="pv-sigrow pv-sigrow-c"><span class="pv-signame"></span><span class="pv-sigdate"></span><button type="button" class="pv-sigclr">Clear</button></div>' : '';
+  if (SST === 'C') SIGPAD = '';
   var GO = SG ? SIGPAD + '<button type="button" class="pv-go" data-go="1">I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>' : '<button type="button" class="pv-go" data-go="1">I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>';
   var MSG = '';
   var TAG = '<div class="pv-tag">Mockup from sports-preview \u00b7 not saved</div>';
   // Amanda Oct 18: the manifesto is a personal pledge. &pledge=A (default) | B | C. Couples: 'our love story'.
   var PL = String(Q.get('pledge') || 'E').toUpperCase(); if (!/^[ABCDE]$/.test(PL)) PL = 'E'; // Amanda Oct 18 8:35 PM: pledge E is the default (D/A/B/C stay reachable)
   var PE = PL === 'E'; if (PE && (V === 2 || V === 3)) H.classList.add('p0v-pe'); // Amanda Oct 18 11:39 PM: optional phone + SMS opt-in + legal line (pledge E, v2/2w/3)
-  var TEL = '<input class="p0c pv-tel" data-b="phone" type="tel" inputmode="tel" placeholder="phone (optional)" size="15" autocomplete="tel" aria-label="Phone (optional)">';
+  var TEL = '<input class="p0c pv-tel" data-b="phone" type="tel" inputmode="tel" placeholder="phone" size="15" autocomplete="tel" aria-label="Phone" required>'; // Amanda Oct 19 1:09 AM: phone is required (10-digit US), no '(optional)'
   var SMS = '<label class="pv-sms" hidden><input type="checkbox" data-b="sms"><span>Text me study updates. Msg &amp; data rates may apply. Reply STOP to opt out.</span></label>';
   var LEG = '<p class="pv-legal">By committing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a> and confirm you\u2019re 18+.</p>';
   function telFmt(d) { d = String(d || ''); return d.length > 6 ? '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6) : d.length > 3 ? '(' + d.slice(0, 3) + ') ' + d.slice(3) : d; }
@@ -15563,13 +15834,19 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     return '<span class="pv-gsw" role="button" tabindex="0" aria-haspopup="dialog"><span class="pv-gsv empty">your status</span><span class="pv-car" aria-hidden="true">\u25be</span><select class="pv-gs" data-b="genstat" required aria-label="' + (couple() ? 'Gender and relationship status' : 'Gender and marital status') + '">' + o + '</select></span>';
   }
   var USST = { AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', CA: 'California', CO: 'Colorado', CT: 'Connecticut', DE: 'Delaware', DC: 'District of Columbia', FL: 'Florida', GA: 'Georgia', HI: 'Hawaii', ID: 'Idaho', IL: 'Illinois', IN: 'Indiana', IA: 'Iowa', KS: 'Kansas', KY: 'Kentucky', LA: 'Louisiana', ME: 'Maine', MD: 'Maryland', MA: 'Massachusetts', MI: 'Michigan', MN: 'Minnesota', MS: 'Mississippi', MO: 'Missouri', MT: 'Montana', NE: 'Nebraska', NV: 'Nevada', NH: 'New Hampshire', NJ: 'New Jersey', NM: 'New Mexico', NY: 'New York', NC: 'North Carolina', ND: 'North Dakota', OH: 'Ohio', OK: 'Oklahoma', OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina', SD: 'South Dakota', TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia', WA: 'Washington', WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming', PR: 'Puerto Rico' };
-  function locText() { // deed style: "Austin, Texas" (US state spelled out); other countries keep the picker's label
+  // Amanda Oct 19 1:23 AM: always the actual city + 2-letter state ('Walnut Creek, CA'), never a metro / region or a spelled-out state
+  var METRO_CORE = { 'san francisco bay area': 'San Francisco', 'bay area': 'San Francisco', 'sf bay area': 'San Francisco', 'orange county': 'Santa Ana', 'silicon valley': 'San Jose' };
+  var ST2 = {}; Object.keys(USST).forEach(function (k) { ST2[USST[k].toLowerCase()] = k; });
+  function locText() {
     var w = state.wya; if (!w || !w.label) return '';
     var parts = String(w.label).replace(/^\d{5}\s*\u00b7\s*/, '').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
-    if (parts.length >= 2 && USST[parts[parts.length - 1].toUpperCase()]) parts[parts.length - 1] = USST[parts[parts.length - 1].toUpperCase()];
-    return parts.join(', ');
-  }
-  var LOC_WORST = 'Los Angeles, California';
+    if (!parts.length) return '';
+    var city = parts[0], last = parts.length > 1 ? parts[parts.length - 1] : '';
+    if (METRO_CORE[city.toLowerCase()]) city = METRO_CORE[city.toLowerCase()];
+    var st = USST[last.toUpperCase()] ? last.toUpperCase() : ST2[last.toLowerCase()] || '';
+    if (st) return city + ', ' + st;
+    return parts.length > 1 ? city + ', ' + last : city;
+  }  var LOC_WORST = 'Rancho Santa Margarita, CA'; // longest real 'City, ST'
   function pledge(nameHTML, statHTML, dobHTML, locHTML) {
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
     if (PL === 'E') return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') +
@@ -15594,19 +15871,19 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       '<div class="pv-full">' + gp() + '</div><div class="pv-full">' + sp() + '</div><div class="pv-full">' + inp('email', 'Email', 'email', 'email') + '</div></div>' +
       '<div class="pv-foot">' + MSG + GO + '</div></div>';
     if (V === 2) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() + (DL ? '' : WM) + // D: the pledge itself says I HEREBY COMMIT
-      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 21 : 26) + '">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), gsSel() + ',', nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,'), '<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,') + '</h1>' +
+      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 21 : 26) + '">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), gsSel() + ',', nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,'), nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,')) + '</h1>' + SIGC +
       '<div class="pv-lib">' + (PL === 'E' ? '' : 'Born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ') +
       'Reach me at ' + (PE ? nw('<input class="p0c pv-em" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">') + '<br>or ' + nw(TEL + '.') : nw('<input class="p0c" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">.')) + '</div>' +
       (DL ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') +
       '<div class="pv-foot">' + MSG + GO + (PE ? LEG : '') + '</div></div>';
     if (V === 3) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() +
       (DL ? '' : '<div class="pv-lab">The pledge</div>') +
-      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 19 : DL ? 23 : 26) + '">' + pledge(IN3 ? nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,') : '<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,', IN3 ? nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,') : '<span class="pv-dobs" data-ph="birth date"></span>,', IN3 ? '<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,' : '<span class="pv-locs"></span>,') + '</h1>' +
+      '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 19 : DL ? 23 : 26) + '">' + pledge(IN3 ? nw('<input class="p0c pv-nm" data-b="first_name" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" placeholder="last" autocomplete="family-name" aria-label="Last name">,') : '<span class="pv-name" data-ph="your name"></span>,', '<span class="pv-stat" data-ph="your status"></span><sup class="pv-dg" aria-hidden="true">\u2020</sup>,', IN3 ? nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,') : '<span class="pv-dobs" data-ph="birth date"></span>,', IN3 ? nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,') : '<span class="pv-locs"></span>,') + '</h1>' + SIGC +
       '<p class="pv-deed" data-opt="1"><sup class="pv-dg">\u2020</sup> Status worded the way a property deed records it.</p>' +
       (DL && !CLS ? '<p class="pv-body pv-sign" data-late="1">' + SIGN + '</p>' : DL ? '<ol class="pv-terms" data-late="1">' + TERMS.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') + '</ol>' :
       '<ol><li data-opt="3"><span>It\'s the biggest decision of your life. It\'s never been studied like one.</span></li><li data-opt="2"><span>' + SOPH + '</span></li></ol>') +
       '<div class="pv-sig">' + (IN3 ? '' : f('First name', inp('first_name', 'First', 'text', 'given-name')) + f('Last name', inp('last_name', 'Last', 'text', 'family-name')) +
-      f('Date of birth', dob()) + f('Where you live', loc('City'))) + (DL ? fi('I am a', gp()) + fi('Status', sp()) : f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1)) + (PE ? fi('Email', inp('email', 'you@example.com', 'email', 'email').replace('class="p0c"', 'class="p0c pv-em"')) + fi('Phone', TEL.replace('phone (optional)', 'optional')) : f('Email', inp('email', 'you@example.com', 'email', 'email'), 1)) + '</div>' +
+      f('Date of birth', dob()) + f('Where you live', loc('City'))) + (DL ? fi('I am a', gp()) + fi('Status', sp()) : f('I am a', gp(), 1) + f(c ? 'Relationship status' : 'Marital status', sp(), 1)) + (PE ? '<div class="pv-full pv-row2">' + fi('Email', inp('email', 'you@example.com', 'email', 'email').replace('class="p0c"', 'class="p0c pv-em"')) + fi('Phone', TEL) + '</div>' : f('Email', inp('email', 'you@example.com', 'email', 'email'), 1)) + '</div>' +
       '<div class="pv-foot">' + MSG + (SG ? GO : '<button type="button" class="pv-go" data-go="1"><i>X</i>I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>') + (PE ? LEG : '') + '</div></div>';
     // 4
     return '<div class="pv-hero"><div class="pv-pad">' + top() + WM +
@@ -15647,8 +15924,11 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     if (state.currentStatus_grokbot) root.querySelectorAll('[data-b=status]').forEach(function (e) { e.classList.remove('p0-bad'); });
     if (state.gender && state.currentStatus_grokbot) root.querySelectorAll('[data-b=genstat]').forEach(function (e) { e.classList.remove('p0-bad'); });
     if (typeof nameSync === 'function') nameSync(false);
-    emailFit();
+    emailFit(); countMsg();
+    var lk = locText() + '|' + (state.gender || '') + '|' + (state.currentStatus_grokbot || ''); if (lk !== _lk) { var first = _lk === null; _lk = lk; if (!first) fitSoon(true); }
   }
+  var _lk = null;
+  document.addEventListener('focusout', function (e) { var t = e.target; if (t && t.classList && t.classList.contains('pv-nm')) fitSoon(true); });
   var _cv;
   function textW(el, t) { _cv = _cv || document.createElement('canvas').getContext('2d'); var cs = getComputedStyle(el); _cv.font = cs.fontSize + ' ' + cs.fontFamily; var ls = parseFloat(cs.letterSpacing) || 0; return _cv.measureText(t).width + ls * t.length; }
   // worst = lay out with Amanda Bradford + the longest status phrase for this path, so the fit holds for every answer
@@ -15662,7 +15942,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     root.querySelectorAll('.pv-dobs, .pv-dobv').forEach(function (n) { n.textContent = (worst || !bd) ? '[birth date]' : bd; n.classList.toggle('empty', !bd || worst); });
     root.querySelectorAll('.pv-sms').forEach(function (n) { n.hidden = !(worst || state.phone_grokbot); if (!state.phone_grokbot) { var c = n.querySelector('input'); if (c) c.checked = false; } });
     var lt = locText();
-    root.querySelectorAll('.pv-locs, .pv-locv').forEach(function (n) { n.textContent = worst ? (lt.length > LOC_WORST.length ? lt : LOC_WORST) : (lt || '[your city]'); n.classList.toggle('empty', !lt && !worst); if (lt) n.classList.remove('p0-bad'); });
+    root.querySelectorAll('.pv-locs, .pv-locv').forEach(function (n) { n.textContent = worst ? (lt || LOC_WORST) : (lt || '[your city]'); n.classList.toggle('empty', !lt && !worst); if (lt) n.classList.remove('p0-bad'); });
+    if (ph) L = ph; // a chosen status lays out as itself (picking only ever frees room)
     root.querySelectorAll('.pv-stat').forEach(function (n) { n.textContent = worst ? L : (ph || '[' + n.dataset.ph + ']'); n.classList.toggle('empty', !ph && !worst); });
     root.querySelectorAll('input.pv-nm').forEach(function (el) { var t = el.value || el.placeholder; if (worst) t = big(t, el.dataset.b === 'first_name' ? 'Amanda' : 'Bradford'); el.style.width = Math.ceil(textW(el, t.toUpperCase()) + 12) + 'px'; });
     root.querySelectorAll('select.pv-gs').forEach(function (el) {
@@ -15672,22 +15953,29 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     });
   }
   // fit: hide optional supporting lines (highest data-opt first), then step the pledge size down, until nothing scrolls
+  var FITMAX = 40;
   function fit(shrinkOnly) {
     if (!root) return;
     var opts = [].slice.call(root.querySelectorAll('[data-opt]')).sort(function (a, b) { return b.dataset.opt - a.dataset.opt; });
     var hs = [].slice.call(root.querySelectorAll('[data-fit]'));
-    if (!shrinkOnly) { opts.forEach(function (o) { o.style.display = ''; }); hs.forEach(function (h) { h.style.fontSize = ''; }); }
-    var W = !shrinkOnly; nameSync(W);
+    if (!shrinkOnly) { opts.forEach(function (o) { o.style.display = ''; }); hs.forEach(function (h) { h.style.fontSize = ''; h.style.removeProperty('line-height'); }); }
+    var W = false; nameSync(W); // Amanda Oct 19 1:14 AM: fit the pledge to what's actually on the page (refit after every pick / on blur), no reserved worst case
     var over = function () { return root.scrollHeight > root.clientHeight; };
     for (var i = 0; i < opts.length && over(); i++) if (opts[i].style.display !== 'none') opts[i].style.display = 'none';
     var lates = [].slice.call(root.querySelectorAll('[data-late]'));
     if (!shrinkOnly) lates.forEach(function (o) { o.style.display = ''; });
-    var step = function () { hs.forEach(function (h) { h.style.fontSize = (parseFloat(getComputedStyle(h).fontSize) - 1) + 'px'; }); nameSync(W); };
+    var setF = function (f) { hs.forEach(function (h) { h.style.fontSize = f + 'px'; }); nameSync(W); };
+    var step = function () { setF(parseFloat(getComputedStyle(hs[0]).fontSize) - .5); };
     var floor = function () { return hs.length ? parseFloat(hs[0].dataset.min || 0) : 0; };
-    var guard = 0; while (over() && guard++ < 12 && hs.length && parseFloat(getComputedStyle(hs[0]).fontSize) > floor()) step(); // pledge D: shrink a little before giving up the 'what you're signing up for' line
-    for (var j = 0; j < lates.length && over(); j++) lates[j].style.display = 'none';
-    guard = 0; while (over() && guard++ < 10) step();
-    if (lates.some(function (o) { return o.style.display === 'none'; })) { var top0 = 31; guard = 0; while (!over() && guard++ < 10 && parseFloat(getComputedStyle(hs[0]).fontSize) < top0) { hs.forEach(function (h) { h.style.fontSize = (parseFloat(getComputedStyle(h).fontSize) + 1) + 'px'; }); nameSync(W); } if (over()) step(); } // a dropped line gives its room back to the pledge
+    // Amanda Oct 19 1:14 AM: the pledge takes every free pixel (binary search to 0.25px), no reserved gaps
+    var best = function () { var lo = 12, hi = FITMAX; setF(lo); if (over()) return lo; while (hi - lo > .25) { var mid = (lo + hi) / 2; setF(mid); if (over()) hi = mid; else lo = mid; } lo = Math.floor(lo * 4) / 4; setF(lo); return lo; };
+    if (hs.length && !shrinkOnly) {
+      var f0 = best();
+      // Amanda Oct 19 1:14 AM: don't cut copy - the paragraph always stays
+      // leftover height (less than one more line at the next size) goes into the pledge's line spacing, up to 1.3
+      var pl = root.querySelector('.pv-pledge'); if (pl) { var lo = 1.18, hi = 1.3; pl.style.setProperty('line-height', hi, 'important'); if (over()) { while (hi - lo > .005) { var m2 = (lo + hi) / 2; pl.style.setProperty('line-height', m2, 'important'); if (over()) hi = m2; else lo = m2; } pl.style.setProperty('line-height', lo.toFixed(3), 'important'); } }
+    } else { var guard = 0; while (over() && guard++ < 40 && hs.length) step(); }
+    setTimeout(sigInit, 0);
     var deed = root.querySelector('.pv-deed'); root.querySelectorAll('.pv-pledge .pv-dg').forEach(function (d) { d.style.display = deed && deed.style.display !== 'none' ? '' : 'none'; });
     nameSync(false);
     root.dataset.fit = opts.concat(lates).filter(function (o) { return o.style.display === 'none'; }).map(function (o) { return o.className || o.tagName; }).join('+') + ' hidden; ' + (hs[0] ? getComputedStyle(hs[0]).fontSize : '');
@@ -15701,7 +15989,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     if (b === 'genstat') { var gs = v.split('|'); try { setGender(gs[0]); } catch (e) {} try { p0Ms_grokbot(gs[1]); } catch (e) {} }
     else if (b === 'gender') { try { setGender(v); } catch (e) {} }
     else if (b === 'status') { try { p0Ms_grokbot(v); } catch (e) {} }
-    else if (b === 'birthdate') { var r = $('birthdate'); r.value = v; state.birthdateTouched = !!v; r.classList.remove('is-default'); el.classList.toggle('empty', !v); ['input', 'change'].forEach(function (t) { r.dispatchEvent(new Event(t, { bubbles: true })); }); }
+    if (b === 'genstat' || b === 'birthdate') fitSoon(true);
+    if (b === 'genstat') {} else if (b === 'birthdate') { var r = $('birthdate'); r.value = v; state.birthdateTouched = !!v; r.classList.remove('is-default'); el.classList.toggle('empty', !v); ['input', 'change'].forEach(function (t) { r.dispatchEvent(new Event(t, { bubbles: true })); }); }
     else { var r2 = $(b); if (r2) { r2.value = v; r2.dispatchEvent(new Event('input', { bubbles: true })); } }
     if (b === 'first_name' || b === 'last_name') { root.querySelectorAll('[data-b=' + b + ']').forEach(function (o) { if (o !== el) o.value = v; }); nameSync(); fitSoon(); }
     refresh();
@@ -15749,9 +16038,34 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   window.p0SigStrokes_grokbot = function (st) { if (st) { SIGS = st; sigInit(); } return SIGS; };
   function gsOpen(gw) { // Amanda Oct 18 11:42 PM: native picker could get stuck after an empty close; use the app's single-select sheet
     var sl = gw.querySelector('select.pv-gs'); if (!sl) return;
-    if (typeof window.s121Open === 'function') { try { window.s121Open(sl); var t = $('s121-title'); if (t) t.textContent = couple() ? 'Your relationship status' : 'Your marital status'; return; } catch (x) { console.error(x); } }
+    if (typeof window.s121Open === 'function') { try { var g = state.gender || gsPend; if (g) gsStep2(g); else gsStep1(); return; } catch (x) { console.error(x); } }
     try { sl.focus(); if (sl.showPicker) sl.showPicker(); } catch (x) {}
   }
+  // Amanda Oct 19 1:11 AM: two steps in the same sheet - 'I am a...' (skipped when gender is known), then only that gender's options, unmarried first
+  var GSL = [['woman', 'Woman'], ['man', 'Man'], ['non-binary', 'Person']], GORD = ['never_married', 'divorced', 'separated', 'widowed', 'relationship', 'engaged', 'married'], gsPend = null;
+  function gsx(id) { var s = $(id); if (!s) { s = document.createElement('select'); s.id = id; s.hidden = true; document.body.appendChild(s); } return s; }
+  function gsStep1() {
+    var s = gsx('pv-gs1'); s.innerHTML = '<option value="" hidden disabled></option>' + GSL.map(function (o) { return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('');
+    s.value = state.gender || gsPend || ''; window.s121Open(s);
+    var t = $('s121-title'); if (t) t.textContent = 'I am a\u2026';
+    var l = $('s121-list'); if (l) { l.classList.add('pv-gs-l1'); l.classList.remove('pv-gs-l2'); [].forEach.call(l.children, function (b, i) { b.dataset.pvg = GSL[i][0]; }); }
+  }
+  function gsStep2(g) {
+    var real = root && root.querySelector('select.pv-gs'); if (!real) return;
+    var s = gsx('pv-gs2'), st = stat().slice().sort(function (a, b) { return GORD.indexOf(a[0]) - GORD.indexOf(b[0]); });
+    s.innerHTML = '<option value="" hidden disabled></option>' + st.map(function (o) { return '<option value="' + g + '|' + o[0] + '">' + phrase(g, o[0]) + ({ never_married: ' (never married)', divorced: ' (divorced)' }[o[0]] || '') + '</option>'; }).join('');
+    s.value = real.value.indexOf(g + '|') === 0 ? real.value : '';
+    if (!s._pv) { s._pv = 1; s.addEventListener('change', function () { var r = root && root.querySelector('select.pv-gs'); if (r && s.value) { gsPend = null; r.value = s.value; r.dispatchEvent(new Event('change', { bubbles: true })); } }); }
+    window.s121Open(s);
+    var t = $('s121-title'); if (t) t.textContent = couple() ? 'Your relationship status' : 'Your marital status';
+    var l = $('s121-list'); if (l) { l.classList.add('pv-gs-l2'); l.classList.remove('pv-gs-l1'); var c = document.createElement('button'); c.type = 'button'; c.className = 'pv-gchg'; c.innerHTML = '\u2190 I am a ' + (GSL.find(function (o) { return o[0] === g; }) || ['', g])[1].toLowerCase() + ' \u00b7 <u>Change</u>'; l.insertBefore(c, l.firstChild); }
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target; if (!t || !t.closest) return;
+    var b = t.closest('#s121-list [data-pvg]');
+    if (b) { e.stopPropagation(); e.preventDefault(); gsPend = b.dataset.pvg; [].forEach.call(b.parentNode.children, function (x) { x.classList.toggle('selected', x === b); }); setTimeout(function () { gsStep2(gsPend); }, 160); return; }
+    if (t.closest('#s121-list .pv-gchg')) { e.stopPropagation(); e.preventDefault(); gsStep1(); }
+  }, true);
   document.addEventListener('touchend', function (e) { var gw = e.target && e.target.closest && e.target.closest('#p0v .pv-gsw'); if (gw && e.cancelable) { e.preventDefault(); gsOpen(gw); } }, { passive: false });
   document.addEventListener('keydown', function (e) { var gw = e.target && e.target.closest && e.target.closest('#p0v .pv-gsw'); if (gw && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); gsOpen(gw); } });
 
@@ -15776,10 +16090,48 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     if (state.currentScreen !== 10) return;
     var bad = [], msg = 'Fill in the highlighted fields to commit.';
     if (SG && !sigOk()) bad.push('sig');
+    if (!phoneOk()) { bad.push('phone'); if (bad.length === 1 && state.phone_grokbot) msg = 'Phone needs 10 digits.'; }
     Object.keys(ERR).forEach(function (k) { var e = $('err-' + k); if (e && e.classList.contains('visible')) { bad.push(ERR[k]); if (k === 'birthdate' && /18/.test(e.textContent)) msg = '18+ only.'; if (k === 'email' && /Invalid/.test(e.textContent) && bad.length === 1) msg = 'That email doesn\u2019t look right.'; } });
     root.querySelectorAll('[data-b]').forEach(function (el) { var k = el.dataset.b; el.classList.toggle('p0-bad', bad.indexOf(k) >= 0 || (k === 'genstat' && (bad.indexOf('gender') >= 0 || bad.indexOf('status') >= 0))); });
-    var m = $('pv-msg'); if (m) { m.textContent = bad.length ? msg : ''; m.parentNode.classList.toggle('has-msg', !!bad.length); }
+    if (EM === 'old') { var m = $('pv-msg'); if (m) { m.textContent = bad.length ? msg : ''; m.parentNode.classList.toggle('has-msg', !!bad.length); } }
+    else { TRIED = true; countMsg(); var miss = [].slice.call(root.querySelectorAll('.p0-miss'));
+      miss.forEach(function (el) { el.classList.remove('p0-anim'); void el.offsetWidth; el.classList.add('p0-anim'); }); setTimeout(function () { miss.forEach(function (el) { el.classList.remove('p0-anim'); }); }, 800);
+      if (EM === 'B') focusFirst(); }
     try { document.querySelector('#screen-10 .screen-content').scrollTop = 0; } catch (e) {}
+  }
+  // ---- required-field treatments (new): live count in the button, marks on the blanks still missing after a COMMIT tap
+  var TRIED = false;
+  function phoneOk() { return !root || !root.querySelector('[data-b=phone]') || String(state.phone_grokbot || '').length === 10; }
+  window.p0PhoneOk_grokbot = function () { return phoneOk(); };
+  function missing() {
+    var m = {}, v = function (id) { var e = $(id); return String(e && e.value || '').trim(); };
+    if (!state.gender) m.gender = 1; if (!state.currentStatus_grokbot) m.status = 1;
+    if (!v('first_name')) m.first_name = 1; if (!v('last_name')) m.last_name = 1;
+    var bd = v('birthdate'); if (!bd || !state.birthdateTouched) m.birthdate = 1; else { try { if (getAge(bd) < 18) m.birthdate = 2; } catch (e) {} }
+    if (!state.wya) m.loc = 1;
+    var em = v('email'); if (!em) m.email = 1; else { try { if (!isValidEmail(em)) m.email = 2; } catch (e) {} }
+    if (!phoneOk()) m.phone = state.phone_grokbot ? 2 : 1;
+    if (SG && !sigOk()) m.sig = 1;
+    if (m.gender || m.status) m.genstat = 1;
+    return m;
+  }
+  function visEl(el) { if (el.classList.contains('pv-gs')) return el.closest('.pv-gsw').querySelector('.pv-gsv'); if (el.classList.contains('pv-dobi')) return el.parentNode.querySelector('.pv-dobv'); return el; }
+  function countMsg() {
+    if (!root || EM === 'old') return; var m = missing(), els = [], seen = {};
+    root.querySelectorAll('[data-b]').forEach(function (el) { var k = el.dataset.b; if (k === 'sms') return; var on = !!m[k]; var ve = visEl(el); ve.classList.toggle('p0-miss', TRIED && on); if (on && !seen[k]) { seen[k] = 1; els.push(k); } });
+    var n = els.length, t = '';
+    if (n) { if (!TRIED) t = n + ' to go'; else if (n === 1 && m.email === 2) t = 'That email doesn\u2019t look right.'; else if (n === 1 && m.phone === 2) t = 'Phone needs 10 digits.'; else if (n === 1 && m.birthdate === 2) t = '18+ only.'; else t = 'Fill in ' + n + ' more to commit'; }
+    var b = $('pv-msg'); if (b && b.textContent !== t) { b.textContent = t; } if (b) { b.parentNode.classList.toggle('has-msg', !!t); b.parentNode.classList.toggle('pv-pre', !TRIED); }
+  }
+  function focusFirst() {
+    var m = missing(), el = [].slice.call(root.querySelectorAll('[data-b]')).find(function (e) { return m[e.dataset.b]; }); if (!el) return;
+    var k = el.dataset.b;
+    if (k === 'genstat') return gsOpen(el.closest('.pv-gsw'));
+    if (el.classList.contains('pv-dobi')) { if (!state.birthdateTouched && !el.value) el.value = '1990-01-01'; el._opened = 1; try { el.showPicker(); } catch (x) { el.focus(); } return; }
+    if (k === 'loc') { try { wyaOpenSheet(); } catch (x) {} return; }
+    if (k === 'gender' || k === 'status') { var p = el.querySelector('.p0p'); if (p) p.focus(); return; }
+    if (k === 'sig') { try { el.scrollIntoView({ block: 'nearest' }); } catch (x) {} return; }
+    if (el.tagName === 'INPUT') { try { el.focus({ preventScroll: true }); } catch (x) { el.focus(); } }
   }
   document.addEventListener('blur', function (e) { var t = e.target; if (t && t.classList && t.classList.contains('pv-dobi') && t._opened && !state.birthdateTouched && t.value) { t._opened = 0; push(t); } }, true); // iOS: DONE on the untouched 1990 wheel counts as a pick
   document.addEventListener('input', function (e) { var t = e.target; if (root && root.contains(t) && t.dataset && t.dataset.b) push(t); }, true);
@@ -15795,7 +16147,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     if (k) go();
     var di = e.target.closest('.pv-dobi'); if (di) { if (!state.birthdateTouched && !di.value) di.value = '1990-01-01'; di._opened = 1; if (di.showPicker) { try { di.showPicker(); } catch (x) {} } }
   });
-  var _ss = showScreen; showScreen = function (id, dir) { var r = _ss.apply(this, arguments); if (id === 10) render(); return r; };
+  var _ss = showScreen; showScreen = function (id, dir) { var r = _ss.apply(this, arguments); H.classList.toggle('p0v-on', id === 10); if (id === 10) render(); return r; };
+  if (state.currentScreen === 10) H.classList.add('p0v-on');
   var _cs = changeStatus; changeStatus = function () { var r = _cs.apply(this, arguments); setTimeout(function () { if (state.currentScreen === 10) render(); }, 0); return r; };
   setInterval(refresh, 400);
   window.P0V_grokbot = V; window.P0PL_grokbot = PL; window.p0vFit_grokbot = fit; window.p0vSync_grokbot = nameSync;
