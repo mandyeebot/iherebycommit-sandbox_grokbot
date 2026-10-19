@@ -15336,6 +15336,30 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-4 #p0v .pv-micro .pv-lab { font-size: 9px; line-height: 12px; display: block; margin-bottom: 1px; }
   .p0v-4 #p0v .p0c { height: 30px; }
   .p0v-4 #p0v .pv-foot { padding-top: 10px; }
+  /* Amanda Oct 18 8:50 PM: every field/blank wears the same solid highlight block as "Till data do us part" (no bold underline);
+     empty = dimmed ink on the block, error = no fill + orange outline so it still reads apart from the accent */
+  .p0v-2 #p0v .pv-pledge input.pv-nm, .p0v-2 #p0v .pv-gsv, .p0v-2 #p0v .pv-dobv, .p0v-2 #p0v button.pv-locv,
+  .p0v-2 #p0v .pv-lib .p0c, .p0v-2 #p0v .pv-lib select,
+  .p0v-3 #p0v .pv-name, .p0v-3 #p0v .pv-stat, .p0v-3 #p0v .pv-dobs, .p0v-3 #p0v .pv-locs, .p0v-3 #p0v .p0c {
+    background: var(--accent); color: #0e0e0e; padding: 0 4px; border: 0; border-radius: 0; text-decoration: none;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone; box-shadow: none; }
+  .p0v-2 #p0v .pv-pledge input.pv-nm::placeholder, .p0v-2 #p0v .pv-lib .p0c::placeholder, .p0v-3 #p0v .p0c::placeholder { color: rgba(14,14,14,.5); }
+  .p0v-2 #p0v .pv-gsv.empty, .p0v-2 #p0v .pv-dobv.empty, .p0v-2 #p0v button.pv-locv.empty, .p0v-2 #p0v .pv-lib .empty, .p0v-2 #p0v .pv-lib select:invalid,
+  .p0v-3 #p0v .pv-name.empty, .p0v-3 #p0v .pv-stat.empty, .p0v-3 #p0v .pv-dobs.empty, .p0v-3 #p0v .pv-locs.empty,
+  .p0v-3 #p0v .p0c.empty, .p0v-3 #p0v input[type=date].p0c.empty { color: rgba(14,14,14,.5); }
+  .p0v-2 #p0v .pv-car { color: var(--accent); }
+  .p0v-2 #p0v .pv-lib input[type=date].p0c::-webkit-calendar-picker-indicator { filter: none; }
+  .p0v-2 #p0v .pv-pledge input.pv-nm:focus, .p0v-2 #p0v .pv-lib .p0c:focus, .p0v-3 #p0v .p0c:focus { outline: 2px solid currentColor; outline-offset: -2px; }
+  .p0v-3 #p0v .p0p:not(.on) { background: var(--accent); border-color: var(--accent); color: #0e0e0e; }
+  /* error: orange outline, fill removed */
+  .p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad, .p0v-2 #p0v button.pv-locv.p0-bad, .p0v-2 #p0v .pv-lib .p0-bad,
+  .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv, .p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv, .p0v-3 #p0v .p0c.p0-bad {
+    background: transparent !important; box-shadow: inset 0 0 0 2px #FF7A2F !important; border: 0 !important; }
+  .p0v-2 #p0v .pv-pledge input.pv-nm.p0-bad::placeholder, .p0v-2 #p0v .pv-lib .p0-bad::placeholder { color: rgba(240,236,224,.45); }
+  .p0v-2 #p0v button.pv-locv.p0-bad.empty, .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-gsv.empty, .p0v-2 #p0v .pv-dobw:has(.p0-bad) .pv-dobv.empty, .p0v-2 #p0v .pv-lib .p0-bad.empty { color: rgba(240,236,224,.45); }
+  .p0v-2 #p0v .pv-gsw:has(select.p0-bad) .pv-car { color: #FF7A2F; }
+  .p0v-3 #p0v .p0c.p0-bad::placeholder, .p0v-3 #p0v .p0c.p0-bad.empty { color: rgba(14,14,14,.45); }
+  .p0v-3 #p0v .p0pills.p0-bad .p0p:not(.on) { background: transparent; border-color: #FF7A2F; }
 </style>
 <script>
 (function () {
@@ -15419,7 +15443,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
     if (PL === 'E') return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') +
       ' to science, to aid humanity in its quest to maximize relationship retention and life satisfaction, simultaneously.' +
-      '<span class="pl-vow">For better, for worse, for longer, for happier. <span class="pl-punch"><span class="' + k + '">Till data do us part.</span></span></span>';
+      '<span class="pl-vow">For better, not for worse. For longer, for happier. <span class="pl-punch"><span class="' + k + '">Till data do us part.</span></span></span>';
     if (PL === 'D') return 'I, ' + nameHTML + ' ' + statHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') +
       ' to science, for the explicit purpose of maximizing relationship retention and relationship satisfaction <span class="pl-paren">(and maybe even lifespan).</span>' +
       '<span class="pl-vow">For better, for worse, for longer, for happier. <span class="pl-punch"><span class="' + k + '">Till data do us part.</span></span></span>';
@@ -15504,7 +15528,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var lt = locText();
     root.querySelectorAll('.pv-locs, .pv-locv').forEach(function (n) { n.textContent = worst ? (lt.length > LOC_WORST.length ? lt : LOC_WORST) : (lt || '[your city]'); n.classList.toggle('empty', !lt && !worst); if (lt) n.classList.remove('p0-bad'); });
     root.querySelectorAll('.pv-stat').forEach(function (n) { n.textContent = worst ? L : (ph || '[' + n.dataset.ph + ']'); n.classList.toggle('empty', !ph && !worst); });
-    root.querySelectorAll('input.pv-nm').forEach(function (el) { var t = el.value || el.placeholder; if (worst) t = big(t, el.dataset.b === 'first_name' ? 'Amanda' : 'Bradford'); el.style.width = Math.ceil(textW(el, t.toUpperCase()) + 6) + 'px'; });
+    root.querySelectorAll('input.pv-nm').forEach(function (el) { var t = el.value || el.placeholder; if (worst) t = big(t, el.dataset.b === 'first_name' ? 'Amanda' : 'Bradford'); el.style.width = Math.ceil(textW(el, t.toUpperCase()) + 12) + 'px'; });
     root.querySelectorAll('select.pv-gs').forEach(function (el) {
       var cur = state.gender && state.currentStatus_grokbot ? state.gender + '|' + state.currentStatus_grokbot : '';
       if (el.value !== cur && (cur || el.value)) { el.value = cur; if (el.value !== cur) el.selectedIndex = 0; }
