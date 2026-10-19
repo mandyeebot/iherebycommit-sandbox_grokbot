@@ -98,6 +98,57 @@
   body.s-AB2 .next { border:2px solid #3f5a00; box-shadow:3px 3px 0 #3f5a00; margin-right:3px; }
   body.s-AB2.btn-black .next { border-color:#0e0e0e; box-shadow:3px 3px 0 #0e0e0e; }
 
+  /* blackfix2 = blackfix + EDIT as bold orange text, no block */
+  body.s-blackfix.bf2 .e { color:#FF7A2F; font-size:12px; text-decoration:none; letter-spacing:.06em; }
+  /* AB2dark = AB2 inverted onto black: dark graph paper, near-black cards w/ 1.5px cream outline, cream text (no grey), cream number tags, bold orange EDIT, lime NEXT (green edge dropped: #3f5a00 is 2.5:1 on black) */
+  body.s-AB2dark { background:#0e0e0e; color:#f0ece0; background-image:linear-gradient(rgba(240,236,224,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(240,236,224,.07) 1px, transparent 1px); background-size:16px 16px; }
+  body.s-AB2dark .prog i { height:5px; box-shadow:inset 0 0 0 1.5px #f0ece0; } body.s-AB2dark .prog i.on { background:#f0ece0; }
+  body.s-AB2dark .lab { color:#f0ece0; font-weight:700; font-size:11px; } body.s-AB2dark .lab b { background:#c8f135; color:#0e0e0e; } body.s-AB2dark .lab u { color:#f0ece0; }
+  body.s-AB2dark h1 em { background:#c8f135; color:#0e0e0e; }
+  body.s-AB2dark .sub { color:#f0ece0; }
+  body.s-AB2dark .grid { column-gap:11px; row-gap:5px; padding-right:2px; padding-bottom:2px; }
+  body.s-AB2dark .c { border:1.5px solid #f0ece0; background:#161616; box-shadow:2px 2px 0 rgba(240,236,224,.35); padding:0 8px; }
+  body.s-AB2dark .k { font:400 15px/14px 'Bebas Neue', sans-serif; letter-spacing:.05em; color:#f0ece0; text-transform:uppercase; }
+  body.s-AB2dark.qtags .k::before { background:#f0ece0; color:#0e0e0e; font-size:8px; line-height:11px; vertical-align:2px; }
+  body.s-AB2dark .v { font-size:12px; font-weight:700; line-height:17px; color:#f0ece0; }
+  body.s-AB2dark .e { color:#FF7A2F; font-size:12px; font-weight:700; letter-spacing:.06em; text-decoration:none; }
+  body.s-AB2dark .next { background:#c8f135; color:#0e0e0e; }
+  body.s-AB2dark .back { color:#f0ece0; font-weight:700; }
+  /* &state=inprogress: Have kids answered (card), Last relationship = active question (lime band, black text, cream select) */
+  .act { grid-column:1 / 3; padding:8px 10px 10px; background:#c8f135; color:#0e0e0e; border:2px solid #0e0e0e; }
+  .act .q { font:700 12px/16px 'Space Mono', monospace; letter-spacing:.05em; text-transform:uppercase; margin-bottom:7px; }
+  .act .sel { background:#fffdf7; color:#0e0e0e; border:2px solid #0e0e0e; text-align:center; font:700 13px/1 'Space Mono', monospace; padding:13px 0; }
+  .ip .grid { grid-template-rows:auto auto 1fr; } .ip .c { min-height:40px; } .ip .grid > .spacer { grid-column:1 / 3; }
+  body.couple .act { background:#FF7A2F; } body.couple .lab b, body.couple:not(.s-form) .next { background:#FF7A2F !important; } body.couple h1 em { background:#FF7A2F; color:#0e0e0e !important; padding:0 .06em !important; }
+  body.w.qtags .act .q::before, body.s-AB2dark.qtags .act .q::before { content:'02'; background:#0e0e0e; color:#f0ece0; font-size:8.5px; padding:0 3px; margin-right:5px; vertical-align:1px; }
+  body.s-B .act, body.s-AB .act, body.s-AB2 .act { box-shadow:3px 3px 0 #0e0e0e; }
+  body.s-AB2dark .act { box-shadow:3px 3px 0 rgba(240,236,224,.35); border-color:#0e0e0e; }
+  body.s-black .act, body.s-blackfix .act { border:0; border-radius:4px; }
+
+  /* form = the FORM ROWS above the signature on p0=2w&sign=1: plain cream, bold mono labels, lime chips (selected/answer = black chip, lime text), lime input bars, thin black rules, black I-HEREBY-COMMIT style NEXT. Couples: orange for lime */
+  body.s-form { background:#f0ece0; color:#0e0e0e; --hi:#c8f135; }
+  body.s-form.couple { --hi:#FF7A2F; }
+  body.s-form .prog i { height:3px; background:rgba(14,14,14,.18); } body.s-form .prog i.on { background:#0e0e0e; }
+  body.s-form .lab { color:#0e0e0e; font-weight:700; font-size:11px; } body.s-form .lab b { background:var(--hi); color:#0e0e0e; } body.s-form .lab u { color:#0e0e0e; }
+  body.s-form h1 em { background:var(--hi); color:#0e0e0e; }
+  body.s-form .sub { color:#0e0e0e; margin-bottom:8px; }
+  body.s-form .grid { border-top:1.5px solid #0e0e0e; border-bottom:1.5px solid #0e0e0e; padding:6px 0; row-gap:3px; column-gap:12px; }
+  body.s-form .c { padding:0; column-gap:6px; row-gap:2px; }
+  body.s-form .k { grid-column:1; font:700 12px/14px 'Space Mono', monospace; letter-spacing:.04em; color:#0e0e0e; }
+  body.s-form .e { grid-column:2; grid-row:1; color:#E05A10; font:700 12px/14px 'Space Mono', monospace; letter-spacing:.06em; text-decoration:none; }
+  body.s-form.couple .e { color:#0e0e0e; text-decoration:underline; text-decoration-thickness:1.5px; text-underline-offset:2px; }
+  body.s-form .v { grid-column:1 / 3; background:#0e0e0e; color:var(--hi); font:400 16px/1 'Bebas Neue', sans-serif; letter-spacing:.04em; text-transform:uppercase; border-radius:5px; padding:4px 8px 3px; }
+  body.s-form .next { background:#0e0e0e; color:var(--hi); font-size:26px; padding:14px 0 12px; border-radius:6px; }
+  body.s-form .back { color:#0e0e0e; font-weight:700; }
+  body.s-form .act { background:transparent; border:0; border-top:1.5px solid #0e0e0e; padding:8px 0 0; box-shadow:none; }
+  body.s-form .act .q { font-size:12px; }
+  body.s-form .act .q::before { content:none !important; }
+  body.s-form .act .opts { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  body.s-form .act .opts span { background:var(--hi); color:#0e0e0e; font:400 17px/1 'Bebas Neue', sans-serif; letter-spacing:.04em; text-align:center; border-radius:5px; padding:9px 0 7px; }
+  body.s-form.ip .grid { border-bottom:0; }
+  body.s-form.ip .c { grid-template-columns:auto minmax(0,1fr) auto; align-items:center; column-gap:10px; }
+  body.s-form.ip .c .k { grid-column:1; } body.s-form.ip .c .v { grid-column:2; grid-row:1; justify-self:start; } body.s-form.ip .c .e { grid-column:3; }
+
   /* &style=all: six phones side by side */
   body.all { background:#0e0e0e; color:#f0ece0; padding:12px 16px; height:auto; }
   body.all h2 { font:400 30px 'Bebas Neue', sans-serif; margin:0 0 8px; letter-spacing:.02em; }
@@ -114,31 +165,33 @@
 (function () {
   var Q = new URLSearchParams(location.search);
   var S = String(Q.get('style') || 'AB'); var SU = S.toUpperCase();
-  var KNOWN = { BLACK: 'black', BLACKFIX: 'blackfix', A: 'A', A2: 'A2', B: 'B', AB: 'AB', AB2: 'AB2', ALL: 'all' };
+  var KNOWN = { BLACK: 'black', BLACKFIX: 'blackfix', A: 'A', A2: 'A2', B: 'B', AB: 'AB', AB2: 'AB2', AB2DARK: 'AB2dark', BLACKFIX2: 'blackfix2', FORM: 'form', ALL: 'all' };
   var st = KNOWN[SU] || 'AB';
   var B = document.body;
   if (st === 'all') {
     B.className = 'all';
     var v = Q.get('v') ? '&v=' + encodeURIComponent(Q.get('v')) : '';
-    var L = [['black', 'Current black (s3y223)'], ['blackfix', 'Black + red-mode fixes'], ['A', 'A · Lab form'], ['A2', 'A2 · Lab + orange'], ['B', 'B · Brutalist (thinner)'], ['AB', 'AB · Lab x Brutalist'], ['AB2', 'AB2 · AB + orange EDIT']];
+    var L = [['black', 'Current black (s3y223)'], ['blackfix', 'Black + red-mode fixes'], ['A', 'A · Lab form'], ['A2', 'A2 · Lab + orange'], ['B', 'B · Brutalist (thinner)'], ['AB', 'AB · Lab x Brutalist'], ['AB2', 'AB2 · AB + orange EDIT'], ['AB2dark', 'AB2dark · AB2 on black'], ['blackfix2', 'Blackfix2 · orange EDIT'], ['form', 'Form rows (sign page)']];
     var h = '<h2>Who You Are · fully collapsed (20 cards)</h2><div class="row">';
-    L.forEach(function (x) { var u = '?style=' + x[0] + v; h += '<figure><figcaption>' + x[1] + ' · <a href="' + u + '" target="_blank">open</a></figcaption><div class="fr"><iframe src="' + u + '"></iframe></div></figure>'; });
+    L.forEach(function (x) { var u = '?style=' + x[0] + v + (Q.get('state') ? '&state=' + encodeURIComponent(Q.get('state')) : '') + (Q.get('path') ? '&path=' + encodeURIComponent(Q.get('path')) : ''); h += '<figure><figcaption>' + x[1] + ' · <a href="' + u + '" target="_blank">open</a></figcaption><div class="fr"><iframe src="' + u + '"></iframe></div></figure>'; });
     B.innerHTML = h + '</div>';
     var fit = function () { var k = Math.min(1, (innerHeight - 90) / 660); document.querySelectorAll('.fr').forEach(function (f) { f.style.transform = k < 1 ? 'scale(' + k + ')' : ''; f.style.marginBottom = k < 1 ? (660 * (k - 1)) + 'px' : ''; f.style.marginRight = k < 1 ? (393 * (k - 1)) + 'px' : ''; }); };
     addEventListener('resize', fit); fit();
     return;
   }
   var white = /^(A|A2|B|AB|AB2)$/.test(st);
-  B.className = 's-' + st + (white ? ' w' : '') + (/^(A|A2|AB|AB2)$/.test(st) ? ' grid-paper qtags' : '') + (/^AB2?$/.test(st) && Q.get('btn') === 'black' ? ' btn-black' : '') + (st === 'AB2' && Q.get('edit') === 'brand' ? ' edit-brand' : '');
+  var ip = Q.get('state') === 'inprogress', cpl = Q.get('path') === 'couple';
+  B.className = (st === 'blackfix2' ? 's-blackfix bf2' : 's-' + st) + (st === 'AB2dark' ? ' qtags' : '') + (ip ? ' ip' : '') + (cpl ? ' couple' : '') + (white ? ' w' : '') + (/^(A|A2|AB|AB2)$/.test(st) ? ' grid-paper qtags' : '') + (/^AB2?$/.test(st) && Q.get('btn') === 'black' ? ' btn-black' : '') + (st === 'AB2' && Q.get('edit') === 'brand' ? ' edit-brand' : '');
   var D = [['Gender', 'Woman'], ['Name', 'Amanda Bradford'], ['Date of birth', 'Jan 1, 1984'], ['Location', 'Austin, TX'], ['Marital status', 'Never married'], ['Have kids', 'Yes (2)'],
     ['Last breakup', 'Aug 2026'], ['Height', '5\u201910\u201d'], ['Race', 'White'], ['Education', 'MBA'], ['Industry', 'Marketing'], ['Title', 'Founder ceo'],
     ['Income', '$100k\u2013150k'], ['Religion', 'Christian \u00b7 Non-denominational'], ['Politics', 'Moderate'], ['Languages', 'English +1'], ['Sports', 'Volleyball, Running'],
     ['Instruments', 'Guitar, Voice'], ['Interests', 'Live Music, Hiking'], ['Email', 'amanda.bradford@gmail.com']];
   var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
   var html = '<div class="ph"><div class="prog">' + [0, 1, 2, 3, 4, 5].map(function (i) { return '<i class="' + (i === 0 ? 'on' : '') + '"></i>'; }).join('') + '</div>' +
-    '<div class="lab">Step 1 of 6 &nbsp;\u00b7&nbsp; <b>SINGLE</b> &nbsp;\u00b7&nbsp; <u>edit</u></div>' +
+    '<div class="lab">Step 1 of 6 &nbsp;\u00b7&nbsp; <b>' + (cpl ? 'COUPLE' : 'SINGLE') + '</b> &nbsp;\u00b7&nbsp; <u>edit</u></div>' +
     '<h1>Who you <em>are</em></h1><p class="sub">Data is private by default. Change visibility later.</p><div class="grid">' +
-    D.map(function (d) { return '<div class="c" role="button" tabindex="0" aria-label="Edit ' + esc(d[0]) + '"><span class="k">' + esc(d[0]) + '</span><span class="v" title="' + esc(d[1]) + '">' + esc(d[1]) + '</span><span class="e">Edit</span></div>'; }).join('') +
+    (ip ? '<div class="c"><span class="k">Have kids</span><span class="v">No</span><span class="e">Edit</span></div><div></div><div class="act"><div class="q">When did your last relationship end?</div>' + (st === 'form' ? '<div class="opts"><span>Month \u25be</span><span>Year \u25be</span></div>' : '<div class="sel">\u2014 Select \u2014</div>') + '</div><div class="spacer"></div>' : '') +
+    (ip ? [] : D).map(function (d) { return '<div class="c" role="button" tabindex="0" aria-label="Edit ' + esc(d[0]) + '"><span class="k">' + esc(d[0]) + '</span><span class="v" title="' + esc(d[1]) + '">' + esc(d[1]) + '</span><span class="e">Edit</span></div>'; }).join('') +
     '</div><div class="bot"><button class="next" type="button">NEXT</button><button class="back" type="button">\u2190 BACK</button></div></div>';
   B.innerHTML = html;
 })();
