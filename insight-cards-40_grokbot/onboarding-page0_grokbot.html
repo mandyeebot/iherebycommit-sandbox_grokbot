@@ -16021,12 +16021,12 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   }
   function longest() { var best = ''; ['man', 'woman', 'non-binary'].forEach(function (g) { stat().forEach(function (o) { var t = phrase(g, o[0]); if (t.length > best.length) best = t; }); }); return best; }
   function gsSel() { // variant 2: one inline picker sets gender and status together
-    var o = '<option value="" disabled selected hidden>your status</option>';
+    var o = '<option value="" disabled selected hidden>[your status]</option>';
     [['woman', 'Woman'], ['man', 'Man'], ['non-binary', 'Non-binary']].forEach(function (g) {
       o += '<optgroup label="' + g[1] + '">' + stat().map(function (st) { return '<option value="' + g[0] + '|' + st[0] + '">' + phrase(g[0], st[0]) + ({ never_married: ' (never married)', divorced: ' (divorced)' }[st[0]] || '') + '</option>'; }).join('') + '</optgroup>';
     });
     // the visible phrase is wrapping text; a transparent native picker sits on top of it, so a long phrase can wrap onto two lines
-    return '<span class="pv-gsw" role="button" tabindex="0" aria-haspopup="dialog"><span class="pv-gsv empty">your status</span><span class="pv-car" aria-hidden="true"></span><select class="pv-gs" data-b="genstat" required aria-label="' + (couple() ? 'Gender and relationship status' : 'Gender and marital status') + '">' + o + '</select></span>';
+    return '<span class="pv-gsw" role="button" tabindex="0" aria-haspopup="dialog"><span class="pv-gsv empty">[your status]</span><span class="pv-car" aria-hidden="true"></span><select class="pv-gs" data-b="genstat" required aria-label="' + (couple() ? 'Gender and relationship status' : 'Gender and marital status') + '">' + o + '</select></span>';
   }
   var USST = { AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', CA: 'California', CO: 'Colorado', CT: 'Connecticut', DE: 'Delaware', DC: 'District of Columbia', FL: 'Florida', GA: 'Georgia', HI: 'Hawaii', ID: 'Idaho', IL: 'Illinois', IN: 'Indiana', IA: 'Iowa', KS: 'Kansas', KY: 'Kentucky', LA: 'Louisiana', ME: 'Maine', MD: 'Maryland', MA: 'Massachusetts', MI: 'Michigan', MN: 'Minnesota', MS: 'Mississippi', MO: 'Missouri', MT: 'Montana', NE: 'Nebraska', NV: 'Nevada', NH: 'New Hampshire', NJ: 'New Jersey', NM: 'New Mexico', NY: 'New York', NC: 'North Carolina', ND: 'North Dakota', OH: 'Ohio', OK: 'Oklahoma', OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina', SD: 'South Dakota', TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia', WA: 'Washington', WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming', PR: 'Puerto Rico' };
   // Amanda Oct 19 1:23 AM: always the actual city + 2-letter state ('Walnut Creek, CA'), never a metro / region or a spelled-out state
@@ -16157,7 +16157,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     root.querySelectorAll('select.pv-gs').forEach(function (el) {
       var cur = state.gender && state.currentStatus_grokbot ? state.gender + '|' + state.currentStatus_grokbot : '';
       if (el.value !== cur && (cur || el.value)) { el.value = cur; if (el.value !== cur) el.selectedIndex = 0; }
-      var v = el.parentNode.querySelector('.pv-gsv'); if (v) { v.textContent = worst ? L : (ph || 'your status'); v.classList.toggle('empty', !ph && !worst); }
+      var v = el.parentNode.querySelector('.pv-gsv'); if (v) { v.textContent = worst ? L : (ph || '[your status]'); v.classList.toggle('empty', !ph && !worst); }
     });
     capBlanks();
   }
@@ -16380,7 +16380,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     Object.keys(ERR).forEach(function (k) { var e = $('err-' + k); if (e && e.classList.contains('visible')) { bad.push(ERR[k]); if (k === 'birthdate' && /18/.test(e.textContent)) msg = '18+ only.'; if (k === 'email' && /Invalid/.test(e.textContent) && bad.length === 1) msg = 'That email doesn\u2019t look right.'; } });
     root.querySelectorAll('[data-b]').forEach(function (el) { var k = el.dataset.b; el.classList.toggle('p0-bad', bad.indexOf(k) >= 0 || (k === 'genstat' && (bad.indexOf('gender') >= 0 || bad.indexOf('status') >= 0))); });
     if (EM === 'old') { var m = $('pv-msg'); if (m) { m.textContent = bad.length ? msg : ''; m.parentNode.classList.toggle('has-msg', !!bad.length); } }
-    else { TRIED = true; if (REQ) { var rq = couple() ? 'black' : FB ? 'dot' : REQ; document.documentElement.classList.toggle('p0rq-dot', rq === 'dot'); document.documentElement.classList.toggle('p0rq-orange', rq === 'orange'); document.documentElement.classList.toggle('p0rq-black', rq === 'black'); } /* couples: blanks are already orange -> black required look */ countMsg(); var miss = [].slice.call(root.querySelectorAll('.p0-miss'));
+    else { TRIED = true; if (REQ) { var rq = FB ? 'dot' : couple() ? 'black' : REQ; document.documentElement.classList.toggle('p0rq-dot', rq === 'dot'); document.documentElement.classList.toggle('p0rq-orange', rq === 'orange'); document.documentElement.classList.toggle('p0rq-black', rq === 'black'); } /* couples: blanks are already orange -> black required look */ countMsg(); var miss = [].slice.call(root.querySelectorAll('.p0-miss'));
       miss.forEach(function (el) { el.classList.remove('p0-anim'); void el.offsetWidth; el.classList.add('p0-anim'); }); setTimeout(function () { miss.forEach(function (el) { el.classList.remove('p0-anim'); }); }, 800);
       if (EM === 'B' || REQ) focusFirst(); }
     try { document.querySelector('#screen-10 .screen-content').scrollTop = 0; } catch (e) {}
@@ -16683,6 +16683,23 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.p0c-oath3.p0v #p0v .pv-pledge input.pv-nm { -webkit-appearance: none; appearance: none; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; outline: 0 !important; text-decoration: none !important; opacity: 1 !important; -webkit-text-fill-color: currentColor; font-weight: inherit; }
   html.p0c-oath3.p0v #p0v .pv-pledge input.pv-nm::placeholder { color: #0e0e0e !important; -webkit-text-fill-color: #0e0e0e; opacity: 1 !important; }
   html.p0fb.p0v body:not(.couples-flow) #p0v .pv-pledge input.pv-nm::placeholder, html.p0rq-black.p0v #p0v .pv-pledge input.pv-nm.p0-miss::placeholder { -webkit-text-fill-color: #c8f135 !important; }
+  /* Amanda Oct 19 11:48 AM: &fields=black couples = full inverse of singles (lime blanks / black text; black phrases / lime text) */
+  html.p0fb.p0v body.couples-flow #p0v .pv-pledge span.pv-gsv, html.p0fb.p0v body.couples-flow #p0v .pv-pledge span.pv-htv, html.p0fb.p0v body.couples-flow #p0v .pv-pledge span.pv-dobv, html.p0fb.p0v body.couples-flow #p0v .pv-pledge button.pv-locv { --blk: #c8f135; background: linear-gradient(#c8f135, #c8f135) 0 var(--bt) / 100% .97em no-repeat !important; color: #0e0e0e !important; box-shadow: none !important; text-decoration: none !important; }
+  html.p0fb.p0v body.couples-flow #p0v .pv-pledge span.pv-gsv::after { background: linear-gradient(to bottom left, #0e0e0e 50%, transparent 50%) 0 .45em / .15em .19em no-repeat, linear-gradient(to bottom right, #0e0e0e 50%, transparent 50%) .15em .45em / .15em .19em no-repeat !important; }
+  html.p0fb.p0v body.couples-flow #p0v .pv-pledge input.pv-nm { background: #c8f135 !important; background-image: none !important; color: #0e0e0e !important; outline: 0 !important; box-shadow: none !important; }
+  html.p0fb.p0v body.couples-flow #p0v .pv-pledge input.pv-nm::placeholder { color: #0e0e0e !important; opacity: 1 !important; }
+  html.p0fb.p0v body.couples-flow #p0v .pv-pledge .pl-or, html.p0fb.p0v body.couples-flow #p0v .pv-pledge .pl-punch .pl-or.pl-or { --blk: #0e0e0e; background-image: linear-gradient(#0e0e0e, #0e0e0e) !important; color: #c8f135 !important; }
+  html.p0fb.p0rq-dot.p0v body.couples-flow #p0v .pv-pledge span.p0-miss, html.p0fb.p0rq-dot.p0v body.couples-flow #p0v .pv-pledge button.p0-miss { background: radial-gradient(circle at calc(100% - 5px) calc(var(--bt) + 5px), #FF7A2F 0 3.75px, transparent 4.25px) 0 0 / 100% 100% no-repeat, linear-gradient(#c8f135, #c8f135) 0 var(--bt) / 100% .97em no-repeat !important; color: #0e0e0e !important; }
+  html.p0fb.p0rq-dot.p0v body.couples-flow #p0v .pv-pledge input.pv-nm.p0-miss { background: #c8f135 radial-gradient(circle at calc(100% - 5px) 5px, #FF7A2F 0 3.75px, transparent 4.25px) no-repeat !important; }
+  html.p0fb.p0rq-dot.p0v body.couples-flow #p0v .pv-oci input.p0-miss, html.p0fb.p0rq-dot.p0v body.couples-flow #p0v input.pv-em.p0-miss { background: #c8f135 radial-gradient(circle at calc(100% - 7px) 7px, #FF7A2F 0 3.75px, transparent 4.25px) no-repeat !important; color: #0e0e0e !important; outline: 0 !important; box-shadow: none !important; }
+  html.p0fb.p0rq-dot.p0v body.couples-flow #p0v .pv-oci input.p0-miss::placeholder { color: rgba(14,14,14,.55) !important; }
+  html.p0fb.p0rq-dot.p0v body.couples-flow #p0v .pv-sigwrap:has(.pv-sigpad.p0-miss) .pv-siglab { font-weight: inherit !important; color: inherit !important; }
+  html.p0fb.p0v #p0v .pv-pledge input.pv-nm { caret-color: #c8f135; -webkit-text-fill-color: #c8f135 !important; }
+  html.p0fb.p0v body.couples-flow #p0v .pv-pledge input.pv-nm { caret-color: #0e0e0e; -webkit-text-fill-color: #0e0e0e !important; }
+  html.p0fb.p0v body:not(.couples-flow) #p0v .pv-pledge input.pv-nm::placeholder { color: #c8f135 !important; -webkit-text-fill-color: #c8f135 !important; opacity: 1 !important; }
+  html.p0fb.p0v body.couples-flow #p0v .pv-pledge input.pv-nm::placeholder { color: #0e0e0e !important; -webkit-text-fill-color: #0e0e0e !important; opacity: 1 !important; }
+  html.p0fb.p0v body.couples-flow #p0v .pv-pledge .pl-or, html.p0fb.p0v body.couples-flow #p0v .pv-pledge .pl-punch .pl-or.pl-or { --blk: #0e0e0e; background-image: linear-gradient(#0e0e0e, #0e0e0e) !important; color: #c8f135 !important; }
+  html.p0fb.p0rq-dot.p0v body #p0v .pv-oci input.p0-miss { outline: 2px dashed #0e0e0e !important; outline-offset: -2px !important; }
 </style>
 
 <script>
