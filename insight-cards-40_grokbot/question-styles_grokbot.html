@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Question styles · IHereByCommit mockup</title>
+<!-- MOCKUP_grokbot (Oct 19 2026): question vs answer styles A-F for every sheet. Standalone; nothing here is wired into Sandbox 2.
+     URL: ?qstyle=A..F &theme=white &path=couple &sheet=legal|degree|kids|industry -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root { --bg:#0e0e0e; --sheet:#161616; --text:#f0ece0; --sub:#c9c5b9; --line:#2a2a28; --ring:#8d8a80; --accent:#c8f135; --ink:#0e0e0e; --radius:4px; }
+html.couple { --accent:#FF7A2F; }
+html.thw { --bg:#e4dfd1; --sheet:#f0ece0; --text:#0e0e0e; --sub:#4a4740; --line:#c9c3b4; --ring:#0e0e0e; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html, body { height:100%; background:var(--bg); color:var(--text); font-family:'Space Mono', monospace; -webkit-font-smoothing:antialiased; overflow:hidden; }
+/* dimmed page behind the sheet */
+.page { padding:14px 24px 0; opacity:.35; }
+.prog { display:flex; gap:6px; margin-bottom:10px; } .prog i { flex:1; height:3px; background:var(--line); } .prog i.on { background:var(--accent); }
+.kick { font-size:10px; letter-spacing:.15em; color:var(--text); }
+.ph { font-family:'Bebas Neue', sans-serif; font-size:46px; line-height:.95; margin-top:6px; }
+.backdrop { position:fixed; inset:0; background:rgba(0,0,0,.55); }
+html.thw .backdrop { background:rgba(14,14,14,.35); }
+/* sheet */
+.sheet { position:fixed; left:0; right:0; bottom:0; top:52px; background:var(--sheet); border-radius:10px 10px 0 0; display:flex; flex-direction:column; border:1px solid var(--line); border-bottom:0; box-shadow:0 -8px 30px rgba(0,0,0,.45); overflow:hidden; }
+html.thw .sheet { border:1.5px solid var(--ink); border-bottom:0; }
+.head { position:relative; padding:18px 56px 12px 22px; flex-shrink:0; }
+.x { position:absolute; right:12px; top:12px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; color:var(--text); font-size:26px; line-height:1; background:none; border:0; }
+.body { flex:1; overflow-y:auto; padding:0 12px 10px; -webkit-overflow-scrolling:touch; }
+.foot { flex-shrink:0; padding:10px 20px 18px; }
+.done { width:100%; height:56px; border:0; border-radius:var(--radius); background:var(--accent); color:var(--ink); font-family:'Bebas Neue', sans-serif; font-size:24px; letter-spacing:.1em; }
+html.thw .done { border:1.5px solid var(--ink); }
+/* answers: Space Mono 15px regular, always full-contrast */
+.opt { display:flex; align-items:flex-start; gap:14px; width:100%; padding:12px 10px; border:0; border-bottom:1px solid var(--line); background:none; color:var(--text); font:400 15px/1.4 'Space Mono', monospace; text-align:left; }
+.opt .txt { flex:1; min-width:0; padding-top:1px; } .opt small { display:block; font-size:12px; line-height:1.35; color:var(--sub); margin-top:2px; }
+.ring { flex-shrink:0; width:24px; height:24px; margin-top:0; border:2px solid var(--ring); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--ink); font-size:15px; font-weight:700; }
+.opt.multi .ring { border-radius:3px; }
+.opt.sel .ring { background:var(--accent); border-color:var(--accent); } html.thw .opt.sel .ring { border-color:var(--ink); }
+.opt.sel .ring::after { content:'\2713'; }
+.opt.sel { background:rgba(240,236,224,.07); } html.thw .opt.sel { background:#e6e0cf; }
+.opt.sel .txt { font-weight:700; }
+.opt.compact { padding:10px 10px; }
+/* kids controls */
+.sub-q { margin:14px 10px 8px; }
+.nums { display:flex; gap:8px; padding:0 10px; }
+.nums b { flex:1; height:46px; display:flex; align-items:center; justify-content:center; border:1.5px solid var(--ring); border-radius:var(--radius); font:400 18px 'Space Mono', monospace; }
+.nums b.on { background:var(--accent); border-color:var(--accent); color:var(--ink); font-weight:700; } html.thw .nums b.on { border-color:var(--ink); }
+.ages { display:flex; gap:8px; padding:0 10px; }
+.age { flex:1; height:46px; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; background:var(--accent); color:var(--ink); font:700 16px 'Space Mono', monospace; border:1.5px solid var(--accent); }
+html.thw .age { border-color:var(--ink); }
+.age small { font-weight:400; font-size:12px; margin-left:4px; }
+
+/* ============ QUESTION STYLES (title .q + sub-questions .sq) ============ */
+.q, .sq { color:var(--text); }
+.hl { background:var(--accent); color:var(--ink); padding:0 5px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+
+/* A: section header (Bebas, like YOUR LAST RELATIONSHIP / screen headlines) */
+.sA .q { font:400 26px/1.02 'Bebas Neue', sans-serif; letter-spacing:.02em; text-transform:uppercase; }
+.sA .sq { font:400 20px/1 'Bebas Neue', sans-serif; letter-spacing:.04em; text-transform:uppercase; }
+
+/* B: highlight block, whole question */
+.sB .q { font:400 26px/1.22 'Bebas Neue', sans-serif; letter-spacing:.02em; text-transform:uppercase; }
+.sB .q span, .sB .sq span { background:var(--accent); color:var(--ink); padding:1px 6px 0; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+.sB .sq { font:400 19px/1.25 'Bebas Neue', sans-serif; letter-spacing:.05em; text-transform:uppercase; }
+html.thw .sB .q span, html.thw .sB .sq span { box-shadow:none; }
+
+/* C: key phrase highlight */
+.sC .q { font:400 26px/1.18 'Bebas Neue', sans-serif; letter-spacing:.02em; text-transform:uppercase; }
+.sC .sq { font:400 20px/1.2 'Bebas Neue', sans-serif; letter-spacing:.04em; text-transform:uppercase; }
+.sC .hl { padding:1px 5px 0; } .nw { white-space:nowrap; }
+
+/* D: coloured question (lime text on black; on white = black + thick lime underline bar) */
+.sD .q { font:400 26px/1.06 'Bebas Neue', sans-serif; letter-spacing:.02em; text-transform:uppercase; color:var(--accent); }
+.sD .sq { font:400 20px/1.05 'Bebas Neue', sans-serif; letter-spacing:.04em; text-transform:uppercase; color:var(--accent); }
+html.thw .sD .q, html.thw .sD .sq { color:var(--ink); line-height:1.24; }
+html.thw .sD .q span, html.thw .sD .sq span { background:linear-gradient(transparent 79%, var(--accent) 79%, var(--accent) 97%, transparent 97%); -webkit-box-decoration-break:clone; box-decoration-break:clone; padding:0 2px; }
+
+/* E: research questionnaire (Q chip + bold sans question + hairline; answers indented) */
+.sE .qchip { display:inline-block; background:var(--accent); color:var(--ink); font:700 11px/1 'Space Mono', monospace; letter-spacing:.12em; padding:4px 6px 3px; border-radius:2px; margin-bottom:8px; }
+html.thw .sE .qchip { outline:1.5px solid var(--ink); outline-offset:-1.5px; }
+.sE .q { font:800 19px/1.28 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing:-.005em; }
+.sE .head { padding-bottom:12px; } .sE .head::after { content:''; position:absolute; left:22px; right:22px; bottom:0; height:1px; background:var(--text); opacity:.55; }
+.sE .body { padding-left:28px; padding-top:0; }
+.sE .sq { font:800 16px/1.25 'Helvetica Neue', Helvetica, Arial, sans-serif; display:flex; align-items:baseline; gap:8px; border-bottom:1px solid var(--text); padding-bottom:6px; margin-left:-16px; }
+html:not(.thw) .sE .sq { border-bottom-color:rgba(240,236,224,.45); }
+.sE .sq .qchip { margin:0; flex-shrink:0; font-size:10px; }
+
+/* F: header band (the whole question area becomes a lime / orange panel; sub-questions = thin lime tabs) */
+.sF .head { background:var(--accent); padding:18px 56px 16px 22px; }
+html.thw .sF .head { border-bottom:1.5px solid var(--ink); }
+.sF .kicker { font:700 10px/1 'Space Mono', monospace; letter-spacing:.16em; color:var(--ink); margin-bottom:8px; }
+.sF .q { font:400 28px/1 'Bebas Neue', sans-serif; letter-spacing:.02em; text-transform:uppercase; color:var(--ink); }
+.sF .x { color:var(--ink); }
+.sF .body { padding-top:6px; }
+.sF .sq { font:400 19px/1 'Bebas Neue', sans-serif; letter-spacing:.05em; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
+.sF .sq::before { content:''; width:14px; height:14px; background:var(--accent); flex-shrink:0; margin-top:-3px; }
+html.thw .sF .sq::before { outline:1.5px solid var(--ink); outline-offset:-1.5px; }
+/* industry list is long: tighter rows */
+.long .opt { padding:10px 10px; }
+</style>
+</head>
+<body>
+<div class="page" aria-hidden="true">
+  <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+  <div class="kick" id="kick">STEP 3 OF 6 · SINGLE</div>
+  <div class="ph" id="ph">INTENTIONS &amp; FAMILY</div>
+</div>
+<div class="backdrop"></div>
+<div class="sheet" id="sheet" role="dialog">
+  <div class="head" id="head"></div>
+  <div class="body" id="body"></div>
+  <div class="foot"><button class="done">DONE</button></div>
+</div>
+<script>
+(function () {
+  var P = new URLSearchParams(location.search);
+  var S = (P.get('qstyle') || 'A').toUpperCase(); if (!/^[A-F]$/.test(S)) S = 'A';
+  var white = P.get('theme') === 'white', couple = P.get('path') === 'couple';
+  var key = P.get('sheet') || 'legal';
+  if (white) document.documentElement.classList.add('thw');
+  if (couple) { document.documentElement.classList.add('couple'); document.getElementById('kick').textContent = 'STEP 3 OF 6 · COUPLE'; }
+  document.getElementById('sheet').classList.add('s' + S);
+
+  // [brackets] = key phrase (style C)
+  var SHEETS = {
+    legal: { num: '3.4', sec: 'INTENTIONS & FAMILY', q: couple ? 'Does it matter to you whether your commitment is a [legal marriage]?' : 'Does it matter to you whether that commitment is a [legal marriage]?',
+      opts: [['Yes — I want to be legally married'], ["I'd prefer legal marriage, but it's not essential", '', 1], ['No — a committed partnership without legal marriage would be fine'], ['Not sure']] },
+    degree: { num: '1.6', sec: 'WHO YOU ARE', multi: 1, q: 'What [degrees], licenses or certifications have you completed?',
+      opts: [['MS', 'Master of Science'], ['MBA', 'Master of Business Administration', 1], ['PhD', 'Doctorate (PhD, EdD, DPhil)'], ['JD', 'Law degree'], ['MD / DO', 'Medical doctor'], ['None of these']] },
+    kids: { num: '1.8', sec: 'WHO YOU ARE', q: 'Tell us about your [kids]' },
+    industry: { num: '1.7', sec: 'WHO YOU ARE', long: 1, q: 'Professional [industry]',
+      opts: [['Accounting & finance'], ['Arts, media & entertainment'], ['Consulting'], ['Education & academia'], ['Engineering', '', 1], ['Government & public policy'], ['Healthcare & medicine'], ['Law'], ['Marketing & advertising'], ['Nonprofit'], ['Real estate'], ['Sales'], ['Tech & software'], ['Other']] }
+  };
+  var D = SHEETS[key] || SHEETS.legal;
+
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function hlC(t) { return esc(t).replace(/\[(.+?)\]([?.,]?)/g, '<span class="nw"><span class="hl">$1</span>$2</span>'); }
+  // render a question string for the active style
+  function qHTML(t) {
+    if (S === 'C') return hlC(t);
+    var plain = esc(t.replace(/[\[\]]/g, ''));
+    if (S === 'B' || S === 'D') return '<span>' + plain + '</span>';
+    return plain;
+  }
+  var subN = 0;
+  function sub(t) {
+    subN++;
+    var chip = S === 'E' ? '<span class="qchip">' + D.num + String.fromCharCode(96 + subN) + '</span>' : '';
+    return '<div class="sq sub-q">' + chip + '<span>' + (S === 'C' ? hlC(t) : esc(t.replace(/[\[\]]/g, ''))) + '</span></div>';
+  }
+  function opt(o, multi, extra) {
+    return '<button class="opt' + (multi ? ' multi' : '') + (o[2] ? ' sel' : '') + (extra || '') + '" role="' + (multi ? 'checkbox' : 'radio') + '" aria-checked="' + (o[2] ? 'true' : 'false') + '"><span class="ring"></span><span class="txt">' + esc(o[0]) + (o[1] ? '<small>' + esc(o[1]) + '</small>' : '') + '</span></button>';
+  }
+
+  var head = '';
+  if (S === 'E') head += '<div class="qchip">Q ' + D.num + '</div>';
+  if (S === 'F') head += '<div class="kicker">' + esc(D.sec) + ' · Q ' + D.num + '</div>';
+  head += '<h2 class="q">' + qHTML(D.q) + '</h2><button class="x" aria-label="Close">&#x2715;</button>';
+  document.getElementById('head').innerHTML = head;
+
+  var body = '';
+  if (key === 'kids') {
+    body += sub('How [many]?') + '<div class="nums"><b>1</b><b class="on">2</b><b>3</b><b>4</b><b>5+</b></div>';
+    body += sub('Their [ages]') + '<div class="ages"><span class="age">7<small>yrs</small></span><span class="age">10<small>yrs</small></span></div>';
+    body += sub('Do your kids [live with you]?');
+    [['Yes, full time', '', 1], ['Part time / shared custody'], ['No']].forEach(function (o) { body += opt(o, 0, ' compact'); });
+  } else {
+    D.opts.forEach(function (o) { body += opt(o, D.multi); });
+  }
+  var b = document.getElementById('body'); b.innerHTML = body; if (D.long) b.classList.add('long');
+  document.title = 'Q style ' + S + ' · ' + key + (white ? ' · white' : '') + (couple ? ' · couple' : '');
+})();
+</script>
+</body>
+</html>
