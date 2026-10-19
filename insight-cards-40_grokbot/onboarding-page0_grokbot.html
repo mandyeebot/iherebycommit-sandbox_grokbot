@@ -9037,7 +9037,7 @@ window.addEventListener('load', () => {
 // ---- MOCKUP_grokbot K5 &map=google: Google Maps JavaScript API, loaded once, lazily (first map that needs it) ----
 (function () {
   if (!document.documentElement.classList.contains('gmap')) return;
-  const KEY = 'AIzaSyDjLBLVK4DvYrrVSNp4nLh3tOXT6HVf-Uc', PLAIN = document.documentElement.classList.contains('gmap-plain');
+  const KEY = 'AIzaSyDjLBLVK4DvYrrVSNp4nLh3tOXT6HVf-Uc', PLAIN = document.documentElement.classList.contains('gmap-plain') || document.documentElement.classList.contains('thw') || /[?&](theme=white|p0=(2w|3))(&|$)/.test(location.search); // Amanda 1:15 AM: light map on the white theme
   window.K5GM = { loads: 0, geocodes: 0, errors: [] }; // counters for the mockup walk (map loads = Map objects created; geocodes = requests)
   // K5 Maps fallback: If the key is refused (e.g. RefererNotAllowedMapError) or the script can't load, cover the map
   // with a note and point to the search box (zip / postcode / city, the page's own lookups); geocoding falls back to Nominatim / nearest city.
