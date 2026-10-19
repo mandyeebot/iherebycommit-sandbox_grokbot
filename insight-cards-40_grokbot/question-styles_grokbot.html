@@ -92,6 +92,13 @@ html:not(.thw) .sE .sq { border-bottom-color:rgba(240,236,224,.45); }
 .sE2 .sq { font:400 20px/1 'Bebas Neue', sans-serif; letter-spacing:.04em; text-transform:uppercase; align-items:center; }
 .sE2 .sq .qchip { text-transform:none; }
 
+/* B2: B about 20% smaller, tighter blocks */
+.sB2 .q { font-size:21px; line-height:1.24; }
+.sB2 .q span { padding:1px 4px 0; }
+.sB2 .sq { font-size:16px; line-height:1.25; }
+.sB2 .sq span { padding:1px 4px 0; }
+.sB2 .sub-q { margin-top:12px; }
+
 /* F: header band (the whole question area becomes a lime / orange panel; sub-questions = thin lime tabs) */
 .sF .head { background:var(--accent); padding:18px 56px 16px 22px; }
 html.thw .sF .head { border-bottom:1.5px solid var(--ink); }
@@ -102,6 +109,14 @@ html.thw .sF .head { border-bottom:1.5px solid var(--ink); }
 .sF .sq { font:400 19px/1 'Bebas Neue', sans-serif; letter-spacing:.05em; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
 .sF .sq::before { content:''; width:14px; height:14px; background:var(--accent); flex-shrink:0; margin-top:-3px; }
 html.thw .sF .sq::before { outline:1.5px solid var(--ink); outline-offset:-1.5px; }
+/* F2: F about 20% smaller, slimmer band */
+.sF2 .head { padding:14px 52px 12px 20px; }
+.sF2 .kicker { font-size:9px; margin-bottom:6px; }
+.sF2 .q { font-size:22px; line-height:1.02; }
+.sF2 .x { top:8px; }
+.sF2 .sq { font-size:16px; gap:7px; }
+.sF2 .sq::before { width:11px; height:11px; margin-top:-2px; }
+.sF2 .sub-q { margin-top:12px; }
 /* industry list is long: tighter rows */
 .long .opt { padding:10px 10px; }
 </style>
@@ -121,12 +136,12 @@ html.thw .sF .sq::before { outline:1.5px solid var(--ink); outline-offset:-1.5px
 <script>
 (function () {
   var P = new URLSearchParams(location.search);
-  var S = (P.get('qstyle') || 'A').toUpperCase(); if (!/^([A-F]|E2)$/.test(S)) S = 'A';
+  var S = (P.get('qstyle') || 'A').toUpperCase(); if (!/^([A-F]|E2|B2|F2)$/.test(S)) S = 'A';
   var white = P.get('theme') === 'white', couple = P.get('path') === 'couple';
   var key = P.get('sheet') || 'legal';
   if (white) document.documentElement.classList.add('thw');
   if (couple) { document.documentElement.classList.add('couple'); document.getElementById('kick').textContent = 'STEP 3 OF 6 · COUPLE'; }
-  document.getElementById('sheet').classList.add('s' + S); if (S === 'E2') document.getElementById('sheet').classList.add('sE'); // E2 = E with Bebas caps questions
+  document.getElementById('sheet').classList.add('s' + S); if (S.length === 2) document.getElementById('sheet').classList.add('s' + S.charAt(0)); // E2 = E with Bebas caps questions; B2 / F2 = B / F about 20% smaller
 
   // [brackets] = key phrase (style C)
   var SHEETS = {
@@ -146,7 +161,7 @@ html.thw .sF .sq::before { outline:1.5px solid var(--ink); outline-offset:-1.5px
   function qHTML(t) {
     if (S === 'C') return hlC(t);
     var plain = esc(t.replace(/[\[\]]/g, ''));
-    if (S === 'B' || S === 'D') return '<span>' + plain + '</span>';
+    if (S.charAt(0) === 'B' || S === 'D') return '<span>' + plain + '</span>';
     return plain;
   }
   var subN = 0;
@@ -161,7 +176,7 @@ html.thw .sF .sq::before { outline:1.5px solid var(--ink); outline-offset:-1.5px
 
   var head = '';
   if (S.charAt(0) === 'E') head += '<div class="qchip">Q ' + D.num + '</div>';
-  if (S === 'F') head += '<div class="kicker">' + esc(D.sec) + ' · Q ' + D.num + '</div>';
+  if (S.charAt(0) === 'F') head += '<div class="kicker">' + esc(D.sec) + ' · Q ' + D.num + '</div>';
   head += '<h2 class="q">' + qHTML(D.q) + '</h2><button class="x" aria-label="Close">&#x2715;</button>';
   document.getElementById('head').innerHTML = head;
 

@@ -27,13 +27,13 @@ iframe { width:393px; height:660px; border:0; display:block; background:#0e0e0e;
 <script>
 var P = new URLSearchParams(location.search);
 var theme = P.get('theme') === 'white' ? 'white' : 'black', path = P.get('path') === 'couple' ? 'couple' : 'single', sheet = P.get('sheet') || 'legal', v = P.get('v') || '';
-var NAMES = { A: 'Section header: condensed caps, like YOUR LAST RELATIONSHIP', B: 'Highlight block: whole question on a solid block', C: 'Key phrase highlight: only the key words on a block', D: 'Coloured question (white: black + thick underline bar)', E: 'Research questionnaire: Q chip, bold sans, hairline, indented answers', E2: 'Research questionnaire in caps: Q chip, Bebas caps question, hairline, indented answers', F: 'Header band: the question area is a solid colour panel' };
+var NAMES = { A: 'Section header: condensed caps, like YOUR LAST RELATIONSHIP', B: 'Highlight block: whole question on a solid block', B2: 'Highlight block, about 20% smaller with tighter blocks', C: 'Key phrase highlight: only the key words on a block', D: 'Coloured question (white: black + thick underline bar)', E: 'Research questionnaire: Q chip, bold sans, hairline, indented answers', E2: 'Research questionnaire in caps: Q chip, Bebas caps question, hairline, indented answers', F: 'Header band: the question area is a solid colour panel', F2: 'Header band, about 20% smaller with a slimmer band' };
 function link(k, val, label) { var q = { theme: theme, path: path, sheet: sheet }; q[k] = val; var on = q[k] === ({ theme: theme, path: path, sheet: sheet })[k];
   var s = '?sheet=' + q.sheet + (q.theme === 'white' ? '&theme=white' : '') + (q.path === 'couple' ? '&path=couple' : '') + (v ? '&v=' + v : '');
   return '<a class="' + (val === ({ theme: theme, path: path, sheet: sheet })[k] ? 'on' : '') + '" href="' + s + '">' + label + '</a>'; }
 document.getElementById('bar').innerHTML = '<span>SHEET</span>' + ['legal', 'degree', 'kids', 'industry'].map(function (x) { return link('sheet', x, x); }).join('') +
   '<span>THEME</span>' + link('theme', 'black', 'black') + link('theme', 'white', 'white') + '<span>PATH</span>' + link('path', 'single', 'singles (lime)') + link('path', 'couple', 'couples (orange)');
-document.getElementById('grid').innerHTML = ['A', 'B', 'C', 'D', 'E', 'E2', 'F'].map(function (s) {
+document.getElementById('grid').innerHTML = ['A', 'B', 'B2', 'C', 'D', 'E', 'E2', 'F', 'F2'].map(function (s) {
   var u = 'question-styles_grokbot.html?qstyle=' + s + '&sheet=' + sheet + (theme === 'white' ? '&theme=white' : '') + (path === 'couple' ? '&path=couple' : '') + (v ? '&v=' + v : '');
   return '<div class="cell"><p class="lab"><b>' + s + '</b>' + NAMES[s] + ' · <a href="' + u + '" target="_blank">open</a></p><iframe src="' + u + '" loading="lazy" title="Style ' + s + '"></iframe></div>';
 }).join('');
