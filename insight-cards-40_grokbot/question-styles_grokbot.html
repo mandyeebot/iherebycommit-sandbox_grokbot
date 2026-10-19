@@ -86,6 +86,12 @@ html.thw .sE .qchip { outline:1.5px solid var(--ink); outline-offset:-1.5px; }
 html:not(.thw) .sE .sq { border-bottom-color:rgba(240,236,224,.45); }
 .sE .sq .qchip { margin:0; flex-shrink:0; font-size:10px; }
 
+/* E2: E with the questions in the headline font (Bebas caps) */
+.sE2 .head { padding-top:16px; padding-bottom:10px; }
+.sE2 .q { font:400 26px/1 'Bebas Neue', sans-serif; letter-spacing:.02em; text-transform:uppercase; }
+.sE2 .sq { font:400 20px/1 'Bebas Neue', sans-serif; letter-spacing:.04em; text-transform:uppercase; align-items:center; }
+.sE2 .sq .qchip { text-transform:none; }
+
 /* F: header band (the whole question area becomes a lime / orange panel; sub-questions = thin lime tabs) */
 .sF .head { background:var(--accent); padding:18px 56px 16px 22px; }
 html.thw .sF .head { border-bottom:1.5px solid var(--ink); }
@@ -115,12 +121,12 @@ html.thw .sF .sq::before { outline:1.5px solid var(--ink); outline-offset:-1.5px
 <script>
 (function () {
   var P = new URLSearchParams(location.search);
-  var S = (P.get('qstyle') || 'A').toUpperCase(); if (!/^[A-F]$/.test(S)) S = 'A';
+  var S = (P.get('qstyle') || 'A').toUpperCase(); if (!/^([A-F]|E2)$/.test(S)) S = 'A';
   var white = P.get('theme') === 'white', couple = P.get('path') === 'couple';
   var key = P.get('sheet') || 'legal';
   if (white) document.documentElement.classList.add('thw');
   if (couple) { document.documentElement.classList.add('couple'); document.getElementById('kick').textContent = 'STEP 3 OF 6 · COUPLE'; }
-  document.getElementById('sheet').classList.add('s' + S);
+  document.getElementById('sheet').classList.add('s' + S); if (S === 'E2') document.getElementById('sheet').classList.add('sE'); // E2 = E with Bebas caps questions
 
   // [brackets] = key phrase (style C)
   var SHEETS = {
@@ -146,7 +152,7 @@ html.thw .sF .sq::before { outline:1.5px solid var(--ink); outline-offset:-1.5px
   var subN = 0;
   function sub(t) {
     subN++;
-    var chip = S === 'E' ? '<span class="qchip">' + D.num + String.fromCharCode(96 + subN) + '</span>' : '';
+    var chip = S.charAt(0) === 'E' ? '<span class="qchip">' + D.num + String.fromCharCode(96 + subN) + '</span>' : '';
     return '<div class="sq sub-q">' + chip + '<span>' + (S === 'C' ? hlC(t) : esc(t.replace(/[\[\]]/g, ''))) + '</span></div>';
   }
   function opt(o, multi, extra) {
@@ -154,7 +160,7 @@ html.thw .sF .sq::before { outline:1.5px solid var(--ink); outline-offset:-1.5px
   }
 
   var head = '';
-  if (S === 'E') head += '<div class="qchip">Q ' + D.num + '</div>';
+  if (S.charAt(0) === 'E') head += '<div class="qchip">Q ' + D.num + '</div>';
   if (S === 'F') head += '<div class="kicker">' + esc(D.sec) + ' · Q ' + D.num + '</div>';
   head += '<h2 class="q">' + qHTML(D.q) + '</h2><button class="x" aria-label="Close">&#x2715;</button>';
   document.getElementById('head').innerHTML = head;
