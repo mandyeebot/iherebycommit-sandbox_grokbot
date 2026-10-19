@@ -16013,7 +16013,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       case 'divorced': return 'an unmarried ' + n;
       case 'separated': return 'a married ' + n + ', separated';
       case 'widowed': return { man: 'a widower', woman: 'a widow', 'non-binary': 'a widowed person' }[g];
-      case 'relationship': return 'a ' + n + ' in a committed relationship';
+      case 'relationship': return OATH3 ? 'a partnered ' + n : 'a ' + n + ' in a committed relationship'; // Amanda Oct 19 10:25 AM: oath3/oath4 couples = partnered / engaged / married only
       case 'engaged': return 'an engaged ' + n;
       case 'married': return 'a married ' + n;
     } return '';
