@@ -15967,8 +15967,9 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   // Amanda Oct 19 5:07 AM: &copy=truth opt-in copy (truth oath pledge, no privacy paragraph, two small lines under COMMIT); &truthhl=0 drops the orange on the oath
   var TRUTH = Q.get('copy') === 'truth', THL = Q.get('truthhl') !== '0';
   // Amanda Oct 19 6:19 AM: &copy=oath (sound-mind oath, no orange for singles, optional phone behind '+ Add a phone number' with an SMS legal bubble, one combined line under COMMIT); &contact=below puts the contact lines under the signature
-  var OATH = Q.get('copy') === 'oath' && !TRUTH, CBELOW = OATH && Q.get('contact') === 'below';
-  if (OATH) { H.classList.add('p0c-oath'); if (CBELOW) H.classList.add('p0c-below');
+  var OATH2 = Q.get('copy') === 'oath2'; // Amanda Oct 19 6:39 AM: oath2 = oath in every way except the pledge copy
+  var OATH = (Q.get('copy') === 'oath' || OATH2) && !TRUTH, CBELOW = OATH && Q.get('contact') === 'below';
+  if (OATH) { H.classList.add('p0c-oath'); if (OATH2) H.classList.add('p0c-oath2'); if (CBELOW) H.classList.add('p0c-below');
     LEG = '<p class="pv-legal pv-legal3">This doesn\u2019t enroll you in anything or make your profile public \u2014 both come later, with their own opt-in. Your answers stay private and we publish findings in aggregate only. By committing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a> and confirm you\u2019re 18+.</p>'; }
   if (OATH && !window._p0ph_grokbot) { window._p0ph_grokbot = 1;
     var phTip = function (row, on) { if (row) row.classList.toggle('ph-tip', !!on); };
@@ -16037,6 +16038,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   }  var LOC_WORST = 'Rancho Santa Margarita, CA'; // longest real 'City, ST'
   function pledge(nameHTML, statHTML, dobHTML, locHTML) {
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
+    if (PL === 'E' && OATH2) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the truth, the whole truth, and nothing but the truth \u2014 including my height, age, and intentions.' +
+      '<span class="pl-vow">To have and to hold these truths, from this day forward, for better or worse, for richer or for poorer, in video and in person, to find love that will last, <span class="pl-punch"><span class="' + k + '">till data do us part.</span></span></span>';
     if (PL === 'E' && OATH) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' being of sound mind and uncertain romantic history, hereby commit to tell the truth, the whole truth, and nothing but the truth \u2014 including about my height, my age, and my intentions.' +
       '<span class="pl-vow">To have and to hold, from this day forward, for better, for worse, for richer for poorer, for shorter for older, in video and in person, <span class="pl-punch"><span class="' + k + '">till data do us part.</span></span></span>';
     if (PL === 'E' && TRUTH) return 'I, ' + nameHTML + ' ' + statHTML + ' born ' + dobHTML + ' domiciled in ' + locHTML + ' hereby swear to tell ' + (THL ? '<span class="pl-em">the truth, the whole truth, and nothing but the truth</span>' : 'the truth, the whole truth, and nothing but the truth') +
