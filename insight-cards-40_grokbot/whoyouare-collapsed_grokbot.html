@@ -6,7 +6,7 @@
 <title>Who You Are · fully collapsed · styles</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  /* Static mock of Sandbox 2 (s3y223) Who You Are, every question answered = 20 collapsed cards. &style=black|blackfix|A|A2|B|AB|all */
+  /* Static mock of Sandbox 2 (s3y223) Who You Are, every question answered = 20 collapsed cards. &style=black|blackfix|A|A2|B|AB|AB2|all */
   * { box-sizing:border-box; }
   html, body { margin:0; height:100%; }
   body { font-family:'Space Mono', monospace; -webkit-text-size-adjust:100%; }
@@ -88,6 +88,16 @@
   body.s-AB .next { border:2px solid #3f5a00; box-shadow:3px 3px 0 #3f5a00; margin-right:3px; }
   body.s-AB.btn-black .next { border-color:#0e0e0e; box-shadow:3px 3px 0 #0e0e0e; }
 
+  /* AB2: AB + EDIT as bold orange text, no block/pill/border. #E05A10 = brand orange one step darker for cream (3.7:1; #FF7A2F is 2.6:1). &edit=brand = exact #FF7A2F */
+  body.s-AB2 .c { border:1.5px solid #0e0e0e; background:#fbf9f3; box-shadow:2px 2px 0 #0e0e0e; padding:0 8px; }
+  body.s-AB2 .grid { column-gap:11px; row-gap:5px; padding-right:2px; padding-bottom:2px; }
+  body.s-AB2 .k { font:400 15px/14px 'Bebas Neue', sans-serif; letter-spacing:.05em; }
+  body.s-AB2.qtags .k::before { font-size:8px; line-height:11px; vertical-align:2px; }
+  body.s-AB2 .e { color:#E05A10; font-size:12px; font-weight:700; letter-spacing:.06em; text-decoration:none; }
+  body.s-AB2.edit-brand .e { color:#FF7A2F; }
+  body.s-AB2 .next { border:2px solid #3f5a00; box-shadow:3px 3px 0 #3f5a00; margin-right:3px; }
+  body.s-AB2.btn-black .next { border-color:#0e0e0e; box-shadow:3px 3px 0 #0e0e0e; }
+
   /* &style=all: six phones side by side */
   body.all { background:#0e0e0e; color:#f0ece0; padding:12px 16px; height:auto; }
   body.all h2 { font:400 30px 'Bebas Neue', sans-serif; margin:0 0 8px; letter-spacing:.02em; }
@@ -104,13 +114,13 @@
 (function () {
   var Q = new URLSearchParams(location.search);
   var S = String(Q.get('style') || 'AB'); var SU = S.toUpperCase();
-  var KNOWN = { BLACK: 'black', BLACKFIX: 'blackfix', A: 'A', A2: 'A2', B: 'B', AB: 'AB', ALL: 'all' };
+  var KNOWN = { BLACK: 'black', BLACKFIX: 'blackfix', A: 'A', A2: 'A2', B: 'B', AB: 'AB', AB2: 'AB2', ALL: 'all' };
   var st = KNOWN[SU] || 'AB';
   var B = document.body;
   if (st === 'all') {
     B.className = 'all';
     var v = Q.get('v') ? '&v=' + encodeURIComponent(Q.get('v')) : '';
-    var L = [['black', 'Current black (s3y223)'], ['blackfix', 'Black + red-mode fixes'], ['A', 'A · Lab form'], ['A2', 'A2 · Lab + orange'], ['B', 'B · Brutalist (thinner)'], ['AB', 'AB · Lab x Brutalist']];
+    var L = [['black', 'Current black (s3y223)'], ['blackfix', 'Black + red-mode fixes'], ['A', 'A · Lab form'], ['A2', 'A2 · Lab + orange'], ['B', 'B · Brutalist (thinner)'], ['AB', 'AB · Lab x Brutalist'], ['AB2', 'AB2 · AB + orange EDIT']];
     var h = '<h2>Who You Are · fully collapsed (20 cards)</h2><div class="row">';
     L.forEach(function (x) { var u = '?style=' + x[0] + v; h += '<figure><figcaption>' + x[1] + ' · <a href="' + u + '" target="_blank">open</a></figcaption><div class="fr"><iframe src="' + u + '"></iframe></div></figure>'; });
     B.innerHTML = h + '</div>';
@@ -118,8 +128,8 @@
     addEventListener('resize', fit); fit();
     return;
   }
-  var white = /^(A|A2|B|AB)$/.test(st);
-  B.className = 's-' + st + (white ? ' w' : '') + (/^(A|A2|AB)$/.test(st) ? ' grid-paper qtags' : '') + (st === 'AB' && Q.get('btn') === 'black' ? ' btn-black' : '');
+  var white = /^(A|A2|B|AB|AB2)$/.test(st);
+  B.className = 's-' + st + (white ? ' w' : '') + (/^(A|A2|AB|AB2)$/.test(st) ? ' grid-paper qtags' : '') + (/^AB2?$/.test(st) && Q.get('btn') === 'black' ? ' btn-black' : '') + (st === 'AB2' && Q.get('edit') === 'brand' ? ' edit-brand' : '');
   var D = [['Gender', 'Woman'], ['Name', 'Amanda Bradford'], ['Date of birth', 'Jan 1, 1984'], ['Location', 'Austin, TX'], ['Marital status', 'Never married'], ['Have kids', 'Yes (2)'],
     ['Last breakup', 'Aug 2026'], ['Height', '5\u201910\u201d'], ['Race', 'White'], ['Education', 'MBA'], ['Industry', 'Marketing'], ['Title', 'Founder ceo'],
     ['Income', '$100k\u2013150k'], ['Religion', 'Christian \u00b7 Non-denominational'], ['Politics', 'Moderate'], ['Languages', 'English +1'], ['Sports', 'Volleyball, Running'],
