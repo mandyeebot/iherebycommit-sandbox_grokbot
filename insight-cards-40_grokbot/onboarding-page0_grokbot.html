@@ -15968,8 +15968,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var TRUTH = Q.get('copy') === 'truth', THL = Q.get('truthhl') !== '0';
   // Amanda Oct 19 6:19 AM: &copy=oath (sound-mind oath, no orange for singles, optional phone behind '+ Add a phone number' with an SMS legal bubble, one combined line under COMMIT); &contact=below puts the contact lines under the signature
   var OATH2 = Q.get('copy') === 'oath2'; // Amanda Oct 19 6:39 AM: oath2 = oath in every way except the pledge copy
-  var OATH = (Q.get('copy') === 'oath' || OATH2) && !TRUTH, CBELOW = OATH && Q.get('contact') === 'below';
-  if (OATH) { H.classList.add('p0c-oath'); if (OATH2) H.classList.add('p0c-oath2'); if (CBELOW) H.classList.add('p0c-below');
+  var OATH = (Q.get('copy') === 'oath' || OATH2) && !TRUTH, CBELOW = OATH && Q.get('contact') === 'below', CINLINE = OATH && Q.get('contact') === 'inline'; // Amanda Oct 19 7:05 AM: &contact=inline - compact email | phone boxes under the signature's name/date row, no 'Reach me at' / '+ Add'
+  if (OATH) { H.classList.add('p0c-oath'); if (OATH2) H.classList.add('p0c-oath2'); if (CBELOW) H.classList.add('p0c-below'); if (CINLINE) H.classList.add('p0c-inline');
     LEG = '<p class="pv-legal pv-legal3">This doesn\u2019t enroll you in anything or make your profile public \u2014 both come later, with their own opt-in. Your answers stay private and we publish findings in aggregate only. By committing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a> and confirm you\u2019re 18+.</p>'; }
   if (OATH && !window._p0ph_grokbot) { window._p0ph_grokbot = 1;
     var phTip = function (row, on) { if (row) row.classList.toggle('ph-tip', !!on); };
@@ -15979,6 +15979,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       var x = e.target.closest && e.target.closest('#p0v .pv-phx'); if (x) { e.preventDefault(); phTip(x.closest('.pv-phrow'), 0); return; }
       if (!(e.target.closest && e.target.closest('#p0v .pv-phrow'))) document.querySelectorAll('#p0v .pv-phrow.ph-tip').forEach(function (r) { phTip(r, 0); });
     }, true);
+    document.addEventListener('input', function (e) { var t = e.target; if (!t.matches || !t.matches('#p0v .pv-oci-em')) return; t.style.fontSize = ''; if (t.scrollWidth > t.clientWidth + 1) t.style.fontSize = '10.5px'; });
     document.addEventListener('focusin', function (e) { if (e.target.matches && e.target.matches('#p0v .pv-phrow input')) phTip(e.target.closest('.pv-phrow'), 1); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') document.querySelectorAll('#p0v .pv-phrow.ph-tip').forEach(function (r) { phTip(r, 0); }); });
   }
@@ -16066,11 +16067,13 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       inp('first_name', 'First name', 'text', 'given-name') + inp('last_name', 'Last name', 'text', 'family-name') + dob() + loc('Where you live') +
       '<div class="pv-full">' + gp() + '</div><div class="pv-full">' + sp() + '</div><div class="pv-full">' + inp('email', 'Email', 'email', 'email') + '</div></div>' +
       '<div class="pv-foot">' + MSG + GO + '</div></div>';
+  var OINLINE = '<div class="pv-oci"><input class="pv-oci-em" data-b="email" type="email" placeholder="Email" autocomplete="email" aria-label="Email">' +
+    '<span class="pv-phrow ph-on pv-oci-ph"><span class="pv-phw"><input class="pv-oci-tel" data-b="phone" type="tel" inputmode="tel" placeholder="Phone (optional)" autocomplete="tel" aria-label="Phone (optional)">' + OTIP + '</span></span></div>';
     if (V === 2) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() + (DL ? '' : WM) + // D: the pledge itself says I HEREBY COMMIT
       '<h1 class="pv-h pv-pledge" data-fit="1" data-min="' + (SG ? 21 : 26) + '">' + pledge(nw('<input class="p0c pv-nm" data-b="first_name" maxlength="30" placeholder="first" autocomplete="given-name" aria-label="First name"> <input class="p0c pv-nm" data-b="last_name" maxlength="30" placeholder="last" autocomplete="family-name" aria-label="Last name">,'), gsSel() + ',', nw('<span class="pv-dobw"><span class="pv-dobv empty">[birth date]</span><input class="pv-dobi" data-b="birthdate" type="date" aria-label="Date of birth"></span>,'), nw('<button type="button" class="pv-locv empty" data-b="loc" data-ph="[your city]" aria-label="Where you live">[your city]</button>,')) + '</h1>' + SIGC +
-      (OATH ? (CBELOW ? '' : OCONTACT) + '<div class="pv-libx" hidden>' : '<div class="pv-lib">') + (PL === 'E' ? '' : 'Born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ') +
+      (OATH ? (CBELOW || CINLINE ? '' : OCONTACT) + '<div class="pv-libx" hidden>' : '<div class="pv-lib">') + (PL === 'E' ? '' : 'Born ' + nw('<input class="p0c empty" data-b="birthdate" type="date" aria-label="Date of birth">,') + ' living in ' + nw('<button type="button" class="p0c empty" data-b="loc" data-ph="my city" aria-label="Where you live">my city</button>.') + ' ') +
 (OATH ? '</div>' :       'Reach me at ' + (PE ? nw('<input class="p0c pv-em" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">') + '<br>or ' + nw(TEL + '.') : nw('<input class="p0c" data-b="email" type="email" placeholder="email" size="16" autocomplete="email" aria-label="Email">.')) + '</div>') +
-      (DL ? (TRUTH || OATH ? '' : '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>') : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') + FILLER + SIGB + (CBELOW ? OCONTACT : '') +
+      (DL ? (TRUTH || OATH ? '' : '<p class="pv-body pv-sign pv-priv" data-late="1">' + PRIV(c) + '</p>') : '<p class="pv-body" data-opt="1">' + SOPH + '</p>') + FILLER + SIGB + (CBELOW ? OCONTACT : '') + (CINLINE ? OINLINE : '') +
       '<div class="pv-foot">' + MSG + GO + (PE ? LEG : '') + '</div></div>';
     if (V === 3) return '<div class="pv-pad" style="display:flex;flex-direction:column;flex:1;">' + top() +
       (DL ? '' : '<div class="pv-lab">The pledge</div>') +
@@ -16471,6 +16474,17 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.p0c-oath.p0v-2:not(.p0v-2w) #p0v .pv-phtip { background: #f0ece0; color: #0e0e0e; }
   html.p0c-oath.p0v-2:not(.p0v-2w) #p0v .pv-phtip::after { border-top-color: #f0ece0; }
   html.p0c-below #p0v .pv-oc { margin-top: 6px; }
+  /* &contact=inline: email (60%) | phone (40%) lime boxes, placeholder inside, tight under the signature name/date row */
+  html.p0c-inline #p0v .pv-oci { display: flex; gap: 6px; margin-top: 5px; }
+  html.p0c-inline #p0v .pv-oci input { box-sizing: border-box; width: 100%; height: 28px; margin: 0; padding: 0 8px; border: 0; border-radius: 0; background: var(--accent); color: #0e0e0e; font: 12px/28px 'Space Mono', monospace; letter-spacing: 0; outline: 0; box-shadow: none; -webkit-appearance: none; appearance: none; }
+  html.p0c-inline #p0v .pv-oci input::placeholder { color: rgba(14,14,14,.6); opacity: 1; }
+  html.p0c-inline #p0v .pv-oci input:focus { box-shadow: inset 0 0 0 2px #0e0e0e; }
+  html.p0c-inline #p0v .pv-oci .pv-oci-em { flex: 0 0 auto; width: calc(60% - 3px); }
+  html.p0c-inline #p0v .pv-oci .pv-oci-ph { flex: 1 1 auto; min-width: 0; display: block; position: relative; height: 28px; }
+  html.p0c-inline #p0v .pv-oci .pv-phw { display: block; position: relative; height: 28px; }
+  html.p0c-inline #p0v .pv-oci .pv-phtip { left: auto; right: 0; }
+  html.p0c-inline #p0v .pv-oci .pv-phtip::after { left: auto; right: 40px; }
+  html.p0c-inline.p0v-2:not(.p0v-2w) #p0v .pv-oci input:focus { box-shadow: inset 0 0 0 2px #f0ece0; }
   html.p0v #p0v .pv-foot .pv-legal.pv-legal3 { height: auto !important; padding: 5px 0 4px !important; font-size: 10px !important; line-height: 12px !important; letter-spacing: -.02em !important; text-align: left; }
   html.p0v #p0v .pv-pledge .pl-punch, html.p0v #p0v .pv-pledge .pl-punch > span { line-height: 0 !important; } /* the 1.08em punchline must not push its line down */
   #p0v.pv-clip .pv-body, #p0v.pv-clip .pv-filler { font-size: 12px !important; line-height: 1.25 !important; } /* last resort before any scroll (v3 + sign + long copy) */
