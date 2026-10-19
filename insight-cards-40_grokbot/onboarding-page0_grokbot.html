@@ -15265,10 +15265,10 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-3 #p0v .pv-deed { margin: 6px 0 0; font-size: 11px; line-height: 15px; color: rgba(14,14,14,.6); }
   .p0v-3 #p0v .pv-deed .pv-dg { font-size: 11px; vertical-align: .3em; }
   /* pledge D: billboard rhythm */
-  #p0v .pl-paren { font-size: .62em; letter-spacing: .03em; opacity: .62; white-space: nowrap; }
+  #p0v .pl-paren { font-size: .62em; letter-spacing: .03em; opacity: .62; }
   #p0v .pl-vow { display: block; margin-top: .14em; }
-  #p0v .pl-punch { display: block; font-size: 1.22em; line-height: 1; margin-top: .1em; }
-  .p0v-3 #p0v .pl-punch .hl { padding: 0 6px; }
+  #p0v .pl-punch { font-size: 1.08em; line-height: 1; white-space: nowrap; } /* inline punchline, same run as the vow line */
+  .p0v-3 #p0v .pl-punch .hl { padding: 0 4px; }
   .p0v-2 #p0v .pv-sign { margin-top: 10px; }
   .p0v-3 #p0v ol.pv-terms { margin-top: 4px; }
   .p0v-3 #p0v ol.pv-terms li { margin-bottom: 0; line-height: 1.36; }
@@ -15300,7 +15300,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   .p0v-3 #p0v input[type=date].p0c::-webkit-calendar-picker-indicator { filter: none; }
   .p0v-3 #p0v .p0p { height: 26px; color: #0e0e0e; border-color: rgba(14,14,14,.35); }
   .p0v-3 #p0v .p0p.on { background: #0e0e0e; border-color: #0e0e0e; color: var(--accent); }
-  .p0v-3 #p0v .p0-bad { box-shadow: none; border-bottom: 2px solid #FF7A2F !important; }
+  .p0v-3 #p0v .p0-bad { border-bottom-color: #FF7A2F !important; box-shadow: 0 1px 0 #FF7A2F; } /* same 1px border, so an error never adds height */
   .p0v-3 #p0v .pv-go { background: #0e0e0e; color: var(--accent); display: flex; align-items: center; justify-content: center; gap: 14px; }
   .p0v-3 #p0v .pv-go i { font-style: normal; font-family: 'Space Mono', monospace; font-size: 18px; color: #f0ece0; }
   .p0v-3 #p0v .pv-foot { padding-top: 8px; }
@@ -15398,7 +15398,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var p = PLEDGE[PL], k = V === 3 ? 'hl' : 'ac';
     if (PL === 'D') return 'I, ' + nameHTML + ' ' + statHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') +
       ' to science, for the explicit purpose of maximizing relationship retention and relationship satisfaction <span class="pl-paren">(and maybe even lifespan).</span>' +
-      '<span class="pl-vow">For better, for worse, for longer, for happier.</span><span class="pl-punch"><span class="' + k + '">Till data do us part.</span></span>';
+      '<span class="pl-vow">For better, for worse, for longer, for happier. <span class="pl-punch"><span class="' + k + '">Till data do us part.</span></span></span>';
     return 'I, ' + nameHTML + ' ' + statHTML + ' hereby commit ' + (couple() ? 'our love story' : 'my love life') + p[0] + '<span class="' + k + '">' + p[1] + '</span>' + p[2];
   }
   function nw(x) { return '<span style="white-space:nowrap">' + x + '</span>'; }
