@@ -15955,7 +15955,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   var GO = SG ? '<button type="button" class="pv-go" data-go="1">I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>' : '<button type="button" class="pv-go" data-go="1">I HEREBY COMMIT<span class="pv-msg" id="pv-msg" role="alert"></span></button>';
   var MSG = '';
   // Amanda Oct 19 2:57 AM: placeholder paragraph to preview the fit with more copy (&filler=0 hides it)
-  var FILLER = Q.get('filler') === '0' ? '' : '<p class="pv-body pv-filler">[Placeholder copy] This paragraph stands in for text that will be written later. It is here only to show how the page fits with a few more lines. The final wording may be shorter or longer than this. Replace it before launch.</p>';
+  var FILLER = Q.get('filler') !== '1' ? '' : '<p class="pv-body pv-filler">[Placeholder copy] This paragraph stands in for text that will be written later. It is here only to show how the page fits with a few more lines. The final wording may be shorter or longer than this. Replace it before launch.</p>';
   var SIGB = SG ? SIGPAD : ''; // the signature block now sits with the content (just above where it ends), the COMMIT button at the bottom like the steps' NEXT
   var TAG = '<div class="pv-tag">Mockup from sports-preview \u00b7 not saved</div>';
   // Amanda Oct 18: the manifesto is a personal pledge. &pledge=A (default) | B | C. Couples: 'our love story'.
@@ -16376,10 +16376,9 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.p0v #p0v .pv-pad .pv-foot, #p0v .pv-pad .pv-foot { margin-top: auto !important; padding: 8px 0 0 !important; flex: none; }
   #p0v .pv-foot .pv-go, .p0v-sg #p0v .pv-foot .pv-go, .p0v-sg.p0v-3 #p0v .pv-foot .pv-go { height: 63px !important; font-size: 22px !important; line-height: 1 !important; letter-spacing: .1em !important; border-radius: 0 !important; margin: 0 !important; }
   #p0v .pv-foot .pv-go i { font-size: 22px; }
-  #p0v .pv-foot .pv-legal { box-sizing: border-box; height: 53px; margin: 0 !important; padding: 4px 0 0 !important; overflow: hidden; }
-  .p0v-2w #p0v .pv-foot .pv-legal, .p0v-3 #p0v .pv-foot .pv-legal { height: 49px; }
-  .p0v-2:not(.p0v-2w) #p0v .pv-foot .pv-legal { line-height: 16px !important; }
-  html.p0v #p0v .pv-pad .pv-foot:not(:has(.pv-legal)) { padding-bottom: 53px !important; }
+  /* Sandbox 2 What You Want @393x660: NEXT top 548, 345x63, 49px below it ('\u2190 BACK' slot 615-656 + 4px). Terms line takes the BACK slot. */
+  #p0v .pv-foot .pv-legal, html.p0v #p0v .pv-foot .pv-legal { box-sizing: border-box; height: 49px; margin: 0 !important; padding: 11px 0 0 !important; overflow: hidden; font-size: 10px !important; line-height: 13px !important; letter-spacing: 0 !important; }
+  html.p0v #p0v .pv-pad .pv-foot:not(:has(.pv-legal)) { padding-bottom: 49px !important; }
   html.p0v.p0v-2w #p0v .pv-pad .pv-foot:not(:has(.pv-legal)), html.p0v.p0v-3 #p0v .pv-pad .pv-foot:not(:has(.pv-legal)) { padding-bottom: 49px !important; }
   #p0v .pv-sigwrap { margin-top: 8px; margin-bottom: 0 !important; }
   #p0v .pv-filler { margin-top: 6px; }
