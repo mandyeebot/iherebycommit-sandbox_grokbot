@@ -19,7 +19,8 @@
   figcaption b { background:#c8f135; color:#0e0e0e; padding:0 6px; margin-right:6px; }
   figcaption small { display:block; font-weight:400; text-transform:none; letter-spacing:0; margin-top:3px; max-width:393px; }
   figcaption a { color:#c8f135; }
-  iframe { width:393px; height:660px; border:0; background:#f0ece0; display:block; border-radius:6px; }
+  .frame { width:393px; height:660px; overflow:hidden; border-radius:6px; transform-origin:0 0; }
+  iframe { width:393px; height:660px; border:0; background:#f0ece0; display:block; }
 </style>
 </head>
 <body>
@@ -37,9 +38,11 @@
     ['A', 'Lab form', 'Clinical research form: 2px black boxes, Q3.x tags, mono data, graph-paper grid.'],
     ['B', 'Neo-brutalist', 'Thick black borders, hard offset shadows, lime and orange blocks, Bebas labels.'],
     ['C', 'Editorial', 'Black cards on cream, cream text inside, lime accents, big condensed headline.'],
-    ['D', 'Questionnaire', 'Survey sheet: ruled lines, numbered questions, black section bar, orange ideal.']
+    ['D', 'Questionnaire', 'Survey sheet: ruled lines, numbered questions, black section bar, orange ideal.'],
+    ['A2', 'Lab form + orange', 'A with orange blocks for IDEAL, answered values and EDIT; lime stays for selection and NEXT.'],
+    ['AB', 'Lab x Brutalist', 'A structure + 2px boxes with 3px hard shadows, Bebas labels, orange IDEAL, dark-green-edged NEXT (&btn=black to compare).']
   ];
-  var VIEWS = [['whatyouwant', 'step=whatyouwant'], ['whoyouare', 'step=whoyouare'], ['page0', 'p0=2w']];
+  var VIEWS = [['whatyouwant', 'step=whatyouwant'], ['whoyouare', 'step=whoyouare'], ['whoyouare_filled', 'step=whoyouare&demo=filled'], ['page0', 'p0=2w']];
   var q0 = (VIEWS.find(function (x) { return x[0] === STEP; }) || VIEWS[0])[1];
   var nav = document.getElementById('nav');
   VIEWS.forEach(function (x) {
@@ -55,9 +58,13 @@
   S.forEach(function (s) {
     var src = 'white-styles_grokbot.html?' + q0 + '&wstyle=' + s[0] + (PATH ? '&path=' + encodeURIComponent(PATH) : '') + (V ? '&v=' + encodeURIComponent(V) : '');
     var f = document.createElement('figure');
-    f.innerHTML = '<figcaption><b>' + s[0] + '</b>' + s[1] + ' · <a href="' + src + '" target="_blank">open</a><small>' + s[2] + '</small></figcaption><iframe loading="eager" src="' + src + '"></iframe>';
+    f.innerHTML = '<figcaption><b>' + s[0] + '</b>' + s[1] + ' · <a href="' + src + '" target="_blank">open</a><small>' + s[2] + '</small></figcaption><div class="frame"><iframe loading="eager" src="' + src + '"></iframe></div>';
     g.appendChild(f);
   });
+  // keep each 393x660 phone (and its sheets' DONE button) fully on screen: scale the frames to the visible height
+  function fit() { var k = Math.min(1, (window.innerHeight - 140) / 660);
+    document.querySelectorAll('figure').forEach(function (fg) { var fr = fg.querySelector('.frame'); fr.style.transform = k < 1 ? 'scale(' + k + ')' : ''; fr.style.marginBottom = k < 1 ? (660 * (k - 1)) + 'px' : ''; fr.style.marginRight = k < 1 ? (393 * (k - 1)) + 'px' : ''; }); }
+  window.addEventListener('resize', fit); fit();
 </script>
 </body>
 </html>

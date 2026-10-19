@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="s3y66w s3y49w s3y29s2 s3y28s2 s3y27s2 s3y26s2 s3y25s2 s3y24s2 s3y23s2 s3y22s2 s3y21s2 s3y20s2 s3y19s2 s3y18s2 s3y17s2 s3y16s2 s3y15s2 s3y14s2 s3y13s2 s3y12s2 s3y11s2 s3y10s2 s3y9s2 s3y8 s3y7 s3y6 s3y5 s3y4 s3y3 s3y2 s3y1 s3y s3x s3x-left s3w s3v s3u s3t cp v-f vi vj vk vk2 vk4 vk5 wya wya-c gmap vk-al-box k4s-boxed">
 <head>
-<script>/* white-styles_grokbot: &wstyle=A|B|C|D implies the white theme (and p0=2w on page 0) */(function(){try{var u=new URL(location.href),q=u.searchParams,w=String(q.get('wstyle')||'').toUpperCase();if(!/^[ABCD]$/.test(w))return;var st=String(q.get('step')||'page0').toLowerCase(),ch=0;if(!q.get('theme')){q.set('theme','white');ch=1;}if(st==='page0'&&!q.get('p0')){q.set('p0','2w');ch=1;}if(ch)history.replaceState(history.state,'',u.toString());document.documentElement.classList.add('ws','ws-'+w);}catch(e){}})();</script>
+<script>/* white-styles_grokbot: &wstyle=A|B|C|D implies the white theme (and p0=2w on page 0) */(function(){try{var u=new URL(location.href),q=u.searchParams,w=String(q.get('wstyle')||'').toUpperCase();if(!/^(A|B|C|D|A2|AB)$/.test(w))return;var st=String(q.get('step')||'page0').toLowerCase(),ch=0;if(!q.get('theme')){q.set('theme','white');ch=1;}if(st==='page0'&&!q.get('p0')){q.set('p0','2w');ch=1;}if(ch)history.replaceState(history.state,'',u.toString());var H=document.documentElement;H.classList.add('ws','ws-'+w);if(w.length>1)H.classList.add('ws-'+w[0]);var bt=String(q.get('btn')||'').toLowerCase();if(bt==='green'||(w==='AB'&&bt!=='black'))H.classList.add('wsbtn-green');}catch(e){}})();</script>
   <!-- (s3y213 _grokbot): s3y212 + singles Last breakup sheet heading is one neutral question for every marital status: 'When did your last relationship end?' (Divorced / Separated / Widowed / never married). -->
   <!-- (s3y211 _grokbot): s3y210 + split-row pass keeps an open row above the pair made from the collapsed rows after it (EDIT Seeking reopens at the top of What You Want) + singles Widowed / Separated reuse the Divorced Last breakup sheet (own labels; Widowed: no Why ended). -->
   <!-- (s3y210 _grokbot): s3y209 + What You Want EDIT Distance keeps already-shown Age / Height in place (they were hidden while Degree stayed, so Degree sat right under Distance). First pass unchanged. -->
@@ -9038,7 +9038,7 @@ window.addEventListener('load', () => {
 // ---- MOCKUP_grokbot K5 &map=google: Google Maps JavaScript API, loaded once, lazily (first map that needs it) ----
 (function () {
   if (!document.documentElement.classList.contains('gmap')) return;
-  const KEY = 'AIzaSyDjLBLVK4DvYrrVSNp4nLh3tOXT6HVf-Uc', PLAIN = document.documentElement.classList.contains('gmap-plain');
+  const KEY = 'AIzaSyDjLBLVK4DvYrrVSNp4nLh3tOXT6HVf-Uc', PLAIN = document.documentElement.classList.contains('gmap-plain') || document.documentElement.classList.contains('thw') || /[?&](theme=white|p0=(2w|3))(&|$)/.test(location.search); // Amanda 1:15 AM: light map on the white theme
   window.K5GM = { loads: 0, geocodes: 0, errors: [] }; // counters for the mockup walk (map loads = Map objects created; geocodes = requests)
   // K5 Maps fallback: If the key is refused (e.g. RefererNotAllowedMapError) or the script can't load, cover the map
   // with a note and point to the search box (zip / postcode / city, the page's own lookups); geocoding falls back to Nominatim / nearest city.
@@ -15115,6 +15115,36 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html:not(.thw) .mock-ft-grokbot { display: none !important; }
   /* couples orange on black: orange words get a cream underline so they still read when orange collapses under a red tint */
   html:not(.thw) body.couples-flow .accent, html:not(.thw) body.couples-flow .lab-badge-s3y117 strong { text-decoration: underline; text-decoration-color: #f0ece0; text-decoration-thickness: 3px; text-underline-offset: 5px; }
+  /* ---- Amanda 2:16 AM: white theme inline sub-panels (WYW school tier, Education add-school / details, language levels) were dark-on-dark leftovers ---- */
+  html.thw .il-form { background: #f7f3e8 !important; border-color: #0e0e0e !important; border-top: 1.5px solid #0e0e0e; border-bottom: 1.5px solid #0e0e0e !important; }
+  html.thw .il-row, html.thw .dc-inst .il-form { border-color: #c9c3b4 !important; }
+  html.thw .il-k, html.thw #wd-list .wd-tier-form .il-k { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: .08em; color: #0e0e0e !important; opacity: 1; }
+  html.thw .il-same-k, html.thw .il-row .deg-sub, html.thw .il-row .deg-sub.il-has { color: #3a3832 !important; opacity: 1 !important; }
+  html.thw .il-chip { height: 34px; background: #fffdf7 !important; border: 1.5px solid #0e0e0e !important; color: #0e0e0e !important; font-size: 12px; font-weight: 700; }
+  html.thw .il-chip.on { background: var(--accent) !important; border-color: #0e0e0e !important; color: #0e0e0e !important; }
+  html.thw .il-f input { background: #fffdf7 !important; color: #0e0e0e !important; border: 1.5px solid #0e0e0e !important; }
+  html.thw .il-f input::placeholder { color: #4a4740 !important; opacity: 1; }
+  html.thw .il-sug { background: #fffdf7 !important; border: 1.5px solid #0e0e0e !important; }
+  html.thw .il-sug-o { color: #0e0e0e !important; border-color: #c9c3b4 !important; }
+  html.thw .il-sug-o b { color: #0e0e0e !important; font-weight: 700; }
+  html.thw .il-sug-o.active, html.thw .il-sug-o:hover { background: var(--accent) !important; }
+  html.thw .il-save { color: #0e0e0e !important; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  html.thw .il-cancel { color: #3a3832 !important; }
+  html.thw .il-more { color: #0e0e0e !important; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  html.thw .il-note { color: #0e0e0e !important; border: 1.5px solid #0e0e0e !important; background: #fffdf7; }
+  html.thw .il-link { background: var(--accent) !important; color: #0e0e0e !important; border: 1.5px solid #0e0e0e !important; }
+  html.thw .il-link.il-edit, html.thw .dc-irow .dc-go.il-edit { background: #fffdf7 !important; border-color: #0e0e0e !important; color: #0e0e0e !important; font-weight: 700; }
+  /* ---- Amanda 2:18 AM: IDEAL tags on white (Ethnicities / Religion / Politics): never black on black, never faint dashed grey ---- */
+  html.thw .ethx-tag-grokbot { font-size: 10px; font-weight: 700; opacity: 1 !important; color: #0e0e0e !important; background: transparent !important; border: 1.5px solid #0e0e0e !important; }
+  html.thw .ethx-tag-grokbot.avail { color: #0e0e0e !important; background: #fffdf7 !important; border: 1.5px solid #0e0e0e !important; }
+  html.thw .ethx-tag-grokbot.on { color: var(--accent) !important; background: #0e0e0e !important; border: 1.5px solid #0e0e0e !important; }
+  html.thw .ethx-tag-grokbot.on::before { content: '\2713\00a0'; }
+  html.thw .ethx-note-grokbot { color: #3a3832 !important; font-size: 11px; }
+  html:not(.thw) .ethx-tag-grokbot { color: #f0ece0; border: 1px solid #8a857a; opacity: 1; font-size: 10px; } /* black: no faint dashed grey (red-mode rule) */
+  html:not(.thw) .ethx-tag-grokbot.avail { border-color: #f0ece0; }
+  html:not(.thw) .ethx-tag-grokbot.on { color: #0e0e0e; background: #f0ece0; }
+  html:not(.thw) .ethx-tag-grokbot.on::before { content: '\2713\00a0'; }
+  html:not(.thw) .ethx-note-grokbot { color: #f0ece0; font-size: 11px; }
 </style>
 <div id="p0-hold" hidden></div>
 <script>
@@ -15306,7 +15336,10 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     var p = parseQ(t), q = p.q, out = [], seen = {};
     if (!q) return out;
     var add = function (c, tier, rank) { var k = fold(c.label); if (seen[k]) return; seen[k] = 1; out.push({ c: c, tier: tier, rank: rank }); };
-    try { _searchPartnerCities(q, 40).forEach(function (c, i) { if (p.st && stOf(c) !== p.st) return; var tier = c._names.indexOf(q) >= 0 ? 0 : 1; add(c, tier, i - 1000); }); } catch (e) {}
+    try { _searchPartnerCities(q, 40).forEach(function (c, i) { if (p.st && stOf(c) !== p.st) return;
+      var cf = fold(c.city || c.label);
+      if (c.country === 'US') { if (!c.geonames_id) return; if (cf !== q && cf.indexOf(q) !== 0 && (' ' + cf).indexOf(' ' + q) < 0) return; } // 1:23 AM: real cities only (no metro / alias-only hits like 'San Francisco Bay Area' for San Jose)
+      var tier = cf === q || c._names.indexOf(q) >= 0 ? 0 : 1; add(c, tier, i - 1000); }); } catch (e) {}
     (USP || []).forEach(function (o) {
       if (p.st && o.st !== p.st) return;
       if (out.some(function (h) { return h.c.country === 'US' && stOf(h.c) === o.st && Math.abs(h.c.lat - o.lat) < .15 && Math.abs(h.c.lng - o.lng) < .15; })) return; // 'Boise City' = Boise
@@ -15318,14 +15351,14 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   }
   var _geoBusy = 0;
   function geocodeTyped(t) {
-    if (!t || _geoBusy) return; _geoBusy = 1;
+    if (!t || _geoBusy) return Promise.resolve(); _geoBusy = 1;
     try { _wyaShow('Looking up ' + t + '\u2026'); } catch (e) {}
-    fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&accept-language=en&countrycodes=us&q=' + encodeURIComponent(t))
+    return fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&accept-language=en&countrycodes=us&q=' + encodeURIComponent(t))
       .then(function (r) { return r.json(); }).then(function (d) {
         _geoBusy = 0; var g = d && d[0]; if (!g) { try { _wyaShow('Couldn\u2019t find \u201c' + t + '\u201d. Try a zip, or tap the map.', 'err'); } catch (e) {} return; }
         var a = g.address || {}, city = a.city || a.town || a.village || a.hamlet || a.borough || a.suburb || a.county || String(g.display_name).split(',')[0];
         var st = NTS[fold(a.state)] || ''; var label = city + (st ? ', ' + st : '');
-        _wyaPick({ city: { label: label, city: city, region: a.state || null, country: 'US', lat: +g.lat, lng: +g.lon } });
+        return _wyaPick({ city: { label: label, city: city, region: a.state || null, country: 'US', lat: +g.lat, lng: +g.lon } });
       }).catch(function () { _geoBusy = 0; try { _wyaShow('Search is offline. Try a zip, or tap the map.', 'err'); } catch (e) {} });
   }
   try {
@@ -15350,12 +15383,62 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
       _wyaAct = 0; list.hidden = false; q.setAttribute('aria-expanded', 'true');
     };
   } catch (e) { console.error(e); }
+  // ---- 1:23 AM: the typed, resolved city wins on DONE; a metro / region is kept only in state (metro_grokbot), never shown ----
+  function metroOf(city, st) {
+    var f = fold(city), hit = null;
+    (window.PARTNER_CITIES || (typeof PARTNER_CITIES !== 'undefined' ? PARTNER_CITIES : [])).forEach(function (c) {
+      if (hit || c.country !== 'US' || c.geonames_id || stOf(c) !== st) return;
+      if (fold(c.city) === f || (c.aliases || []).some(function (a) { return fold(a) === f; })) hit = c.city; });
+    return hit;
+  }
+  try {
+    var _wyaSet0 = _wyaSet;
+    _wyaSet = function (o) {
+      o = Object.assign({}, o); var m0 = null, mm = String(o.label || '').match(/^(.*?),\s*([A-Z]{2})$/);
+      var CORE = { 'san francisco bay area': 'San Francisco', 'bay area': 'San Francisco', 'sf bay area': 'San Francisco', 'orange county': 'Santa Ana', 'silicon valley': 'San Jose' };
+      if (mm && CORE[fold(mm[1])]) { m0 = mm[1]; o.label = CORE[fold(mm[1])] + ', ' + mm[2]; }
+      _wyaSet0(o);
+      if (state.wya) { var m = mm ? m0 || metroOf(o.label.split(',')[0], mm[2]) : null; if (m) state.wya.metro_grokbot = m; else delete state.wya.metro_grokbot; }
+      try { if (window.p0Refresh_grokbot) window.p0Refresh_grokbot(); } catch (e) {}
+    };
+  } catch (e) { console.error(e); }
+  try {
+    var _wyaClose0 = wyaCloseSheet;
+    wyaCloseSheet = function () {
+      var q = document.getElementById('wya-cq'), t = q ? q.value.trim() : '';
+      if (!t || t === q.dataset.shown) return _wyaClose0();
+      var zip = /^\d{5}(-\d{4})?$/.test(t) ? t.slice(0, 5) : '';
+      if (zip) { Promise.resolve(_wyaPick({ zip: zip })).then(function () { q.value = ''; _wyaClose0(); }); return; }
+      var go = function () { var h = findPlaces(t, 1)[0];
+        if (h && fold(h.city || h.label) === parseQ(t).q) { _wyaPick({ city: h }); return _wyaClose0(); }
+        Promise.resolve(geocodeTyped(t)).then(function () { _wyaClose0(); }); };
+      if (USP) go(); else loadUSP().then(go);
+    };
+  } catch (e) { console.error(e); }
   window.addEventListener('load', function () {
     var q = document.getElementById('wya-cq'); if (!q) return;
     q.setAttribute('type', 'search'); q.setAttribute('autocomplete', 'off'); q.setAttribute('name', 'wya-place-search'); q.setAttribute('data-form-type', 'other'); // Safari: no Contacts AutoFill bar over the suggestions
     q.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !_wyaOpts.length) { e.preventDefault(); e.stopImmediatePropagation(); geocodeTyped(q.value.trim()); } }, true);
     q.addEventListener('focus', loadUSP);
   });
+})();
+
+(function () {
+  // ---- Amanda 2:18 AM: 'Any' and specific options are mutually exclusive again on partner Ethnicities / Religion / Politics
+  // (picking a specific unticks Any; ticking Any clears the specifics and their IDEAL marks). &anyx=0 restores the Oct 18 3:19 AM coexist rule.
+  if (new URLSearchParams(location.search).get('anyx') === '0') return;
+  function wrap(fn, mode, work, k) {
+    var o = window[fn]; if (typeof o !== 'function' || o._x) return;
+    var w = function (label) {
+      if (label === 'Any') { if (state[mode] !== 'any') { state[work] = []; try { var M = window._idealMock_grokbot; if (M && M[k]) Object.keys(M[k]).forEach(function (x) { delete M[k][x]; }); } catch (e) {} } }
+      else if (state[mode] === 'any' && (state[work] || []).indexOf(label) < 0) { state[work] = []; state[mode] = null; }
+      return o.apply(this, arguments);
+    };
+    w._x = 1; window[fn] = w;
+    if (state[mode] === 'any' && (state[work] || []).length) state[work] = []; // old mixed state from before
+  }
+  function go() { wrap('toggleEth', '_ethMode', '_ethWork', 'eth'); wrap('toggleRel', '_relMode', '_relWork', 'rel'); wrap('togglePol', '_polMode', '_polWork', 'pol'); }
+  if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
 })();
 </script>
 <!-- /PAGE0_MOCKUP_GROKBOT -->
@@ -15643,7 +15726,7 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html:not(.p0e-old) #p0v .pv-gsv.empty, html:not(.p0e-old) #p0v .pv-dobv.empty, html:not(.p0e-old) #p0v button.pv-locv.empty, html:not(.p0e-old) #p0v .pv-lib .empty,
   html:not(.p0e-old) #p0v .pv-name.empty, html:not(.p0e-old) #p0v .pv-stat.empty, html:not(.p0e-old) #p0v .pv-dobs.empty, html:not(.p0e-old) #p0v .pv-locs.empty, html:not(.p0e-old) #p0v .p0c.empty { color: #0e0e0e; }
   html:not(.p0e-old) #p0v .pv-go .pv-msg { opacity: 1; font-weight: 700; }
-  html:not(.p0e-old) #p0v .pv-go.pv-pre .pv-msg { opacity: .7; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; }
+  html:not(.p0e-old) #p0v .pv-go.pv-pre .pv-msg { opacity: 1; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
   #p0v .p0-miss { position: relative; }
   /* A: corner dot in the other brand colour + one gentle shake */
   .p0e-A #p0v .p0-miss { background-image: radial-gradient(circle at calc(100% - 5px) 5px, var(--emph) 0 3px, #0e0e0e 3.2px 4.2px, transparent 4.6px) !important; background-repeat: no-repeat !important; }
@@ -15973,8 +16056,8 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
     if (hs.length && !shrinkOnly) {
       var f0 = best();
       // Amanda Oct 19 1:14 AM: don't cut copy - the paragraph always stays
-      // leftover height (less than one more line at the next size) goes into the pledge's line spacing, up to 1.3
-      var pl = root.querySelector('.pv-pledge'); if (pl) { var lo = 1.18, hi = 1.3; pl.style.setProperty('line-height', hi, 'important'); if (over()) { while (hi - lo > .005) { var m2 = (lo + hi) / 2; pl.style.setProperty('line-height', m2, 'important'); if (over()) hi = m2; else lo = m2; } pl.style.setProperty('line-height', lo.toFixed(3), 'important'); } }
+      // leftover height (less than one more line at the next size) goes into the pledge's line spacing, up to 1.22 (Amanda 1:12 AM: 1.18–1.22)
+      var pl = root.querySelector('.pv-pledge'); if (pl) { var lo = 1.18, hi = 1.22; pl.style.setProperty('line-height', hi, 'important'); if (over()) { while (hi - lo > .005) { var m2 = (lo + hi) / 2; pl.style.setProperty('line-height', m2, 'important'); if (over()) hi = m2; else lo = m2; } pl.style.setProperty('line-height', lo.toFixed(3), 'important'); } }
     } else { var guard = 0; while (over() && guard++ < 40 && hs.length) step(); }
     setTimeout(sigInit, 0);
     var deed = root.querySelector('.pv-deed'); root.querySelectorAll('.pv-pledge .pv-dg').forEach(function (d) { d.style.display = deed && deed.style.display !== 'none' ? '' : 'none'; });
@@ -16258,10 +16341,9 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.ws-B .progress-step.done { background:var(--accent) !important; }
   html.ws-B .progress-step.active { background:#0e0e0e !important; }
   html.ws-B .screen-content > .screen-headline { font-size:58px !important; }
-  html.ws-B .screen-headline .accent { box-shadow:inset 0 0 0 3px #0e0e0e, 4px 4px 0 #0e0e0e; padding:0 .08em !important; margin-left:.04em; }
+  html.ws-B .screen-headline .accent { box-shadow:none !important; padding:0 .06em !important; }
   html.ws-B .k4-sl, html.ws-B .who-cond, html.ws-B .race-select, html.ws-B .toggle-btn { border:3px solid #0e0e0e !important; border-radius:6px !important; background-color:#fffdf7 !important; box-shadow:4px 4px 0 #0e0e0e !important; }
   html.ws-B body #screen-3 #ww-inc.idl-inc-on-grokbot:not(.collapsed) { border:3px solid #0e0e0e !important; border-radius:6px !important; background-color:#fffdf7 !important; box-shadow:4px 4px 0 #0e0e0e !important; }
-  html.ws-B .who-unit.collapsed > .who-cond { background-color:var(--accent) !important; }
   html.ws-B .toggle-btn.selected { background:var(--accent) !important; }
   html.ws-B #ww-sd-row, html.ws-B #ww-ah-row, html.ws-B #ww-row-de { padding-right:4px; }
   html.ws-B .field-label, html.ws-B .who-cond-k, html.ws-B #screen-3 .k4-head .field-label { font-family:'Bebas Neue', sans-serif !important; font-size:19px !important; letter-spacing:.04em !important; font-weight:400 !important; line-height:18px !important; }
@@ -16364,6 +16446,134 @@ function relOtherSync_grokbot(focus) { var r = document.getElementById('religion
   html.ws-D #p0v .pv-top, html.ws-D #p0v .pv-top button, html.ws-D #p0v .pv-top span:not(.pv-path) { color:#f4f1e8 !important; }
   html.ws-D #p0v .p0c, html.ws-D #p0v .pv-gsv, html.ws-D #p0v .pv-dobv, html.ws-D #p0v .pv-locv { background:transparent !important; box-shadow:inset 0 -3px 0 #0e0e0e !important; border-radius:0 !important; }
   html.ws-D #p0v .pv-body { border-top:1.5px solid #0e0e0e; padding:4px 0 0 !important; }
+
+  /* ================= SHEETS & INLINE SUB-PANELS (all styles): no dark bands, no grey on cream ================= */
+  html.ws .cp-sheet, html.ws #wmm-ssheet { background:#f0ece0 !important; color:#0e0e0e !important; }
+  html.ws .cp-sheet .race-opt:not(.selected):not(.on), html.ws .cp-sheet .race-opt:not(.selected):not(.on):hover, html.ws .cp-sheet .race-opt:not(.selected):not(.on):focus, html.ws .cp-sheet .race-opt:not(.selected):not(.on):active { background-color:transparent !important; }
+  html.ws .cp-sheet .deg-sub, html.ws .cp-sheet .race-opt-sub, html.ws .il-row .deg-sub.il-has { color:#1e1e1e !important; opacity:1 !important; }
+  html.ws .ed-sec, html.ws #dc-list .ed-subsec, html.ws #wd-list .ed-subsec { color:#0e0e0e !important; font-weight:700 !important; font-size:12px !important; letter-spacing:.1em !important; }
+  html.ws .il-form { background:#fffdf7 !important; border-top:1.5px solid #0e0e0e !important; border-bottom:1.5px solid #0e0e0e !important; color:#0e0e0e !important; }
+  html.ws .il-k, html.ws .il-same-k { color:#0e0e0e !important; font-weight:700 !important; font-size:12px !important; letter-spacing:.1em !important; opacity:1 !important; }
+  html.ws .il-chip { background:transparent !important; border:1.5px solid #0e0e0e !important; color:#0e0e0e !important; -webkit-text-fill-color:#0e0e0e !important; font-weight:700 !important; opacity:1 !important; }
+  html.ws .il-chip.on { background:var(--accent) !important; border-color:#0e0e0e !important; color:#0e0e0e !important; }
+  html.ws .il-link, html.ws .dc-irow .dc-go { background:#fffdf7 !important; border:1.5px solid #0e0e0e !important; color:#0e0e0e !important; -webkit-text-fill-color:#0e0e0e !important; font-weight:700 !important; }
+  html.ws .il-link.il-edit, html.ws .dc-irow .dc-go.il-edit { background:transparent !important; }
+  html.ws .il-f input, html.ws .il-form .field-input { background:#fffdf7 !important; border:1.5px solid #0e0e0e !important; color:#0e0e0e !important; }
+  html.ws .il-sug { background:#fffdf7 !important; border:1.5px solid #0e0e0e !important; }
+  html.ws .il-sug-o { color:#0e0e0e !important; border-top-color:#0e0e0e !important; }
+  html.ws .il-sug-o b { color:#0e0e0e !important; font-weight:700 !important; background:var(--accent); }
+  html.ws .il-act .il-save { color:#0e0e0e !important; background:var(--accent) !important; padding:8px 12px !important; border:1.5px solid #0e0e0e !important; font-weight:700 !important; }
+  html.ws .il-act .il-cancel { color:#0e0e0e !important; text-decoration:underline; font-weight:700 !important; }
+  html.ws .il-more, html.ws .il-note { color:#0e0e0e !important; border-color:#0e0e0e !important; font-weight:700 !important; }
+  html.ws .dc-skip, html.ws .dc-irow, html.ws .dc-irow .dc-at.unk { color:#0e0e0e !important; }
+  html.ws .dc-inst { border:1.5px solid #0e0e0e !important; }
+  html.ws .sn-card { background:#f0ece0 !important; border:2px solid #0e0e0e !important; }
+  html.ws .sn-body, html.ws .sn-later { color:#0e0e0e !important; }
+  html.ws #int-panel .int-count { color:#0e0e0e !important; font-weight:700; }
+  html.ws #int-panel .int-chip { border:1.5px solid #0e0e0e !important; color:#0e0e0e !important; background:transparent !important; font-weight:700; }
+  html.ws #int-panel .int-chip.on { background:var(--accent) !important; }
+  html.ws #int-panel .int-chip.int-full { opacity:.6 !important; }
+  html.ws .wya-ctip, html.ws .wya-city { color:#0e0e0e !important; }
+  html.ws .mock-ft-grokbot { color:#1e1e1e !important; }
+  /* IDEAL tags (Ethnicities / Religion / Politics): unticked row = solid black outline; ticked (lime) row = black chip; set as ideal = star */
+  html.ws .ethx-tag-grokbot { border:1.5px solid #0e0e0e !important; color:#0e0e0e !important; background:transparent !important; opacity:1 !important; font-weight:700 !important; border-radius:2px !important; -webkit-text-fill-color:#0e0e0e !important; }
+  html.ws .ethx-tag-grokbot.avail { background:#0e0e0e !important; color:#f0ece0 !important; -webkit-text-fill-color:#f0ece0 !important; }
+  html.ws .ethx-tag-grokbot.on { background:#0e0e0e !important; color:var(--accent) !important; -webkit-text-fill-color:var(--accent) !important; }
+  html.ws .ethx-tag-grokbot.on::before { content:'\2605  '; }
+  html.ws.ws-B .ethx-tag-grokbot.on, html.ws.ws-D .ethx-tag-grokbot.on, html.ws.ws-A2 .ethx-tag-grokbot.on { background:var(--ws-alt) !important; color:#0e0e0e !important; -webkit-text-fill-color:#0e0e0e !important; }
+  html.ws .ethx-note-grokbot { color:#0e0e0e !important; font-weight:700; }
+  /* per-style chip shapes */
+  html.ws-A .il-chip, html.ws-A .il-link, html.ws-D .il-chip, html.ws-D .il-link, html.ws-A #int-panel .int-chip, html.ws-D #int-panel .int-chip { border-radius:0 !important; }
+  html.ws-B .il-chip, html.ws-B .il-link, html.ws-B #int-panel .int-chip { border-width:2px !important; border-radius:6px !important; box-shadow:2px 2px 0 #0e0e0e; }
+  html.ws-B .il-k { font-family:'Bebas Neue', sans-serif !important; font-size:17px !important; font-weight:400 !important; letter-spacing:.04em !important; }
+  html.ws-B .il-form { border-top-width:3px !important; border-bottom-width:3px !important; }
+  /* C: inline panels are black islands with cream text and outlines */
+  html.ws-C .il-form { background:#0e0e0e !important; border:0 !important; }
+  html.ws-C .il-form .il-k, html.ws-C .il-form .il-same-k, html.ws-C .il-form .il-cancel { color:#f0ece0 !important; }
+  html.ws-C .il-form .il-chip { border-color:#f0ece0 !important; color:#f0ece0 !important; -webkit-text-fill-color:#f0ece0 !important; border-radius:999px !important; }
+  html.ws-C .il-form .il-chip.on { background:var(--accent) !important; border-color:var(--accent) !important; color:#0e0e0e !important; -webkit-text-fill-color:#0e0e0e !important; }
+  html.ws-C .il-form .il-f input, html.ws-C .il-form .field-input { background:#0e0e0e !important; border-color:#f0ece0 !important; color:#f0ece0 !important; -webkit-text-fill-color:#f0ece0 !important; }
+  html.ws-C .il-form .il-f input::placeholder { color:#f0ece0 !important; opacity:.8; }
+
+  /* headline highlight word: a plain lime block, never outlined (all styles) */
+  html.ws:not(.ws-C):not(.ws-D) .screen-headline .accent { box-shadow:none !important; border:0 !important; outline:0 !important; }
+
+  /* ================= A2 · LAB FORM + ORANGE ACCENTS (inherits A) ================= */
+  html.ws-A2 .idl-v-grokbot { background:var(--ws-alt) !important; }
+  html.ws-A2.idl2 .idl-pin-grokbot .idl-head { background:var(--ws-alt) !important; box-shadow:0 0 0 1.5px #0e0e0e !important; }
+  html.ws-A2.idl2 .idl-pin-grokbot .idl-head::before { border-bottom-color:#0e0e0e !important; top:-6px !important; }
+  html.ws-A2.idl2 .idl-pin-grokbot .idl-head::after { color:#0e0e0e !important; }
+  html.ws-A2 #ww-inc.idl-skip-grokbot .idl-head { background:#fffdf7 !important; }
+  html.ws-A2 body:not(.couples-flow) .who-cond-edit { background:var(--ws-alt); text-decoration:none !important; padding:2px 6px; border:1.5px solid #0e0e0e; }
+
+  /* ================= AB · LAB FORM x BRUTALIST (inherits A) ================= */
+  html.ws-AB .k4-sl, html.ws-AB .who-cond, html.ws-AB .race-select, html.ws-AB .toggle-btn, html.ws-AB .field-input, html.ws-AB body #screen-3 #ww-inc.idl-inc-on-grokbot:not(.collapsed) { border-width:2px !important; box-shadow:3px 3px 0 #0e0e0e !important; }
+  html.ws-AB #ww-sd-row, html.ws-AB #ww-ah-row, html.ws-AB #ww-row-de { padding-right:3px; }
+  html.ws-AB .field-label, html.ws-AB .who-cond-k, html.ws-AB #screen-3 .k4-head .field-label { font-family:'Bebas Neue', sans-serif !important; font-size:19px !important; font-weight:400 !important; letter-spacing:.04em !important; line-height:18px !important; }
+  html.ws-AB .who-cond-k { line-height:1 !important; font-size:18px !important; }
+  html.ws-AB #screen-3 .field-label::before, html.ws-AB #screen-3 .who-cond-k::before, html.ws-AB #screen-1 .field-label::before, html.ws-AB #screen-1 .who-cond-k::before { vertical-align:2px; }
+  html.ws-AB .idl-v-grokbot { background:var(--ws-alt) !important; }
+  html.ws-AB.idl2 .idl-pin-grokbot .idl-head { background:var(--ws-alt) !important; box-shadow:0 0 0 1.5px #0e0e0e, 2px 2px 0 1.5px #0e0e0e !important; }
+  html.ws-AB.idl2 .idl-pin-grokbot .idl-head::before { border-bottom-color:#0e0e0e !important; top:-7px !important; }
+  html.ws-AB.idl2 .idl-pin-grokbot .idl-head::after { color:#0e0e0e !important; }
+  html.ws-AB #ww-inc.idl-skip-grokbot .idl-head { background:#fffdf7 !important; }
+  html.ws-AB .il-chip, html.ws-AB .il-link, html.ws-AB #int-panel .int-chip { box-shadow:2px 2px 0 #0e0e0e; }
+  html.ws-AB .btn-primary, html.ws-AB #p0v .pv-go { box-shadow:3px 3px 0 #0e0e0e !important; }
+  html.ws-AB .bottom-action { margin-right:-21px !important; padding-right:27px !important; }
+  html.ws-AB #p0v .pv-foot { padding-right:3px; }
+  html.ws-AB #p0v .p0c, html.ws-AB #p0v .pv-gsv, html.ws-AB #p0v .pv-dobv, html.ws-AB #p0v .pv-locv { box-shadow:inset 0 0 0 1.5px #0e0e0e, 2px 2px 0 #0e0e0e !important; }
+  html.ws-AB #p0v .pl-em, html.ws-AB #p0v .pl-punch .ac { box-shadow:2px 2px 0 #0e0e0e !important; }
+  /* &btn=green (AB default): NEXT / I HEREBY COMMIT = lime with a dark green border and shadow (proposed new brand colour #3f5a00) */
+  html.wsbtn-green body { --ws-btn-edge:#3f5a00; }
+  html.wsbtn-green body.couples-flow { --ws-btn-edge:#8a3a00; }
+  html.wsbtn-green .btn-primary, html.wsbtn-green #p0v .pv-go { border:2px solid var(--ws-btn-edge) !important; box-shadow:3px 3px 0 var(--ws-btn-edge) !important; }
+
+/* ACTIVE vs ANSWERED (Amanda 2:31): lime (orange for couples) = the open, unanswered question you are on now; cream card + black outline = collapsed/answered */
+html.ws:not(.ws-C) .who-unit.collapsed > .who-cond { background-color:#fffdf7 !important; color:#0e0e0e !important; }
+html.ws:not(.ws-C) .who-unit.collapsed > .who-cond .who-cond-k, html.ws:not(.ws-C) .who-unit.collapsed > .who-cond .who-cond-v, html.ws:not(.ws-C) .who-unit.collapsed > .who-cond .who-cond-edit:not([style*=background]) { color:#0e0e0e !important; }
+html.ws:not(.ws-C) #screen-1 .who-unit:not(.collapsed), html.ws:not(.ws-C) #screen-2 .who-unit:not(.collapsed) { background:var(--accent) !important; border:2px solid #0e0e0e !important; padding:8px 10px 10px !important; border-radius:0 !important; }
+html.ws-B #screen-1 .who-unit:not(.collapsed), html.ws-B #screen-2 .who-unit:not(.collapsed) { border-radius:6px !important; box-shadow:3px 3px 0 #0e0e0e !important; }
+html.ws-AB #screen-1 .who-unit:not(.collapsed), html.ws-AB #screen-2 .who-unit:not(.collapsed) { box-shadow:3px 3px 0 #0e0e0e !important; }
+html.ws-D #screen-1 .who-unit:not(.collapsed), html.ws-D #screen-2 .who-unit:not(.collapsed) { border-width:0 0 2px !important; }
+html.ws:not(.ws-C) #screen-1 .who-unit:not(.collapsed) .field-label, html.ws:not(.ws-C) #screen-2 .who-unit:not(.collapsed) .field-label { color:#0e0e0e !important; }
+html.ws:not(.ws-C) #screen-1 .who-unit:not(.collapsed) :is(select, input, .race-select, .field-input, .toggle-btn:not(.active):not(.on):not(.selected)), html.ws:not(.ws-C) #screen-2 .who-unit:not(.collapsed) :is(select, input, .race-select, .field-input, .toggle-btn:not(.active):not(.on):not(.selected)) { background-color:#fffdf7 !important; color:#0e0e0e !important; -webkit-text-fill-color:#0e0e0e !important; border-color:#0e0e0e !important; }
+html.ws:not(.ws-C) #screen-1 .who-unit:not(.collapsed) .toggle-btn:is(.active,.on,.selected), html.ws:not(.ws-C) #screen-2 .who-unit:not(.collapsed) .toggle-btn:is(.active,.on,.selected) { background:#0e0e0e !important; color:var(--accent) !important; }
+/* C (black cards on cream): active question = lime outline band, answered = plain black card */
+html.ws-C #screen-1 .who-unit:not(.collapsed), html.ws-C #screen-2 .who-unit:not(.collapsed) { outline:3px solid var(--accent); outline-offset:2px; border-radius:10px; }
 </style>
+<script id="ws-demo-grokbot">
+/* white-styles_grokbot &demo=filled: sample answers for every Who You Are field so the step renders fully collapsed (mockup only, never saved) */
+(function () {
+  var Q = new URLSearchParams(location.search);
+  if (Q.get('demo') === 'inprogress') { window.addEventListener('load', function () { setTimeout(function () { try { hkSet_grokbot('no'); } catch (e) { window.__demoErr = String(e); } }, 900); }); return; }
+  if (Q.get('demo') !== 'filled') return;
+  function setSel(id, pick) { var s = document.getElementById(id); if (!s) return; var o = [].slice.call(s.options).find(function (o) { return o.value && pick.test(o.value + ' ' + o.text); }); if (o) { s.value = o.value; s.classList.remove('is-default'); try { s.dispatchEvent(new Event('change', { bubbles: true })); } catch (e) {} } }
+  function T(f) { try { f(); } catch (e) { (window.__demoErr = window.__demoErr || []).push(String(e).slice(0, 120)); } }
+  window.demoFill_grokbot = function () {
+    var couple = state.status === 'partnered';
+    T(function () { state.maritalStatus = couple ? state.maritalStatus : 'never_married'; });
+    if (!couple) {
+      T(function () { state.hasChildren = true; state.numChildren = '2'; state.kidsAges = [4, 6]; state.kidsLiveWith = state.kidsLiveWith || 'part_time'; state.kidsOrigin = ['past_relationship']; state.coparentInvolved = 'yes_coparent'; var c = document.getElementById('coparent_involved_select'); if (c) { c.value = 'yes_coparent'; } });
+      T(function () { var S = (window.__lrS = window.__lrS || {}); if (S.lr) { S.lr.month = '3'; S.lr.year = '2024'; S.lr.status = ''; S.lr.reasons = ['other']; S.lr.other = 'Different life goals'; } });
+    }
+    T(function () { state.heightTouched = true; setSel('height_ftin', /^165 /); var cm = document.getElementById('height_cm_input'); if (cm && !cm.value) cm.value = '165'; });
+    T(function () { state.race = ['White']; });
+    T(function () { if (typeof dc !== 'undefined') { var keys = Object.keys(DEG_BY); var ba = keys.find(function (k) { return /^(ba|bs|bachelors?)$/i.test(k) || /bachelor/i.test(DEG_BY[k].t || DEG_BY[k].n || ''); }); var mba = keys.find(function (k) { return /mba/i.test(k) || /^MBA$/.test(DEG_BY[k].ab || ''); }); dc.sel = [ba, mba].filter(Boolean); dc.school = dc.school || {}; if (mba) dc.school[mba] = 'Northwestern (Kellogg) 2016'; } });
+    T(function () { setSel('prof-industry', /tech|software/i); var t = document.getElementById('prof-title'); if (t) t.value = 'Product lead'; });
+    T(function () { setSel('income_range', /^150k_200k /); });
+    T(function () { setSel('religion', /^Jewish|Christian/); });
+    T(function () { setSel('politics', /^Left-lean|Moderate/); });
+    T(function () { state.languages = ['English', 'Spanish']; });
+    T(function () { state.sports = ['Running']; state.sportsLevel = state.sportsLevel || {}; state.sportsLevel['Running'] = state.sportsLevel['Running'] || 'Intermediate'; });
+    T(function () { state.instruments = ['Piano']; state.instrumentsLevel = state.instrumentsLevel || {}; state.instrumentsLevel['Piano'] = 'Intermediate'; });
+    T(function () { state.interests = ['Hiking', 'Cooking', 'Travel']; });
+    var ids = [].concat.apply([], CR_STEPS[couple ? 2 : 1]);
+    for (var pass = 0; pass < 4; pass++) { ids.forEach(function (id) { T(function () { if (crApplies(id) && crText(id)) crCollapse(id); }); }); T(crSync); T(crRefresh); }
+    T(function () { _crFront[couple ? 2 : 1] = CR_STEPS[couple ? 2 : 1].length - 1; crSync(); });
+    return ids.map(function (id) { var u = document.getElementById(id); return id + ':' + (u ? (crApplies(id) ? (u.classList.contains('collapsed') ? 'C' : 'open') + (u.classList.contains('cr-later') ? '/later' : '') + ' "' + crText(id) + '"' : 'n/a') : 'missing'); });
+  };
+  window.addEventListener('load', function () { setTimeout(function () { window.__demoRes = window.demoFill_grokbot(); }, 900); });
+})();
+</script>
 </body>
 </html>
