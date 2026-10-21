@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pledge ideas · ?idea=affidavit|intake|stamp &amp;bg=black &amp;path=couple</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+/* Static mockups Oct 21 2026. Copy = existing page 0 pledge copy only (seuss-lab opt=ab2flat screen=p0), split/reordered. */
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{--p:#F4EFE2;--i:#141413;--l:#C8F135;--m:#6FD3BC;--mp:#DFF4EE;--o:#FF7A2F;--card:#fbf9f3;--r:1.5px solid var(--i);
+font-family:'Space Mono',monospace;color:var(--i);-webkit-text-size-adjust:100%;
+background:linear-gradient(rgba(20,20,19,.07) 1px,transparent 1px) 0 0/16px 16px,linear-gradient(90deg,rgba(20,20,19,.07) 1px,transparent 1px) 0 0/16px 16px var(--p)}
+body.bk{--i:#F4EFE2;--card:#1f1f1d;background:linear-gradient(rgba(244,239,226,.07) 1px,transparent 1px) 0 0/16px 16px,linear-gradient(90deg,rgba(244,239,226,.07) 1px,transparent 1px) 0 0/16px 16px #141413}
+.ph{height:100vh;height:100dvh;display:flex;flex-direction:column;padding:12px 18px calc(env(safe-area-inset-bottom,0px) + 8px);overflow:hidden}
+.fit{font-size:var(--fs,14px)}
+.top{display:flex;justify-content:space-between;align-items:center;font:700 10px/14px 'Space Mono';letter-spacing:.14em;text-transform:uppercase;flex:none}
+.tag{background:var(--l);color:#141413;padding:2px 6px}
+.fig{font:700 9px/12px 'Space Mono';letter-spacing:.12em;text-transform:uppercase}
+.hd{font-family:'Bebas Neue';text-transform:uppercase;letter-spacing:.01em}
+.L{background:var(--l);color:#141413;padding:0 .15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.O{background:var(--o);color:#fff;padding:0 .15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.N{background:none;color:inherit;padding:0}
+.b{border-bottom:var(--r);font-weight:700;white-space:nowrap}
+.btn{width:100%;height:46px;background:#141413;color:#F4EFE2;border:var(--r);font:24px/1 'Bebas Neue';letter-spacing:.06em;flex:none}
+.bk .btn{background:var(--l);color:#141413;border-color:var(--l)}
+.legal{font:8.5px/12px 'Space Mono';margin-top:6px;opacity:.75;flex:none}
+.cont{display:flex;gap:6px;flex:none}.cont div{flex:1;border:var(--r);background:var(--card);font:10px/26px 'Space Mono';padding:0 8px;white-space:nowrap;overflow:hidden}
+.sig{position:relative;border:var(--r);background:var(--card);flex:none}
+.sig .x{position:absolute;left:10px;bottom:8px;font:700 18px 'Space Mono'}
+.sig .ln{position:absolute;left:32px;right:12px;bottom:10px;border-bottom:var(--r)}
+.sig .nm{position:absolute;left:40px;bottom:6px;font:600 34px/1 'Caveat'}
+.sig .fig{position:absolute;left:10px;top:6px}
+.sub{display:flex;justify-content:space-between;margin:4px 2px 6px;flex:none}
+/* affidavit */
+.af .frame{border:var(--r);outline:var(--r);outline-offset:3px;margin:8px 3px 0;padding:10px 12px;flex:none;background:var(--card)}
+.af h1{margin:0;font-size:2.3em;line-height:.95;text-align:center}
+.af .rule{border-top:var(--r);margin:6px 0}
+.af ol{margin:0;padding:0;list-style:none;counter-reset:c}
+.af li{counter-increment:c;display:grid;grid-template-columns:2.2em 1fr;line-height:1.38;padding:.32em 0;border-top:1px dashed currentColor}
+.af li:first-child{border-top:0}
+.af li:before{content:"§" counter(c);font:1.25em/1.1 'Bebas Neue'}
+/* intake */
+.in h1{margin:8px 0 6px;font-size:2.6em;line-height:.9}
+.in .g{display:grid;grid-template-columns:1fr 1fr;border-top:var(--r);border-left:var(--r);flex:none}
+.in .c{border-right:var(--r);border-bottom:var(--r);padding:.3em .55em;background:var(--card)}
+.in .c.w{grid-column:span 2}
+.in .c .fig{display:block;font-size:.62em;opacity:.7}
+.in .c .v{font:1.55em/1.1 'Bebas Neue';letter-spacing:.02em;white-space:nowrap}
+.in .vow{margin-top:8px;border-left:4px solid var(--m);padding:.1em 0 .1em .7em;line-height:1.42;flex:none}
+.in .vow p{margin:0 0 .4em}
+/* stamp */
+.st .poster{margin-top:8px;flex:none;line-height:.92}
+.st .big{font-size:4.4em;margin:0;line-height:.86}
+.st .who{margin:.4em 0;font-size:.95em;line-height:1.5}
+.st .row{display:flex;gap:.4em;flex-wrap:nowrap;margin:.35em 0}
+.st .row span{border:var(--r);padding:.1em .35em;font:1.25em/1.1 'Bebas Neue';white-space:nowrap}
+.st .vw{font:1.6em/1.02 'Bebas Neue';margin:.3em 0 0}
+.st .seal{position:absolute;right:6px;top:6px;width:70px;height:70px;border:2px solid var(--m);color:var(--m);display:flex;align-items:center;justify-content:center;text-align:center;font:15px/1 'Bebas Neue';transform:rotate(-9deg);background:transparent}
+.mid{flex:1;min-height:4px}
+</style></head><body>
+<script>
+(function(){
+var Q=new URLSearchParams(location.search),I=(Q.get('idea')||'affidavit').toLowerCase(),C=Q.get('path')==='couple';
+if(!/^(affidavit|intake|stamp)$/.test(I))I='affidavit';
+var B=document.body;B.className={affidavit:'af',intake:'in',stamp:'st'}[I]+(C?' cpl':'')+(Q.get('bg')==='black'?' bk':'');
+var ST=C?'a partnered woman':'an unmarried woman';
+var COM='<span class="L">hereby commit to tell the whole truth &amp; nothing but the truth on this application</span>';
+var FIND=C?'<span class="O">to find love that will last</span>':'<span class="L">to find love that will last</span>';
+var TILL=C?'<span class="N">till deletion do us part.</span>':'<span class="L">till deletion do us part.</span>';
+var b=function(t){return '<span class="b">'+t+'</span>'};
+var top='<div class="top"><span>\u2190 Step 1 of 7</span><span class="tag">'+(C?'Couple':'Single')+'</span><span>Edit</span></div>';
+var sig=function(h){return '<div class="sig" style="height:'+h+'px"><span class="fig">Sign here</span><span class="x">X</span><span class="nm">Amanda Bradford</span><span class="ln"></span></div><div class="fig sub"><span>Printed name</span><span>Oct 20, 2026</span></div>'};
+var end='<div class="cont"><div>amanda.bradford@gmail.com</div><div style="flex:.6">Phone</div></div><div style="flex:none;margin-top:8px"><button class="btn">I HEREBY COMMIT</button></div><div class="legal">By committing, you agree to our <u>Terms</u> and <u>Privacy Policy</u> and confirm you\u2019re 18+. Your application enters our candidate pool and we\u2019ll notify you when we go live.</div>';
+var h;
+if(I==='affidavit'){
+ h='<div class="ph">'+top+'<div class="frame fit"><h1 class="hd">I hereby commit</h1><div class="rule"></div><ol>'+
+ '<li><span>I, '+b('Amanda Bradford')+', '+b(ST+' \u25be')+'</span></li>'+
+ '<li><span>of '+b('5\u203210\u2033')+' in height, born '+b('Jan 1, 1984')+',</span></li>'+
+ '<li><span>domiciled in '+b('Austin, TX')+', being of sound mind and uncertain romantic history,</span></li>'+
+ '<li><span>'+COM+'.</span></li>'+
+ '<li><span>To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person,</span></li>'+
+ '<li><span>'+FIND+', '+TILL+'</span></li></ol></div><div class="mid"></div>'+sig(58)+end+'</div>';
+}else if(I==='intake'){
+ h='<div class="ph">'+top+'<div class="fit" style="flex:none"><h1 class="hd">I hereby <span class="L">commit</span></h1><div class="g">'+
+ '<div class="c"><span class="fig">I,</span><span class="v">Amanda</span></div><div class="c"><span class="fig">&nbsp;</span><span class="v">Bradford</span></div>'+
+ '<div class="c w"><span class="fig">\u25be</span><span class="v">'+ST+'</span></div>'+
+ '<div class="c"><span class="fig">of \u2014 in height</span><span class="v">5\u203210\u2033</span></div><div class="c"><span class="fig">born</span><span class="v">Jan 1, 1984</span></div>'+
+ '<div class="c w"><span class="fig">domiciled in</span><span class="v">Austin, TX</span></div></div>'+
+ '<div class="vow"><p>Being of sound mind and uncertain romantic history, I '+COM+'.</p><p style="margin:0">To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person, '+FIND+', '+TILL+'</p></div></div><div class="mid"></div>'+sig(54)+end+'</div>';
+}else{
+ h='<div class="ph">'+top+'<div class="poster fit" style="position:relative"><div class="seal">'+(C?'Couple':'Single')+'<br>Step 1<br>of 7</div><h1 class="hd big">I, Amanda<br>Bradford,</h1>'+
+ '<div class="row"><span>'+ST+' \u25be</span><span>5\u203210\u2033</span></div><div class="row"><span>Jan 1, 1984</span><span>Austin, TX</span></div>'+
+ '<p class="hd vw">'+COM+'</p>'+
+ '<p class="who">Being of sound mind and uncertain romantic history. To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person,</p>'+
+ '<p class="hd vw" style="margin-top:0">'+FIND+', '+TILL+'</p></div><div class="mid"></div>'+sig(86)+end+'</div>';
+}
+B.innerHTML=h;
+function fit(){var f=B.querySelector('.fit'),ph=B.querySelector('.ph'),lo=9,hi=26;
+ for(var k=0;k<14;k++){var m=(lo+hi)/2;f.style.setProperty('--fs',m+'px');(ph.scrollHeight>ph.clientHeight+0.5||f.scrollWidth>f.clientWidth+1)?hi=m:lo=m;}
+ f.style.setProperty('--fs',(lo-.1)+'px');B.dataset.fs=lo.toFixed(1);}
+fit();(document.fonts&&document.fonts.ready.then(fit));addEventListener('resize',fit);
+})();
+</script></body></html>
