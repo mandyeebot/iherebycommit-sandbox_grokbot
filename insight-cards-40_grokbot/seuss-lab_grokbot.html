@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Seuss-Lab directions · ?opt=specimen|whimsy|loud &amp;screen=who|p0|land</title>
-<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Chewy&family=Bungee&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Luckiest+Guy&family=Chewy&family=Bungee&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* Static mockups, Oct 20 2026. Palette: black #0e0e0e, cream #f0ece0, lime #c8f135, orange #FF7A2F, + Green Eggs teal #3BA7A5. Copy = real copy from page 0 (copy=oath4) and iherebycommit.com. */
 *{box-sizing:border-box}html,body{margin:0;height:100%}
@@ -100,15 +100,57 @@ body{font-family:'Space Mono',monospace;color:#0e0e0e;-webkit-text-size-adjust:1
 .o-loud .hed{font:400 29px/1.08 'Bungee';color:#f0ece0;-webkit-text-stroke:1.5px #0e0e0e;paint-order:stroke fill;text-shadow:3px 3px 0 #0e0e0e}.o-loud .hed span{color:#c8f135}
 .land .apply{flex-direction:row;gap:10px}.land .apply .btn{font-size:19px;padding:14px 0 11px;width:auto;flex:1}
 .o-specimen .bc,.o-whimsy .bc{background:#FF7A2F}.o-loud .bc{background:#c8f135}
+
+/* ===== &font=orig (Amanda Oct 20 10:24 PM): same colours/layout, AB2 + page-0 fonts (Bebas Neue display, Space Mono body), no wobble, square corners ===== */
+.fo h1,.fo .hed,.fo .k,.fo .btn,.fo .pl{font-family:'Bebas Neue',sans-serif !important;font-weight:400 !important;letter-spacing:.02em}
+.fo h1,.fo h1 em,.fo .hed{transform:none !important;-webkit-text-stroke:0 !important;text-shadow:none !important}
+.fo h1{font-size:52px !important;line-height:.95 !important}
+.fo h1 em{font-style:normal;border-radius:0 !important;display:inline;padding:0 .06em !important;border:0 !important}
+.fo .k{font-size:15px !important;line-height:14px !important;letter-spacing:.05em}
+.fo .k::before{border-radius:0 !important;font-family:'Space Mono' !important}
+.fo .btn{font-size:24px !important;letter-spacing:.1em;padding:14px 0 12px !important}
+.fo .c,.fo .btn,.fo .sig,.fo .cont div,.fo .tag,.fo .land-sec,.fo .pl .b,.fo .pl .em,.fo .hed span{border-radius:0 !important}
+.fo .pl{--fs:26.5px !important;line-height:1.04 !important}
+@media (min-height:690px){.fo .pl{--fs:27.6px !important}}
+.fo .pl .b{padding:0 3px !important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.fo .pl .em{padding:0 3px !important}
+.fo .hed{font-size:52px !important;line-height:.95 !important}
+.fo.land h1.big{font-size:30px !important}
+.fo .land .apply .btn,.fo.land .apply .btn{font-size:22px !important}
+/* specimen */
+.fo.o-specimen h1 em{background:#c8f135}
+.fo.o-specimen .c{border-width:1.5px;box-shadow:2px 2px 0 #0e0e0e}
+.fo.o-specimen .btn{border-width:2px;box-shadow:3px 3px 0 #0e0e0e}
+/* whimsy */
+.fo.o-whimsy h1 em{background:#3BA7A5;color:#0e0e0e}
+.fo.o-whimsy .c{padding:0 9px}
+.fo.o-whimsy .pl .b{text-decoration:underline solid #FF7A2F 3px !important;text-underline-offset:3px}
+.fo.o-whimsy .hed span{text-decoration:underline solid #FF7A2F 3px;text-underline-offset:5px}
+.fo.o-whimsy .sig{border-radius:0 !important}
+/* loud */
+.fo.o-loud h1,.fo.o-loud .hed{color:#0e0e0e}
+.fo.o-loud h1 em,.fo.o-loud .hed span{color:#0e0e0e;background:#c8f135;padding:0 .06em}
+.fo.o-loud .c{border-width:2px}
+/* ===== opt=ab2flat: AB2 exactly, no shadows, flat 1.5px rules (p0 + land) ===== */
+.o-ab2flat{background:linear-gradient(rgba(14,14,14,.07) 1px,transparent 1px) 0 0/16px 16px,linear-gradient(90deg,rgba(14,14,14,.07) 1px,transparent 1px) 0 0/16px 16px #f0ece0}
+.o-ab2flat .tag{background:#c8f135}
+.o-ab2flat h1 em,.o-ab2flat .hed span{background:#c8f135;color:#0e0e0e}
+.o-ab2flat .btn{background:#c8f135;border:1.5px solid #0e0e0e}
+.o-ab2flat .bc{background:#FF7A2F}
+.o-ab2flat .pl .b{background:#0e0e0e;color:#c8f135}
+.o-ab2flat .pl .em{background:#c8f135}
+.o-ab2flat .sig,.o-ab2flat .cont div{background:#c8f135;border:1.5px solid #0e0e0e}
+.o-ab2flat .c{background:#fbf9f3;border:1.5px solid #0e0e0e}
+.o-ab2flat .pn{color:#E05A10}
 </style></head><body>
 <script>
 (function(){
 var Q=new URLSearchParams(location.search),O=(Q.get('opt')||'specimen').toLowerCase(),S=(Q.get('screen')||'who').toLowerCase();
-if(!/^(specimen|whimsy|loud)$/.test(O))O='specimen';
+if(!/^(specimen|whimsy|loud|ab2flat)$/.test(O))O='specimen';var FO=O==='ab2flat'||Q.get('font')==='orig';
 var NAME={specimen:'A · SPECIMEN',whimsy:'B · WHIMSY GRID',loud:'C · LOUD LAB'}[O];
 var PEN='<svg class="pn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter" stroke-linecap="square"><path d="M17 3.5L20.5 7L8 19.5L3.5 20.5L4.5 16Z"/><path d="M14.5 6L18 9.5"/></svg>';
 var esc=function(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')};
-var B=document.body;B.className='o-'+O+(S==='land'?' land':'');
+var B=document.body;B.className='o-'+O+(S==='land'?' land':'')+(FO?' fo':'');
 var stripe=O==='whimsy'?'<div class="stripe"></div>':'';
 var h='';
 if(S==='who'){
