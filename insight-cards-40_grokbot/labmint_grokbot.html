@@ -20,6 +20,7 @@ h1{font-family:'Bebas Neue';font-weight:400;letter-spacing:.04em;margin:0;line-h
 .hl{background:var(--c);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 2px}
 .or{background:var(--o);color:#fff;box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 2px}
 .btn{width:100%;height:46px;border:1.5px solid var(--i);background:var(--c);font:400 22px/1 'Bebas Neue';letter-spacing:.05em;color:var(--i);display:flex;align-items:center;justify-content:center;gap:10px}
+.btn.k{background:var(--i);color:var(--p)}
 .btn.o{background:var(--o);color:#fff}
 .chk{display:inline-flex;width:15px;height:15px;border:1.5px solid var(--i);background:var(--c);align-items:center;justify-content:center;font:700 11px/1 'Space Mono'}
 /* WHO: ledger */
@@ -59,9 +60,112 @@ h1{font-family:'Bebas Neue';font-weight:400;letter-spacing:.04em;margin:0;line-h
 .box{border:1.5px solid var(--i);background:var(--p);padding:9px 10px}
 .abs{border:1.5px solid var(--i);border-top:0;flex:none}
 .abs>div{padding:6px 8px;background:var(--mp)}.abs>div:first-child{border-right:1.5px solid var(--i)}
+
+/* ---- &style=r1|r2|r3 (Oct 21 2026, from Amanda's "Screen 1 · mint" reference) ---- */
+.X .top{display:flex;gap:6px;align-items:center;font:700 11.5px/1 'Space Mono';letter-spacing:.06em;text-transform:uppercase;flex:none}
+.X .tg{padding:3px 5px;border:1.5px solid var(--i)}.X .tg.c{background:var(--c);border-color:var(--c)}.X .tg.m{background:var(--m)}
+.X .ed{margin-left:auto;text-decoration:underline}
+.X .seg{display:flex;gap:5px;flex:none;margin-bottom:9px}.X .seg i{flex:1;height:7px;border:1.5px solid var(--i)}.X .seg i.on{background:var(--i)}
+.X .sub{font:400 11.5px/15px 'Space Mono';color:var(--s);margin:6px 0 10px;flex:none}
+.X .sw{border:1.5px solid var(--i);background:var(--mp);flex:none;position:relative}
+.X .sw .bar{display:flex;justify-content:space-between;background:var(--m);border-bottom:1.5px solid var(--i);padding:5px 9px;font:700 11.5px/14px 'Space Mono';letter-spacing:.05em;text-transform:uppercase}
+.X .sw .bar u{font-weight:700}
+.X .sw .bd{padding:7px 9px 8px;font:400 11.5px/17px 'Space Mono'}
+.X .sw .sg{position:absolute;right:10px;bottom:4px;font:600 26px/1 'Caveat'}
+.X .sec{font:700 11.5px/1 'Space Mono';letter-spacing:.08em;text-transform:uppercase;margin:14px 0 8px;padding-bottom:4px;border-bottom:3px solid var(--m);align-self:flex-start;flex:none}
+.X .gr{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:none}
+.X .fc{border:1.5px solid var(--i);background:var(--p);padding:7px 9px;position:relative;min-height:54px}
+.X .fc .k{font:400 17px/1 'Bebas Neue';letter-spacing:.045em}
+.X .fc .v{font:400 12px/16px 'Space Mono';margin-top:5px}
+.X .fc .ic{position:absolute;right:7px;top:6px;font:700 13px/1 'Space Mono'}
+.X .rq{border:1.5px dashed var(--v)!important}.X .rq .v,.X .rq .ic{color:var(--v)}
+.X .ok{width:15px;height:15px;background:var(--c);border:1.5px solid var(--i);display:inline-flex;align-items:center;justify-content:center;font:700 10px/1 'Space Mono'}
+.X .cnt{text-align:center;font:400 11.5px/15px 'Space Mono';margin:12px 0 8px;flex:none}.X .cnt b{color:var(--v)}
+.X .nx{height:46px;width:100%;font:400 22px/1 'Bebas Neue';letter-spacing:.05em;flex:none;display:flex;align-items:center;justify-content:center;gap:8px}
+.X .nx.off{border:1.5px dashed var(--i);background:transparent;color:var(--s)}
+.X .nx.on{border:1.5px solid var(--i);background:var(--i);color:var(--p)}
+.X .bk{text-align:center;font:700 11.5px/1 'Space Mono';margin-top:9px;flex:none;letter-spacing:.06em}
+.X .ah{background:var(--c);padding:0 4px}
+/* r2: Ledger Receipt */
+.r2 .band{background:var(--m);border-bottom:1.5px solid var(--i);padding:10px 16px 9px;flex:none}
+.r2 .band h1{font-size:40px}
+.r2 .rc{border:1.5px solid var(--i);border-top:1.5px dashed var(--i);border-bottom:1.5px dashed var(--i);background:var(--mp);flex:none;position:relative;padding:8px 10px 9px 10px}
+.r2 .rc .st{position:absolute;right:9px;top:8px;border:1.5px solid var(--i);padding:3px 6px 1px;font:400 15px/1 'Bebas Neue';letter-spacing:.05em;transform:rotate(-4deg)}
+.r2 .lg{border:1.5px solid var(--i);flex:none}
+.r2 .lr{display:grid;grid-template-columns:28px 112px 1fr 34px;border-bottom:1.5px solid var(--i);height:38px;align-items:stretch;background:var(--p)}
+.r2 .lr:last-child{border-bottom:0}
+.r2 .lr>*{display:flex;align-items:center;padding:0 7px;border-right:1px solid var(--i)}.r2 .lr>*:last-child{border-right:0;justify-content:center}
+.r2 .lr .n{color:var(--s);font-size:11.5px}.r2 .lr .k{font:400 17px/1 'Bebas Neue';letter-spacing:.045em;padding-top:2px}
+.r2 .lr.rq{outline:1.5px dashed var(--v);outline-offset:-4px;border-bottom:1.5px solid var(--i)!important}.r2 .lr.rq .v{color:var(--v);font-weight:700}
+/* r3: Tabbed Dossier */
+.r3{background-color:var(--mp)}
+.r3 .tabs{display:flex;flex:none;margin-top:10px;position:relative;z-index:1}
+.r3 .tabs span{border:1.5px solid var(--i);border-bottom:0;padding:6px 10px 5px;font:400 16px/1 'Bebas Neue';letter-spacing:.05em;margin-right:-1.5px;background:var(--mp);color:var(--s)}
+.r3 .tabs span.on{background:var(--p);color:var(--i);padding-bottom:7px;margin-bottom:-1.5px}
+.r3 .pn{border:1.5px solid var(--i);background:var(--p);padding:10px;flex:none}
+.r3 .fc{border:0;border-left:1.5px solid var(--i);border-bottom:1.5px solid var(--i);background:transparent;padding:4px 8px 6px;min-height:44px}
+.r3 .fc.rq{border:1.5px dashed var(--v)!important}
+.r3 .idc{display:grid;grid-template-columns:62px 1fr;gap:10px;align-items:start}
+.r3 .ph1{width:62px;height:62px;border:1.5px solid var(--i);background:var(--m);display:flex;align-items:center;justify-content:center;font:400 30px/1 'Bebas Neue'}
+/* p0 shared */
+.X .oa{margin:0;font:400 12px/18px 'Space Mono'}
+.X .bl{font-weight:700;white-space:nowrap;border-bottom:1.5px solid var(--i)}
+.X .sigb{border:1.5px solid var(--i);border-top:0;height:52px;position:relative;background:var(--p);flex:none}
+.X .sigb .cp{position:absolute;left:8px;top:5px;font:400 14px/1 'Bebas Neue';letter-spacing:.05em}
+.X .sigb .x{position:absolute;left:8px;bottom:5px;font:700 14px 'Space Mono'}
+.X .sigb .ln{position:absolute;left:26px;right:10px;bottom:9px;border-bottom:1.5px solid var(--i)}
+.X .sigb .nm{position:absolute;left:34px;bottom:6px;font:600 30px/1 'Caveat'}
+.X .sigb .dt{position:absolute;right:9px;top:5px;font:700 11.5px/1 'Space Mono';color:var(--s)}
+.X .cf{display:grid;grid-template-columns:64px 1fr auto;border:1.5px solid var(--i);border-top:0;height:32px;align-items:center;background:var(--p);flex:none}
+.X .cf .k{font:400 16px/1 'Bebas Neue';letter-spacing:.045em;padding:2px 8px 0;border-right:1.5px solid var(--i);height:100%;display:flex;align-items:center}
+.X .cf .v{padding:0 8px;font-size:12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.X .cf .t{padding:0 8px;font:700 11.5px 'Space Mono';color:var(--s)}
+.X .lgl{font:400 11.5px/15px 'Space Mono';color:var(--s);margin-top:6px;flex:none}
 </style></head><body><script>
 (function(){
 var Q=new URLSearchParams(location.search),S=Q.get('screen')||'who';
+/*X*/
+var STY=Q.get('style');
+if(/^r[123]$/.test(STY)&&S!=='land'){
+ var R=STY,DONE=S==='who',C=S==='p0c',ISP=S==='p0'||S==='p0c';
+ var OK='<span class="ok">\u2713</span>',PEN='\u270e';
+ var F=[['Race','White',1],['Education','MBA'],['Industry','Marketing'],['Title','Founder / CEO'],['Languages','English +1'],['Income','$100k\u2013150k',1]];
+ var miss=function(f){return f[2]&&!DONE};
+ var seg='<div class="seg">'+[1,2,3,4,5,6].map(function(n){return '<i class="'+(n===1?'on':'')+'"></i>'}).join('')+'</div>';
+ var tags=function(step){return '<div class="top"><span>'+step+'</span><span class="tg c">'+(C?'COUPLE':'SINGLE')+'</span><span class="tg m">FORM IHC-'+(ISP?'0':'1')+'</span><span class="ed">EDIT</span></div>'};
+ var nm=C?'a partnered woman':'an unmarried woman';
+ var sworn='<b>AMANDA BRADFORD</b> \u00b7 woman \u00b7 5\u203210\u2033<br>born Jan 1 1984 \u00b7 of Austin, TX<br>amanda.bradford@gmail.com';
+ var cnt=DONE?'<div class="cnt">'+OK+' &nbsp;All required fields done</div>':'<div class="cnt"><b>2 required</b> left on this page</div>';
+ var nx=DONE?'<button class="nx on">NEXT \u2192</button>':'<button class="nx off">NEXT</button>';
+ var bl=function(t){return '<span class="bl">['+t+']</span>'};
+ var oath='I, '+bl('Amanda')+' '+bl('Bradford')+', '+bl((C?'A partnered woman':'An unmarried woman')+' \u25be')+' of '+bl('5\u203210\u2033')+' in height, born '+bl('Jan 1, 1984')+', domiciled in '+bl('Austin, TX')+', being of sound mind and uncertain romantic history, <span class="hl">hereby commit to tell the whole truth &amp; nothing but the truth on this application</span>.<br>To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person, '+(C?'<span class="or">to find love that will last</span>':'to find love that will last')+', till deletion do us part.';
+ var sigc='<div class="sigb"><span class="cp">Signature of applicant</span><span class="dt">OCT 21 2026</span><span class="x">X</span><span class="ln"></span><span class="nm">Amanda Bradford</span></div>'+
+  '<div class="cf"><span class="k">Email</span><span class="v">amanda.bradford@gmail.com</span><span class="t">'+OK+'</span></div>'+
+  '<div class="cf"><span class="k">Phone</span><span class="v" style="color:var(--s)">(___) ___-____</span><span class="t">OPTIONAL</span></div>';
+ var tail='<div style="flex:1;min-height:6px"></div><button class="btn k" style="flex:none">I HEREBY COMMIT</button><div class="lgl">By committing, you agree to our <u>Terms</u> and <u>Privacy Policy</u> and confirm you\u2019re 18+. Your application enters our candidate pool and we\u2019ll notify you when we go live.</div>';
+ var cards=function(){return '<div class="gr">'+F.map(function(f){var m=miss(f);return '<div class="fc'+(m?' rq':'')+'"><div class="k">'+f[0].toUpperCase()+'</div><div class="v">'+(m?'Required':f[1])+'</div><span class="ic">'+(m?'+':PEN)+'</span></div>'}).join('')+'</div>'};
+ var h2='';
+ if(R==='r1'){
+  if(!ISP) h2='<div class="ph X r1"><div class="body" style="padding-top:12px">'+seg+tags('STEP 1 OF 6')+'<h1 style="font-size:44px;margin-top:8px;flex:none">WHO YOU <span class="ah">ARE</span></h1><div class="sub">Private by default. You choose what\u2019s visible later.</div>'+
+   '<div class="sw"><div class="bar"><span>Sworn on Form IHC-0</span><u>AMEND</u></div><div class="bd">'+sworn+'</div><span class="sg">A. Bradford</span></div>'+
+   '<div class="sec">For the record</div>'+cards()+cnt+nx+'<div class="bk">\u2190 BACK</div></div></div>';
+  else h2='<div class="ph X r1"><div class="body" style="padding-top:12px">'+seg+tags('STEP 1 OF 7')+'<h1 style="font-size:34px;margin:8px 0 8px;flex:none">I HEREBY <span class="ah">COMMIT</span></h1>'+
+   '<div class="sw"><div class="bar"><span>Sworn statement \u00b7 Form IHC-0</span><span>'+(C?'COUPLE':'SINGLE')+'</span></div><div class="bd"><p class="oa">'+oath+'</p></div></div>'+sigc+tail+'</div></div>';
+ }else if(R==='r2'){
+  var lrows=F.map(function(f,i){var m=miss(f);return '<div class="lr'+(m?' rq':'')+'"><span class="n">0'+(i+1)+'</span><span class="k">'+f[0].toUpperCase()+'</span><span class="v">'+(m?'+ Required':f[1])+'</span><span>'+(m?'<b style="color:var(--v)">!</b>':OK)+'</span></div>'}).join('');
+  var band=function(t,hl){return '<div class="band"><div class="top"><span>'+(ISP?'STEP 1 OF 7':'STEP 1 OF 6')+'</span><span class="tg c">'+(C?'COUPLE':'SINGLE')+'</span><span class="tg" style="background:var(--p)">FORM IHC-'+(ISP?'0':'1')+'</span><span class="ed">EDIT</span></div><h1 style="margin-top:6px">'+t+' <span class="ah">'+hl+'</span></h1></div>'};
+  if(!ISP) h2='<div class="ph X r2">'+band('WHO YOU','ARE')+'<div class="body"><div class="sub" style="margin-top:0">Private by default. You choose what\u2019s visible later.</div>'+
+   '<div class="rc"><span class="st">SWORN \u00b7 IHC-0</span><div style="font:700 11.5px/1 Space Mono;letter-spacing:.06em;margin-bottom:6px">RECEIPT \u00b7 <u>AMEND</u></div><div style="font:400 11.5px/17px Space Mono">'+sworn+'</div><span class="sg" style="position:absolute;right:10px;bottom:4px;font:600 26px/1 Caveat">A. Bradford</span></div>'+
+   '<div class="sec">For the record</div><div class="lg">'+lrows+'</div>'+cnt+nx+'<div class="bk">\u2190 BACK</div></div></div>';
+  else h2='<div class="ph X r2">'+band('I HEREBY','COMMIT')+'<div class="body"><div class="rc" style="padding-top:9px"><span class="st" style="background:var(--p)">'+(C?'COUPLE':'SINGLE')+'</span><div style="font:700 11.5px/1 Space Mono;letter-spacing:.06em;margin-bottom:7px">SWORN STATEMENT \u00b7 IHC-0</div><p class="oa">'+oath+'</p></div>'+sigc+tail+'</div></div>';
+ }else{
+  var tabs=function(a){return '<div class="tabs">'+['Sworn','Who you are','Record'].map(function(t,i){return '<span class="'+(i===a?'on':'')+'">'+t.toUpperCase()+'</span>'}).join('')+'</div>'};
+  if(!ISP) h2='<div class="ph X r3"><div class="body" style="padding-top:12px">'+tags('STEP 1 OF 6')+'<h1 style="font-size:44px;margin-top:8px;flex:none">WHO YOU <span class="ah">ARE</span></h1><div class="sub" style="margin-bottom:0">Private by default. You choose what\u2019s visible later.</div>'+tabs(1)+
+   '<div class="pn"><div class="idc"><div class="ph1">AB</div><div><div style="display:flex;justify-content:space-between;font:700 11.5px/1 Space Mono;letter-spacing:.06em;margin-bottom:6px"><span>SWORN ON IHC-0</span><u>AMEND</u></div><div style="font:400 11.5px/17px Space Mono">'+sworn+'</div></div></div>'+
+   '<div class="sec" style="margin-top:12px">For the record</div>'+cards()+'</div>'+cnt+nx+'<div class="bk">\u2190 BACK</div></div></div>';
+  else h2='<div class="ph X r3"><div class="body" style="padding-top:12px">'+tags('STEP 1 OF 7')+tabs(0)+'<div class="pn" style="padding:10px 10px 10px"><h1 style="font-size:30px;margin-bottom:6px">I HEREBY <span class="ah">COMMIT</span></h1><p class="oa">'+oath+'</p></div>'+sigc+tail+'</div></div>';
+ }
+ document.body.innerHTML=h2;return;
+}
 var CHK='<span class="chk">\u2713</span>';
 var h='';
 if(S==='who'){
@@ -83,7 +187,7 @@ if(S==='who'){
  '<div class="fld"><span class="L">Email</span><span class="v">amanda.bradford@gmail.com</span><span class="t">'+CHK+'</span></div>'+
  '<div class="fld opt"><span class="L">Phone</span><span class="v">(___) ___-____</span><span class="t">OPTIONAL</span></div>'+
  '<div style="flex:1;min-height:8px"></div>'+
- '<button class="btn" style="flex:none">I HEREBY COMMIT</button>'+
+ '<button class="btn k" style="flex:none">I HEREBY COMMIT</button>'+
  '<div class="legal">By committing, you agree to our <u>Terms</u> and <u>Privacy Policy</u> and confirm you\u2019re 18+. Your application enters our candidate pool and we\u2019ll notify you when we go live.</div></div></div>';
 }else{
  h='<div class="ph"><div class="mast"><span class="L">Form IHC-01 \u00b7 Call for participants</span><span class="s">Open</span></div><div class="body">'+
