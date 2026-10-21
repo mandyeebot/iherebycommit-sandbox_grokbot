@@ -55,13 +55,33 @@ body.bk{--i:#F4EFE2;--card:#1f1f1d;background:linear-gradient(rgba(244,239,226,.
 .st .row span{border:var(--r);padding:.1em .35em;font:1.25em/1.1 'Bebas Neue';white-space:nowrap}
 .st .vw{font:1.6em/1.02 'Bebas Neue';margin:.3em 0 0}
 .st .seal{position:absolute;right:6px;top:6px;width:70px;height:70px;border:2px solid var(--m);color:var(--m);display:flex;align-items:center;justify-content:center;text-align:center;font:15px/1 'Bebas Neue';transform:rotate(-9deg);background:transparent}
+/* r2: continuous sentence treatments */
+.sn{margin:0}
+.lg .sheet{margin-top:8px;flex:none;border:var(--r);background:var(--card);position:relative;padding:.2em .8em .4em 2.6em}
+.lg .sheet:before{content:"";position:absolute;left:1.9em;top:0;bottom:0;border-left:1.5px solid var(--o)}
+.cpl.lg .sheet:before,.lg .sheet:before{border-left-color:var(--m)}
+.lg .sn{line-height:1.9;background:repeating-linear-gradient(transparent 0,transparent calc(1.9em - 1px),rgba(128,128,128,.45) calc(1.9em - 1px),rgba(128,128,128,.45) 1.9em)}
+.lg .bl{border:var(--r);padding:0 .3em;font-weight:700;white-space:nowrap}
+.lg .hdr{display:flex;justify-content:space-between;border-bottom:var(--r);padding:.3em 0;margin-bottom:.1em}
+.dd .deed{margin:8px 2px 0;flex:none;border:3px double var(--i);padding:.5em .7em;position:relative}
+.dd .deed:before,.dd .deed:after{content:"";position:absolute;width:10px;height:10px;background:var(--l)}
+.dd .deed:before{left:0;top:0}.dd .deed:after{right:0;bottom:0}
+.dd .sn{font-family:'Bebas Neue';text-transform:uppercase;font-size:1.75em;line-height:1.08;letter-spacing:.01em}
+.dd .bl{border-bottom:1.5px solid currentColor;white-space:nowrap;font-family:'Space Mono';font-size:.52em;font-weight:700;padding:0 .2em;vertical-align:.25em}
+.dd .seal2{position:absolute;right:10px;top:50%;transform:translateY(-50%) rotate(-8deg);width:66px;height:66px;border-radius:50%;border:1.5px solid var(--m);outline:1.5px dashed var(--m);outline-offset:-6px;color:var(--m);display:flex;align-items:center;justify-content:center;text-align:center;font:13px/1 'Bebas Neue'}
+.ty .sn{margin-top:8px;flex:none;line-height:1.45}
+.ty .lead{font:3.1em/.92 'Bebas Neue';text-transform:uppercase;display:block;margin-bottom:.15em}
+.ty .lead .bl{font:inherit;border-bottom:4px solid var(--l)}
+.ty .bl{font-weight:700;white-space:nowrap;border-bottom:1.5px solid currentColor}
+.ty .L,.ty .O{font-weight:700}
+.ty .rl{border-top:var(--r);border-bottom:var(--r);height:5px;margin:8px 0 0;flex:none}
 .mid{flex:1;min-height:4px}
 </style></head><body>
 <script>
 (function(){
 var Q=new URLSearchParams(location.search),I=(Q.get('idea')||'affidavit').toLowerCase(),C=Q.get('path')==='couple';
-if(!/^(affidavit|intake|stamp)$/.test(I))I='affidavit';
-var B=document.body;B.className={affidavit:'af',intake:'in',stamp:'st'}[I]+(C?' cpl':'')+(Q.get('bg')==='black'?' bk':'');
+if(!/^(affidavit|intake|stamp|ledger|deed|typeset)$/.test(I))I='affidavit';
+var B=document.body;B.className={affidavit:'af',intake:'in',stamp:'st',ledger:'lg',deed:'dd',typeset:'ty'}[I]+(C?' cpl':'')+(Q.get('bg')==='black'?' bk':'');
 var ST=C?'a partnered woman':'an unmarried woman';
 var COM='<span class="L">hereby commit to tell the whole truth &amp; nothing but the truth on this application</span>';
 var FIND=C?'<span class="O">to find love that will last</span>':'<span class="L">to find love that will last</span>';
@@ -70,8 +90,16 @@ var b=function(t){return '<span class="b">'+t+'</span>'};
 var top='<div class="top"><span>\u2190 Step 1 of 7</span><span class="tag">'+(C?'Couple':'Single')+'</span><span>Edit</span></div>';
 var sig=function(h){return '<div class="sig" style="height:'+h+'px"><span class="fig">Sign here</span><span class="x">X</span><span class="nm">Amanda Bradford</span><span class="ln"></span></div><div class="fig sub"><span>Printed name</span><span>Oct 20, 2026</span></div>'};
 var end='<div class="cont"><div>amanda.bradford@gmail.com</div><div style="flex:.6">Phone</div></div><div style="flex:none;margin-top:8px"><button class="btn">I HEREBY COMMIT</button></div><div class="legal">By committing, you agree to our <u>Terms</u> and <u>Privacy Policy</u> and confirm you\u2019re 18+. Your application enters our candidate pool and we\u2019ll notify you when we go live.</div>';
+var bl=function(t){return '<span class="bl">'+t+'</span>'};
+var SENT=function(lead){var a=bl('Amanda')+' '+bl('Bradford');return (lead?'<span class="lead">I, '+a+',</span>':'I, '+a+', ')+bl(ST+' \u25be')+' of '+bl('5\u203210\u2033')+' in height, born '+bl('Jan 1, 1984')+', domiciled in '+bl('Austin, TX')+', being of sound mind and uncertain romantic history, '+COM+'.<br>To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person, '+FIND+', '+TILL};
 var h;
-if(I==='affidavit'){
+if(I==='ledger'){
+ h='<div class="ph">'+top+'<div class="sheet fit"><div class="hdr fig"><span>Step 1 of 7</span><span>Oct 20, 2026</span></div><p class="sn">'+SENT()+'</p></div><div class="mid"></div>'+sig(58)+end+'</div>';
+}else if(I==='deed'){
+ h='<div class="ph">'+top+'<div class="deed fit"><p class="sn">'+SENT()+'</p></div><div class="mid"></div><div style="position:relative;flex:none">'+sig(62)+'<div class="seal2" style="top:31px">'+(C?'Couple':'Single')+'<br>Oct 20<br>2026</div></div>'+end+'</div>';
+}else if(I==='typeset'){
+ h='<div class="ph">'+top+'<p class="sn fit">'+SENT(1)+'</p><div class="rl"></div><div class="mid"></div>'+sig(58)+end+'</div>';
+}else if(I==='affidavit'){
  h='<div class="ph">'+top+'<div class="frame fit"><h1 class="hd">I hereby commit</h1><div class="rule"></div><ol>'+
  '<li><span>I, '+b('Amanda Bradford')+', '+b(ST+' \u25be')+'</span></li>'+
  '<li><span>of '+b('5\u203210\u2033')+' in height, born '+b('Jan 1, 1984')+',</span></li>'+
