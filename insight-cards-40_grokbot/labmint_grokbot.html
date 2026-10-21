@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lab Mint · ?screen=who|p0|p0c|land</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+/* Static mockup, Oct 21 2026. "Lab Mint / Form IHC-01" direction. Palette & Type sheet: PAPER #F4EFE2, INK #141413, CHARTREUSE #C8F135, MINT #6FD3BC, MINT PALE #DFF4EE, VERMILLION #E03C2E, ORANGE #FF7A2F (couples only), SECONDARY #5A564C. Copy = real oath4 page 0 + iherebycommit.com. */
+:root{--p:#F4EFE2;--i:#141413;--c:#C8F135;--m:#6FD3BC;--mp:#DFF4EE;--v:#E03C2E;--o:#FF7A2F;--s:#5A564C}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{font:400 12px/17px 'Space Mono',monospace;color:var(--i);background:var(--p);
+ background-image:linear-gradient(rgba(20,20,19,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(20,20,19,.07) 1px,transparent 1px);background-size:12px 12px;-webkit-text-size-adjust:100%}
+.ph{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.L{font-family:'Bebas Neue';font-weight:400;text-transform:uppercase;letter-spacing:.045em}
+.mast{flex:none;background:var(--m);border-bottom:1.5px solid var(--i);padding:8px 16px 7px;display:flex;justify-content:space-between;align-items:flex-end}
+.mast .L{font-size:15px;line-height:15px}
+.mast .s{font:700 11.5px/14px 'Space Mono';text-transform:uppercase;letter-spacing:.06em}
+.body{flex:1;display:flex;flex-direction:column;padding:10px 16px 8px;min-height:0}
+h1{font-family:'Bebas Neue';font-weight:400;letter-spacing:.04em;margin:0;line-height:.92;text-transform:uppercase}
+.meta{font:400 11.5px/15px 'Space Mono';color:var(--s)}
+.hl{background:var(--c);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 2px}
+.or{background:var(--o);color:#fff;box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 2px}
+.btn{width:100%;height:46px;border:1.5px solid var(--i);background:var(--c);font:400 22px/1 'Bebas Neue';letter-spacing:.05em;color:var(--i);display:flex;align-items:center;justify-content:center;gap:10px}
+.btn.o{background:var(--o);color:#fff}
+.chk{display:inline-flex;width:15px;height:15px;border:1.5px solid var(--i);background:var(--c);align-items:center;justify-content:center;font:700 11px/1 'Space Mono'}
+/* WHO: ledger */
+.steps{display:flex;border:1.5px solid var(--i);flex:none;margin:8px 0}
+.steps div{flex:1;height:22px;border-right:1.5px solid var(--i);font:700 11.5px/20px 'Space Mono';text-align:center;background:var(--p)}
+.steps div:last-child{border:0}.steps .on{background:var(--i);color:var(--p)}
+.led{border:1.5px solid var(--i);background:var(--p);flex:1;min-height:0;display:flex;flex-direction:column}
+.led .hd{display:grid;grid-template-columns:24px 104px 1fr 22px;border-bottom:1.5px solid var(--i);background:var(--mp);font:700 11.5px/18px 'Space Mono';color:var(--s)}
+.r{display:grid;grid-template-columns:24px 104px 1fr 22px;flex:1;border-bottom:1px solid var(--i);align-items:center;min-height:0}
+.r:last-child{border-bottom:0}
+.r>*,.led .hd>*{padding:0 5px;border-right:1px solid var(--i);height:100%;display:flex;align-items:center;overflow:hidden;white-space:nowrap}
+.r>*:last-child,.led .hd>*:last-child{border-right:0;justify-content:center;padding:0}
+.r .n{font:400 11.5px 'Space Mono';color:var(--s)}
+.r .k{font:400 15px/1 'Bebas Neue';letter-spacing:.045em;text-transform:uppercase;padding-top:2px}
+.r .v{font:400 11.5px 'Space Mono';text-overflow:ellipsis}
+/* P0 */
+.oath{position:relative;background:var(--mp);border:1.5px solid var(--i);flex:none;display:grid;padding-left:22px}
+.oath .gut{position:absolute;left:0;top:0;bottom:8px;width:22px;border-right:1.5px solid var(--i);font:400 11.5px/18px 'Space Mono';color:var(--s);text-align:center;padding-top:7px;overflow:hidden}
+.oath p{margin:0;padding:7px 9px 8px;font:400 12px/18px 'Space Mono';hyphens:none}
+.f{font-weight:700;white-space:nowrap;border-bottom:1.5px solid var(--i)}
+.sigrow{display:grid;grid-template-columns:1fr 92px;border:1.5px solid var(--i);border-top:0;flex:none;background:var(--p)}
+.sig{position:relative;height:58px;border-right:1.5px solid var(--i)}
+.sig .x{position:absolute;left:8px;bottom:6px;font:700 15px 'Space Mono'}
+.sig .ln{position:absolute;left:26px;right:10px;bottom:10px;border-bottom:1.5px solid var(--i)}
+.sig .nm{position:absolute;left:34px;bottom:8px;font:600 34px/1 'Caveat'}
+.cap{position:absolute;left:8px;top:4px;font:400 13px/1 'Bebas Neue';letter-spacing:.05em}
+.stamp{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font:700 11.5px/13px 'Space Mono';text-align:center}
+.fld{display:grid;grid-template-columns:70px 1fr auto;border:1.5px solid var(--i);border-top:0;align-items:center;height:32px;background:var(--p);flex:none}
+.fld .L{font-size:15px;padding:2px 8px 0;border-right:1.5px solid var(--i);height:100%;display:flex;align-items:center}
+.fld .v{padding:0 8px;font-size:12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.fld .t{padding:0 8px;font:700 11.5px 'Space Mono';color:var(--s);display:flex;gap:6px;align-items:center}
+.fld.opt{border-style:solid}.fld.opt .v{color:var(--s)}
+.legal{font:400 11.5px/15px 'Space Mono';color:var(--s);margin-top:6px;flex:none}
+/* LAND */
+.hed{font:400 24px/1 'Bebas Neue';letter-spacing:.04em;text-transform:uppercase;margin-top:10px}
+.lp{font:400 12px/18px 'Space Mono';margin:0}
+.box{border:1.5px solid var(--i);background:var(--p);padding:9px 10px}
+.abs{border:1.5px solid var(--i);border-top:0;flex:none}
+.abs>div{padding:6px 8px;background:var(--mp)}.abs>div:first-child{border-right:1.5px solid var(--i)}
+</style></head><body><script>
+(function(){
+var Q=new URLSearchParams(location.search),S=Q.get('screen')||'who';
+var CHK='<span class="chk">\u2713</span>';
+var h='';
+if(S==='who'){
+ var D=[['Gender','Woman'],['Name','Amanda Bradford'],['Date of birth','Jan 1, 1984'],['Location','Austin, TX'],['Marital status','Unmarried'],['Have kids','Yes (2)'],['Last breakup','Aug 2026'],['Height','5\u201910\u201d'],['Race','White'],['Education','MBA'],['Industry','Marketing'],['Title','Founder ceo'],['Income','$100k\u2013150k'],['Religion','Christian \u00b7 Non-denom.'],['Politics','Moderate'],['Languages','English +1'],['Sports','Volleyball, Running'],['Instruments','Guitar, Voice'],['Interests','Live Music, Hiking'],['Email','amanda.bradford@gmail.com']];
+ h='<div class="ph"><div class="mast"><span class="L">Form IHC-01 \u00b7 Subject file</span><span class="s">Single</span></div><div class="body">'+
+ '<div style="display:flex;justify-content:space-between;align-items:flex-end;flex:none"><h1 style="font-size:40px">Who you are</h1><span class="meta" style="display:flex;gap:6px;align-items:center;font-weight:700;color:var(--i)">'+CHK+' 20/20</span></div>'+
+ '<div class="steps">'+[1,2,3,4,5,6].map(function(n){return '<div class="'+(n===1?'on':'')+'">'+n+'</div>'}).join('')+'</div>'+
+ '<div class="led"><div class="hd"><span>#</span><span>FIELD</span><span>ENTRY \u00b7 TAP TO EDIT</span><span></span></div>'+
+ D.map(function(d,i){return '<div class="r"><span class="n">'+(i<9?'0':'')+(i+1)+'</span><span class="k">'+d[0]+'</span><span class="v">'+d[1]+'</span><span>'+CHK+'</span></div>'}).join('')+'</div>'+
+ '<div class="meta" style="margin:6px 0;flex:none">Private by default. Change visibility later.</div>'+
+ '<button class="btn" style="flex:none">NEXT \u2192</button></div></div>';
+}else if(S==='p0'||S==='p0c'){
+ var C=S==='p0c',f=function(t){return '<span class="f">['+t+']</span>'};
+ var gut='';for(var i=1;i<=20;i++)gut+=i+'<br>';
+ h='<div class="ph"><div class="mast"><span class="L">Form IHC-01 \u00b7 Sworn statement</span><span class="s">'+(C?'Couple':'Single')+' \u00b7 1/7</span></div><div class="body">'+
+ '<h1 style="font-size:30px;flex:none;margin-bottom:8px">Declaration of applicant</h1>'+
+ '<div class="oath"><div class="gut">'+gut+'</div><p>I, '+f('Amanda')+' '+f('Bradford')+', '+f((C?'A partnered woman':'An unmarried woman')+' \u25be')+' of '+f('5\u203210\u2033')+' in height, born '+f('Jan 1, 1984')+', domiciled in '+f('Austin, TX')+', being of sound mind and uncertain romantic history, <span class="hl">hereby commit to tell the whole truth &amp; nothing but the truth on this application</span>.<br>To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person, '+(C?'<span class="or">to find love that will last</span>':'to find love that will last')+', till deletion do us part.</p></div>'+
+ '<div class="sigrow"><div class="sig"><span class="cap">Signature of applicant</span><span class="x">X</span><span class="ln"></span><span class="nm">Amanda Bradford</span></div><div class="stamp"><span class="L" style="font-size:13px">Dated</span>OCT 21<br>2026</div></div>'+
+ '<div class="fld"><span class="L">Email</span><span class="v">amanda.bradford@gmail.com</span><span class="t">'+CHK+'</span></div>'+
+ '<div class="fld opt"><span class="L">Phone</span><span class="v">(___) ___-____</span><span class="t">OPTIONAL</span></div>'+
+ '<div style="flex:1;min-height:8px"></div>'+
+ '<button class="btn" style="flex:none">I HEREBY COMMIT</button>'+
+ '<div class="legal">By committing, you agree to our <u>Terms</u> and <u>Privacy Policy</u> and confirm you\u2019re 18+. Your application enters our candidate pool and we\u2019ll notify you when we go live.</div></div></div>';
+}else{
+ h='<div class="ph"><div class="mast"><span class="L">Form IHC-01 \u00b7 Call for participants</span><span class="s">Open</span></div><div class="body">'+
+ '<div class="meta" style="font-weight:700;color:var(--i);flex:none">BUILT WITH RELATIONSHIP SCIENTISTS</div>'+
+ '<h1 style="font-size:58px;margin-top:6px;flex:none">I hereby <span class="hl">commit</span></h1>'+
+ '<div class="hed" style="flex:none">It\u2019s the biggest decision of your life.<br>It\u2019s never been studied like one.</div>'+
+ '<div class="box" style="margin-top:12px;flex:none"><p class="lp">Science has been studying love with sophomores more in need of a psych credit than a life partner.<sup>1</sup> The online dating industry stops paying attention at the match. We\u2019re fixing both with a first-of-its-kind experiment designed with the best scientists in the field from day 1 \u2014 to get the right data, get you on the right dates, and get some answers about what makes a relationship last.</p></div>'+
+ '<div class="abs"><div class="L" style="font-size:15px">Apply to be part of our first-of-its-kind study on what makes a match last.</div></div>'+
+ '<div style="flex:1;min-height:8px"></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:none"><button class="btn">APPLY \u00b7 SINGLE</button><button class="btn o">APPLY \u00b7 COUPLE</button></div></div></div>';
+}
+document.body.innerHTML=h;
+})();
+</script></body></html>
