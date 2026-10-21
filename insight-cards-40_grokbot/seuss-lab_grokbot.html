@@ -153,6 +153,9 @@ body{font-family:'Space Mono',monospace;color:#0e0e0e;-webkit-text-size-adjust:1
 .o-ab2flat.hlmin .pl .em{background:#c8f135;color:#0e0e0e}
 .o-ab2flat.hlmin.findo .pl .em.em-find{background:#FF7A2F !important;color:#fff !important}
 .o-ab2flat.hlmin .pl .em.em-till{background:none;color:#0e0e0e;padding:0 !important}
+.o-ab2flat.a2 .tag{background:var(--a2)}
+.o-ab2flat.a2 .sig{background:var(--a2)}
+.o-ab2flat.a2 .fig.band{background:var(--a2);box-shadow:-6px 0 0 var(--a2),6px 0 0 var(--a2);width:fit-content;margin-left:6px}
 </style></head><body>
 <script>
 (function(){
@@ -181,7 +184,7 @@ if(S==='who'){
  '<div class="legal">By committing, you agree to our <u>Terms</u> and <u>Privacy Policy</u> and confirm you\u2019re 18+. Your application enters our candidate pool and we\u2019ll notify you when we go live.</div></div>';
 }else{
  h='<div class="ph">'+stripe+'<div class="top" style="margin-top:'+(stripe?8:0)+'px"><span class="tag">\u25cf Applications open</span><span>Cohort 01</span></div>'+
- '<div class="fig" style="margin-top:12px">Built with relationship scientists</div>'+
+ '<div class="fig band" style="margin-top:12px">Built with relationship scientists</div>'+
  '<h1 class="big" style="font-size:'+(O==='loud'?30:36)+'px;line-height:1">I hereby <em>commit</em></h1>'+
  '<div class="hed">It\u2019s the biggest decision of your life. <span>It\u2019s never been studied like one.</span></div>'+
  '<p>Science has been studying love with sophomores more in need of a psych credit than a life partner.<sup>1</sup> The online dating industry stops paying attention at the match. We\u2019re fixing both with a first-of-its-kind experiment designed with the best scientists in the field from day 1 \u2014 to get the right data, get you on the right dates, and get some answers about <span class="hl">what makes a relationship last</span>.</p>'+
@@ -189,5 +192,6 @@ if(S==='who'){
  '<div style="flex:1"></div><div class="apply"><button class="btn bc">APPLY \u00b7 COUPLE</button><button class="btn">APPLY \u00b7 SINGLE</button></div></div>';
 }
 B.innerHTML=h;
+var A2C={mint:'#6FD3BC',minpale:'#DFF4EE',teal:'#3BA7A5',orange:'#FF7A2F'}[(new URLSearchParams(location.search).get('accent2')||'').toLowerCase()];if(A2C){document.body.classList.add('a2');document.body.style.setProperty('--a2',A2C);}
 })();
 </script></body></html>

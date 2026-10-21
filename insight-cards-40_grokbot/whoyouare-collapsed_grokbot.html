@@ -205,6 +205,10 @@
   body.s-AB2flat .k { font:400 15px/14px 'Bebas Neue', sans-serif; letter-spacing:.05em; }
   body.s-AB2flat .e { color:#E05A10; font-size:12px; font-weight:700; letter-spacing:.06em; text-decoration:none; }
   body.s-AB2flat .next { border:1.5px solid #0e0e0e; box-shadow:none; }
+  /* &accent2 (Amanda Oct 21, AB2flat): one structural accent beside lime - filled step segment, SINGLE tag, subtitle band */
+  body.s-AB2flat.a2 .prog i.on { background:var(--a2); }
+  body.s-AB2flat.a2 .lab b { background:var(--a2); }
+  body.s-AB2flat.a2 .sub { background:var(--a2); box-shadow:-6px 0 0 var(--a2), 6px 0 0 var(--a2); width:fit-content; margin-left:6px; }
 </style>
 </head>
 <body>
@@ -249,6 +253,8 @@
     (ip ? [] : D).map(function (d) { return card(d[0], d[1]); }).join('') +
     '</div><div class="bot"><button class="next" type="button">NEXT</button><button class="back" type="button">\u2190 BACK</button></div></div>';
   B.innerHTML = html;
+  var A2C={mint:'#6FD3BC',minpale:'#DFF4EE',teal:'#3BA7A5',orange:'#FF7A2F'}[(new URLSearchParams(location.search).get('accent2')||'').toLowerCase()];if(A2C){document.body.classList.add('a2');document.body.style.setProperty('--a2',A2C);}
+
 })();
 </script>
 </body>
