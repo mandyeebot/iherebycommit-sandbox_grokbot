@@ -14,13 +14,13 @@ var W='whoyouare-collapsed_grokbot.html?edit=pencil&style=',S='seuss-lab_grokbot
 var P0='onboarding-page0_grokbot.html?p0=2w&sign=1&bg=lab&sigstyle=green&btn=black&copy=oath4&contact=inline&fields=black';
 var G=[['WHO YOU ARE (completed)',[
  ['black','Current black (s3y223)',W+'black'],['blackfix2','Blackfix2 · orange EDIT',W+'blackfix2'],['A','A · Lab form',W+'A'],['A2','A2 · Lab + orange',W+'A2'],['B','B · Brutalist',W+'B'],['AB','AB · Lab × Brutalist',W+'AB'],['AB2','AB2 · white favorite',W+'AB2'],['AB2dark','AB2dark · AB2 on black',W+'AB2dark'],
- ['n','NEW · AB2 Flat (no shadows)',W+'AB2flat'],['n','NEW · A Specimen',S+'specimen&screen=who'],['n','NEW · B Whimsy Grid',S+'whimsy&screen=who'],['n','NEW · C Loud Lab',S+'loud&screen=who']]],
+ ['n','NEW · AB2 Flat (no shadows)',W+'AB2flat'],['n','A Specimen · orig fonts',S+'specimen&screen=who&font=orig'],['n','B Whimsy Grid · orig fonts',S+'whimsy&screen=who&font=orig'],['n','C Loud Lab · orig fonts',S+'loud&screen=who&font=orig'],['n','NEW · A Specimen',S+'specimen&screen=who'],['n','NEW · B Whimsy Grid',S+'whimsy&screen=who'],['n','NEW · C Loud Lab',S+'loud&screen=who']]],
 ['PAGE 0 · I HEREBY COMMIT pledge',[
  ['live','Current page 0 (oath4, fields=black)',P0],['img','A · Lab form (earlier shot)','seuss-compare-img_grokbot/p0_wstyleA.png'],['img','A2 (earlier shot)','seuss-compare-img_grokbot/p0_wstyleA2.png'],['img','B (earlier shot)','seuss-compare-img_grokbot/p0_wstyleB.png'],['img','AB (earlier shot)','seuss-compare-img_grokbot/p0_wstyleAB.png'],['img','AB2 (earlier shot)','seuss-compare-img_grokbot/p0_wstyleAB2.png'],['img','C (earlier shot)','seuss-compare-img_grokbot/p0_wstyleC.png'],['img','D (earlier shot)','seuss-compare-img_grokbot/p0_wstyleD.png'],
- ['n','NEW · A Specimen',S+'specimen&screen=p0'],['n','NEW · B Whimsy Grid',S+'whimsy&screen=p0'],['n','NEW · C Loud Lab',S+'loud&screen=p0']]],
+ ['n','NEW · AB2 Flat',S+'ab2flat&screen=p0'],['n','A Specimen · orig fonts',S+'specimen&screen=p0&font=orig'],['n','B Whimsy Grid · orig fonts',S+'whimsy&screen=p0&font=orig'],['n','C Loud Lab · orig fonts',S+'loud&screen=p0&font=orig'],['n','NEW · A Specimen',S+'specimen&screen=p0'],['n','NEW · B Whimsy Grid',S+'whimsy&screen=p0'],['n','NEW · C Loud Lab',S+'loud&screen=p0']]],
 ['LANDING · iherebycommit.com',[
  ['img','Live site today (screenshot, Oct 20)','seuss-compare-img_grokbot/land_live.png'],
- ['n','NEW · A Specimen',S+'specimen&screen=land'],['n','NEW · B Whimsy Grid',S+'whimsy&screen=land'],['n','NEW · C Loud Lab',S+'loud&screen=land']]]];
+ ['n','NEW · AB2 Flat',S+'ab2flat&screen=land'],['n','A Specimen · orig fonts',S+'specimen&screen=land&font=orig'],['n','B Whimsy Grid · orig fonts',S+'whimsy&screen=land&font=orig'],['n','C Loud Lab · orig fonts',S+'loud&screen=land&font=orig'],['n','NEW · A Specimen',S+'specimen&screen=land'],['n','NEW · B Whimsy Grid',S+'whimsy&screen=land'],['n','NEW · C Loud Lab',S+'loud&screen=land']]]];
 var h='';G.forEach(function(g){h+='<h2>'+g[0]+'</h2><div class="row">';g[1].forEach(function(x){
  var body=x[0]==='img'?'<img src="'+x[2]+'" alt="">':'<iframe loading="lazy" src="'+x[2]+'"></iframe>';
  h+='<figure><figcaption class="'+(x[0]==='n'?'new':'')+'">'+x[1]+' · <a href="'+x[2]+'" target="_blank">open</a></figcaption><div class="fr">'+body+'</div></figure>';});h+='</div>';});
