@@ -205,6 +205,14 @@
   body.s-AB2flat .k { font:400 15px/14px 'Bebas Neue', sans-serif; letter-spacing:.05em; }
   body.s-AB2flat .e { color:#E05A10; font-size:12px; font-weight:700; letter-spacing:.06em; text-decoration:none; }
   body.s-AB2flat .next { border:1.5px solid #0e0e0e; box-shadow:none; }
+  /* &bg=black (Amanda Oct 21): AB2flat on near-black to compare with live dark design */
+  body.s-AB2flat.bk { background:linear-gradient(rgba(244,239,226,.07) 1px,transparent 1px) 0 0/16px 16px,linear-gradient(90deg,rgba(244,239,226,.07) 1px,transparent 1px) 0 0/16px 16px #141413 !important; color:#F4EFE2; }
+  body.s-AB2flat.bk * { color:#F4EFE2; border-color:rgba(244,239,226,.75) !important; }
+  body.s-AB2flat.bk .c { background:#1f1f1d; border-color:rgba(244,239,226,.75); }
+  body.s-AB2flat.bk .e, body.s-AB2flat.bk .e * { color:#FF7A2F; }
+  body.s-AB2flat.bk .next, body.s-AB2flat.bk .next *, body.s-AB2flat.bk .lab b, body.s-AB2flat.bk h1 em, body.s-AB2flat.bk.a2 .sub, body.s-AB2flat.bk [style*="c8f135"] { color:#0e0e0e; }
+  body.s-AB2flat.bk .prog i { box-shadow:inset 0 0 0 1.5px rgba(244,239,226,.75); } body.s-AB2flat.bk .prog i.on { background:#F4EFE2; } body.s-AB2flat.bk.a2 .prog i.on { background:var(--a2); box-shadow:none; }
+  body.s-AB2flat.bk .lab u { color:#F4EFE2; }
   /* &accent2 (Amanda Oct 21, AB2flat): one structural accent beside lime - filled step segment, SINGLE tag, subtitle band */
   body.s-AB2flat.a2 .prog i.on { background:var(--a2); }
   body.s-AB2flat.a2 .lab b { background:var(--a2); }
@@ -253,7 +261,7 @@
     (ip ? [] : D).map(function (d) { return card(d[0], d[1]); }).join('') +
     '</div><div class="bot"><button class="next" type="button">NEXT</button><button class="back" type="button">\u2190 BACK</button></div></div>';
   B.innerHTML = html;
-  var A2C={mint:'#6FD3BC',minpale:'#DFF4EE',teal:'#3BA7A5',orange:'#FF7A2F'}[(new URLSearchParams(location.search).get('accent2')||'').toLowerCase()];if(A2C){document.body.classList.add('a2');document.body.style.setProperty('--a2',A2C);}
+  var A2C={mint:'#6FD3BC',minpale:'#DFF4EE',teal:'#3BA7A5',orange:'#FF7A2F'}[(new URLSearchParams(location.search).get('accent2')||'').toLowerCase()];if(new URLSearchParams(location.search).get('bg')==='black')document.body.classList.add('bk');if(A2C){document.body.classList.add('a2');document.body.style.setProperty('--a2',A2C);}
 
 })();
 </script>
