@@ -75,13 +75,46 @@ body.bk{--i:#F4EFE2;--card:#1f1f1d;background:linear-gradient(rgba(244,239,226,.
 .ty .bl{font-weight:700;white-space:nowrap;border-bottom:1.5px solid currentColor}
 .ty .L,.ty .O{font-weight:700}
 .ty .rl{border-top:var(--r);border-bottom:var(--r);height:5px;margin:8px 0 0;flex:none}
+/* r3: Seuss teal #3BA7A5 + deep teal #2b8583 */
+body{--t:#3BA7A5;--td:#2b8583}
+.op{line-height:1.7}.op .bl{border-bottom:var(--r);font-weight:700;white-space:nowrap;padding:0 .15em}
+.T{background:var(--t);color:#141413;padding:0 .15em}
+.Lc{background:var(--l);color:#141413;padding:0 .15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.Oc{background:var(--o);color:#fff;padding:0 .15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.pb .blk{flex:none;margin:8px 0 0;display:grid;grid-template-columns:1fr}
+.pb .a{background:var(--td);color:#F4EFE2;padding:.5em .7em;border:var(--r)}
+.pb .a .bl{border-color:#F4EFE2}
+.pb .b2{background:var(--l);color:#141413;padding:.2em .5em;border:var(--r);border-top:0;font:3.2em/.9 'Bebas Neue'}
+.pb .c2{display:grid;grid-template-columns:1fr 1fr;border:var(--r);border-top:0}
+.pb .c2 div{padding:.45em .6em;line-height:1.35}.pb .c2 div+div{border-left:var(--r);background:var(--t);color:#141413}
+.pb .c2 h3{margin:0 0 .15em;font:1.5em/1 'Bebas Neue'}
+.sp .lab{flex:none;margin-top:8px;border:var(--r);background:var(--card)}
+.sp .bar{display:flex;justify-content:space-between;background:var(--t);color:#141413;border-bottom:var(--r);padding:.25em .6em}
+.sp .bar b{font:1.6em/1 'Bebas Neue';letter-spacing:.04em}
+.sp .bd{padding:.4em .6em}
+.sp .cks{border-top:var(--r);display:grid}
+.sp .ck{display:grid;grid-template-columns:1.6em 1fr;align-items:center;gap:.5em;padding:.3em .6em;border-bottom:1px dashed currentColor;line-height:1.3}
+.sp .ck:last-child{border-bottom:0}
+.sp .ck i{width:1.3em;height:1.3em;border:var(--r);background:var(--l);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:700;color:#141413}
+.sp .bc{height:1.6em;margin:.3em .6em .5em;background:repeating-linear-gradient(90deg,currentColor 0 2px,transparent 2px 4px,currentColor 4px 5px,transparent 5px 9px)}
+.bp .pass{flex:none;margin-top:8px;border:var(--r);background:var(--card);display:grid;grid-template-columns:1fr}
+.bp .hd2{background:var(--td);color:#F4EFE2;display:flex;justify-content:space-between;align-items:center;padding:.3em .6em;border-bottom:var(--r)}
+.bp .hd2 b{font:1.7em/1 'Bebas Neue';letter-spacing:.05em}
+.bp .route{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:.4em .6em;border-bottom:1.5px dashed currentColor}
+.bp .route div{font:2.3em/.9 'Bebas Neue'}.bp .route div:last-child{text-align:right}
+.bp .route span{font-size:1.4em;padding:0 .3em}
+.bp .fl{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1.5px dashed currentColor}
+.bp .fl div{padding:.3em .6em;border-right:1px solid currentColor}.bp .fl div:last-child{border-right:0}
+.bp .fl b{display:block;font:1.3em/1.1 'Bebas Neue'}
+.bp .stub{padding:.4em .6em;line-height:1.35;background:var(--mp);color:#141413}
+.bk.bp .stub{background:#1f2a28;color:#F4EFE2}
 .mid{flex:1;min-height:4px}
 </style></head><body>
 <script>
 (function(){
 var Q=new URLSearchParams(location.search),I=(Q.get('idea')||'affidavit').toLowerCase(),C=Q.get('path')==='couple';
-if(!/^(affidavit|intake|stamp|ledger|deed|typeset)$/.test(I))I='affidavit';
-var B=document.body;B.className={affidavit:'af',intake:'in',stamp:'st',ledger:'lg',deed:'dd',typeset:'ty'}[I]+(C?' cpl':'')+(Q.get('bg')==='black'?' bk':'');
+if(!/^(affidavit|intake|stamp|ledger|deed|typeset|poster|specimen|boarding)$/.test(I))I='affidavit';
+var B=document.body;B.className={affidavit:'af',intake:'in',stamp:'st',ledger:'lg',deed:'dd',typeset:'ty',poster:'pb',specimen:'sp',boarding:'bp'}[I]+(C?' cpl':'')+(Q.get('bg')==='black'?' bk':'');
 var ST=C?'a partnered woman':'an unmarried woman';
 var COM='<span class="L">hereby commit to tell the whole truth &amp; nothing but the truth on this application</span>';
 var FIND=C?'<span class="O">to find love that will last</span>':'<span class="L">to find love that will last</span>';
@@ -93,7 +126,17 @@ var end='<div class="cont"><div>amanda.bradford@gmail.com</div><div style="flex:
 var bl=function(t){return '<span class="bl">'+t+'</span>'};
 var SENT=function(lead){var a=bl('Amanda')+' '+bl('Bradford');return (lead?'<span class="lead">I, '+a+',</span>':'I, '+a+', ')+bl(ST+' \u25be')+' of '+bl('5\u203210\u2033')+' in height, born '+bl('Jan 1, 1984')+', domiciled in '+bl('Austin, TX')+', being of sound mind and uncertain romantic history, '+COM+'.<br>To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person, '+FIND+', '+TILL};
 var h;
-if(I==='ledger'){
+var OPEN='<p class="op" style="margin:0">I, '+bl('Amanda')+' '+bl('Bradford')+', '+bl(ST+' \u25be')+' of '+bl('5\u203210\u2033')+' in height, born '+bl('Jan 1, 1984')+', domiciled in '+bl('Austin, TX')+',</p>';
+var LV=function(t){return '<span class="'+(C?'Oc':'Lc')+'">'+t+'</span>'};
+if(I==='poster'){
+ h='<div class="ph">'+top+'<div class="blk fit"><div class="a">'+OPEN+'</div><div class="b2">hereby commit.</div><div class="c2"><div><h3>To the truth</h3>Real answers, not my best angles.</div><div><h3>To the science</h3>Let the research do the matching.</div></div><div class="a" style="background:var(--card);color:inherit;border-top:0;line-height:1.4">And '+LV('to find love that will last')+'. No swiping required.</div></div><div class="mid"></div>'+sig(58)+end+'</div>';
+}else if(I==='specimen'){
+ h='<div class="ph">'+top+'<div class="lab fit"><div class="bar"><b>Subject 01</b><span class="fig" style="align-self:center">Step 1 of 7</span></div><div class="bd">'+OPEN+'<p style="margin:.3em 0 0;font:1.5em/1.05 \'Bebas Neue\'">volunteer for the experiment of a lifetime.</p></div><div class="cks">'+
+ '<div class="ck"><i>\u2713</i><span>I will answer honestly.</span></div><div class="ck"><i>\u2713</i><span>I will show up for the dates.</span></div><div class="ck"><i>\u2713</i><span>I will stay curious, even when it\u2019s awkward.</span></div><div class="ck"><i>\u2713</i><span>I am here '+LV('to find love that will last')+'.</span></div></div><div class="bc"></div></div><div class="mid"></div>'+sig(58)+end+'</div>';
+}else if(I==='boarding'){
+ h='<div class="ph">'+top+'<div class="pass fit"><div class="hd2"><b>I hereby commit</b><span class="fig">Step 1 of 7</span></div><div class="route"><div>'+(C?'Couple':'Single')+'</div><span>\u2192</span><div>Lasting</div></div><div style="padding:.4em .6em;border-bottom:1.5px dashed currentColor">'+OPEN+'</div>'+
+ '<div class="fl"><div>Class<b>Research</b></div><div>Gate<b>Truth</b></div><div>Seat<b>Yours</b></div></div><div class="stub">Am cleared for departure: honest answers packed, baggage declared, ready '+LV('to find love that will last')+'.</div></div><div class="mid"></div>'+sig(58)+end+'</div>';
+}else if(I==='ledger'){
  h='<div class="ph">'+top+'<div class="sheet fit"><div class="hdr fig"><span>Step 1 of 7</span><span>Oct 20, 2026</span></div><p class="sn">'+SENT()+'</p></div><div class="mid"></div>'+sig(58)+end+'</div>';
 }else if(I==='deed'){
  h='<div class="ph">'+top+'<div class="deed fit"><p class="sn">'+SENT()+'</p></div><div class="mid"></div><div style="position:relative;flex:none">'+sig(62)+'<div class="seal2" style="top:31px">'+(C?'Couple':'Single')+'<br>Oct 20<br>2026</div></div>'+end+'</div>';
