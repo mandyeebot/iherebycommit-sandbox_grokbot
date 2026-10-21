@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Redesign compare · earlier options vs Seuss-Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#0e0e0e;color:#f0ece0;font-family:'Space Mono',monospace;padding:14px 16px}
+h1{font:400 34px 'Bebas Neue';margin:0 0 4px}h2{font:400 26px 'Bebas Neue';margin:22px 0 8px;border-top:1px solid #444;padding-top:12px}
+.row{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px}figure{margin:0;flex:none;width:262px}
+figcaption{font:700 11px/15px 'Space Mono';letter-spacing:.05em;margin-bottom:6px;min-height:30px}figcaption a{color:#c8f135}
+figcaption.new{color:#c8f135}.fr{width:262px;height:463px;overflow:hidden;border-radius:6px;background:#222}
+.fr iframe{width:393px;height:694px;border:0;transform:scale(.6667);transform-origin:0 0}.fr img{width:262px;display:block}
+p{font-size:12px;margin:0}</style></head><body>
+<h1>Whole-app redesign · compare</h1><p>Earlier options first, then the NEW Seuss-Lab directions (A Specimen, B Whimsy Grid, C Loud Lab) and AB2 Flat. 393×694, scaled.</p>
+<script>
+var W='whoyouare-collapsed_grokbot.html?edit=pencil&style=',S='seuss-lab_grokbot.html?opt=';
+var P0='onboarding-page0_grokbot.html?p0=2w&sign=1&bg=lab&sigstyle=green&btn=black&copy=oath4&contact=inline&fields=black';
+var G=[['WHO YOU ARE (completed)',[
+ ['black','Current black (s3y223)',W+'black'],['blackfix2','Blackfix2 · orange EDIT',W+'blackfix2'],['A','A · Lab form',W+'A'],['A2','A2 · Lab + orange',W+'A2'],['B','B · Brutalist',W+'B'],['AB','AB · Lab × Brutalist',W+'AB'],['AB2','AB2 · white favorite',W+'AB2'],['AB2dark','AB2dark · AB2 on black',W+'AB2dark'],
+ ['n','NEW · AB2 Flat (no shadows)',W+'AB2flat'],['n','NEW · A Specimen',S+'specimen&screen=who'],['n','NEW · B Whimsy Grid',S+'whimsy&screen=who'],['n','NEW · C Loud Lab',S+'loud&screen=who']]],
+['PAGE 0 · I HEREBY COMMIT pledge',[
+ ['live','Current page 0 (oath4, fields=black)',P0],['img','A · Lab form (earlier shot)','seuss-compare-img_grokbot/p0_wstyleA.png'],['img','A2 (earlier shot)','seuss-compare-img_grokbot/p0_wstyleA2.png'],['img','B (earlier shot)','seuss-compare-img_grokbot/p0_wstyleB.png'],['img','AB (earlier shot)','seuss-compare-img_grokbot/p0_wstyleAB.png'],['img','AB2 (earlier shot)','seuss-compare-img_grokbot/p0_wstyleAB2.png'],['img','C (earlier shot)','seuss-compare-img_grokbot/p0_wstyleC.png'],['img','D (earlier shot)','seuss-compare-img_grokbot/p0_wstyleD.png'],
+ ['n','NEW · A Specimen',S+'specimen&screen=p0'],['n','NEW · B Whimsy Grid',S+'whimsy&screen=p0'],['n','NEW · C Loud Lab',S+'loud&screen=p0']]],
+['LANDING · iherebycommit.com',[
+ ['img','Live site today (screenshot, Oct 20)','seuss-compare-img_grokbot/land_live.png'],
+ ['n','NEW · A Specimen',S+'specimen&screen=land'],['n','NEW · B Whimsy Grid',S+'whimsy&screen=land'],['n','NEW · C Loud Lab',S+'loud&screen=land']]]];
+var h='';G.forEach(function(g){h+='<h2>'+g[0]+'</h2><div class="row">';g[1].forEach(function(x){
+ var body=x[0]==='img'?'<img src="'+x[2]+'" alt="">':'<iframe loading="lazy" src="'+x[2]+'"></iframe>';
+ h+='<figure><figcaption class="'+(x[0]==='n'?'new':'')+'">'+x[1]+' · <a href="'+x[2]+'" target="_blank">open</a></figcaption><div class="fr">'+body+'</div></figure>';});h+='</div>';});
+document.body.insertAdjacentHTML('beforeend',h);
+</script></body></html>

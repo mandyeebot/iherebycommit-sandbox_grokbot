@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seuss-Lab directions · ?opt=specimen|whimsy|loud &amp;screen=who|p0|land</title>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Chewy&family=Bungee&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Static mockups, Oct 20 2026. Palette: black #0e0e0e, cream #f0ece0, lime #c8f135, orange #FF7A2F, + Green Eggs teal #3BA7A5. Copy = real copy from page 0 (copy=oath4) and iherebycommit.com. */
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{font-family:'Space Mono',monospace;color:#0e0e0e;-webkit-text-size-adjust:100%}
+.ph{height:100vh;height:100dvh;display:flex;flex-direction:column;padding:12px 20px calc(env(safe-area-inset-bottom,0px) + 8px);overflow:hidden;position:relative}
+.top{display:flex;justify-content:space-between;align-items:center;font:700 10px/14px 'Space Mono';letter-spacing:.14em;text-transform:uppercase;flex:none}
+.tag{padding:2px 6px}
+.fig{font:700 9px/12px 'Space Mono';letter-spacing:.12em;text-transform:uppercase}
+.grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(10,minmax(0,1fr));gap:5px 9px}
+.c{min-width:0;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:center;padding:0 8px;overflow:hidden}
+.k,.v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.v{font:700 11.5px/16px 'Space Mono';grid-column:1}
+.k{grid-column:1}
+.pn{grid-column:2;grid-row:1/3;align-self:center;width:15px;height:15px}
+.btn{flex:none;width:100%;border:0;cursor:pointer;text-align:center}
+.back{flex:none;text-align:center;font:700 12px 'Space Mono';letter-spacing:.08em;padding:7px 0 0}
+.pl{font-size:var(--fs);line-height:1.08;text-transform:uppercase;margin:0}
+.pl .b{white-space:nowrap}
+.pl .em{-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.sig{position:relative;flex:none;height:62px}
+.sig svg{position:absolute;left:44px;top:12px;width:200px;height:44px}
+.cont{display:flex;gap:8px;flex:none}.cont div{flex:1;font:700 11px/30px 'Space Mono';padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.legal{font:10px/14px 'Space Mono';flex:none;margin-top:5px}
+.legal u{text-underline-offset:2px}
+
+/* ===== A · SPECIMEN: cream grid paper, Luckiest Guy display, teal specimen tags, numbered figure labels, 2px rules + hard shadow ===== */
+.o-specimen{background:linear-gradient(rgba(14,14,14,.07) 1px,transparent 1px) 0 0/16px 16px,linear-gradient(90deg,rgba(14,14,14,.07) 1px,transparent 1px) 0 0/16px 16px #f0ece0}
+.o-specimen .tag{background:#3BA7A5;color:#0e0e0e;border:1.5px solid #0e0e0e;border-radius:10px}
+.o-specimen h1{font:400 50px/.95 'Luckiest Guy';margin:8px 0 0;letter-spacing:.01em;transform:rotate(-1.5deg)}
+.o-specimen h1 em{font-style:normal;background:#c8f135;padding:0 6px;border:2px solid #0e0e0e;border-radius:12px;display:inline-block;transform:rotate(3deg)}
+.o-specimen .c{background:#fbf9f3;border:2px solid #0e0e0e;border-radius:10px;box-shadow:3px 3px 0 #0e0e0e;counter-increment:s}
+.o-specimen .grid{counter-reset:s;padding:0 3px 3px 0}
+.o-specimen .k{font:400 13px/15px 'Luckiest Guy';letter-spacing:.04em;padding-top:2px}
+.o-specimen .k::before{content:"SP-" counter(s,decimal-leading-zero);font:700 8px/11px 'Space Mono';background:#3BA7A5;border:1px solid #0e0e0e;border-radius:6px;padding:0 3px;margin-right:5px;vertical-align:2px}
+.o-specimen .pn{color:#E05A10}
+.o-specimen .btn{background:#c8f135;border:2.5px solid #0e0e0e;border-radius:16px;box-shadow:4px 4px 0 #0e0e0e;font:400 26px/1 'Luckiest Guy';padding:13px 0 9px;letter-spacing:.06em;width:calc(100% - 4px)}
+.o-specimen .pl{font-family:'Luckiest Guy';--fs:21px;line-height:1.16}
+.o-specimen .pl .b{background:#0e0e0e;color:#c8f135;border-radius:7px;padding:1px 5px 0}
+.o-specimen .pl .em{background:#3BA7A5;padding:0 3px;border-radius:5px}
+.o-specimen .sig{background:#c8f135;border:2px solid #0e0e0e;border-radius:12px}
+.o-specimen .cont div{background:#c8f135;border:2px solid #0e0e0e;border-radius:10px}
+
+/* ===== B · WHIMSY GRID: Cat-in-the-Hat stripes, Chewy display, bouncy pill cards with teal wavy edge, lab dot-grid ===== */
+.o-whimsy{background:#f0ece0 radial-gradient(rgba(14,14,14,.18) 1.2px,transparent 1.4px) 0 0/14px 14px}
+.o-whimsy .stripe{flex:none;height:12px;margin:0 -20px;background:repeating-linear-gradient(-45deg,#FF7A2F 0 10px,#f0ece0 10px 20px);border-bottom:2px solid #0e0e0e}
+.o-whimsy .tag{background:#c8f135;border:2px solid #0e0e0e;border-radius:99px}
+.o-whimsy h1{font:400 50px/.9 'Chewy';margin:8px 0 0}
+.o-whimsy h1 em{font-style:normal;color:#f0ece0;-webkit-text-stroke:2px #0e0e0e;paint-order:stroke fill;background:#3BA7A5;border:2.5px solid #0e0e0e;border-radius:40% 55% 45% 60%/60% 45% 55% 40%;padding:0 10px;display:inline-block;transform:rotate(-4deg)}
+.o-whimsy .c{background:#fff;border:2px solid #0e0e0e;border-radius:99px;padding:0 12px;box-shadow:inset 0 -4px 0 #3BA7A5}
+.o-whimsy .c:nth-child(4n+2),.o-whimsy .c:nth-child(4n+3){box-shadow:inset 0 -4px 0 #FF7A2F}
+.o-whimsy .k{font:400 14px/15px 'Chewy';letter-spacing:.02em}
+.o-whimsy .v{font-size:11px}
+.o-whimsy .pn{color:#0e0e0e}
+.o-whimsy .btn{background:repeating-linear-gradient(-45deg,#c8f135 0 14px,#b4dc22 14px 28px);border:2.5px solid #0e0e0e;border-radius:99px;font:400 28px/1 'Chewy';padding:12px 0 10px}
+.o-whimsy .pl{font-family:'Chewy';--fs:22px;line-height:1.12}
+.o-whimsy .pl .b{text-decoration:underline wavy #FF7A2F 2.5px;text-underline-offset:4px;color:#2b8583;padding:0 1px}
+.o-whimsy .pl .em{background:#c8f135;border-radius:99px;padding:0 6px}
+.o-whimsy .sig{background:#c8f135;border:2px dashed #0e0e0e;border-radius:22px}
+.o-whimsy .cont div{background:#fff;border:2px solid #0e0e0e;border-radius:99px;padding:0 12px}
+
+/* ===== C · LOUD LAB: teal lab-coat field, Bungee display, 3px black outlines, 5px hard shadows, black/lime blocks ===== */
+.o-loud{background:linear-gradient(rgba(14,14,14,.12) 1px,transparent 1px) 0 0/20px 20px,linear-gradient(90deg,rgba(14,14,14,.12) 1px,transparent 1px) 0 0/20px 20px #3BA7A5}
+.o-loud .tag{background:#0e0e0e;color:#c8f135}
+.o-loud h1{font:400 40px/1 'Bungee';margin:8px 0 0;color:#f0ece0;-webkit-text-stroke:2px #0e0e0e;paint-order:stroke fill;text-shadow:4px 4px 0 #0e0e0e}
+.o-loud h1 em{font-style:normal;color:#c8f135}
+.o-loud .c{background:#f0ece0;border:3px solid #0e0e0e;box-shadow:4px 4px 0 #0e0e0e;border-radius:4px 14px 4px 14px}
+.o-loud .grid{gap:6px 11px;padding:0 4px 4px 0}
+.o-loud .k{font:400 11px/14px 'Bungee';letter-spacing:.02em}
+.o-loud .pn{color:#E05A10}
+.o-loud .btn{background:#FF7A2F;border:3px solid #0e0e0e;box-shadow:5px 5px 0 #0e0e0e;font:400 24px/1 'Bungee';padding:13px 0 11px;width:calc(100% - 5px)}
+.o-loud .back{color:#0e0e0e}
+.o-loud .pl{font-family:'Bungee';--fs:18.3px;line-height:1.2;color:#0e0e0e}
+.o-loud .pl .b{background:#f0ece0;border:2px solid #0e0e0e;padding:0 3px;border-radius:5px}
+.o-loud .pl .em{background:#0e0e0e;color:#c8f135;padding:0 3px}
+.o-loud .sig{background:#c8f135;border:3px solid #0e0e0e;box-shadow:4px 4px 0 #0e0e0e}
+.o-loud .cont div{background:#f0ece0;border:3px solid #0e0e0e}
+.o-loud .fig{color:#0e0e0e}
+
+/* landing extras */
+.land h1.big{margin:6px 0 0}
+.land p{font:12.5px/19px 'Space Mono';margin:12px 0 0}
+.land .apply{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.land .apply .btn{font-size:22px;padding:12px 0 9px}
+.land .curl{flex:none}
+.land .hl{background:#c8f135;padding:0 3px}
+.o-loud.land p{color:#0e0e0e}
+.o-loud .land-sec{background:#0e0e0e;color:#c8f135}
+.o-specimen .land-sec{background:#f0ece0;border:2px solid #0e0e0e;border-radius:99px}
+.o-whimsy .land-sec{background:#fff;border:2px solid #0e0e0e;border-radius:99px}
+.land .sec{font:700 11px 'Space Mono';letter-spacing:.12em;margin-top:12px;align-self:center;padding:5px 12px}
+@media (min-height:690px){.o-specimen .pl{--fs:22.2px}.o-whimsy .pl{--fs:23px}.o-loud .pl{--fs:19.2px}}
+.hed{flex:none;text-transform:uppercase;margin-top:12px;line-height:1.02}
+.o-specimen .hed{font:400 36px/1.02 'Luckiest Guy'}.o-specimen .hed span{background:#3BA7A5;border-radius:8px;padding:0 4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.o-whimsy .hed{font:400 38px/1 'Chewy'}.o-whimsy .hed span{color:#2b8583;text-decoration:underline wavy #FF7A2F 3px;text-underline-offset:6px}
+.o-loud .hed{font:400 29px/1.08 'Bungee';color:#f0ece0;-webkit-text-stroke:1.5px #0e0e0e;paint-order:stroke fill;text-shadow:3px 3px 0 #0e0e0e}.o-loud .hed span{color:#c8f135}
+.land .apply{flex-direction:row;gap:10px}.land .apply .btn{font-size:19px;padding:14px 0 11px;width:auto;flex:1}
+.o-specimen .bc,.o-whimsy .bc{background:#FF7A2F}.o-loud .bc{background:#c8f135}
+</style></head><body>
+<script>
+(function(){
+var Q=new URLSearchParams(location.search),O=(Q.get('opt')||'specimen').toLowerCase(),S=(Q.get('screen')||'who').toLowerCase();
+if(!/^(specimen|whimsy|loud)$/.test(O))O='specimen';
+var NAME={specimen:'A · SPECIMEN',whimsy:'B · WHIMSY GRID',loud:'C · LOUD LAB'}[O];
+var PEN='<svg class="pn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter" stroke-linecap="square"><path d="M17 3.5L20.5 7L8 19.5L3.5 20.5L4.5 16Z"/><path d="M14.5 6L18 9.5"/></svg>';
+var esc=function(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')};
+var B=document.body;B.className='o-'+O+(S==='land'?' land':'');
+var stripe=O==='whimsy'?'<div class="stripe"></div>':'';
+var h='';
+if(S==='who'){
+ var D=[['Gender','Woman'],['Name','Amanda Bradford'],['Date of birth','Jan 1, 1984'],['Location','Austin, TX'],['Marital status','Never married'],['Have kids','Yes (2)'],['Last breakup','Aug 2026'],['Height','5\u201910\u201d'],['Race','White'],['Education','MBA'],['Industry','Marketing'],['Title','Founder ceo'],['Income','$100k\u2013150k'],['Religion','Christian \u00b7 Non-denominational'],['Politics','Moderate'],['Languages','English +1'],['Sports','Volleyball, Running'],['Instruments','Guitar, Voice'],['Interests','Live Music, Hiking'],['Email','amanda.bradford@gmail.com']];
+ h='<div class="ph">'+stripe+'<div class="top" style="margin-top:'+(stripe?8:0)+'px"><span>Step 1 of 6</span><span class="tag">Single</span><span class="fig">Fig. 01</span></div>'+
+ '<h1>Who you <em>are</em></h1><p style="font:10.5px/15px Space Mono;margin:8px 0 9px;flex:none">Data is private by default. Change visibility later.</p><div class="grid">'+
+ D.map(function(d){return '<div class="c"><span class="k">'+esc(d[0])+'</span><span class="v">'+esc(d[1])+'</span>'+PEN+'</div>'}).join('')+
+ '</div><div style="flex:none;padding-top:10px"><button class="btn">NEXT</button><div class="back">\u2190 BACK</div></div></div>';
+}else if(S==='p0'){
+ var b=function(t){return '<span class="b">'+t+'</span>'},em=function(t){return '<span class="em">'+t+'</span>'};
+ h='<div class="ph">'+stripe+'<div class="top" style="margin-top:'+(stripe?8:0)+'px"><span>\u2190 Step 1 of 7</span><span class="tag">Single</span><span>Edit</span></div>'+
+ '<p class="pl" style="margin-top:10px;flex:none">I, '+b('Amanda')+' '+b('Bradford')+', '+'<span class="b" style="white-space:normal">an unmarried woman (never married) \u25be</span>'+' of '+b('5\u203210\u2033')+' in height, born '+b('Jan 1, 1984')+', domiciled in '+b('Austin, TX')+', being of sound mind and uncertain romantic history, '+em('hereby commit to tell the whole truth &amp; nothing but the truth on this application')+'.<br>To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person, '+em('to find love that will last')+', '+em('till deletion do us part.')+'</p>'+
+ '<div style="flex:1"></div><div class="sig"><span class="fig" style="position:absolute;left:10px;top:7px">Sign here</span><span style="position:absolute;left:12px;bottom:8px;font:700 18px Space Mono">X</span><svg viewBox="0 0 200 44" fill="none" stroke="#0e0e0e" stroke-width="2.2" stroke-linecap="round"><path d="M4 34C14 6 22 4 24 30C26 40 30 12 40 16C48 20 42 34 52 28C62 20 66 10 74 24C80 36 90 18 100 22C112 26 120 14 132 20C150 30 170 18 196 14"/></svg><span style="position:absolute;left:36px;right:12px;bottom:10px;border-bottom:1.5px solid #0e0e0e"></span></div>'+
+ '<div class="fig" style="display:flex;justify-content:space-between;margin:5px 2px 6px;flex:none"><span>Printed name</span><span>Oct 20, 2026</span></div>'+
+ '<div class="cont"><div>amanda.bradford@gmail.com</div><div style="flex:.6">Phone</div></div>'+
+ '<div style="flex:none;margin-top:10px"><button class="btn">I HEREBY COMMIT</button></div>'+
+ '<div class="legal">By committing, you agree to our <u>Terms</u> and <u>Privacy Policy</u> and confirm you\u2019re 18+. Your application enters our candidate pool and we\u2019ll notify you when we go live.</div></div>';
+}else{
+ h='<div class="ph">'+stripe+'<div class="top" style="margin-top:'+(stripe?8:0)+'px"><span class="tag">\u25cf Applications open</span><span>Cohort 01</span></div>'+
+ '<div class="fig" style="margin-top:12px">Built with relationship scientists</div>'+
+ '<h1 class="big" style="font-size:'+(O==='loud'?30:36)+'px;line-height:1">I hereby <em>commit</em></h1>'+
+ '<div class="hed">It\u2019s the biggest decision of your life. <span>It\u2019s never been studied like one.</span></div>'+
+ '<p>Science has been studying love with sophomores more in need of a psych credit than a life partner.<sup>1</sup> The online dating industry stops paying attention at the match. We\u2019re fixing both with a first-of-its-kind experiment designed with the best scientists in the field from day 1 \u2014 to get the right data, get you on the right dates, and get some answers about <span class="hl">what makes a relationship last</span>.</p>'+
+ '<p style="font-weight:700">Apply to be part of our first-of-its-kind study on what makes a match last.</p>'+
+ '<div style="flex:1"></div><div class="apply"><button class="btn bc">APPLY \u00b7 COUPLE</button><button class="btn">APPLY \u00b7 SINGLE</button></div></div>';
+}
+B.innerHTML=h;
+})();
+</script></body></html>
