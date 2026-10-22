@@ -108,6 +108,9 @@ body{--t:#3BA7A5;--td:#2b8583}
 .bp .fl b{display:block;font:1.3em/1.1 'Bebas Neue'}
 .bp .stub{padding:.4em .6em;line-height:1.35;background:var(--mp);color:#141413}
 .bk.bp .stub{background:#1f2a28;color:#F4EFE2}
+body.tb{--t:#7FE3DA;--td:#14C2B8}
+.tb.pb .a,.tb .bp .hd2,.tb.bp .hd2{color:#141413}.tb.pb .a .bl{border-color:#141413}
+.tb.bk.pb .a[style]{color:#F4EFE2}
 .mid{flex:1;min-height:4px}
 </style></head><body>
 <script>
@@ -164,7 +167,7 @@ if(I==='poster'){
  '<p class="who">Being of sound mind and uncertain romantic history. To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person,</p>'+
  '<p class="hd vw" style="margin-top:0">'+FIND+', '+TILL+'</p></div><div class="mid"></div>'+sig(86)+end+'</div>';
 }
-B.innerHTML=h;
+if(Q.get('teal')==='bright')B.classList.add('tb');B.innerHTML=h;
 function fit(){var f=B.querySelector('.fit'),ph=B.querySelector('.ph'),lo=9,hi=26;
  for(var k=0;k<14;k++){var m=(lo+hi)/2;f.style.setProperty('--fs',m+'px');(ph.scrollHeight>ph.clientHeight+0.5||f.scrollWidth>f.clientWidth+1)?hi=m:lo=m;}
  f.style.setProperty('--fs',(lo-.1)+'px');B.dataset.fs=lo.toFixed(1);}
