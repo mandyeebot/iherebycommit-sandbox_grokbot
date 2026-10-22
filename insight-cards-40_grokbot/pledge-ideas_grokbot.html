@@ -120,6 +120,15 @@ body.tb{--t:#7FE3DA;--td:#14C2B8}
 .pf .sig{background:#DFF4EE}
 .pf .tag{background:#6FD3BC}
 .pf.bk .sig{border-color:#DFF4EE}
+/* pal=all (poster) */
+.pa.pb .b2{background:#E03C2E;color:#F4EFE2}
+.pa .sig{background:#C8F135}
+.pa .sig .fig,.pa .sub,.pa .legal{color:#5A564C;opacity:1}
+.pa.bk .sub,.pa.bk .legal{color:#F4EFE2;opacity:.8}
+.pa .tag{background:#FF7A2F;color:#141413}
+.pa .cont div{background:#5A564C;color:#F4EFE2;border-color:#5A564C}
+.pa.pb .blk{border-top:4px solid #FF7A2F}
+.pa.bk .btn{background:#F4EFE2;color:#141413;border-color:#F4EFE2}
 .mid{flex:1;min-height:4px}
 </style></head><body>
 <script>
@@ -176,7 +185,7 @@ if(I==='poster'){
  '<p class="who">Being of sound mind and uncertain romantic history. To have and to hold these truths, from this day forward, for richer for poorer, for younger for older, in video or in person,</p>'+
  '<p class="hd vw" style="margin-top:0">'+FIND+', '+TILL+'</p></div><div class="mid"></div>'+sig(86)+end+'</div>';
 }
-if(Q.get('pal')==='full'&&I==='poster')B.classList.add('pf','tb');if(Q.get('teal')==='bright')B.classList.add('tb');B.innerHTML=h;
+if(Q.get('pal')==='full'&&I==='poster')B.classList.add('pf','tb');if(Q.get('pal')==='all'&&I==='poster')B.classList.add('pf','tb','pa');if(Q.get('teal')==='bright')B.classList.add('tb');B.innerHTML=h;
 function fit(){var f=B.querySelector('.fit'),ph=B.querySelector('.ph'),lo=9,hi=26;
  for(var k=0;k<14;k++){var m=(lo+hi)/2;f.style.setProperty('--fs',m+'px');(ph.scrollHeight>ph.clientHeight+0.5||f.scrollWidth>f.clientWidth+1)?hi=m:lo=m;}
  f.style.setProperty('--fs',(lo-.1)+'px');B.dataset.fs=lo.toFixed(1);}
