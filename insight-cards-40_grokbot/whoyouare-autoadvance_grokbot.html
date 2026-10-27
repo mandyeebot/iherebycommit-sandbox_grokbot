@@ -238,7 +238,8 @@ function renderGrid(){
 }
 function updateMain(){
   const n=left();
-  if(!Object.values(state).some(v=>Array.isArray(v)?v.length:v) && !state._kidsN && !state._lastMonth && !flagged){
+  const any=Q.some(q=>answered(q.id)) || flagged || state._kidsN || state._lastMonth;
+  if(!any && n===Q.length){
     mainBtn.textContent="START"; mainBtn.classList.remove("ink");
   } else if(n>0){
     mainBtn.textContent="FINISH "+n+" LEFT"; mainBtn.classList.add("ink");
@@ -284,13 +285,9 @@ function closeSheet(completed){
 
 function paintSheet(){
   const q=Q[qi];
-  const n=Q.filter(x=>x.id!=="why"||appliesWhy()).length;
-  const idx=Q.slice(0,qi+1).filter(x=>x.id!=="why"||appliesWhy()||x.id===q.id).length;
-  // simpler: index among currently applicable
-  const applicable=Q.filter(x=>x.id!=="why"||appliesWhy());
-  const ai=applicable.findIndex(x=>x.id===q.id)+1;
-  shMeta.textContent=ai+" OF "+applicable.length;
-  shBar.style.width=((ai-0.15)/applicable.length*100)+"%";
+  const ai=qi+1;
+  shMeta.textContent=ai+" OF "+Q.length;
+  shBar.style.width=((ai-0.15)/Q.length*100)+"%";
   skipBtn.hidden=!q.optional;
   prevBtn.style.visibility=qi===0&&!state._sub?"hidden":"visible";
 
