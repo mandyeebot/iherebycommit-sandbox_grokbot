@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Who You Are · auto-advance (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- MOCKUP_grokbot: clickable auto-advance Who You Are. Options from Sandbox 2 s3y249. Not wired into Sandbox 2. -->
+<style>
+:root{--ink:#141413;--paper:#f0ece0;--card:#fbf9f3;--lime:#C8F135;--orange:#E05A10;--hi:#C8F135}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:'Space Mono',monospace}
+body{background-image:linear-gradient(rgba(20,20,19,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(20,20,19,.07) 1px,transparent 1px);background-size:16px 16px}
+#app{max-width:393px;margin:0 auto;min-height:100%;min-height:100dvh;display:flex;flex-direction:column;padding:10px 14px 12px;position:relative}
+.prog{display:flex;gap:4px;margin-bottom:8px}
+.prog i{flex:1;height:4px;border:1.5px solid var(--ink);background:transparent}
+.prog i.on{background:var(--ink);border-color:var(--ink)}
+.hdr{display:flex;align-items:center;gap:8px;font:700 11px/14px 'Space Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:10px;flex-wrap:wrap}
+.hdr .back{background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--ink);cursor:pointer}
+.hdr .step{background:var(--lime);color:var(--ink);padding:1px 6px;font-weight:700}
+.hdr .single{color:var(--ink);font-weight:700}
+h1{font:400 42px/1 'Bebas Neue',sans-serif;letter-spacing:.02em;margin:0 0 6px}
+h1 em{font-style:normal;background:var(--lime);padding:0 .06em}
+.sub{display:flex;align-items:center;gap:6px;font:400 11px/1.3 'Space Mono',monospace;margin:0 0 12px;color:var(--ink)}
+.sub svg{width:12px;height:14px;flex:none}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 8px;flex:1;align-content:start}
+.card{position:relative;background:var(--card);border:1.5px solid var(--ink);padding:7px 8px 8px;min-height:52px;cursor:pointer;min-width:0}
+.card.todo{border-style:dashed}
+.card .k{font:400 15px/14px 'Bebas Neue',sans-serif;letter-spacing:.05em;text-transform:uppercase;display:flex;align-items:center;gap:5px;min-width:0}
+.card .v{font:400 12px/17px 'Space Mono',monospace;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .v.empty{color:rgba(20,20,19,.4)}
+.card .pen{position:absolute;top:8px;right:7px;width:14px;height:14px;color:var(--orange)}
+.card .tag{display:none;font:700 8px/12px 'Space Mono',monospace;letter-spacing:.08em;background:var(--ink);color:var(--paper);padding:0 4px;margin-left:4px}
+.card.todo .tag{display:inline-block}
+.card.span2{grid-column:1/-1}
+.foot{margin-top:auto;padding-top:10px;flex:none}
+.btn{display:block;width:100%;background:var(--lime);color:var(--ink);border:1.5px solid var(--ink);font:400 22px/1 'Bebas Neue',sans-serif;letter-spacing:.08em;padding:14px 12px;cursor:pointer;text-align:center}
+.btn.ink{background:var(--ink);color:#fff}
+.note{font:400 9px/1.3 'Space Mono',monospace;color:rgba(20,20,19,.55);text-align:center;margin-top:8px}
+
+/* sheet */
+.bd{position:fixed;inset:0;background:rgba(20,20,19,.45);z-index:40;opacity:0;pointer-events:none;transition:opacity .18s}
+.bd.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:50%;transform:translateX(-50%) translateY(110%);bottom:0;width:min(393px,100%);max-height:min(92dvh,640px);z-index:50;background-color:var(--paper);background-image:linear-gradient(rgba(20,20,19,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(20,20,19,.06) 1px,transparent 1px);background-size:16px 16px;border:1.5px solid var(--ink);border-bottom:0;display:flex;flex-direction:column;transition:transform .22s ease;color:var(--ink)}
+.sheet.on{transform:translateX(-50%) translateY(0)}
+.sh-top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px 8px;border-bottom:1.5px solid var(--ink);flex:none}
+.sh-nav{display:flex;align-items:center;gap:10px;font:700 10px/1 'Space Mono',monospace;letter-spacing:.12em}
+.sh-nav button{background:none;border:0;padding:4px 0;font:inherit;letter-spacing:inherit;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.sh-nav .skip{opacity:.7}
+.sh-x{background:none;border:0;font:700 22px/1 'Space Mono',monospace;color:var(--ink);cursor:pointer;padding:0 4px}
+.sh-prog{height:3px;background:rgba(20,20,19,.12);flex:none}
+.sh-prog>i{display:block;height:100%;background:var(--ink);width:0;transition:width .2s}
+.sh-meta{padding:10px 16px 4px;font:700 10px/1 'Space Mono',monospace;letter-spacing:.14em;flex:none}
+.sh-q{padding:4px 16px 10px;font:400 26px/1.05 'Bebas Neue',sans-serif;letter-spacing:.03em;text-transform:uppercase;flex:none}
+.sh-list{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;padding:0 0 16px}
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 16px;background:transparent;border:0;border-bottom:1.5px solid var(--ink);font:400 13px/1.3 'Space Mono',monospace;color:var(--ink);cursor:pointer}
+.opt .box{width:16px;height:16px;border:1.5px solid var(--ink);background:#fffdf7;flex:none;position:relative}
+.opt.radio .box{border-radius:50%}
+.opt.selected{background:var(--lime);font-weight:700}
+.opt.selected .box{background:var(--ink)}
+.opt.radio.selected .box{background:#fffdf7}
+.opt.radio.selected .box::after{content:'';position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:50%;background:var(--ink);transform:translate(-50%,-50%)}
+.opt.selected:not(.radio) .box::after{content:'';position:absolute;left:2px;top:-1px;width:10px;height:6px;border-left:2px solid var(--lime);border-bottom:2px solid var(--lime);transform:rotate(-45deg)}
+.grp{padding:18px 16px 6px;font:italic 400 12px/1.2 'Space Mono',monospace;color:#6a8018;letter-spacing:.02em}
+.sh-foot{flex:none;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));border-top:1.5px solid var(--ink);display:none}
+.sh-foot.on{display:block}
+.sh-foot .next{width:100%;background:var(--ink);color:#fff;border:1.5px solid var(--ink);font:400 20px/1 'Bebas Neue',sans-serif;letter-spacing:.1em;padding:13px;cursor:pointer}
+.sh-foot .next:disabled{opacity:.35}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.pair .opt{border-right:1.5px solid var(--ink)}
+.pair .opt:nth-child(2n){border-right:0}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="prog" id="prog"></div>
+  <div class="hdr">
+    <button type="button" class="back" id="hdrBack">← BACK</button>
+    <span class="step">STEP 2 OF 7</span>
+    <span class="single">· SINGLE</span>
+  </div>
+  <h1>WHO YOU <em>ARE</em></h1>
+  <p class="sub"><svg viewBox="0 0 12 14" aria-hidden="true"><rect x="1.5" y="6" width="9" height="7" rx="1.2" fill="currentColor"/><path d="M3.5 6V4.2a2.5 2.5 0 0 1 5 0V6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>All data entered is private by default</span></p>
+  <div class="grid" id="grid"></div>
+  <div class="foot">
+    <button type="button" class="btn" id="mainBtn">START</button>
+    <div class="note">MOCKUP · AUTO-ADVANCE · NOT SANDBOX 2</div>
+  </div>
+</div>
+<div class="bd" id="bd"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <div class="sh-top">
+    <div class="sh-nav">
+      <button type="button" id="prevBtn">← PREV</button>
+      <button type="button" class="skip" id="skipBtn" hidden>SKIP</button>
+    </div>
+    <button type="button" class="sh-x" id="closeBtn" aria-label="Close">×</button>
+  </div>
+  <div class="sh-prog"><i id="shBar"></i></div>
+  <div class="sh-meta" id="shMeta">1 OF 13</div>
+  <div class="sh-q" id="shQ">Race</div>
+  <div class="sh-list" id="shList"></div>
+  <div class="sh-foot" id="shFoot"><button type="button" class="next" id="sheetNext">NEXT →</button></div>
+</div>
+<script>
+/* Options sourced from Sandbox 2 s3y249 (k5-s3y249-sb2_maphint_grokbot/index.html). */
+const RACE=["White","Black","Asian","Hispanic / Latino","South Asian","MENA","Pacific Islander","Native American","Other","None Stated"];
+const DEGREES=[["hs","High School / GED"],["aa","AA"],["as","AS"],["ba","BA"],["bs","BS"],["bsn","BSN"],["ma","MA"],["ms","MS"],["mba","MBA"],["mfa","MFA"],["jd","JD"],["md","MD"],["phd","PhD"],["other","Other"]];
+const INDUSTRY=[["finance","Finance"],["marketing_sales","Marketing / Sales"],["education_academia","Education / Academia"],["tech_software","Tech / Software"],["healthcare_medicine","Healthcare / Medicine"],["internet","Internet"],["information_technology_services","Information Technology and Services"],["law","Law"],["consulting","Consulting"],["investment_banking","Investment Banking"],["venture_capital","Venture Capital"],["private_equity","Private Equity"],["engineering","Engineering"],["science_research","Science / Research"],["business_management","Business / Management"],["creative_media_arts","Creative / Media / Arts"],["real_estate","Real Estate"],["government_public_service","Government / Public Service"],["military","Military"],["nonprofit","Nonprofit"],["trades","Trades"],["hospitality","Hospitality"],["student","Student"],["other","Other"]];
+const INCOME=[["under_25k","Under $25k"],["25k_50k","$25k–50k"],["50k_75k","$50k–75k"],["75k_100k","$75k–100k"],["100k_150k","$100k–150k"],["150k_200k","$150k–200k"],["200k_300k","$200k–300k"],["300k_500k","$300k–500k"],["500k_1m","$500k–1M"],["1m_2m","$1M–2M"],["2m_3m","$2M–3M"],["3m_plus","$3M+"],["None Stated","None Stated"]];
+const RELIGION=["Agnostic","Christian","Catholic","Jewish","Atheist","Spiritual","Hindu","Muslim","Latter-day Saint (Mormon)","Buddhist","Orthodox Christian","Unitarian Universalist","Jehovah's Witness","Pagan / Wiccan","Sikh","Other","Prefer not to say"];
+const POLITICS=["Left","Left-leaning","Moderate","Right-leaning","Right","Apolitical","None Stated"];
+const LANGS=["English","Spanish","Mandarin","Hindi","French","Arabic","Portuguese","Russian","German","Japanese","Korean","Tagalog","Vietnamese","Other"];
+const SPORTS=["Tennis","Pickleball","Padel","Triathlon","Ironman","Running","Yoga","Pilates","Cycling","Swimming","Golf","Basketball","Soccer","Volleyball","Beach volleyball","Baseball","Softball","Ultimate Frisbee","Kickball","Football","Hockey","Skiing","Snowboarding","Surfing","Rock climbing","Weightlifting","CrossFit","Boxing","Martial arts","Hiking","Rowing","Squash","Track & field","Cross country","Wrestling","Gymnastics","Cheerleading","Dance","Lacrosse","Field hockey","Water polo","Diving","Fencing","Equestrian","Sailing","Rugby","Badminton","Table tennis","Bowling","Figure skating","Ice skating","Mountain biking","Kayaking/canoeing","Archery","Shooting","Spikeball","Esports","Other"];
+const INS=["Piano/Keyboard","Guitar","Voice/Singing","Drums/Percussion","Bass","DJ / Electronic music production","Violin/Viola","Flute","Trumpet","Ukulele","Saxophone","Clarinet","Cello","Harmonica","Synthesizer","Banjo","Mandolin","Trombone","Organ","Double bass","Harp","Accordion","French horn","Tuba","Oboe","Bassoon","Recorder","Sitar","Tabla","Other","I don't play an instrument"];
+const INT=[
+  ["Sports & Fitness",["Gym","Running","Yoga","Pilates","Cycling","Strength Training","Tennis","Pickleball","Golf","Rock Climbing","Swimming","Soccer","Basketball","Football","Baseball","Volleyball","Endurance Races","Martial Arts","Formula 1","Sports Leagues"]],
+  ["Lifestyle & Entertainment",["Live Music","Comedy","Travel","Reading","Movies","TV","Podcasts","Karaoke","Trivia","Sporting Events","Board Games","Philanthropy","Volunteering","Members Clubs"]],
+  ["Arts & Creativity",["Galleries & Museums","Photography","Writing","Fashion","Theatre","Singing","Painting & Drawing","Ceramics","Architecture","Art Collecting","Dance","DIY"]],
+  ["Technology & Finance",["AI","Startups","Investing","Real Estate","Trading","Gaming","Personal Finance","Angel Investing","Private Equity","Blockchain","FIRE","AR/VR","Robotics"]],
+  ["The Great Outdoors",["Hiking","Camping","Beaches","National Parks","Road Trips","Adventure Travel","Skiing/Snowboarding","Surfing","Boating","Fishing","Hunting","Gardening","Glamping","Après-ski","Equestrian","Luxury Travel"]],
+  ["Wellness & Spirituality",["Meditation","Mindfulness","Therapy","Breathwork","Sauna & Cold Plunge","Spa","Faith","Astrology","Journaling","Sleep","Nutrition","Retreats","Psychedelic Journeys"]],
+  ["Music",["Pop","Hip Hop","Rock","Indie","R&B","Country","EDM","Jazz","Classical","Latin","House","Techno","Folk & Acoustic","Soul","Rap","K-Pop","Metal","Reggae","Blues","Punk","Funk","Afro"]],
+  ["Values & Causes",["LGBTQ+ Rights","Climate","Feminism","Racial Equality","Mental Health Awareness","Voting"]],
+  ["Food & Drink",["Coffee","Wine","Cocktails","Craft Beer","Foodie","Cooking","Baking","Street Food","Omakase","Michelin Stars","Wine Tasting","Farm-to-Table","Spicy Food","Vegan","Vegetarian","BBQ"]]
+];
+const HOWMET=[["app","Dating app or website"],["friends","Through friends"],["family","Through family"],["party","At a party"],["bar","At a bar, club or restaurant"],["hobby","Through a hobby, club, sport or gym"],["work","At work"],["high_school","In high school"],["college","In college"],["religious","Through church or a religious group"],["neighbors","As neighbors"],["online_other","Other online (social media, gaming, etc.)"],["elsewhere","Somewhere else"]];
+const APPS=["Hinge","Tinder","Bumble","The League","Raya","Match","eHarmony","OkCupid","Coffee Meets Bagel","Facebook Dating","Her","Plenty of Fish","Other"];
+const BR=[
+  ["How you related",[["conflict","Too much conflict or arguing","Conflict"],["commitment","Lack of commitment, from one or both of us","Commitment"],["emotional_availability","They were emotionally unavailable","Emotionally unavailable"],["family_interference","Interference from family or in-laws","Family"]]],
+  ["Intimacy",[["attraction","I was no longer physically attracted to them","Attraction"],["partner_not_attracted","They were no longer attracted to me","Not attracted to me"],["sex_faded","Our sex life faded","Sex life faded"],["sexual_wants","We wanted different things sexually","Sexual wants"],["monogamy_mismatch","Different preferences for monogamy","Monogamy"]]],
+  ["What you each wanted",[["ambition","Differences in level of ambition","Ambition"],["time_together","How much time together vs. apart","Time together"],["overwork","One of us worked too much","Overwork"],["free_time","How we wanted to spend free time","Free time"],["wealth_lifestyle","Goals about wealth and lifestyle","Lifestyle"],["health_lifestyle","Differences in health / exercise habits","Health/exercise"],["relocating","Where to live / relocating","Where to live"],["long_distance","Long distance","Long distance"],["children","Whether to have children","Kids"],["marriage","Whether to get married","Marriage"],["religion","Religious values","Religion"]]],
+  ["Money",[["financial","Financial problems or hardship","Money problems"],["income_split","Income differences or an unfair split of costs","Income split"]]],
+  ["Serious",[["infidelity","Infidelity","Infidelity"],["substance","Drug or alcohol use","Drugs/alcohol"],["abuse","Abuse — emotional, physical or verbal","Abuse"],["too_young","We got together too young","Too young"],["age_gap","The age gap was too big","Age gap"]]],
+  ["Other",[["fell_out_of_love","Nothing specific — we just fell out of love","Fell out of love"],["grew_apart","We grew apart","Grew apart"],["other","Something else","Other"]]]
+];
+const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const YEARS=["2026","2025","2024","2023","2022","2021","2020","2019","2018","Earlier"];
+const KIDS_N=["1","2","3","4","5+"];
+
+const PEN='<svg class="pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter" stroke-linecap="square"><path d="M17 3.5L20.5 7L8 19.5L3.5 20.5L4.5 16Z"/><path d="M14.5 6L18 9.5"/></svg>';
+
+/* Top-level 13 fields (live s3y249 order). mode: single|multi. optional: SKIP shown. */
+const Q=[
+  {id:"race",k:"Race",q:"What's your race?",mode:"multi",opts:RACE.map(x=>[x,x]),optional:false},
+  {id:"edu",k:"Education",q:"Degrees completed?",mode:"multi",opts:DEGREES,optional:false},
+  {id:"work",k:"Work",q:"What industry are you in?",mode:"single",opts:INDUSTRY,optional:true},
+  {id:"income",k:"Income",q:"Your personal income in the last 12 months (before taxes)",mode:"single",opts:INCOME,optional:false},
+  {id:"religion",k:"Religion",q:"What's your religion?",mode:"single",opts:RELIGION.map(x=>[x,x]),optional:false},
+  {id:"politics",k:"Politics",q:"What are your politics?",mode:"single",opts:POLITICS.map(x=>[x,x]),optional:false},
+  {id:"lang",k:"Languages",q:"Which languages do you speak?",mode:"multi",opts:LANGS.map(x=>[x,x]),optional:false},
+  {id:"sports",k:"Sports",q:"Which sports do you play?",mode:"multi",opts:SPORTS.map(x=>[x,x]),optional:true},
+  {id:"ins",k:"Instruments",q:"Which instruments do you play?",mode:"multi",opts:INS.map(x=>[x,x]),optional:true},
+  {id:"int",k:"Interests",q:"What are you into?",mode:"multi",groups:INT,optional:true},
+  {id:"kids",k:"Have kids",q:"Do you have kids?",mode:"single",opts:[["yes","Yes"],["no","No"]],optional:false},
+  {id:"lastrel",k:"Last breakup",q:"When did your last relationship end?",mode:"single",opts:null,optional:false}, // custom
+  {id:"why",k:"Why ended",q:"Why did it end?",mode:"multi",groups:BR.map(([g,rows])=>[g,rows.map(r=>[r[0],r[1]])]),optional:true}
+];
+
+const state={};
+Q.forEach(q=>state[q.id]=q.mode==="multi"?[]:null);
+state._kidsN=null; state._lastMonth=null; state._lastYear=null; state._howmet=null; state._app=null; state._noRel=false;
+state._sub=null;
+state._skipped={};
+
+let qi=0; // current top-level index
+let open=false;
+let flagged=false; // after X close, show TO DOs
+
+const grid=document.getElementById("grid");
+const prog=document.getElementById("prog");
+const mainBtn=document.getElementById("mainBtn");
+const sheet=document.getElementById("sheet");
+const bd=document.getElementById("bd");
+const shList=document.getElementById("shList");
+const shFoot=document.getElementById("shFoot");
+const sheetNext=document.getElementById("sheetNext");
+const shMeta=document.getElementById("shMeta");
+const shQ=document.getElementById("shQ");
+const shBar=document.getElementById("shBar");
+const skipBtn=document.getElementById("skipBtn");
+const prevBtn=document.getElementById("prevBtn");
+const closeBtn=document.getElementById("closeBtn");
+
+function answered(id){
+  if(state._skipped && state._skipped[id]) return true;
+  if(id==="kids") return state.kids==="no" || (state.kids==="yes" && state._kidsN);
+  if(id==="lastrel") return state._noRel || (state._lastMonth && state._lastYear && state._howmet && (state._howmet!=="app" || state._app));
+  if(id==="why") return state._noRel || (Array.isArray(state.why) && state.why.length>0);
+  const v=state[id];
+  if(Array.isArray(v)) return v.length>0;
+  return v!=null && v!=="";
+}
+function left(){ return Q.filter(q=>q.id==="why"&&state._noRel?false:!answered(q.id)).length; }
+function display(id){
+  if(id==="race") return (state.race||[]).join(", ")||"";
+  if(id==="edu") return (state.edu||[]).map(k=>(DEGREES.find(d=>d[0]===k)||[k,k])[1]).join(", ");
+  if(id==="work"){ const o=INDUSTRY.find(x=>x[0]===state.work); return o?o[1]:""; }
+  if(id==="income"){ const o=INCOME.find(x=>x[0]===state.income); return o?o[1]:""; }
+  if(id==="religion") return state.religion||"";
+  if(id==="politics") return state.politics||"";
+  if(id==="lang"){ const a=state.lang||[]; return a.length? (a[0]+(a.length>1?" +"+ (a.length-1):"")):""; }
+  if(id==="sports"){ const a=state.sports||[]; return a.length?(a[0]+(a.length>1?" +"+(a.length-1):"")):""; }
+  if(id==="ins"){ const a=state.ins||[]; if(a[0]==="I don't play an instrument") return "None"; return a.length?(a[0]+(a.length>1?" +"+(a.length-1):"")):""; }
+  if(id==="int"){ const a=state.int||[]; return a.length?(a[0]+(a.length>1?" +"+(a.length-1):"")):""; }
+  if(id==="kids"){ if(state.kids==="no") return "No"; if(state.kids==="yes"&&state._kidsN) return "Yes ("+state._kidsN+")"; return ""; }
+  if(id==="lastrel"){ if(state._noRel) return "None yet"; if(state._lastMonth&&state._lastYear) return state._lastMonth+" "+state._lastYear; return ""; }
+  if(id==="why"){ if(state._noRel) return "—"; const a=state.why||[]; if(!a.length) return "";
+    const lab=a.map(k=>{ for(const [,rows] of BR){ const r=rows.find(x=>x[0]===k); if(r) return r[2]; } return k; });
+    return lab[0]+(lab.length>1?" +"+(lab.length-1):""); }
+  return "";
+}
+function appliesWhy(){ return !state._noRel && answered("lastrel"); }
+
+function renderProg(){
+  prog.innerHTML="";
+  for(let i=0;i<7;i++){ const el=document.createElement("i"); if(i<2) el.className="on"; prog.appendChild(el); }
+}
+function renderGrid(){
+  grid.innerHTML="";
+  Q.forEach((q,i)=>{
+    if(q.id==="why" && state._noRel) return;
+    const done=answered(q.id);
+    const c=document.createElement("button");
+    c.type="button"; c.className="card"+(flagged&&!done?" todo":"");
+    c.dataset.id=q.id;
+    const v=display(q.id);
+    c.innerHTML=`<div class="k">${q.k}<span class="tag">TO DO</span></div><div class="v${v?"":" empty"}">${v||"—"}</div>${PEN}`;
+    // Why ended alone on last row when odd visible count
+    c.onclick=()=>openAt(i);
+    grid.appendChild(c);
+  });
+  // span last odd card
+  const cards=[...grid.children];
+  if(cards.length%2===1) cards[cards.length-1].classList.add("span2");
+  updateMain();
+}
+function updateMain(){
+  const n=left();
+  if(!Object.values(state).some(v=>Array.isArray(v)?v.length:v) && !state._kidsN && !state._lastMonth && !flagged){
+    mainBtn.textContent="START"; mainBtn.classList.remove("ink");
+  } else if(n>0){
+    mainBtn.textContent="FINISH "+n+" LEFT"; mainBtn.classList.add("ink");
+  } else {
+    mainBtn.textContent="NEXT"; mainBtn.classList.remove("ink");
+  }
+}
+
+function openAt(i){
+  // skip why if no rel
+  while(i<Q.length && Q[i].id==="why" && !appliesWhy()) i++;
+  if(i>=Q.length){ closeSheet(true); return; }
+  qi=i; state._sub=null;
+  // kids follow-up if yes but no count
+  if(Q[i].id==="kids" && state.kids==="yes" && !state._kidsN) state._sub="kidsN";
+  if(Q[i].id==="lastrel"){
+    if(!state._lastMonth && !state._noRel) state._sub="month";
+    else if(state._lastMonth && !state._lastYear && !state._noRel) state._sub="year";
+    else if(state._lastMonth && state._lastYear && !state._howmet && !state._noRel) state._sub="howmet";
+    else if(state._howmet==="app" && !state._app) state._sub="app";
+    else state._sub="month";
+  }
+  showSheet();
+}
+function firstUnanswered(){
+  for(let i=0;i<Q.length;i++){
+    if(Q[i].id==="why" && !appliesWhy()) continue;
+    if(!answered(Q[i].id)) return i;
+  }
+  return -1;
+}
+
+function showSheet(){
+  open=true; bd.classList.add("on"); sheet.classList.add("on");
+  paintSheet();
+}
+function closeSheet(completed){
+  open=false; bd.classList.remove("on"); sheet.classList.remove("on");
+  if(!completed){ flagged=true; }
+  if(completed) flagged=false;
+  renderGrid();
+}
+
+function paintSheet(){
+  const q=Q[qi];
+  const n=Q.filter(x=>x.id!=="why"||appliesWhy()).length;
+  const idx=Q.slice(0,qi+1).filter(x=>x.id!=="why"||appliesWhy()||x.id===q.id).length;
+  // simpler: index among currently applicable
+  const applicable=Q.filter(x=>x.id!=="why"||appliesWhy());
+  const ai=applicable.findIndex(x=>x.id===q.id)+1;
+  shMeta.textContent=ai+" OF "+applicable.length;
+  shBar.style.width=((ai-0.15)/applicable.length*100)+"%";
+  skipBtn.hidden=!q.optional;
+  prevBtn.style.visibility=qi===0&&!state._sub?"hidden":"visible";
+
+  let title=q.q, mode=q.mode, opts=q.opts, groups=q.groups, radio=mode==="single";
+
+  if(q.id==="kids" && state._sub==="kidsN"){
+    title="How many kids?"; mode="single"; radio=true; opts=KIDS_N.map(x=>[x,x]); groups=null;
+  }
+  if(q.id==="lastrel"){
+    if(state._sub==="month" || !state._sub){
+      title="When did your last relationship end?"; mode="single"; radio=true;
+      opts=MONTHS.map(m=>[m,m]).concat([["none","I haven't had a serious relationship"]]); groups=null;
+    } else if(state._sub==="year"){
+      title="What year?"; mode="single"; radio=true; opts=YEARS.map(y=>[y,y]); groups=null;
+    } else if(state._sub==="howmet"){
+      title="How did you meet your last partner?"; mode="single"; radio=true; opts=HOWMET; groups=null;
+    } else if(state._sub==="app"){
+      title="Which app?"; mode="single"; radio=true; opts=APPS.map(a=>[a,a]); groups=null;
+    }
+  }
+
+  shQ.textContent=title;
+  shList.innerHTML="";
+  const selected=new Set();
+  if(q.id==="kids" && state._sub==="kidsN"){ if(state._kidsN) selected.add(state._kidsN); }
+  else if(q.id==="lastrel"){
+    if(state._sub==="month"||!state._sub){ if(state._noRel) selected.add("none"); if(state._lastMonth) selected.add(state._lastMonth); }
+    if(state._sub==="year" && state._lastYear) selected.add(state._lastYear);
+    if(state._sub==="howmet" && state._howmet) selected.add(state._howmet);
+    if(state._sub==="app" && state._app) selected.add(state._app);
+  } else if(mode==="multi"){ (state[q.id]||[]).forEach(x=>selected.add(x)); }
+  else if(state[q.id]!=null) selected.add(state[q.id]);
+
+  function addOpt(val,label,isRadio){
+    const b=document.createElement("button");
+    b.type="button"; b.className="opt"+(isRadio?" radio":"")+(selected.has(val)?" selected":"");
+    b.innerHTML=`<span class="box"></span><span>${label}</span>`;
+    b.onclick=()=>pick(val,label,isRadio);
+    shList.appendChild(b);
+  }
+  if(groups){
+    groups.forEach(([g,rows])=>{
+      const h=document.createElement("div"); h.className="grp"; h.textContent=g; shList.appendChild(h);
+      rows.forEach(([val,label])=>addOpt(val,label,false));
+    });
+  } else if(q.id==="lastrel" && (state._sub==="month"||!state._sub)){
+    // months in 2-col then none
+    const wrap=document.createElement("div"); wrap.className="pair";
+    MONTHS.forEach(m=>{
+      const b=document.createElement("button");
+      b.type="button"; b.className="opt radio"+(selected.has(m)?" selected":"");
+      b.innerHTML=`<span class="box"></span><span>${m}</span>`;
+      b.onclick=()=>pick(m,m,true);
+      wrap.appendChild(b);
+    });
+    shList.appendChild(wrap);
+    addOpt("none","I haven't had a serious relationship",true);
+  } else {
+    (opts||[]).forEach(([val,label])=>addOpt(val,label,radio));
+  }
+
+  const needNext = (mode==="multi") || (q.id==="kids"&&state._sub==="kidsN"?false:false);
+  // multi always needs NEXT; single auto-advances
+  if(mode==="multi"){
+    shFoot.classList.add("on");
+    sheetNext.disabled = selected.size===0 && !q.optional;
+  } else {
+    shFoot.classList.remove("on");
+  }
+}
+
+function pick(val,label,isRadio){
+  const q=Q[qi];
+  // follow-ups
+  if(q.id==="kids" && state._sub==="kidsN"){
+    state._kidsN=val; flashThen(()=>advance()); return;
+  }
+  if(q.id==="lastrel"){
+    if(state._sub==="month"||!state._sub){
+      if(val==="none"){ state._noRel=true; state._lastMonth=null; state._lastYear=null; state._howmet=null; state._app=null; state.why=[]; flashThen(()=>advance()); return; }
+      state._noRel=false; state._lastMonth=val; state._sub="year"; flashThen(()=>paintSheet()); return;
+    }
+    if(state._sub==="year"){ state._lastYear=val; state._sub="howmet"; flashThen(()=>paintSheet()); return; }
+    if(state._sub==="howmet"){ state._howmet=val; if(val==="app"){ state._sub="app"; flashThen(()=>paintSheet()); } else { state._app=null; flashThen(()=>advance()); } return; }
+    if(state._sub==="app"){ state._app=val; flashThen(()=>advance()); return; }
+  }
+
+  if(q.mode==="multi" || (q.groups && q.mode==="multi")){
+    // exclusive None Stated / I don't play
+    const arr=state[q.id];
+    const exclusive=["None Stated","I don't play an instrument","Prefer not to say"];
+    if(exclusive.includes(val)){
+      state[q.id]=arr.includes(val)?[]:[val];
+    } else {
+      state[q.id]=arr.filter(x=>!exclusive.includes(x));
+      const i=state[q.id].indexOf(val);
+      if(i>=0) state[q.id].splice(i,1); else state[q.id].push(val);
+    }
+    paintSheet();
+    return;
+  }
+  // single
+  state[q.id]=val;
+  if(q.id==="kids"){
+    if(val==="yes"){ state._sub="kidsN"; flashThen(()=>paintSheet()); return; }
+    state._kidsN=null;
+  }
+  flashThen(()=>advance());
+}
+
+function flashThen(fn){
+  // show lime selection ~250ms
+  paintSheet();
+  setTimeout(fn, 250);
+}
+
+function advance(){
+  state._sub=null;
+  // next unanswered after qi, or qi+1
+  let n=qi+1;
+  while(n<Q.length){
+    if(Q[n].id==="why" && !appliesWhy()){ n++; continue; }
+    qi=n; showSheet(); paintSheet(); return;
+  }
+  // done
+  flagged=false;
+  closeSheet(true);
+}
+
+function goPrev(){
+  if(Q[qi].id==="lastrel" && state._sub && state._sub!=="month"){
+    if(state._sub==="app"){ state._sub="howmet"; paintSheet(); return; }
+    if(state._sub==="howmet"){ state._sub="year"; paintSheet(); return; }
+    if(state._sub==="year"){ state._sub="month"; paintSheet(); return; }
+  }
+  if(Q[qi].id==="kids" && state._sub==="kidsN"){ state._sub=null; paintSheet(); return; }
+  let p=qi-1;
+  while(p>=0){
+    if(Q[p].id==="why" && !appliesWhy()){ p--; continue; }
+    qi=p; state._sub=null; paintSheet(); return;
+  }
+}
+
+sheetNext.onclick=()=>{
+  const q=Q[qi];
+  if(q.mode==="multi" && !(state[q.id]||[]).length && !q.optional) return;
+  advance();
+};
+skipBtn.onclick=()=>{
+  const q=Q[qi];
+  state._skipped[q.id]=true;
+  if(q.mode==="multi") state[q.id]=[];
+  else state[q.id]=null;
+  advance();
+};
+prevBtn.onclick=goPrev;
+closeBtn.onclick=()=>closeSheet(false);
+bd.onclick=()=>closeSheet(false);
+mainBtn.onclick=()=>{
+  const n=firstUnanswered();
+  if(n<0){ /* NEXT — mock end */ mainBtn.textContent="✓ DONE"; return; }
+  flagged=false; openAt(n);
+};
+document.getElementById("hdrBack").onclick=()=>history.length>1?history.back():alert("Back to pledge (mockup)");
+
+// deep-link helpers for screenshots: ?shot=grid|open|mid|todo|done
+renderProg(); renderGrid();
+const shot=new URLSearchParams(location.search).get("shot");
+if(shot==="open"){ openAt(0); }
+else if(shot==="mid"){ // prefill first few, open income (4)
+  state.race=["White"]; state.edu=["mba","bs"]; state.work="marketing_sales";
+  openAt(3);
+}
+else if(shot==="todo"){
+  state.race=["White"]; state.edu=["mba"]; state.income="100k_150k"; state.religion="Agnostic";
+  flagged=true; renderGrid();
+}
+else if(shot==="done"){
+  state.race=["White"]; state.edu=["mba","bs"]; state.work="marketing_sales"; state.income="100k_150k";
+  state.religion="Agnostic"; state.politics="Moderate"; state.lang=["English","Spanish"];
+  state.sports=["Volleyball","Running"]; state.ins=["Guitar","Voice/Singing"]; state.int=["Pickleball","Hiking","Live Music","Coffee","Travel","Reading","Yoga","Wine","Startups"];
+  state.kids="yes"; state._kidsN="2"; state._lastMonth="Oct"; state._lastYear="2026"; state._howmet="app"; state._app="Hinge";
+  state.why=["wealth_lifestyle"]; flagged=false; renderGrid();
+}
+else if(shot==="header"){ /* grid empty with new header */ }
+</script>
+</body>
+</html>
