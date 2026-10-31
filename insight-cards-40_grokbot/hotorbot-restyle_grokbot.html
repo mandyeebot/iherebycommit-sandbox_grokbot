@@ -141,6 +141,20 @@ body.one{background:var(--fld0)}body.one .wrap{padding:0;gap:0}body.one .cap,bod
 .s-tl .sheet .h span{background:#FFD23F;color:#000;border:2px solid #000}
 .s-tl .bar i.b{background:#FFD23F}
 .s-tl .cnt{background:#000;color:#FFD23F}
+
+/* ---------- STYLE E: TEAL LIME 2 = teallime with every yellow swapped for our lime #C8F135 (Amanda: no yellow). Lime-on-lime kept apart with black outlines/shadows. */
+.s-tl2 .logo .bot{color:#C8F135;-webkit-text-stroke:1.5px #000}
+.s-tl2 .cnt{color:#C8F135}
+.s-tl2 .rate{background:#C8F135}
+.s-tl2 .rate button{background:#FFF8F2}.s-tl2 .rate button.sel{background:#000;color:#C8F135;-webkit-text-fill-color:#C8F135}
+.s-tl2 .heat{background:linear-gradient(90deg,#C8F135,#D87860,#FF4417)}
+.s-tl2 .eb b{background:#C8F135}
+.s-tl2 .ic.cr .h span{color:#C8F135}
+.s-tl2 .sheet .h span{background:#C8F135}
+.s-tl2 .bar i.b{background:#C8F135}
+.s-tl2 .ic .bar i.y{background:#000}.s-tl2 .ic .bar i.m{background:#FF4417}
+.s-tl2 .ic .tr{display:block;height:16px;background:#FFF8F2;border:2px solid #000;position:relative}.s-tl2 .ic .tr i{position:absolute;left:0;top:0;bottom:0;border:0}
+.s-tl2 .ic .p.sm{font-size:11px;opacity:.75}
 </style></head><body>
 <div class="wrap" id="w"></div>
 <script>
@@ -154,10 +168,11 @@ var S=[
 ['Final results',function(){return '<div class="eb"><b>Your results</b><span>prototype estimate</span></div><div class="ic cr"><div class="k">Job &amp; education · can\'t tell yet</div><div class="big">+1.1<small>PTS</small></div><div class="h"><span>A doctor or a barista?</span> Same score from you</div><p class="p">The job title barely moved your ratings. The likely range includes zero.</p><div class="bars"><div class="bar"><span>Professional (9)</span><i class="a" style="width:70%"></i><span>6.3</span></div><div class="bar"><span>Service (16)</span><i class="b" style="width:59%"></i><span>5.3</span></div></div><div class="sd">See details ›</div><div class="foot"><span>Source: your Hot or Bot ratings · 25 ratings</span><b>IHEREBYCOMMIT</b></div></div><div class="dots"><i></i><i></i><i class="on"></i><i></i><i></i><i></i></div><div class="hint">Tap or swipe for the next card · 6 cards</div><button class="cta">Next: import your app data</button>'}],
 ['Detail sheet',function(){return '<div class="eb"><b>Your results</b><span>prototype estimate</span></div><div class="sheetbd"></div><div class="sheet"><div class="h"><span>Job &amp; education</span></div><p class="p">A doctor and a barista with the same face got about the same score from you.</p><h4>Your round-2 average</h4><div class="bars" style="margin-top:0"><div class="bar"><span>Professional (10)</span><i class="a" style="width:67%"></i><span>6.0</span></div><div class="bar"><span>Service (15)</span><i class="b" style="width:59%"></i><span>5.3</span></div></div><h4>Change from your face-only rating</h4><p class="p">Professional listings: +1.8 on average. Service listings: +0.1.</p><p class="p">Likely range: −1.6 to +4.9 points. That range includes zero, so we can\'t tell this apart from no effect at all.</p><h4>By listed degree</h4><div class="bars" style="margin-top:0;gap:5px"><div class="bar"><span>JD (2)</span><i class="a" style="width:83%"></i><span>7.5</span></div><div class="bar"><span>MS (3)</span><i class="b" style="width:70%"></i><span>6.3</span></div><div class="bar"><span>HS (11)</span><i class="b" style="width:66%"></i><span>5.9</span></div></div><button class="cta" style="margin-top:auto">DONE</button></div>'}]
 ];
-var st=Q.get('style'),scr=+Q.get('screen')||0,styles=Q.get('compare')=='3'?['blue','tealbold','geh']:Q.get('compare')=='tl'?['tealbold','teallime']:Q.get('compare')=='tb'?['blue','tealbold']:Q.get('compare')?['blue','geh']:[st=='geh'?'geh':st=='tealbold'?'tealbold':st=='teallime'?'teallime':'blue'],h='';
-var NAME={blue:'A · Bold Blue (blue = PLACEHOLDER #2D5BFF)',geh:'B · Green Eggs & Ham (teal #3BA7A5)',teallime:'D · Teal + our lime #C8F135 + yellow #FFD23F (red #FF4417 · ham pink #D87860)',tealbold:'C · Bold, Green Eggs & Ham colours (teal #3BA7A5 · red #FF4417 · egg green #84B46C · ham pink #D87860)'};
+var CHK2=['Check-in',function(){return '<div class="eb"><b>Early read</b><span>10 cards · prototype estimate</span></div><div class="ic"><div class="k">R1 · 10 rated · How choosy</div><div class="big">4.6<small>AVG</small></div><div class="h"><span>A bit pickier than most,</span> so far</div><p class="p">Most people would give these guys about <b>5.1</b> (our estimate).</p><p class="p sm">First look, not your type: 10 ratings is far too few.</p><div class="bars" style="margin-top:auto"><div class="bar"><span>You</span><span class="tr"><i class="y" style="width:51%"></i></span><span>4.6</span></div><div class="bar"><span>Most people (est.)</span><span class="tr"><i class="m" style="width:57%"></i></span><span>5.1</span></div></div><div class="sd">See details ›</div><div class="foot"><span>Source: your Hot or Bot ratings · 10 ratings</span><b>IHEREBYCOMMIT</b></div></div><div class="dots"><i class="on"></i><i></i><i></i></div><div class="hint">Tap or swipe for the next card · 3 cards</div><button class="cta">Keep rating</button>'}];
+var st=Q.get('style'),scr=+Q.get('screen')||0,styles=Q.get('compare')=='3'?['blue','tealbold','geh']:Q.get('compare')=='tl2'?['teallime','teallime2']:Q.get('compare')=='tl'?['tealbold','teallime']:Q.get('compare')=='tb'?['blue','tealbold']:Q.get('compare')?['blue','geh']:[st=='geh'?'geh':st=='tealbold'?'tealbold':st=='teallime'?'teallime':st=='teallime2'?'teallime2':'blue'],h='';
+var NAME={blue:'A · Bold Blue (blue = PLACEHOLDER #2D5BFF)',geh:'B · Green Eggs & Ham (teal #3BA7A5)',teallime2:'E · Teal + our lime #C8F135 only (no yellow) · red #FF4417 · ham pink #D87860',teallime:'D · Teal + our lime #C8F135 + yellow #FFD23F (red #FF4417 · ham pink #D87860)',tealbold:'C · Bold, Green Eggs & Ham colours (teal #3BA7A5 · red #FF4417 · egg green #84B46C · ham pink #D87860)'};
 document.body.style.setProperty('--fld0',styles[0]!='blue'?'#3BA7A5':'var(--blue)');
 if(scr){document.body.classList.add('one');styles=[styles[0]];}
-styles.forEach(function(s){h+='<div class="row">'+NAME[s]+'</div>';S.forEach(function(x,i){if(scr&&scr!=i+1)return;h+='<div class="col"><div class="cap">'+(i+1)+' · '+x[0]+'</div><div class="ph '+(s=='tealbold'?'s-blue s-tb':s=='teallime'?'s-blue s-tb s-tl':'s-'+s)+'">'+x[1]()+'</div></div>';});});
+styles.forEach(function(s){h+='<div class="row">'+NAME[s]+'</div>';S.forEach(function(x,i){if(s=='teallime2'&&i==1)x=CHK2;if(scr&&scr!=i+1)return;h+='<div class="col"><div class="cap">'+(i+1)+' · '+x[0]+'</div><div class="ph '+(s=='tealbold'?'s-blue s-tb':s=='teallime'?'s-blue s-tb s-tl':s=='teallime2'?'s-blue s-tb s-tl s-tl2':'s-'+s)+'">'+x[1]()+'</div></div>';});});
 document.getElementById('w').innerHTML=h;
 </script></body></html>
